@@ -16,7 +16,7 @@ class Student(models.Model):
         last_name_romanized?: string;
         first_name_romanized?: string;
 
-        gender: "Female" | "Male" | "Other";
+        gender: <Student.Gender>;
         citizenship: string;
         date_of_birth?: string | null; // date
 
@@ -77,10 +77,33 @@ class Student(models.Model):
         return Service.objects.filter(contract__student=self)
 
     @classmethod
-    def of_user(cls, username: str):
-        return cls.objects.filter(
-            contract__service__cf_person__username__exact=username
-        )
+    def filter(
+        cls,
+        username: str = None,
+        current_for_user: str = None,
+        is_current: str = None,
+        target_year: int = None,
+    ):
+        students = cls.objects.all()
+
+        of_user = Q(contracts__services__cf_person__username=username)
+        contract_effective = Q(contracts__status=Contract.Status.EFFECTIVE)
+        service_ongoing = Q(contracts__services__end_date__isnull=True)
+
+        if username and current_for_user == "true":
+            students = students.filter(of_user & contract_effective & service_ongoing)
+        elif username:
+            students = students.filter(of_user)
+
+        if is_current == "true":
+            students = students.filter(contracts__status=Contract.Status.EFFECTIVE)
+        elif is_current == "false":
+            students = students.exclude(contracts__status=Contract.Status.EFFECTIVE)
+
+        if target_year is not None:
+            students = students.filter(contracts__target_year=target_year)
+
+        return students.distinct()
 
 
 class Contract(models.Model):
@@ -149,6 +172,7 @@ class Service(models.Model):
 
     Computed fields:
         is_current: boolean;
+        cf_username: string;
     """
 
     class Role(models.TextChoices):
@@ -191,6 +215,10 @@ class Service(models.Model):
     def is_current(self):
         return self.contract.is_current and self.end_date is None
 
+    @property
+    def cf_username(self):
+        return self.cf_person.username
+
 
 class Application(models.Model):
     """
@@ -200,7 +228,7 @@ class Application(models.Model):
         subtarget: number;
         cf_exclude: [number];
 
-        scholarship_amount?: number;
+        scholarship_amount: number; // default 0
         scholarship_currency?: string;
 
         alt_admitted_into?: number;
@@ -208,6 +236,15 @@ class Application(models.Model):
     Related fields:
         major_choices: [MajorChoice];
         logs: [ApplicationLog];
+
+    Computed fields:
+        cf_people: [User];
+        schools: [target.School];
+        program: target.Program;
+        target: target.Target;
+        majors_list: [string];
+        last_log: ApplicationLog | null;
+        general_status: string;
     """
 
     student = models.ForeignKey(
@@ -230,7 +267,7 @@ class Application(models.Model):
         blank=True,
     )
 
-    scholarship_amount = models.PositiveIntegerField(blank=True, null=True)
+    scholarship_amount = models.PositiveIntegerField(default=0)
     scholarship_currency = models.CharField(max_length=50, blank=True)
 
     # When the student is offered admission to a different prorgam than
@@ -246,23 +283,95 @@ class Application(models.Model):
     def __str__(self) -> str:
         return f"{self.student} > {self.subtarget}"
 
-    @classmethod
-    def of_user(cls, username: str):
-        via_student = Q(student__contract__service__cf_person__username__exact=username)
-        exclude = Q(cf_exclude__username__exact=username)
-        return cls.objects.filter(via_student).exclude(exclude)
+    @property
+    def cf_people(self):
+        in_service = Q(services__contract__student=self.student)
+        excluded_users = Q(id__in=self.cf_exclude.all())
+        return User.objects.filter(in_service).exclude(excluded_users)
+
+    @property
+    def schools(self):
+        return self.subtarget.target.program.schools
+
+    @property
+    def program(self):
+        return self.subtarget.target.program
+
+    @property
+    def target(self):
+        return self.subtarget.target
+
+    @property
+    def majors_list(self) -> list:
+        return [choice.major for choice in self.major_choices.order_by("rank")]
+
+    @property
+    def last_log(self):
+        return self.logs.order_by("-date").first()
+
+    @property
+    def general_status(self) -> str:
+        """
+        Return one of three strings:
+            - "in progress"
+            - "result pending"
+            - "final"
+        """
+        if self.last_log is None:
+            # log-less applications presumably have just started
+            return "in progress"
+
+        if (status := self.last_log.status) in [
+            ApplicationLog.Status.STARTED,
+            ApplicationLog.Status.READY,
+        ]:
+            return "in progress"
+
+        if status in [
+            ApplicationLog.Status.SUBMITTED,
+            ApplicationLog.Status.REVIEW,
+            ApplicationLog.Status.WAITLISTED,
+            ApplicationLog.Status.DEFERRED,
+        ]:
+            return "result pending"
+
+        return "final"
 
     @classmethod
-    def of_school(cls, school_id: int):
-        return cls.objects.filter(subtarget__target__program__schools=school_id)
+    def filter(
+        cls,
+        username: str = None,
+        student_id: int = None,
+        school_id: int = None,
+        program_id: int = None,
+        target_id: int = None,
+        subtarget_id: int = None,
+    ):
+        applications = cls.objects.all()
 
-    @classmethod
-    def of_program(cls, program_id: int):
-        return cls.objects.filter(subtarget__target__program=program_id)
+        if username:
+            of_user = Q(student__contracts__services__cf_person__username=username)
+            excluded_users = Q(cf_exclude__username=username)
+            applications = applications.filter(of_user).exclude(excluded_users)
 
-    @classmethod
-    def of_target(cls, target_id: int):
-        return cls.objects.filter(subtarget__target=target_id)
+        if student_id is not None:
+            applications = applications.filter(student=student_id)
+
+        if school_id is not None:
+            applications = applications.filter(
+                subtarget__target__program__schools=school_id
+            )
+
+        if program_id is not None:
+            applications = applications.filter(subtarget__target__program=program_id)
+
+        if target_id is not None:
+            applications = applications.filter(subtarget__target=target_id)
+
+        if subtarget_id is not None:
+            applications = applications.filter(subtarget=subtarget_id)
+
+        return applications.distinct()
 
 
 class MajorChoice(models.Model):
@@ -313,9 +422,9 @@ class ApplicationLog(models.Model):
         READY = "Ready to Submit", _("Ready to Submit")
         SUBMITTED = "Submitted", _("Submitted")
         REVIEW = "Under Review", _("Under Review")
-        ADMITTED = "Admitted", _("Admitted")
         DEFERRED = "Deferred", _("Deferred")
         WAITLISTED = "On Waitlist", _("On Waitlist")
+        ADMITTED = "Admitted", _("Admitted")
         REJECTED = "Rejected", _("Rejected")
         CANCELED = "Canceled", _("Canceled")
         WITHDRAWN = "Withdrawn", _("Withdrawn")
