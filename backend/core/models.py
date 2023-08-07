@@ -421,7 +421,7 @@ class ApplicationLog(models.Model):
         id: number;
         application: number;
         date: string; // date
-        status: <Application.Status>;
+        status: <ApplicationLog.Status>;
         comments?: string;
         updated: string; // datetime
     """

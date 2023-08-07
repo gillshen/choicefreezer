@@ -37,6 +37,42 @@ from target.views import (
     SubTargetUpdateDeleteView,
 )
 
+from student.views import (
+    StudentLogCreateView,
+    StudentLogUpdateDeleteView,
+    StudentLogListView,
+    EnrollmentCreateView,
+    EnrollmentUpdateDeleteView,
+    EnrollmentListView,
+    GPA_CreateView,
+    GPA_UpdateDeleteView,
+    GPA_ListView,
+    ClassRankCreateView,
+    ClassRankUpdateDeleteView,
+    ClassRankListView,
+    TOEFL_CreateView,
+    TOEFL_UpdateDeleteView,
+    TOEFL_ListView,
+    IELTS_CreateView,
+    IELTS_UpdateDeleteView,
+    IELTS_ListView,
+    DET_CreateView,
+    DET_UpdateDeleteView,
+    DET_ListView,
+    SAT_CreateView,
+    SAT_UpdateDeleteView,
+    SAT_ListView,
+    ACT_CreateView,
+    ACT_UpdateDeleteView,
+    ACT_ListView,
+    AP_CreateView,
+    AP_UpdateDeleteView,
+    AP_ListView,
+    GRE_CreateView,
+    GRE_UpdateDeleteView,
+    GRE_ListView,
+)
+
 # user.views
 urlpatterns = [
     path("cf/<int:pk>/update/", UserProfileUpdateView.as_view()),
@@ -133,4 +169,94 @@ urlpatterns += [
     path("subtargets/new/", SubTargetCreateView.as_view()),
     path("subtargets/<int:pk>/update/", SubTargetUpdateDeleteView.as_view()),
     path("subtargets/<int:pk>/delete/", SubTargetUpdateDeleteView.as_view()),
+]
+
+# student.views
+
+# StudentLog views
+urlpatterns += [
+    path("s.logs/new/", StudentLogCreateView.as_view()),
+    path("s.logs/<int:pk>/update/", StudentLogUpdateDeleteView.as_view()),
+    path("s.logs/<int:pk>/delete/", StudentLogUpdateDeleteView.as_view()),
+    path("s.logs/", StudentLogListView.as_view()),
+]
+
+# Enrollment views
+urlpatterns += [
+    path("s.enrollments/new/", EnrollmentCreateView.as_view()),
+    path("s.enrollments/<int:pk>/update/", EnrollmentUpdateDeleteView.as_view()),
+    path("s.enrollments/<int:pk>/delete/", EnrollmentUpdateDeleteView.as_view()),
+    path("s.enrollments/", EnrollmentListView.as_view()),
+]
+
+# GPA views
+urlpatterns += [
+    path("s.gpa/new/", GPA_CreateView.as_view()),
+    path("s.gpa/<int:pk>/update/", GPA_UpdateDeleteView.as_view()),
+    path("s.gpa/<int:pk>/delete/", GPA_UpdateDeleteView.as_view()),
+    path("s.gpa/", GPA_ListView.as_view()),
+]
+
+# ClassRank views
+urlpatterns += [
+    path("s.class_ranks/new/", ClassRankCreateView.as_view()),
+    path("s.class_ranks/<int:pk>/update/", ClassRankUpdateDeleteView.as_view()),
+    path("s.class_ranks/<int:pk>/delete/", ClassRankUpdateDeleteView.as_view()),
+    path("s.class_ranks/", ClassRankListView.as_view()),
+]
+
+# TOEFL views
+urlpatterns += [
+    path("s.toefl/new/", TOEFL_CreateView.as_view()),
+    path("s.toefl/<int:pk>/update/", TOEFL_UpdateDeleteView.as_view()),
+    path("s.toefl/<int:pk>/delete/", TOEFL_UpdateDeleteView.as_view()),
+    path("s.toefl/", TOEFL_ListView.as_view()),
+]
+
+# IELTS views
+urlpatterns += [
+    path("s.ielts/new/", IELTS_CreateView.as_view()),
+    path("s.ielts/<int:pk>/update/", IELTS_UpdateDeleteView.as_view()),
+    path("s.ielts/<int:pk>/delete/", IELTS_UpdateDeleteView.as_view()),
+    path("s.ielts/", IELTS_ListView.as_view()),
+]
+
+# DET views
+urlpatterns += [
+    path("s.det/new/", DET_CreateView.as_view()),
+    path("s.det/<int:pk>/update/", DET_UpdateDeleteView.as_view()),
+    path("s.det/<int:pk>/delete/", DET_UpdateDeleteView.as_view()),
+    path("s.det/", DET_ListView.as_view()),
+]
+
+# SAT views
+urlpatterns += [
+    path("s.sat/new/", SAT_CreateView.as_view()),
+    path("s.sat/<int:pk>/update/", SAT_UpdateDeleteView.as_view()),
+    path("s.sat/<int:pk>/delete/", SAT_UpdateDeleteView.as_view()),
+    path("s.sat/", SAT_ListView.as_view()),
+]
+
+# ACT views
+urlpatterns += [
+    path("s.act/new/", ACT_CreateView.as_view()),
+    path("s.act/<int:pk>/update/", ACT_UpdateDeleteView.as_view()),
+    path("s.act/<int:pk>/delete/", ACT_UpdateDeleteView.as_view()),
+    path("s.act/", ACT_ListView.as_view()),
+]
+
+# AP views
+urlpatterns += [
+    path("s.ap/new/", AP_CreateView.as_view()),
+    path("s.ap/<int:pk>/update/", AP_UpdateDeleteView.as_view()),
+    path("s.ap/<int:pk>/delete/", AP_UpdateDeleteView.as_view()),
+    path("s.ap/", AP_ListView.as_view()),
+]
+
+# GRE views
+urlpatterns += [
+    path("s.gre/new/", GRE_CreateView.as_view()),
+    path("s.gre/<int:pk>/update/", GRE_UpdateDeleteView.as_view()),
+    path("s.gre/<int:pk>/delete/", GRE_UpdateDeleteView.as_view()),
+    path("s.gre/", GRE_ListView.as_view()),
 ]

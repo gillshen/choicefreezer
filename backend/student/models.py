@@ -197,8 +197,9 @@ class ClassRank(models.Model):
     term = models.CharField(max_length=50, choices=Target.Term.choices)
 
     class_size = models.PositiveIntegerField(null=True, blank=True)
-    rank = models.PositiveIntegerField()
-    top_x = models.PositiveIntegerField()  # top-x percent of the class
+    rank = models.PositiveIntegerField(null=True, blank=True)
+    # top-x percent of the class
+    top_x = models.PositiveIntegerField(null=True, blank=True)
 
     class Meta:
         constraints = [

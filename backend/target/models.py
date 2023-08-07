@@ -294,6 +294,8 @@ class SubTarget(models.Model):
         deadline?: string | null; // datetime
         deadline_timezone?: string;
 
+        comments?: string;
+
     Related fields:
         applications: [core.Applications];
     """
@@ -326,6 +328,8 @@ class SubTarget(models.Model):
 
     deadline = models.DateTimeField(blank=True, null=True)
     deadline_timezone = models.CharField(max_length=50, blank=True)
+
+    comments = models.CharField(max_length=1000, blank=True)
 
     class Meta:
         constraints = [
