@@ -33,6 +33,10 @@ class TargetSerializer(serializers.ModelSerializer):
         model = Target
         fields = "__all__"
 
+    def create(self, validated_data):
+        target, _ = Target.objects.get_or_create(**validated_data)
+        return target
+
 
 class TargetRequirementsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,6 +48,18 @@ class SubTargetSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubTarget
         fields = "__all__"
+
+    def create(self, validated_data):
+        subtarget, _ = SubTarget.objects.get_or_create(
+            target=validated_data.pop("target"),
+            admission_plan=validated_data.pop("admission_plan"),
+        )
+        # If the caller passed more than just `target` and `admission_plan`,
+        # we must process the extra fields *after* the object has been
+        # retrieved or created ; else (when a new subtarget needs to be
+        # created) we risk violating the unique constraint.
+        SubTarget.objects.filter(id=subtarget.id).update(**validated_data)
+        return subtarget
 
 
 # TODO
