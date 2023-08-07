@@ -115,6 +115,11 @@ class Program(models.Model):
 
     schools = models.ManyToManyField(School, related_name="programs")
 
+    # We have to rely on serializers to ensure program uniqueness.
+    # It would be nice to have a unique constraint at the database level,
+    # but this is not possible because `schools` is a many-to-many field
+    # and as such is not permitted in constraints.
+
     def __str__(self) -> str:
         schools = School.format_names(self.schools.all())
         return f"{schools} | ({self.type}) {self.name} {self.degree}".strip()
