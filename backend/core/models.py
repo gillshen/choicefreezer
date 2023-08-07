@@ -243,7 +243,7 @@ class Application(models.Model):
         program: target.Program;
         target: target.Target;
         majors_list: [string];
-        last_log: ApplicationLog | null;
+        latest_log: ApplicationLog | null;
         general_status: string;
     """
 
@@ -280,6 +280,15 @@ class Application(models.Model):
         on_delete=models.RESTRICT,
     )
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                "student",
+                "subtarget",
+                name="unique_application_student_subtarget",
+            )
+        ]
+
     def __str__(self) -> str:
         return f"{self.student} > {self.subtarget}"
 
@@ -306,8 +315,8 @@ class Application(models.Model):
         return [choice.major for choice in self.major_choices.order_by("rank")]
 
     @property
-    def last_log(self):
-        return self.logs.order_by("-date").first()
+    def latest_log(self):
+        return self.logs.latest()
 
     @property
     def general_status(self) -> str:
@@ -317,11 +326,11 @@ class Application(models.Model):
             - "result pending"
             - "final"
         """
-        if self.last_log is None:
+        if self.latest_log is None:
             # log-less applications presumably have just started
             return "in progress"
 
-        if (status := self.last_log.status) in [
+        if (status := self.latest_log.status) in [
             ApplicationLog.Status.STARTED,
             ApplicationLog.Status.READY,
         ]:
@@ -447,6 +456,7 @@ class ApplicationLog(models.Model):
 
     class Meta:
         ordering = ["-date", "-updated"]
+        get_latest_by = ["date", "updated"]
 
         indexes = [
             models.Index(fields=["-date", "-updated"]),

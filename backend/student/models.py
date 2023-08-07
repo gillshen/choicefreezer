@@ -34,6 +34,8 @@ class StudentLog(models.Model):
     class Meta:
         # Pinned logs before non-pinned ones, then order by recency
         ordering = ["-pinned", "-updated"]
+        get_latest_by = ["pinned", "updated"]
+
         indexes = [
             models.Index(fields=["-pinned", "-updated"]),
         ]

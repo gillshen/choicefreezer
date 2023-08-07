@@ -152,7 +152,7 @@ class ApplicationListItemSerializer(serializers.ModelSerializer):
 
         majors_list: [string];
 
-        last_log: {
+        latest_log: {
             date: string;
             status: <ApplicationLog.Status>;
             updated: string; // datetime
@@ -224,4 +224,4 @@ class ApplicationListItemSerializer(serializers.ModelSerializer):
             model = ApplicationLog
             fields = ["date", "status", "updated"]
 
-    last_log = _ApplicationLogSerializer()
+    latest_log = _ApplicationLogSerializer()
