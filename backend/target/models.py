@@ -124,6 +124,19 @@ class Program(models.Model):
         schools = School.format_names(self.schools.all())
         return f"{schools} | ({self.type}) {self.name} {self.degree}".strip()
 
+    @classmethod
+    def of_exact_schools(cls, *schools):
+        # Narrow down to programs hosted by *at least* the given schools.
+        programs = cls.objects.all()
+        for school in schools:
+            programs = programs.filter(schools=school)
+
+        # Exclude programs hosted by schools in addition to the given ones.
+        excluded_schools = School.objects.exclude(id__in=[s.id for s in schools])
+        programs = programs.exclude(schools__in=excluded_schools)
+
+        return programs
+
 
 class Target(models.Model):
     """

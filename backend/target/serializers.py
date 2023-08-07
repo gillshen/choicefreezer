@@ -31,16 +31,11 @@ class ProgramSerializer(serializers.ModelSerializer):
         # To ensure program uniqueness (not possible at the database
         # level for Django reasons), check if any existing program matches
         # what the caller wants to create; return it if one exists.
-
         schools = validated_data.pop("schools")
-        programs = Program.objects.filter(**validated_data)
-
-        for school in schools:
-            programs = programs.filter(schools=school)
+        programs = Program.of_exact_schools(*schools).filter(**validated_data)
 
         if programs.exists():
             return programs.first()  # should be unique too
-
         else:
             # Create a new prorgam if none exists with matching values.
             validated_data["schools"] = schools
