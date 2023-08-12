@@ -1,6 +1,7 @@
 from rest_framework.generics import (
     CreateAPIView,
     ListAPIView,
+    RetrieveAPIView,
     RetrieveUpdateAPIView,
     RetrieveUpdateDestroyAPIView,
 )
@@ -34,6 +35,11 @@ class SchoolCreateView(CreateAPIView):
     serializer_class = SchoolSerializer
 
 
+class SchoolRetrieveView(RetrieveAPIView):
+    queryset = School.objects.all()
+    serializer_class = SchoolSerializer
+
+
 class SchoolUpdateView(RetrieveUpdateAPIView):
     queryset = School.objects.all()
     serializer_class = SchoolSerializer
@@ -54,6 +60,12 @@ class ProgramCreateView(CreateAPIView):
     serializer_class = ProgramSerializer
 
 
+class ProgramRetrieveView(RetrieveAPIView):
+    queryset = Program.objects.all()
+    # TODO
+    serializer_class = ProgramSerializer
+
+
 class ProgramUpdateDeleteView(RetrieveUpdateDestroyAPIView):
     queryset = Program.objects.all()
     serializer_class = ProgramSerializer
@@ -61,6 +73,12 @@ class ProgramUpdateDeleteView(RetrieveUpdateDestroyAPIView):
 
 class TargetCreateView(CreateAPIView):
     queryset = Target.objects.all()
+    serializer_class = TargetSerializer
+
+
+class TargetRetrieveView(RetrieveAPIView):
+    queryset = Target.objects.all()
+    # TODO
     serializer_class = TargetSerializer
 
 
@@ -74,9 +92,16 @@ class TargetRequirementsCreateView(CreateAPIView):
     serializer_class = TargetRequirementsSerializer
 
 
+class TargetRequirementsRetrieveView(RetrieveAPIView):
+    queryset = TargetRequirements.objects.all()
+    serializer_class = TargetRequirementsSerializer
+    lookup_field = "target"
+
+
 class TargetRequirementsUpdateDeleteView(RetrieveUpdateDestroyAPIView):
     queryset = TargetRequirements.objects.all()
     serializer_class = TargetRequirementsSerializer
+    lookup_field = "target"
 
 
 class SubTargetCreateView(CreateAPIView):
@@ -102,3 +127,11 @@ class ProgramListView(ListAPIView):
 class TargetListView(ListAPIView):
     queryset = Target.objects.all()
     serializer_class = TargetListItemSerializer
+
+
+class SubTargetListView(ListAPIView):
+    serializer_class = SubTargetSerializer
+
+    def get_queryset(self):
+        target_id = self.request.query_params.get("target")
+        return SubTarget.filter(target_id=target_id)

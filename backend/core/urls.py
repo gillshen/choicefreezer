@@ -1,40 +1,53 @@
 from django.urls import path
 
-from user.views import UserProfileUpdateView, UserProfileListView
+from user.views import (
+    UserProfileRetrieveView,
+    UserProfileUpdateView,
+    UserProfileListView,
+)
 
 from core.views import (
     StudentCreateView,
+    StudentRetrieveView,
     StudentUpdateDeleteView,
     StudentListView,
     ContractCreateView,
     ContractUpdateDeleteView,
+    ContractListView,
     ServiceCreateView,
     ServiceUpdateDeleteView,
     ApplicationCreateView,
+    ApplicationRetrieveView,
     ApplicationUpdateDeleteView,
     ApplicationListView,
     MajorChoiceCreateView,
     MajorChoiceUpdateDeleteView,
     ApplicationLogCreateView,
     ApplicationLogUpdateDeleteView,
+    ApplicationLogListView,
 )
 
 from target.views import (
     SchoolCreateView,
+    SchoolRetrieveView,
     SchoolUpdateView,
     SchoolListView,
     SchoolRankingCreateView,
     SchoolRankingUpdateDeleteView,
     ProgramCreateView,
+    ProgramRetrieveView,
     ProgramUpdateDeleteView,
     ProgramListView,
     TargetCreateView,
+    TargetRetrieveView,
     TargetUpdateDeleteView,
     TargetListView,
     TargetRequirementsCreateView,
+    TargetRequirementsRetrieveView,
     TargetRequirementsUpdateDeleteView,
     SubTargetCreateView,
     SubTargetUpdateDeleteView,
+    SubTargetListView,
 )
 
 from student.views import (
@@ -75,7 +88,8 @@ from student.views import (
 
 # user.views
 urlpatterns = [
-    path("cf/<int:pk>/update/", UserProfileUpdateView.as_view()),
+    path("cf/<str:username>/", UserProfileRetrieveView.as_view()),
+    path("cf/<str:username>/update/", UserProfileUpdateView.as_view()),
     path("cf/", UserProfileListView.as_view()),
 ]
 
@@ -83,7 +97,8 @@ urlpatterns = [
 
 # Student views
 urlpatterns += [
-    path("students/new/", StudentCreateView.as_view(), name="create_student"),
+    path("students/new/", StudentCreateView.as_view()),
+    path("students/<int:pk>/", StudentRetrieveView.as_view()),
     path("students/<int:pk>/update/", StudentUpdateDeleteView.as_view()),
     path("students/<int:pk>/delete/", StudentUpdateDeleteView.as_view()),
     path("students/", StudentListView.as_view()),
@@ -94,6 +109,8 @@ urlpatterns += [
     path("contracts/new/", ContractCreateView.as_view()),
     path("contracts/<int:pk>/update/", ContractUpdateDeleteView.as_view()),
     path("contracts/<int:pk>/delete/", ContractUpdateDeleteView.as_view()),
+    # contracts involving a student
+    path("contracts/", ContractListView.as_view()),
 ]
 
 # Service views
@@ -106,6 +123,7 @@ urlpatterns += [
 # Application views
 urlpatterns += [
     path("applications/new/", ApplicationCreateView.as_view()),
+    path("applications/<int:pk>/", ApplicationRetrieveView.as_view()),
     path("applications/<int:pk>/update/", ApplicationUpdateDeleteView.as_view()),
     path("applications/<int:pk>/delete/", ApplicationUpdateDeleteView.as_view()),
     path("applications/", ApplicationListView.as_view()),
@@ -123,6 +141,7 @@ urlpatterns += [
     path("application_logs/new/", ApplicationLogCreateView.as_view()),
     path("application_logs/<int:pk>/update/", ApplicationLogUpdateDeleteView.as_view()),
     path("application_logs/<int:pk>/delete/", ApplicationLogUpdateDeleteView.as_view()),
+    path("application_logs/", ApplicationLogListView.as_view()),
 ]
 
 # target.views
@@ -130,6 +149,7 @@ urlpatterns += [
 # School views
 urlpatterns += [
     path("schools/new/", SchoolCreateView.as_view()),
+    path("schools/<int:pk>/", SchoolRetrieveView.as_view()),
     path("schools/<int:pk>/update/", SchoolUpdateView.as_view()),
     path("schools/", SchoolListView.as_view()),
 ]
@@ -144,6 +164,7 @@ urlpatterns += [
 # Program views
 urlpatterns += [
     path("programs/new/", ProgramCreateView.as_view()),
+    path("programs/<int:pk>/", ProgramRetrieveView.as_view()),
     path("programs/<int:pk>/update/", ProgramUpdateDeleteView.as_view()),
     path("programs/<int:pk>/delete/", ProgramUpdateDeleteView.as_view()),
     path("programs/", ProgramListView.as_view()),
@@ -152,6 +173,7 @@ urlpatterns += [
 # Target views
 urlpatterns += [
     path("targets/new/", TargetCreateView.as_view()),
+    path("targets/<int:pk>/", TargetRetrieveView.as_view()),
     path("targets/<int:pk>/update/", TargetUpdateDeleteView.as_view()),
     path("targets/<int:pk>/delete/", TargetUpdateDeleteView.as_view()),
     path("targets/", TargetListView.as_view()),
@@ -159,9 +181,10 @@ urlpatterns += [
 
 # TargetRequirements views
 urlpatterns += [
-    path("how_to_apply/new/", TargetRequirementsCreateView.as_view()),
-    path("how_to_apply/<int:pk>/update/", TargetRequirementsUpdateDeleteView.as_view()),
-    path("how_to_apply/<int:pk>/delete/", TargetRequirementsUpdateDeleteView.as_view()),
+    path("reqs/new/", TargetRequirementsCreateView.as_view()),
+    path("reqs/<int:target>/", TargetRequirementsRetrieveView.as_view()),
+    path("reqs/<int:target>/update/", TargetRequirementsUpdateDeleteView.as_view()),
+    path("reqs/<int:target>/delete/", TargetRequirementsUpdateDeleteView.as_view()),
 ]
 
 # SubTarget views
@@ -169,6 +192,7 @@ urlpatterns += [
     path("subtargets/new/", SubTargetCreateView.as_view()),
     path("subtargets/<int:pk>/update/", SubTargetUpdateDeleteView.as_view()),
     path("subtargets/<int:pk>/delete/", SubTargetUpdateDeleteView.as_view()),
+    path("subtargets/", SubTargetListView.as_view()),
 ]
 
 # student.views

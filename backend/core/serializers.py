@@ -108,6 +108,14 @@ class StudentListItemSerializer(serializers.ModelSerializer):
     services = _ServiceSerializer(many=True)
 
 
+class ContractListItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contract
+        fields = "__all__"
+
+    services = ServiceSerializer(many=True)
+
+
 class ApplicationListItemSerializer(serializers.ModelSerializer):
     """
     Fields:

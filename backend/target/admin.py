@@ -29,6 +29,7 @@ class TargetAdmin(admin.ModelAdmin):
 class TargetRequirementsAdmin(admin.ModelAdmin):
     list_display = (
         "id",
+        "target_id",
         "target",
         "requires_sat_or_act",
         "requires_gre",
@@ -38,6 +39,9 @@ class TargetRequirementsAdmin(admin.ModelAdmin):
         "requires_interview",
         "updated",
     )
+
+    def target_id(self, instance):
+        return instance.target.id
 
 
 @admin.register(models.SubTarget)

@@ -342,3 +342,10 @@ class SubTarget(models.Model):
 
     def __str__(self) -> str:
         return f"{self.target} | {self.admission_plan}"
+
+    @classmethod
+    def filter(cls, target_id: int = None):
+        subtargets = cls.objects.all()
+        if target_id is not None:
+            subtargets = subtargets.filter(target=target_id)
+        return subtargets

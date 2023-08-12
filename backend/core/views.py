@@ -1,6 +1,7 @@
 from rest_framework.generics import (
     CreateAPIView,
     ListAPIView,
+    RetrieveAPIView,
     RetrieveUpdateDestroyAPIView,
 )
 
@@ -23,12 +24,19 @@ from core.serializers import (
     ApplicationLogSerializer,
     # List items
     StudentListItemSerializer,
+    ContractListItemSerializer,
     ApplicationListItemSerializer,
 )
 
 
 class StudentCreateView(CreateAPIView):
     queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+
+class StudentRetrieveView(RetrieveAPIView):
+    queryset = Student.objects.all()
+    # TODO?
     serializer_class = StudentSerializer
 
 
@@ -59,6 +67,12 @@ class ServiceUpdateDeleteView(RetrieveUpdateDestroyAPIView):
 
 class ApplicationCreateView(CreateAPIView):
     queryset = Application.objects.all()
+    serializer_class = ApplicationSerializer
+
+
+class ApplicationRetrieveView(RetrieveAPIView):
+    queryset = Application.objects.all()
+    # TODO
     serializer_class = ApplicationSerializer
 
 
@@ -101,6 +115,14 @@ class StudentListView(ListAPIView):
         )
 
 
+class ContractListView(ListAPIView):
+    serializer_class = ContractListItemSerializer
+
+    def get_queryset(self):
+        student_id = self.request.query_params.get("student")
+        return Contract.filter(student_id=student_id)
+
+
 class ApplicationListView(ListAPIView):
     serializer_class = ApplicationListItemSerializer
 
@@ -115,3 +137,11 @@ class ApplicationListView(ListAPIView):
             target_id=query_params.get("target"),
             subtarget_id=query_params.get("subtarget"),
         )
+
+
+class ApplicationLogListView(ListAPIView):
+    serializer_class = ApplicationLogSerializer
+
+    def get_queryset(self):
+        application_id = self.request.query_params.get("application")
+        return ApplicationLog.filter(application_id=application_id)

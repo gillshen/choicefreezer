@@ -2,13 +2,13 @@
 	import PageSection from '$lib/components/PageSection.svelte';
 
 	export let data;
-	const { program, applications } = data;
+	const { school, applications } = data;
 </script>
 
-<h1 class="page-container">Program {program.id}</h1>
+<h1 class="page-container">{school.name}</h1>
 
 <PageSection>
-	<pre class="text-surface-400">{JSON.stringify(program, null, 2)}</pre>
+	<pre class="text-surface-400">{JSON.stringify(school, null, 2)}</pre>
 	<button class="cf-secondary">Edit</button>
 </PageSection>
 

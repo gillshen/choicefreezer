@@ -86,7 +86,7 @@ class Student(models.Model):
     ):
         students = cls.objects.all()
 
-        of_user = Q(contracts__services__cf_person__username=username)
+        of_user = Q(contracts__services__cf_person__username__iexact=username)
         contract_effective = Q(contracts__status=Contract.Status.EFFECTIVE)
         service_ongoing = Q(contracts__services__end_date__isnull=True)
 
@@ -157,6 +157,13 @@ class Contract(models.Model):
     @property
     def is_current(self):
         return self.status == self.Status.EFFECTIVE
+
+    @classmethod
+    def filter(cls, student_id: int = None):
+        contracts = cls.objects.all()
+        if student_id is not None:
+            contracts = contracts.filter(student=student_id)
+        return contracts
 
 
 class Service(models.Model):
@@ -359,8 +366,10 @@ class Application(models.Model):
         applications = cls.objects.all()
 
         if username:
-            of_user = Q(student__contracts__services__cf_person__username=username)
-            excluded_users = Q(cf_exclude__username=username)
+            of_user = Q(
+                student__contracts__services__cf_person__username__iexact=username
+            )
+            excluded_users = Q(cf_exclude__username__iexact=username)
             applications = applications.filter(of_user).exclude(excluded_users)
 
         if student_id is not None:
@@ -474,3 +483,10 @@ class ApplicationLog(models.Model):
 
     def __str__(self) -> str:
         return f"{self.status} | {self.application}"
+
+    @classmethod
+    def filter(cls, application_id: int = None):
+        logs = cls.objects.all()
+        if application_id is not None:
+            logs = logs.filter(application=application_id)
+        return logs

@@ -1,4 +1,4 @@
-/* Write your global styles here, in PostCSS syntax */
+/* Global styles */
 html,
 body {
 	@apply h-full;
@@ -13,13 +13,32 @@ nav a:hover {
 	@apply text-primary-600;
 }
 
+footer > div {
+	@apply px-4 pt-6 pb-8;
+}
+article.main *.page-container {
+	@apply w-full max-w-5xl mx-auto p-4 rounded-xl;
+}
+article.main > section:nth-child(odd) {
+	@apply bg-surface-800;
+}
+
+h1 {
+	@apply h1;
+}
+h2 {
+	@apply h2;
+}
+h3 {
+	@apply h3 pt-4;
+}
+
 button {
 	cursor: default;
 }
-
-article.main *.my-container {
-	@apply w-full max-w-5xl mx-auto;
+button.cf-primary {
+	@apply btn variant-filled-primary;
 }
-article.main h1 {
-	@apply pt-8 pb-6;
+button.cf-secondary {
+	@apply btn variant-outline hover:variant-outline-primary;
 }

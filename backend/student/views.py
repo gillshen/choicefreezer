@@ -33,6 +33,17 @@ from student.serializers import (
 )
 
 
+class StudentQueryMixin:
+    _model = None
+
+    def get_queryset(self):
+        queryset = self._model.objects.all()
+        student_id = self.request.query_params.get("student")
+        if student_id is not None:
+            queryset = queryset.filter(student=student_id)
+        return queryset
+
+
 class StudentLogCreateView(CreateAPIView):
     queryset = StudentLog.objects.all()
     serializer_class = StudentLogSerializer
@@ -43,8 +54,8 @@ class StudentLogUpdateDeleteView(RetrieveUpdateDestroyAPIView):
     serializer_class = StudentLogSerializer
 
 
-class StudentLogListView(ListAPIView):
-    queryset = StudentLog.objects.all()
+class StudentLogListView(StudentQueryMixin, ListAPIView):
+    _model = StudentLog
     serializer_class = StudentLogSerializer
 
 
@@ -58,8 +69,8 @@ class EnrollmentUpdateDeleteView(RetrieveUpdateDestroyAPIView):
     serializer_class = EnrollmentSerializer
 
 
-class EnrollmentListView(ListAPIView):
-    queryset = Enrollment.objects.all()
+class EnrollmentListView(StudentQueryMixin, ListAPIView):
+    _model = Enrollment
     serializer_class = EnrollmentSerializer
 
 
@@ -103,8 +114,8 @@ class TOEFL_UpdateDeleteView(RetrieveUpdateDestroyAPIView):
     serializer_class = TOEFL_Serializer
 
 
-class TOEFL_ListView(ListAPIView):
-    queryset = TOEFL.objects.all()
+class TOEFL_ListView(StudentQueryMixin, ListAPIView):
+    _model = TOEFL
     serializer_class = TOEFL_Serializer
 
 
@@ -118,8 +129,8 @@ class IELTS_UpdateDeleteView(RetrieveUpdateDestroyAPIView):
     serializer_class = IELTS_Serializer
 
 
-class IELTS_ListView(ListAPIView):
-    queryset = IELTS.objects.all()
+class IELTS_ListView(StudentQueryMixin, ListAPIView):
+    _model = IELTS
     serializer_class = IELTS_Serializer
 
 
@@ -133,8 +144,8 @@ class DET_UpdateDeleteView(RetrieveUpdateDestroyAPIView):
     serializer_class = DET_Serializer
 
 
-class DET_ListView(ListAPIView):
-    queryset = DET.objects.all()
+class DET_ListView(StudentQueryMixin, ListAPIView):
+    _model = DET
     serializer_class = DET_Serializer
 
 
@@ -148,8 +159,8 @@ class SAT_UpdateDeleteView(RetrieveUpdateDestroyAPIView):
     serializer_class = SAT_Serializer
 
 
-class SAT_ListView(ListAPIView):
-    queryset = SAT.objects.all()
+class SAT_ListView(StudentQueryMixin, ListAPIView):
+    _model = SAT
     serializer_class = SAT_Serializer
 
 
@@ -163,8 +174,8 @@ class ACT_UpdateDeleteView(RetrieveUpdateDestroyAPIView):
     serializer_class = ACT_Serializer
 
 
-class ACT_ListView(ListAPIView):
-    queryset = ACT.objects.all()
+class ACT_ListView(StudentQueryMixin, ListAPIView):
+    _model = ACT
     serializer_class = ACT_Serializer
 
 
@@ -178,8 +189,8 @@ class AP_UpdateDeleteView(RetrieveUpdateDestroyAPIView):
     serializer_class = AP_Serializer
 
 
-class AP_ListView(ListAPIView):
-    queryset = AP.objects.all()
+class AP_ListView(StudentQueryMixin, ListAPIView):
+    _model = AP
     serializer_class = AP_Serializer
 
 
@@ -193,6 +204,6 @@ class GRE_UpdateDeleteView(RetrieveUpdateDestroyAPIView):
     serializer_class = GRE_Serializer
 
 
-class GRE_ListView(ListAPIView):
-    queryset = GRE.objects.all()
+class GRE_ListView(StudentQueryMixin, ListAPIView):
+    _model = GRE
     serializer_class = GRE_Serializer
