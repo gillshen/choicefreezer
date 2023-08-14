@@ -1,5 +1,6 @@
 from abc import abstractmethod
 from decimal import Decimal
+from contextlib import suppress
 
 from django.db import models
 from django.db.models import Q
@@ -156,7 +157,7 @@ class GPA(models.Model):
     is_cumulative = models.BooleanField(default=False)
 
     class Meta:
-        verbose_name_plural = "GPA"
+        verbose_name_plural = "GPAs"
         constraints = [
             models.UniqueConstraint(
                 "enrollment",
@@ -263,26 +264,27 @@ class TOEFL(BaseTest):
         date?: string | null; // date
         comments?: string;
 
-        reading: number;
-        listening: number;
-        speaking: number;
-        writing: number;
+        reading?: number;
+        listening?: number;
+        speaking?: number;
+        writing?: number;
 
     Computed fields:
         result: number;
     """
 
-    reading = models.PositiveSmallIntegerField()
-    listening = models.PositiveSmallIntegerField()
-    speaking = models.PositiveSmallIntegerField()
-    writing = models.PositiveSmallIntegerField()
+    reading = models.PositiveSmallIntegerField(blank=True, null=True)
+    listening = models.PositiveSmallIntegerField(blank=True, null=True)
+    speaking = models.PositiveSmallIntegerField(blank=True, null=True)
+    writing = models.PositiveSmallIntegerField(blank=True, null=True)
 
     class Meta:
-        verbose_name_plural = "TOEFL"
+        verbose_name_plural = "TOEFL scores"
 
     @property
-    def result(self):
-        return sum([self.reading, self.listening, self.speaking, self.writing])
+    def result(self) -> int | None:
+        with suppress(TypeError):
+            return sum([self.reading, self.listening, self.speaking, self.writing])
 
 
 class IELTS(BaseTest):
@@ -293,27 +295,32 @@ class IELTS(BaseTest):
         date?: string | null; // date
         comments?: string;
 
-        listening: number;
-        reading: number;
-        writing: number;
-        speaking: number;
+        listening?: number;
+        reading?: number;
+        writing?: number;
+        speaking?: number;
 
     Computed fields:
         result: number;
     """
 
-    listening = models.DecimalField(max_digits=2, decimal_places=1)
-    reading = models.DecimalField(max_digits=2, decimal_places=1)
-    writing = models.DecimalField(max_digits=2, decimal_places=1)
-    speaking = models.DecimalField(max_digits=2, decimal_places=1)
+    listening = models.DecimalField(
+        max_digits=2, decimal_places=1, blank=True, null=True
+    )
+    reading = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
+    writing = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
+    speaking = models.DecimalField(
+        max_digits=2, decimal_places=1, blank=True, null=True
+    )
 
     class Meta:
-        verbose_name_plural = "IELTS"
+        verbose_name_plural = "IELTS scores"
 
     @property
-    def result(self):
-        total = sum([self.listening, self.reading, self.writing, self.speaking])
-        return Decimal(int(total / 2 + Decimal(0.5)) / 2)
+    def result(self) -> Decimal | None:
+        with suppress(TypeError):
+            total = sum([self.listening, self.reading, self.writing, self.speaking])
+            return Decimal(int(total / 2 + Decimal(0.5)) / 2)
 
 
 class DET(BaseTest):
@@ -324,7 +331,7 @@ class DET(BaseTest):
         date?: string | null; // date
         comments?: string;
 
-        overall: number;
+        overall?: number;
         literacy?: number | null;
         comprehension?: number | null;
         conversation?: number | null;
@@ -334,17 +341,17 @@ class DET(BaseTest):
         result: number;
     """
 
-    overall = models.PositiveSmallIntegerField()
-    literacy = models.PositiveSmallIntegerField(null=True, blank=True)
-    comprehension = models.PositiveSmallIntegerField(null=True, blank=True)
-    conversation = models.PositiveSmallIntegerField(null=True, blank=True)
-    production = models.PositiveSmallIntegerField(null=True, blank=True)
+    overall = models.PositiveSmallIntegerField(blank=True, null=True)
+    literacy = models.PositiveSmallIntegerField(blank=True, null=True)
+    comprehension = models.PositiveSmallIntegerField(blank=True, null=True)
+    conversation = models.PositiveSmallIntegerField(blank=True, null=True)
+    production = models.PositiveSmallIntegerField(blank=True, null=True)
 
     class Meta:
-        verbose_name_plural = "DET"
+        verbose_name_plural = "DET scores"
 
     @property
-    def result(self):
+    def result(self) -> int | None:
         return self.overall
 
 
@@ -356,21 +363,23 @@ class SAT(BaseTest):
         date?: string | null; // date
         comments?: string;
 
-        ebrw: number;
-        math: number;
+        ebrw?: number;
+        math?: number;
 
     Computed fields:
         result: number;
     """
 
-    ebrw = models.PositiveSmallIntegerField()
-    math = models.PositiveSmallIntegerField()
+    ebrw = models.PositiveSmallIntegerField(blank=True, null=True)
+    math = models.PositiveSmallIntegerField(blank=True, null=True)
 
     class Meta:
-        verbose_name_plural = "SAT"
+        verbose_name_plural = "SAT scores"
 
-    def result(self):
-        return self.ebrw + self.math
+    @property
+    def result(self) -> int | None:
+        with suppress(TypeError):
+            return self.ebrw + self.math
 
 
 class ACT(BaseTest):
@@ -381,29 +390,30 @@ class ACT(BaseTest):
         date?: string | null; // date
         comments?: string;
 
-        english: number;
-        math: number;
-        reading: number;
-        science: number;
+        english?: number;
+        math?: number;
+        reading?: number;
+        science?: number;
         writing?: number;
 
     Computed fields:
         result: number;
     """
 
-    english = models.PositiveSmallIntegerField()
-    math = models.PositiveSmallIntegerField()
-    reading = models.PositiveSmallIntegerField()
-    science = models.PositiveSmallIntegerField()
+    english = models.PositiveSmallIntegerField(blank=True, null=True)
+    math = models.PositiveSmallIntegerField(blank=True, null=True)
+    reading = models.PositiveSmallIntegerField(blank=True, null=True)
+    science = models.PositiveSmallIntegerField(blank=True, null=True)
     writing = models.PositiveSmallIntegerField(blank=True, null=True)
 
     class Meta:
-        verbose_name_plural = "ACT"
+        verbose_name_plural = "ACT scores"
 
     @property
-    def result(self):
-        total = sum([self.math, self.science, self.english, self.reading])
-        return round(Decimal(total / 4) + Decimal(0.1))
+    def result(self) -> Decimal | None:
+        with suppress(TypeError):
+            total = sum([self.math, self.science, self.english, self.reading])
+            return round(Decimal(total / 4) + Decimal(0.1))
 
 
 class AP(BaseTest):
@@ -415,20 +425,20 @@ class AP(BaseTest):
         comments?: string;
 
         subject: string;
-        score: number;
+        score?: number;
 
     Computed fields:
         result: number;
     """
 
     subject = models.CharField(max_length=100)
-    score = models.PositiveSmallIntegerField()
+    score = models.PositiveSmallIntegerField(blank=True, null=True)
 
     class Meta:
-        verbose_name_plural = "AP"
+        verbose_name_plural = "AP scores"
 
     @property
-    def result(self):
+    def result(self) -> int | None:
         return self.score
 
 
@@ -440,21 +450,22 @@ class GRE(BaseTest):
         date?: string | null; // date
         comments?: string;
 
-        verbal: number;
-        quant: number;
-        writing: number;
+        verbal?: number;
+        quant?: number;
+        writing?: number;
 
     Computed fields:
         result: number;
     """
 
-    verbal = models.PositiveSmallIntegerField()
-    quant = models.PositiveSmallIntegerField()
-    writing = models.DecimalField(max_digits=2, decimal_places=1)
+    verbal = models.PositiveSmallIntegerField(blank=True, null=True)
+    quant = models.PositiveSmallIntegerField(blank=True, null=True)
+    writing = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
 
     class Meta:
-        verbose_name_plural = "GRE"
+        verbose_name_plural = "GRE scores"
 
     @property
-    def result(self):
-        return self.verbal + self.quant
+    def result(self) -> int | None:
+        with suppress(TypeError):
+            return self.verbal + self.quant
