@@ -17,6 +17,7 @@ class StudentLog(models.Model):
         title: string;
         text?: string;
         pinned: boolean;
+        private: boolean;
         updated: string; // datetime
     """
 
@@ -29,6 +30,7 @@ class StudentLog(models.Model):
     title = models.CharField(max_length=50)
     text = models.TextField(max_length=1000, blank=True)
     pinned = models.BooleanField(default=False)
+    private = models.BooleanField(default=False)
 
     updated = models.DateTimeField(auto_now=True)
 

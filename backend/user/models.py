@@ -21,7 +21,7 @@ class CfUser(AbstractUser):
     objects = CfUserManager()
 
     def __str__(self):
-        return self.email
+        return self.username
 
     @property
     def current_students(self):

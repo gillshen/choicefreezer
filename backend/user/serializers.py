@@ -4,11 +4,12 @@ from user.models import CfUser
 from core.models import Student, Application
 
 
-class CfUserSerializer(serializers.ModelSerializer):
+class CfUserCreateUpdateSerializer(serializers.ModelSerializer):
     """
     Fields:
         id: number;
         username: string;
+        password: string;  // write-only
         email: string;
         is_active: boolean;
 
@@ -20,7 +21,6 @@ class CfUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CfUser
         exclude = [
-            "password",
             "first_name",
             "last_name",
             "last_login",
@@ -31,8 +31,10 @@ class CfUserSerializer(serializers.ModelSerializer):
             "user_permissions",
         ]
 
+    password = serializers.CharField(write_only=True)
 
-class CfUserDetailSerializer(serializers.ModelSerializer):
+
+class CfUserRetrieveSerializer(serializers.ModelSerializer):
     """
     Fields:
         id: number;
@@ -81,3 +83,22 @@ class CfUserDetailSerializer(serializers.ModelSerializer):
         general_status = serializers.CharField()
 
     applications = _ApplicationSerializer(many=True)
+
+
+class CfUserListItemSerializer(serializers.ModelSerializer):
+    """
+    Fields:
+        id: number;
+        username: string;
+        password: string;
+        email: string;
+        is_active: boolean;
+
+        department: <user.Department>;
+        public_banner: string;
+        private_banner: string;
+    """
+
+    class Meta:
+        model = CfUser
+        fields = ["username", "is_active", "department"]
