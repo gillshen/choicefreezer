@@ -23,12 +23,12 @@ class UserProfile(models.Model):
     """
 
     class Department(models.TextChoices):
-        G = "顾问", _("顾问")
-        W = "文案", _("文案")
-        G_PLUS = "顾问+", _("顾问+")
-        W_PLUS = "文案+", _("文案+")
+        PLANNING = "顾问", _("顾问")
+        ESSAY_ADVISING = "文案", _("文案")
+        PLANNING_PLUS = "顾问+", _("顾问+")
+        ESSAY_ADVISING_PLUS = "文案+", _("文案+")
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE)
     department = models.CharField(max_length=50, choices=Department.choices)
 
     public_banner = models.CharField(max_length=100, blank=True)
