@@ -16,8 +16,8 @@
 	</nav>
 	<svelte:fragment slot="trail">
 		<div class="flex flex-wrap flex-shrink gap-2">
-			<button class="btn hover:variant-outline-primary">Settings</button>
-			<button class="btn variant-outline hover:variant-outline-primary">Log Out</button>
+			<button class="btn hover:variant-filled-secondary">Settings</button>
+			<button class="cf-secondary">Log Out</button>
 		</div>
 	</svelte:fragment>
 </AppBar>
