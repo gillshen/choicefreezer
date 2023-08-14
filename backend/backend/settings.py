@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     "student",
 ]
 
+AUTH_USER_MODEL = "user.CfUser"
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",

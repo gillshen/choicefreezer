@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.models import User
+from user.models import CfUser
 from target.models import Target, SubTarget
 
 
@@ -183,10 +183,10 @@ class Service(models.Model):
     """
 
     class Role(models.TextChoices):
-        W = "文案", _("文案")
-        G = "顾问", _("顾问")
-        ZG = "战略顾问", _("战略顾问")
-        FG = "服务顾问", _("服务顾问")
+        ESSAY_ADVISOR = "文案", _("文案")
+        PLANNER = "顾问", _("顾问")
+        ASSISTANT_PLANNER = "服务顾问", _("服务顾问")
+        PLANNER_PLUS = "战略顾问", _("战略顾问")
 
     contract = models.ForeignKey(
         Contract,
@@ -194,7 +194,7 @@ class Service(models.Model):
         on_delete=models.CASCADE,
     )
     cf_person = models.ForeignKey(
-        User,
+        CfUser,
         related_name="services",
         on_delete=models.CASCADE,
     )
@@ -245,7 +245,7 @@ class Application(models.Model):
         logs: [ApplicationLog];
 
     Computed fields:
-        cf_people: [User];
+        cf_people: [CfUser];
         schools: [target.School];
         program: target.Program;
         target: target.Target;
@@ -269,7 +269,7 @@ class Application(models.Model):
     # to all the applications filed by the student. But when this is not
     # the case, they need to be manually excluded by specifying this field.
     cf_exclude = models.ManyToManyField(
-        User,
+        CfUser,
         related_name="excluded_applications",
         blank=True,
     )
@@ -303,7 +303,7 @@ class Application(models.Model):
     def cf_people(self):
         in_service = Q(services__contract__student=self.student)
         excluded_users = Q(id__in=self.cf_exclude.all())
-        return User.objects.filter(in_service).exclude(excluded_users)
+        return CfUser.objects.filter(in_service).exclude(excluded_users)
 
     @property
     def schools(self):

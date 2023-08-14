@@ -1,27 +1,28 @@
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView
 
-from user.models import UserProfile
-from user.serializers import UserProfileSerializer, UserProfileListItemSerializer
+from user.models import CfUser
+from user.serializers import CfUserSerializer, CfUserDetailSerializer
 
 
-class UserProfileRetrieveView(RetrieveAPIView):
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+class CfUserRetrieveView(RetrieveAPIView):
+    queryset = CfUser.objects.all()
+    serializer_class = CfUserDetailSerializer
 
     def get_object(self):
         username = self.kwargs["username"]
         try:
-            return UserProfile.objects.get(user__username__iexact=username)
+            return CfUser.objects.get(username__iexact=username)
         except ObjectDoesNotExist:
             pass
 
 
-class UserProfileUpdateView(UpdateAPIView):
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+class CfUserUpdateView(UpdateAPIView):
+    queryset = CfUser.objects.all()
+    serializer_class = CfUserSerializer
+    lookup_field = "username"
 
 
-class UserProfileListView(ListAPIView):
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileListItemSerializer
+class CfUserListView(ListAPIView):
+    queryset = CfUser.objects.all()
+    serializer_class = CfUserSerializer

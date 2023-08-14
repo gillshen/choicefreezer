@@ -2,13 +2,15 @@
 	import PageSection from '$lib/components/PageSection.svelte';
 
 	export let data;
-	const { userProfile, students, applications } = data;
+	const { user, students, applications } = data;
 </script>
 
-<h1 class="page-container">User {userProfile.user}</h1>
+<h1 class="page-container">
+	{user.public_banner || `${user.username}\u2019s Mojo Dojo Casa House`}
+</h1>
 
 <PageSection>
-	<pre class="text-surface-400">{JSON.stringify(userProfile, null, 2)}</pre>
+	<pre class="text-surface-400">{JSON.stringify(user, null, 2)}</pre>
 </PageSection>
 
 <PageSection>

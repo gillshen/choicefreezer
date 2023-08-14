@@ -7,7 +7,7 @@ from core.models import (
     Application,
     MajorChoice,
     ApplicationLog,
-    User,
+    CfUser,
 )
 
 from target.models import School, Program, Target, SubTarget
@@ -187,7 +187,7 @@ class ApplicationListItemSerializer(serializers.ModelSerializer):
 
     class _UserSerializer(serializers.ModelSerializer):
         class Meta:
-            model = User
+            model = CfUser
             fields = ["id", "username"]
 
     cf_people = _UserSerializer(many=True)

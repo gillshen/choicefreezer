@@ -5,7 +5,7 @@ async function get(url: string) {
 	return await response.json();
 }
 
-export async function fetchUserProfile(username: string) {
+export async function fetchUser(username: string) {
 	return await get(`cf/${username}/`);
 }
 
