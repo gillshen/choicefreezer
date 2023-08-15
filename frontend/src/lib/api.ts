@@ -5,8 +5,24 @@ async function get(url: string) {
 	return await response.json();
 }
 
+async function post(url: string, data: any) {
+	return await fetch(`${BASE}${url}`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(data)
+	});
+}
+
 export async function fetchUser(username: string) {
 	return await get(`cf/${username}/`);
+}
+
+export async function fetchUsers() {
+	return await get('cf/');
+}
+
+export async function createStudent(data: any) {
+	return await post('students/new/', data);
 }
 
 export async function fetchStudent(id: number) {
@@ -21,8 +37,16 @@ export async function fetchStudentsOfUser(username: string) {
 	return await get(`students/?username=${username}`);
 }
 
+export async function createContract(data: any) {
+	return await post('contracts/new/', data);
+}
+
 export async function fetchContracts(studentId: number) {
 	return await get(`contracts/?student=${studentId}`);
+}
+
+export async function createService(data: any) {
+	return await post('services/new/', data);
 }
 
 export async function fetchSchool(id: number) {

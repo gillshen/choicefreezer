@@ -1,1 +1,1 @@
-<h1 class="page-container">Home</h1>
+<h1>Home</h1>

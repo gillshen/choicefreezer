@@ -5,7 +5,7 @@
 	const { user, students, applications } = data;
 </script>
 
-<h1 class="page-container">
+<h1>
 	{user.public_banner || `${user.username}\u2019s Mojo Dojo Casa House`}
 </h1>
 

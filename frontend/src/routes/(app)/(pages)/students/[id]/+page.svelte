@@ -19,7 +19,7 @@
 	} = data;
 </script>
 
-<h1 class="page-container">{formatStudentName(student)}</h1>
+<h1>{formatStudentName(student)}</h1>
 
 <PageSection>
 	<pre class="text-surface-400">{JSON.stringify(student, null, 2)}</pre>

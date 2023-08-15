@@ -5,7 +5,7 @@
 	const { target, subTargets, requirements, applications } = data;
 </script>
 
-<h1 class="page-container">Target {target.id}</h1>
+<h1>Target {target.id}</h1>
 
 <PageSection>
 	<pre class="text-surface-400">{JSON.stringify(target, null, 2)}</pre>

@@ -1,0 +1,40 @@
+<script lang="ts">
+	export let id: string;
+	export let name: string;
+	export let label: string;
+	export let form: any;
+	export let errors: any;
+	export let options: any[];
+	export let valueField = '';
+	export let textField = '';
+	export let optional = false;
+
+	const labelClassName = optional ? 'label optional' : 'label required';
+
+	const values =
+		valueField && textField
+			? options.map((item) => [item[valueField], item[textField]])
+			: options.map((item) => [item, item]);
+</script>
+
+<div>
+	<label class={labelClassName} for={id}>{label}</label>
+	<div {id} class="flex flex-col space-y-2" aria-invalid={errors[name] ? 'true' : undefined}>
+		{#each values as [value, text]}
+			<label class="flex items-center space-x-2">
+				<input
+					{name}
+					{value}
+					type="radio"
+					class="radio"
+					bind:group={form[name]}
+					required={!optional}
+				/>
+				<p>{text}</p>
+			</label>
+		{/each}
+	</div>
+	{#if errors.gender}
+		<div class="error-message">{errors.gender}</div>
+	{/if}
+</div>

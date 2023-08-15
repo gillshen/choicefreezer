@@ -17,14 +17,14 @@ footer > div {
 	@apply px-4 pt-6 pb-8;
 }
 article.main *.page-container {
-	@apply w-full max-w-5xl mx-auto p-4 rounded-xl;
+	@apply w-full max-w-5xl mx-auto p-4;
 }
 article.main > section:nth-child(odd) {
 	@apply bg-surface-800;
 }
 
 h1 {
-	@apply h1;
+	@apply h1 w-full max-w-5xl mx-auto p-4 pt-12;
 }
 h2 {
 	@apply h2;
@@ -41,4 +41,44 @@ button.cf-primary {
 }
 button.cf-secondary {
 	@apply btn variant-outline-primary hover:variant-filled-primary;
+}
+
+/* Form */
+form {
+	@apply flex flex-col;
+}
+fieldset {
+	@apply flex flex-col gap-4;
+	/* --color-surface-500 */
+	border-top: 1px solid #5c5c5c;
+}
+fieldset:not(:first-child) {
+	@apply mt-12;
+}
+fieldset > legend {
+	@apply h3 py-4 pr-4;
+}
+label {
+	@apply pb-2;
+}
+label.optional::after {
+	content: ' (optional)';
+	@apply text-surface-400;
+}
+input.input,
+input.date,
+select.select {
+	@apply max-w-sm h-10 px-2;
+}
+input.checkbox {
+	@apply rounded-none;
+}
+input.radio {
+	@apply rounded-full;
+}
+form div.form-actions {
+	@apply mt-12;
+}
+form div.error-message {
+	@apply mt-1 text-error-500 text-sm;
 }

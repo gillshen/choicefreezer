@@ -5,7 +5,7 @@
 	const { school, applications } = data;
 </script>
 
-<h1 class="page-container">{school.name}</h1>
+<h1>{school.name}</h1>
 
 <PageSection>
 	<pre class="text-surface-400">{JSON.stringify(school, null, 2)}</pre>

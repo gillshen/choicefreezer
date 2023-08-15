@@ -5,7 +5,7 @@
 	const { program, applications } = data;
 </script>
 
-<h1 class="page-container">Program {program.id}</h1>
+<h1>Program {program.id}</h1>
 
 <PageSection>
 	<pre class="text-surface-400">{JSON.stringify(program, null, 2)}</pre>
