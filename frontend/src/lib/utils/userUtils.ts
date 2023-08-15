@@ -12,6 +12,6 @@ export function filterForEssayAdvisors(users: UserListItem[]) {
 	return users.filter((user) => user.department.startsWith('文案'));
 }
 
-export function filterForPlus(users: UserListItem[]) {
+export function filterForSpecial(users: UserListItem[]) {
 	return users.filter((user) => user.department.endsWith('+'));
 }

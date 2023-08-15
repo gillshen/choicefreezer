@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import PageSection from '$lib/components/PageSection.svelte';
 
 	export let data;
@@ -17,7 +18,7 @@
 	<svelte:fragment slot="h2">Students</svelte:fragment>
 	<pre class="text-surface-400">{JSON.stringify(students, null, 2)}</pre>
 
-	<button class="cf-primary">Add a student</button>
+	<button class="cf-primary" on:click={() => goto('../students/new/')}>Create a student</button>
 </PageSection>
 
 <PageSection>

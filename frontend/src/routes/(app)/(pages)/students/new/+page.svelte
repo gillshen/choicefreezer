@@ -12,17 +12,17 @@
 	import {
 		filterForEssayAdvisors,
 		filterForPlanners,
-		filterForPlus,
+		filterForSpecial,
 		sortByUsername
 	} from '$lib/utils/userUtils.js';
 
 	export let data;
 	const cfPeople: UserListItem[] = data.cfPeople;
-	const { form, errors, enhance } = superForm(data.form, { scrollToError: 'auto' });
+	const { form, errors, message, enhance } = superForm(data.form, { scrollToError: 'auto' });
 
 	const planners = sortByUsername(filterForPlanners(cfPeople));
 	const essayAdvisors = sortByUsername(filterForEssayAdvisors(cfPeople));
-	const plusPeople = sortByUsername(filterForPlus(cfPeople));
+	const specialPeople = sortByUsername(filterForSpecial(cfPeople));
 </script>
 
 <h1>Create a Student</h1>
@@ -39,7 +39,7 @@
 		</fieldset>
 
 		<fieldset>
-			<legend>Service</legend>
+			<legend>Services</legend>
 
 			<FormSelect id="planner-select" name="cf_planner" label="顾问" form={$form} errors={$errors}>
 				<OptionList options={planners} valueField="id" textField="username" />
@@ -64,7 +64,7 @@
 				errors={$errors}
 				optional
 			>
-				<OptionList options={plusPeople} valueField="id" textField="username" insertNullRow />
+				<OptionList options={specialPeople} valueField="id" textField="username" insertNullRow />
 			</FormSelect>
 
 			<FormSelect
@@ -90,7 +90,11 @@
 		</fieldset>
 
 		<div class="form-actions flex gap-4">
-			<button type="submit" class="cf-primary">Save to Database</button>
+			<button type="submit" class="cf-primary">Save to database</button>
 		</div>
+
+		{#if $message}
+			<div class="my-4 text-error-500 max-w-sm">{$message}</div>
+		{/if}
 	</form>
 </PageSection>

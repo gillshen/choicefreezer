@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { superValidate } from 'sveltekit-superforms/server';
+import { message, superValidate } from 'sveltekit-superforms/server';
 import { fail, redirect } from '@sveltejs/kit';
 
 import { MIN_YEAR, THIS_YEAR } from '$lib/utils/dateUtils.js';
@@ -58,64 +58,83 @@ export const actions = {
 			return fail(400, { form });
 		}
 
-		// Call backend API
+		// Call backend API to create a student
 		const createStudentResponse = await createStudent(form.data);
 		if (!createStudentResponse.ok) {
-			// TODO client side handling
-			return fail(createStudentResponse.status, { form });
+			return message(
+				form,
+				'Sorry, an error occurred while creating the student record. ' +
+					'This may be because a student with the same name already exists. ' +
+					"If that's not the case, please contact tech support.",
+				{
+					status: 400
+				}
+			);
 		}
 
-		// TODO handle errors that may occur below
 		const newStudent = await createStudentResponse.json();
 
-		const createContractResponse = await createContract({
-			student: newStudent.id,
-			type: form.data.contract_type,
-			target_year: form.data.contract_target_year,
-			date_signed: form.data.contract_date_signed,
-			status: form.data.contract_status
-		});
-		const newContract = await createContractResponse.json();
+		try {
+			// Create the related contract and services
+			const createContractResponse = await createContract({
+				student: newStudent.id,
+				type: form.data.contract_type,
+				target_year: form.data.contract_target_year,
+				date_signed: form.data.contract_date_signed,
+				status: form.data.contract_status
+			});
+			const newContract = await createContractResponse.json();
 
-		await createService({
-			contract: newContract.id,
-			cf_person: form.data.cf_planner,
-			role: '顾问',
-			start_date: form.data.contract_date_signed
-		});
-
-		if (form.data.cf_asst_planner) {
 			await createService({
 				contract: newContract.id,
-				cf_person: form.data.cf_asst_planner,
-				role: '服务顾问',
+				cf_person: form.data.cf_planner,
+				role: '顾问',
 				start_date: form.data.contract_date_signed
 			});
-		}
 
-		if (form.data.cf_strat_planner) {
+			if (form.data.cf_asst_planner) {
+				await createService({
+					contract: newContract.id,
+					cf_person: form.data.cf_asst_planner,
+					role: '服务顾问',
+					start_date: form.data.contract_date_signed
+				});
+			}
+
+			if (form.data.cf_strat_planner) {
+				await createService({
+					contract: newContract.id,
+					cf_person: form.data.cf_strat_planner,
+					role: '战略顾问',
+					start_date: form.data.contract_date_signed
+				});
+			}
+
 			await createService({
 				contract: newContract.id,
-				cf_person: form.data.cf_strat_planner,
-				role: '战略顾问',
-				start_date: form.data.contract_date_signed
-			});
-		}
-
-		await createService({
-			contract: newContract.id,
-			cf_person: form.data.cf_essay_advisor_1,
-			role: '文案',
-			start_date: form.data.contract_date_signed
-		});
-
-		if (form.data.cf_essay_advisor_2) {
-			await createService({
-				contract: newContract.id,
-				cf_person: form.data.cf_essay_advisor_2,
+				cf_person: form.data.cf_essay_advisor_1,
 				role: '文案',
 				start_date: form.data.contract_date_signed
 			});
+
+			if (form.data.cf_essay_advisor_2) {
+				await createService({
+					contract: newContract.id,
+					cf_person: form.data.cf_essay_advisor_2,
+					role: '文案',
+					start_date: form.data.contract_date_signed
+				});
+			}
+		} catch (error) {
+			console.error(error);
+			return message(
+				form,
+				'Sorry, an unexpected error occurred while writing contract data. ' +
+					'Please contact tech support.',
+				{
+					status: 400
+				}
+			);
 		}
 
 		// Redirect to student page
