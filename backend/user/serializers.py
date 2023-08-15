@@ -101,4 +101,4 @@ class CfUserListItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CfUser
-        fields = ["username", "is_active", "department"]
+        fields = ["id", "username", "is_active", "department"]

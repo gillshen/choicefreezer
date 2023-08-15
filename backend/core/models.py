@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Q
+from django.db.models.functions import Lower
 from django.utils.translation import gettext_lazy as _
 from user.models import CfUser
 from target.models import Target, SubTarget
@@ -57,6 +58,27 @@ class Student(models.Model):
     state = models.CharField(max_length=50, blank=True)
 
     comments = models.TextField(max_length=1000, blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                Lower("last_name"),
+                Lower("first_name"),
+                Lower("last_name_romanized"),
+                Lower("first_name_romanized"),
+                condition=Q(date_of_birth__isnull=True),
+                name="unique_student_names",
+            ),
+            models.UniqueConstraint(
+                Lower("last_name"),
+                Lower("first_name"),
+                Lower("last_name_romanized"),
+                Lower("first_name_romanized"),
+                "date_of_birth",
+                condition=Q(date_of_birth__isnull=False),
+                name="unique_student_names_dateofbirth",
+            ),
+        ]
 
     def __str__(self) -> str:
         return self.name
