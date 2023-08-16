@@ -46,8 +46,15 @@ class CfUserRetrieveSerializer(serializers.ModelSerializer):
         public_banner: string;
         private_banner: string;
 
-        current_students: {id: number; name: string}[];
-        past_students: {id: number; name: string}[];
+        current_students: {
+            id: number;
+            name: string;
+            last_name_romanized: string;
+            first_name_romanized: string;
+            latest_target_year: number;
+            latest_contract_type: string;
+        }[];
+        past_students: <same as current_students>;
         applications: {id: number; general_status: string}[];
     """
 
@@ -68,9 +75,18 @@ class CfUserRetrieveSerializer(serializers.ModelSerializer):
     class _StudentSerializer(serializers.ModelSerializer):
         class Meta:
             model = Student
-            fields = ["id", "name"]
+            fields = [
+                "id",
+                "name",
+                "last_name_romanized",
+                "first_name_romanized",
+                "latest_target_year",
+                "latest_contract_type",
+            ]
 
         name = serializers.CharField()
+        latest_target_year = serializers.IntegerField()
+        latest_contract_type = serializers.CharField()
 
     current_students = _StudentSerializer(many=True)
     past_students = _StudentSerializer(many=True)

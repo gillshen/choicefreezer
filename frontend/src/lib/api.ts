@@ -45,10 +45,6 @@ export async function fetchStudents() {
 	return await get('students/');
 }
 
-export async function fetchStudentsOfUser(username: string) {
-	return await get(`students/?username=${username}`);
-}
-
 export async function createContract(data: any) {
 	return await post('contracts/new/', data);
 }

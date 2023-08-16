@@ -1,9 +1,17 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import PageSection from '$lib/components/PageSection.svelte';
+	import StudentAnchorCard from '$lib/components/StudentAnchorCard.svelte';
+	import { sortByRomanizedName } from '$lib/utils/studentUtils.js';
 
 	export let data;
-	const { user, students, applications } = data;
+	const { user, applications } = data;
+
+	let filterYear: number | null = null;
+
+	$: currentStudents =
+		filterYear === null
+			? user.current_students
+			: user.current_students.filter((s) => s.latest_target_year === filterYear);
 </script>
 
 <h1>
@@ -11,17 +19,32 @@
 </h1>
 
 <PageSection>
-	<pre class="text-surface-400">{JSON.stringify(user, null, 2)}</pre>
-</PageSection>
+	<!-- TODO buttons for filtering by year -->
+	<h3 class="mb-4">Current students</h3>
 
-<PageSection>
-	<svelte:fragment slot="h2">Students</svelte:fragment>
-	<pre class="text-surface-400">{JSON.stringify(students, null, 2)}</pre>
+	<div class="flex flex-wrap gap-4 mb-4">
+		{#each currentStudents.sort(sortByRomanizedName) as student}
+			<StudentAnchorCard {student} />
+		{/each}
+		<StudentAnchorCard />
+	</div>
 
-	<button class="cf-primary" on:click={() => goto('../students/new/')}>Create a student</button>
+	<!-- TODO change to a button -->
+	<h3 class="mb-4 mt-8">Past students</h3>
+
+	<div class="flex flex-wrap gap-4">
+		{#each user.past_students.sort(sortByRomanizedName) as student}
+			<StudentAnchorCard {student} />
+		{/each}
+	</div>
 </PageSection>
 
 <PageSection>
 	<svelte:fragment slot="h2">Applications</svelte:fragment>
 	<pre class="text-surface-400">{JSON.stringify(applications, null, 2)}</pre>
+</PageSection>
+
+<PageSection>
+	<svelte:fragment slot="h2">Raw</svelte:fragment>
+	<pre class="text-surface-400">{JSON.stringify(user, null, 2)}</pre>
 </PageSection>

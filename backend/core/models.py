@@ -91,12 +91,29 @@ class Student(models.Model):
             return f"{self.first_name} {self.last_name}"
 
     @property
+    def current_contracts(self):
+        return self.contracts.filter(status=Contract.Status.EFFECTIVE)
+
+    @property
     def is_current(self) -> bool:
-        return self.contracts.filter(status=Contract.Status.EFFECTIVE).exists()
+        return self.current_contracts.exists()
 
     @property
     def services(self):
         return Service.objects.filter(contract__student=self)
+
+    @property
+    def latest_target_year(self):
+        if self.is_current:
+            return self.current_contracts.latest("target_year").target_year
+        else:
+            return self.contracts.latest("target_year").target_year
+
+    @property
+    def latest_contract_type(self):
+        latest_contracts = self.contracts.filter(target_year=self.latest_target_year)
+        latest_type = latest_contracts.values("type").last()
+        return latest_type["type"]
 
     @classmethod
     def filter(

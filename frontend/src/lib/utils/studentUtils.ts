@@ -21,3 +21,13 @@ export function formatResidence(student: { city: string; state: string }) {
 	}
 	return student.city || student.state;
 }
+
+export function sortByRomanizedName(
+	a: { last_name_romanized: string; first_name_romanized: string },
+	b: { last_name_romanized: string; first_name_romanized: string }
+) {
+	return (
+		a.last_name_romanized.localeCompare(b.last_name_romanized) ||
+		a.first_name_romanized.localeCompare(b.first_name_romanized)
+	);
+}
