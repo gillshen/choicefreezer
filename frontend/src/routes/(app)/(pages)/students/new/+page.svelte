@@ -4,10 +4,16 @@
 
 	import type { UserListItem } from '$lib/types/userTypes.js';
 	import PageSection from '$lib/components/PageSection.svelte';
-	import StudentFormFields from '$lib/components/StudentFormFields.svelte';
+	import StudentLegalNameFields from '$lib/components/StudentLegalNameFields.svelte';
+	import StudentRomanizedNameFields from '$lib/components/StudentRomanizedNameFields.svelte';
+	import StudentGenderField from '$lib/components/StudentGenderField.svelte';
+	import StudentCitizenshipField from '$lib/components/StudentCitizenshipField.svelte';
+	import StudentDobField from '$lib/components/StudentDobField.svelte';
+	import StudentResidenceFields from '$lib/components/StudentResidenceFields.svelte';
 	import ContractFormFields from '$lib/components/ContractFormFields.svelte';
 	import OptionList from '$lib/components/OptionList.svelte';
 	import FormSelect from '$lib/components/FormSelect.svelte';
+	import FormSubmit from '$lib/components/FormSubmit.svelte';
 
 	import {
 		filterForEssayAdvisors,
@@ -31,7 +37,27 @@
 	<!-- <SuperDebug data={$form} /> -->
 
 	<form method="post" novalidate use:enhance>
-		<StudentFormFields form={$form} errors={$errors} />
+		<fieldset>
+			<legend>Legal name</legend>
+			<StudentLegalNameFields form={$form} errors={$errors} />
+		</fieldset>
+
+		<fieldset>
+			<legend>Name in English/Pinyin</legend>
+			<StudentRomanizedNameFields form={$form} errors={$errors} />
+		</fieldset>
+
+		<fieldset>
+			<legend>Personal information</legend>
+			<StudentGenderField form={$form} errors={$errors} />
+			<StudentCitizenshipField form={$form} errors={$errors} />
+			<StudentDobField form={$form} errors={$errors} />
+		</fieldset>
+
+		<fieldset>
+			<legend>Residence</legend>
+			<StudentResidenceFields form={$form} errors={$errors} />
+		</fieldset>
 
 		<fieldset>
 			<legend>Contract</legend>
@@ -89,12 +115,6 @@
 			</FormSelect>
 		</fieldset>
 
-		<div class="form-actions flex gap-4">
-			<button type="submit" class="cf-primary">Save to database</button>
-		</div>
-
-		{#if $message}
-			<div class="my-4 text-error-500 max-w-sm">{$message}</div>
-		{/if}
+		<FormSubmit message={$message} />
 	</form>
 </PageSection>

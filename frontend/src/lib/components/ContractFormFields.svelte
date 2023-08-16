@@ -11,28 +11,16 @@
 	export let errors: any;
 </script>
 
-<FormSelect id="contract-type-select" name="contract_type" label="Type" {form} {errors}>
+<FormSelect id="contract-type-select" name="type" label="Type" {form} {errors}>
 	<OptionList options={Object.values(ContractType)} />
 </FormSelect>
 
-<FormSelect
-	id="target-year-select"
-	name="contract_target_year"
-	label="Target year of entry"
-	{form}
-	{errors}
->
+<FormSelect id="target-year-select" name="target_year" label="Target year of entry" {form} {errors}>
 	<OptionList options={getYearOptions()} />
 </FormSelect>
 
-<FormDateInput
-	id="contract-date-input"
-	name="contract_date_signed"
-	label="Date signed"
-	{form}
-	{errors}
-/>
+<FormDateInput id="contract-date-input" name="date_signed" label="Date signed" {form} {errors} />
 
-<FormSelect id="contract-status-select" name="contract_status" label="Status" {form} {errors}>
+<FormSelect id="contract-status-select" name="status" label="Status" {form} {errors}>
 	<OptionList options={Object.values(ContractStatus)} />
 </FormSelect>

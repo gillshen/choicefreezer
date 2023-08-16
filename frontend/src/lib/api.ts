@@ -13,6 +13,14 @@ async function post(url: string, data: any) {
 	});
 }
 
+async function patch(url: string, data: any) {
+	return await fetch(`${BASE}${url}`, {
+		method: 'PATCH',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(data)
+	});
+}
+
 export async function fetchUser(username: string) {
 	return await get(`cf/${username}/`);
 }
@@ -27,6 +35,10 @@ export async function createStudent(data: any) {
 
 export async function fetchStudent(id: number) {
 	return await get(`students/${id}/`);
+}
+
+export async function patchStudent(id: number, data: any) {
+	return await patch(`students/${id}/update/`, data);
 }
 
 export async function fetchStudents() {

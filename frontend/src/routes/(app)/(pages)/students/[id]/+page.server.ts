@@ -1,4 +1,8 @@
-import { error } from '@sveltejs/kit';
+import { z } from 'zod';
+import { message, superValidate } from 'sveltekit-superforms/server';
+import type { SuperValidated } from 'sveltekit-superforms/index.d.ts';
+import { error, fail } from '@sveltejs/kit';
+
 import {
 	fetchACT,
 	fetchAP,
@@ -11,11 +15,48 @@ import {
 	fetchStudent,
 	fetchLogsOfStudents,
 	fetchTOEFL,
-	fetchApplicationsOfStudent
+	fetchApplicationsOfStudent,
+	patchStudent
 } from '$lib/api';
 
-export async function load({ params }) {
-	const id = parseInt(params.id, 10);
+import {
+	contractValidators,
+	studentCitizenshipValidator,
+	studentCommentsValidator,
+	studentDateOfBirthValidator,
+	studentGenderValidator,
+	studentIdValidator,
+	studentLegalNameValidators,
+	studentResidenceValidators,
+	studentRomanizedNameValidators
+} from '$lib/validators.js';
+
+const studentLegalNameSchema = z.object({ ...studentIdValidator, ...studentLegalNameValidators });
+
+const studentRomanizedNameSchema = z.object({
+	...studentIdValidator,
+	...studentRomanizedNameValidators
+});
+
+const studentGenderSchema = z.object({ ...studentIdValidator, ...studentGenderValidator });
+
+const studentCitizenshipSchema = z.object({
+	...studentIdValidator,
+	...studentCitizenshipValidator
+});
+
+const studentDateOfBirthSchema = z.object({
+	...studentIdValidator,
+	...studentDateOfBirthValidator
+});
+
+const studentResidenceSchema = z.object({ ...studentIdValidator, ...studentResidenceValidators });
+const studentCommentsSchema = z.object({ ...studentIdValidator, ...studentCommentsValidator });
+
+const contractSchema = z.object(contractValidators);
+
+export async function load(event) {
+	const id = parseInt(event.params.id, 10);
 
 	if (isNaN(id)) {
 		throw error(404, 'Not found');
@@ -27,11 +68,34 @@ export async function load({ params }) {
 		throw error(404, 'Not found');
 	}
 
+	const legalNameForm = await superValidate(student, studentLegalNameSchema);
+	const romanizedNameForm = await superValidate(student, studentRomanizedNameSchema);
+	const genderForm = await superValidate(student, studentGenderSchema);
+	const citizenshipForm = await superValidate(student, studentCitizenshipSchema);
+	const dateOfBirthForm = await superValidate(student, studentDateOfBirthSchema);
+	const residenceForm = await superValidate(student, studentResidenceSchema);
+	const commentsForm = await superValidate(student, studentCommentsSchema);
+
+	const contractCreateForm = await superValidate(event, contractSchema);
+
 	return {
+		// profile
 		student,
+		legalNameForm,
+		romanizedNameForm,
+		genderForm,
+		citizenshipForm,
+		dateOfBirthForm,
+		residenceForm,
+		commentsForm,
+		// contracts
 		contracts: fetchContracts(id),
+		contractCreateForm,
+		// logs
 		logs: fetchLogsOfStudents(id),
+		// enrollments
 		enrollments: fetchEnrollments(id),
+		// test scores
 		toeflScores: fetchTOEFL(id),
 		ieltslScores: fetchIELTS(id),
 		detScores: fetchDET(id),
@@ -41,4 +105,63 @@ export async function load({ params }) {
 		greScores: fetchGRE(id),
 		applications: fetchApplicationsOfStudent(id)
 	};
+}
+
+export const actions = {
+	updateLegalName: async (event) => {
+		const form = await superValidate(event, studentLegalNameSchema);
+		return await performStudentPatch(form);
+	},
+
+	updateRomanizedName: async (event) => {
+		const form = await superValidate(event, studentRomanizedNameSchema);
+		return await performStudentPatch(form);
+	},
+
+	updateGender: async (event) => {
+		const form = await superValidate(event, studentGenderSchema);
+		return await performStudentPatch(form);
+	},
+
+	updateCitizenship: async (event) => {
+		const form = await superValidate(event, studentCitizenshipSchema);
+		return await performStudentPatch(form);
+	},
+
+	updateDateOfBirth: async (event) => {
+		const form = await superValidate(event, studentDateOfBirthSchema);
+		return await performStudentPatch(form);
+	},
+
+	updateResidence: async (event) => {
+		const form = await superValidate(event, studentResidenceSchema);
+		return await performStudentPatch(form);
+	},
+
+	updateComments: async (event) => {
+		const form = await superValidate(event, studentCommentsSchema);
+		return await performStudentPatch(form);
+	},
+
+	createContract: async (event) => {
+		const form = await superValidate(event, contractSchema);
+		console.log(form);
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+		// TODO
+		return { form };
+	}
+};
+
+async function performStudentPatch(form: SuperValidated<any, any>) {
+	if (!form.valid) {
+		return fail(400, { form });
+	}
+	const response = await patchStudent(form.data.id, form.data);
+	if (!response.ok) {
+		const messageText = 'Sorry, an unexpected error occurred. Please contact tech support.';
+		return message(form, messageText, { status: 400 });
+	}
+	return { form };
 }

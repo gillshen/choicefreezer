@@ -2,38 +2,15 @@ import { z } from 'zod';
 import { message, superValidate } from 'sveltekit-superforms/server';
 import { fail, redirect } from '@sveltejs/kit';
 
-import { MIN_YEAR, THIS_YEAR } from '$lib/utils/dateUtils.js';
+import { studentValidators, selectionErrorMessage, contractValidators } from '$lib/validators.js';
 import { createContract, createService, createStudent } from '$lib/api.js';
-
-const fieldErrorMessage = { message: 'This field is required' };
-const selectionErrorMessage = { message: 'Select an option' };
 
 const newStudentSchema = z.object({
 	// Student fields
-	last_name: z.string().trim().min(1, fieldErrorMessage),
-	first_name: z.string().trim().min(1, fieldErrorMessage),
-	name_in_chinese: z.boolean().default(true),
-
-	last_name_romanized: z.string().trim().min(1, fieldErrorMessage),
-	first_name_romanized: z.string().trim().min(1, fieldErrorMessage),
-
-	gender: z.string().min(1, selectionErrorMessage),
-	citizenship: z.string().min(1).default('China'),
-	date_of_birth: z.string().nullable(),
-
-	city: z.string().trim().default('').optional(),
-	state: z.string().trim().default('').optional(),
+	...studentValidators,
 
 	// Contract fields
-	contract_type: z.string().min(1, selectionErrorMessage),
-
-	contract_target_year: z
-		.number()
-		.gte(MIN_YEAR, selectionErrorMessage)
-		.default(THIS_YEAR + 1),
-
-	contract_date_signed: z.string().nullable(),
-	contract_status: z.string().min(1, selectionErrorMessage),
+	...contractValidators,
 
 	// Service fields
 	cf_planner: z.number().positive(selectionErrorMessage),
@@ -52,7 +29,7 @@ export async function load(event) {
 export const actions = {
 	default: async (event) => {
 		const form = await superValidate(event, newStudentSchema);
-		console.log(form);
+		// console.log(form);
 
 		if (!form.valid) {
 			return fail(400, { form });
@@ -78,10 +55,7 @@ export const actions = {
 			// Create the related contract and services
 			const createContractResponse = await createContract({
 				student: newStudent.id,
-				type: form.data.contract_type,
-				target_year: form.data.contract_target_year,
-				date_signed: form.data.contract_date_signed,
-				status: form.data.contract_status
+				...form.data
 			});
 			const newContract = await createContractResponse.json();
 
@@ -89,7 +63,7 @@ export const actions = {
 				contract: newContract.id,
 				cf_person: form.data.cf_planner,
 				role: '顾问',
-				start_date: form.data.contract_date_signed
+				start_date: form.data.date_signed
 			});
 
 			if (form.data.cf_asst_planner) {
@@ -97,7 +71,7 @@ export const actions = {
 					contract: newContract.id,
 					cf_person: form.data.cf_asst_planner,
 					role: '服务顾问',
-					start_date: form.data.contract_date_signed
+					start_date: form.data.date_signed
 				});
 			}
 
@@ -106,7 +80,7 @@ export const actions = {
 					contract: newContract.id,
 					cf_person: form.data.cf_strat_planner,
 					role: '战略顾问',
-					start_date: form.data.contract_date_signed
+					start_date: form.data.date_signed
 				});
 			}
 
@@ -114,7 +88,7 @@ export const actions = {
 				contract: newContract.id,
 				cf_person: form.data.cf_essay_advisor_1,
 				role: '文案',
-				start_date: form.data.contract_date_signed
+				start_date: form.data.date_signed
 			});
 
 			if (form.data.cf_essay_advisor_2) {
@@ -122,7 +96,7 @@ export const actions = {
 					contract: newContract.id,
 					cf_person: form.data.cf_essay_advisor_2,
 					role: '文案',
-					start_date: form.data.contract_date_signed
+					start_date: form.data.date_signed
 				});
 			}
 		} catch (error) {
