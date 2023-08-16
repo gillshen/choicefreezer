@@ -16,7 +16,8 @@ import {
 	fetchLogsOfStudents,
 	fetchTOEFL,
 	fetchApplicationsOfStudent,
-	patchStudent
+	patchStudent,
+	performCreateContract
 } from '$lib/api';
 
 import {
@@ -25,35 +26,35 @@ import {
 	studentCommentsValidator,
 	studentDateOfBirthValidator,
 	studentGenderValidator,
-	studentIdValidator,
+	idValidator,
 	studentLegalNameValidators,
 	studentResidenceValidators,
 	studentRomanizedNameValidators
 } from '$lib/validators.js';
 
-const studentLegalNameSchema = z.object({ ...studentIdValidator, ...studentLegalNameValidators });
+const studentLegalNameSchema = z.object({ ...idValidator, ...studentLegalNameValidators });
 
 const studentRomanizedNameSchema = z.object({
-	...studentIdValidator,
+	...idValidator,
 	...studentRomanizedNameValidators
 });
 
-const studentGenderSchema = z.object({ ...studentIdValidator, ...studentGenderValidator });
+const studentGenderSchema = z.object({ ...idValidator, ...studentGenderValidator });
 
 const studentCitizenshipSchema = z.object({
-	...studentIdValidator,
+	...idValidator,
 	...studentCitizenshipValidator
 });
 
 const studentDateOfBirthSchema = z.object({
-	...studentIdValidator,
+	...idValidator,
 	...studentDateOfBirthValidator
 });
 
-const studentResidenceSchema = z.object({ ...studentIdValidator, ...studentResidenceValidators });
-const studentCommentsSchema = z.object({ ...studentIdValidator, ...studentCommentsValidator });
+const studentResidenceSchema = z.object({ ...idValidator, ...studentResidenceValidators });
+const studentCommentsSchema = z.object({ ...idValidator, ...studentCommentsValidator });
 
-const contractSchema = z.object(contractValidators);
+const contractSchema = z.object({ studentId: idValidator.id, ...contractValidators });
 
 export async function load(event) {
 	const id = parseInt(event.params.id, 10);
@@ -149,7 +150,13 @@ export const actions = {
 		if (!form.valid) {
 			return fail(400, { form });
 		}
-		// TODO
+		try {
+			await performCreateContract({ studentId: form.data.studentId, formData: form.data });
+		} catch (error) {
+			console.log(error);
+			const messageText = 'Sorry, an unexpected error occurred. Please contact tech support.';
+			return message(form, messageText, { status: 400 });
+		}
 		return { form };
 	}
 };

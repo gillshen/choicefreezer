@@ -1,24 +1,24 @@
 import { z } from 'zod';
-import { MIN_YEAR, THIS_YEAR } from './utils/dateUtils';
+import { THIS_YEAR } from './utils/dateUtils';
 
-export const fieldErrorMessage = { message: 'This field is required' };
-export const selectionErrorMessage = { message: 'Select an option' };
+export const fieldRequired = { message: 'This field is required' };
+export const selectionRequired = { message: 'Select an option' };
 
 // The id field is never directly exposed to user
-export const studentIdValidator = { id: z.number() };
+export const idValidator = { id: z.number().positive() };
 
 export const studentLegalNameValidators = {
-	last_name: z.string().trim().min(1, fieldErrorMessage),
-	first_name: z.string().trim().min(1, fieldErrorMessage),
+	last_name: z.string().trim().min(1, fieldRequired),
+	first_name: z.string().trim().min(1, fieldRequired),
 	name_in_chinese: z.boolean().default(true)
 };
 
 export const studentRomanizedNameValidators = {
-	last_name_romanized: z.string().trim().min(1, fieldErrorMessage),
-	first_name_romanized: z.string().trim().min(1, fieldErrorMessage)
+	last_name_romanized: z.string().trim().min(1, fieldRequired),
+	first_name_romanized: z.string().trim().min(1, fieldRequired)
 };
 
-export const studentGenderValidator = { gender: z.string().min(1, selectionErrorMessage) };
+export const studentGenderValidator = { gender: z.string().min(1, selectionRequired) };
 
 export const studentCitizenshipValidator = { citizenship: z.string().min(1).default('China') };
 
@@ -41,14 +41,19 @@ export const studentValidators = {
 	...studentCommentsValidator
 };
 
+const nextYear = THIS_YEAR + 1;
+
 export const contractValidators = {
-	type: z.string().min(1, selectionErrorMessage),
-
-	target_year: z
-		.number()
-		.gte(MIN_YEAR, selectionErrorMessage)
-		.default(THIS_YEAR + 1),
-
+	type: z.string().min(1, selectionRequired),
+	target_year: z.number().positive(selectionRequired).default(nextYear),
 	date_signed: z.string().nullable(),
-	status: z.string().min(1, selectionErrorMessage)
+	status: z.string().min(1, selectionRequired),
+
+	// Service fields
+	cf_planner: z.number().positive(selectionRequired),
+	cf_asst_planner: z.number().nullable(),
+	cf_strat_planner: z.number().nullable(),
+
+	cf_essay_advisor_1: z.number().positive(selectionRequired),
+	cf_essay_advisor_2: z.number().nullable()
 };

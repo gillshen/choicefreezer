@@ -156,3 +156,43 @@ export async function fetchAP(studentId: number) {
 export async function fetchGRE(studentId: number) {
 	return await get(`s.gre/?student=${studentId}`);
 }
+
+export async function performCreateContract(params: {
+	studentId: number;
+	formData: {
+		type: string;
+		target_year: number;
+		date_signed: string | null;
+		status: string;
+		cf_planner: number;
+		cf_asst_planner: number | null;
+		cf_strat_planner: number | null;
+		cf_essay_advisor_1: number;
+		cf_essay_advisor_2: number | null;
+	};
+}) {
+	const { studentId, formData } = params;
+	const createContractResponse = await createContract({ student: studentId, ...formData });
+	const newContract = await createContractResponse.json();
+
+	const shared = {
+		contract: newContract.id,
+		start_date: formData.date_signed
+	};
+
+	await createService({ cf_person: formData.cf_planner, role: '顾问', ...shared });
+
+	if (formData.cf_asst_planner) {
+		await createService({ cf_person: formData.cf_asst_planner, role: '服务顾问', ...shared });
+	}
+
+	if (formData.cf_strat_planner) {
+		await createService({ cf_person: formData.cf_strat_planner, role: '战略顾问', ...shared });
+	}
+
+	await createService({ cf_person: formData.cf_essay_advisor_1, role: '文案', ...shared });
+
+	if (formData.cf_essay_advisor_2) {
+		await createService({ cf_person: formData.cf_essay_advisor_2, role: '文案', ...shared });
+	}
+}

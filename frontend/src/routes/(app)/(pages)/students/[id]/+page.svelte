@@ -4,7 +4,7 @@
 
 	import PageSection from '$lib/components/PageSection.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
-	import StudentIdField from '$lib/components/StudentIdField.svelte';
+	import HiddenIdField from '$lib/components/HiddenIdField.svelte';
 	import StudentLegalNameFields from '$lib/components/StudentLegalNameFields.svelte';
 	import StudentRomanizedNameFields from '$lib/components/StudentRomanizedNameFields.svelte';
 	import StudentGenderField from '$lib/components/StudentGenderField.svelte';
@@ -13,6 +13,7 @@
 	import StudentResidenceFields from '$lib/components/StudentResidenceFields.svelte';
 	import StudentCommentsField from '$lib/components/StudentCommentsField.svelte';
 	import ContractFormFields from '$lib/components/ContractFormFields.svelte';
+	import ServiceFormFields from '$lib/components/ServiceFormFields.svelte';
 	import FormSubmit from '$lib/components/FormSubmit.svelte';
 
 	import {
@@ -21,8 +22,16 @@
 		formatResidence
 	} from '$lib/utils/studentUtils.js';
 
+	import {
+		filterForEssayAdvisors,
+		filterForPlanners,
+		filterForSpecial,
+		sortByUsername
+	} from '$lib/utils/userUtils.js';
+
 	export let data;
 	const {
+		cfPeople,
 		student,
 		contracts,
 		logs,
@@ -37,6 +46,10 @@
 		applications
 	} = data;
 
+	const planners = sortByUsername(filterForPlanners(cfPeople));
+	const essayAdvisors = sortByUsername(filterForEssayAdvisors(cfPeople));
+	const specialPeople = sortByUsername(filterForSpecial(cfPeople));
+
 	const userCanEdit = true;
 
 	// Modals
@@ -50,6 +63,21 @@
 	let commentsDialog: HTMLDialogElement;
 	let contractCreateDialog: HTMLDialogElement;
 
+	function closeAndReloadOnSuccess(dialog: HTMLDialogElement | undefined) {
+		return ({ result }: any) => {
+			if (result.type === 'success') {
+				dialog?.close();
+				/*
+				 * Calling location.reload() immediately will cause a blank page
+				 * with "200" and "Internal error" to be shown briefly before the
+				 * normal page loads -- possibly because the immediate reload
+				 * breaks something superform is doing. So wait for half a second.
+				 */
+				setTimeout(() => location.reload(), 500);
+			}
+		};
+	}
+
 	// Forms
 
 	const {
@@ -59,7 +87,7 @@
 		enhance: legalNameEnhance
 	} = superForm(data.legalNameForm, {
 		scrollToError: 'auto',
-		onUpdated: () => location.reload()
+		onResult: closeAndReloadOnSuccess(legalNameDialog!)
 	});
 
 	const {
@@ -69,7 +97,7 @@
 		enhance: romanizedNameEnhance
 	} = superForm(data.romanizedNameForm, {
 		scrollToError: 'auto',
-		onUpdated: () => location.reload()
+		onResult: closeAndReloadOnSuccess(romanizedNameDialog!)
 	});
 
 	const {
@@ -79,7 +107,7 @@
 		enhance: genderEnhance
 	} = superForm(data.genderForm, {
 		scrollToError: 'auto',
-		onUpdated: () => location.reload()
+		onResult: closeAndReloadOnSuccess(genderDialog!)
 	});
 
 	const {
@@ -89,7 +117,7 @@
 		enhance: citizenshipEnhance
 	} = superForm(data.citizenshipForm, {
 		scrollToError: 'auto',
-		onUpdated: () => location.reload()
+		onResult: closeAndReloadOnSuccess(citizenshipDialog!)
 	});
 
 	const {
@@ -99,7 +127,7 @@
 		enhance: dateOfBirthEnhance
 	} = superForm(data.dateOfBirthForm, {
 		scrollToError: 'auto',
-		onUpdated: () => location.reload()
+		onResult: closeAndReloadOnSuccess(dateOfBirthDialog!)
 	});
 
 	const {
@@ -109,7 +137,7 @@
 		enhance: residenceEnhance
 	} = superForm(data.residenceForm, {
 		scrollToError: 'auto',
-		onUpdated: () => location.reload()
+		onResult: closeAndReloadOnSuccess(residenceDialog!)
 	});
 
 	const {
@@ -119,7 +147,7 @@
 		enhance: commentsEnhance
 	} = superForm(data.commentsForm, {
 		scrollToError: 'auto',
-		onUpdated: () => location.reload()
+		onResult: closeAndReloadOnSuccess(commentsDialog!)
 	});
 
 	const {
@@ -129,7 +157,7 @@
 		enhance: contractCreateEnhance
 	} = superForm(data.contractCreateForm, {
 		scrollToError: 'auto',
-		onUpdated: () => location.reload()
+		onResult: closeAndReloadOnSuccess(contractCreateDialog!)
 	});
 </script>
 
@@ -141,14 +169,14 @@
 		<div class="value">
 			{formatStudentName(student)}
 			{#if userCanEdit}
-				<button on:click={() => legalNameDialog.showModal()}>Edit</button>
+				<button on:click={() => legalNameDialog.showModal()}>Update</button>
 			{/if}
 		</div>
 
 		<div class="value">
 			{formatStudentRomanizedName(student)}
 			{#if userCanEdit}
-				<button on:click={() => romanizedNameDialog.showModal()}>Edit</button>
+				<button on:click={() => romanizedNameDialog.showModal()}>Update</button>
 			{/if}
 		</div>
 
@@ -156,7 +184,7 @@
 		<div class="value">
 			{student.gender}
 			{#if userCanEdit}
-				<button on:click={() => genderDialog.showModal()}>Edit</button>
+				<button on:click={() => genderDialog.showModal()}>Update</button>
 			{/if}
 		</div>
 
@@ -164,7 +192,7 @@
 		<div class="value">
 			{student.citizenship}
 			{#if userCanEdit}
-				<button on:click={() => citizenshipDialog.showModal()}>Edit</button>
+				<button on:click={() => citizenshipDialog.showModal()}>Update</button>
 			{/if}
 		</div>
 
@@ -172,7 +200,7 @@
 		<div class="value">
 			{student.date_of_birth ?? ''}
 			{#if userCanEdit}
-				<button on:click={() => dateOfBirthDialog.showModal()}>Edit</button>
+				<button on:click={() => dateOfBirthDialog.showModal()}>Update</button>
 			{/if}
 		</div>
 
@@ -180,7 +208,7 @@
 		<div class="value">
 			{formatResidence(student)}
 			{#if userCanEdit}
-				<button on:click={() => residenceDialog.showModal()}>Edit</button>
+				<button on:click={() => residenceDialog.showModal()}>Update</button>
 			{/if}
 		</div>
 
@@ -188,7 +216,7 @@
 		<div class="value">
 			{student.comments}
 			{#if userCanEdit}
-				<button on:click={() => commentsDialog.showModal()}>Edit</button>
+				<button on:click={() => commentsDialog.showModal()}>Update</button>
 			{/if}
 		</div>
 	</div>
@@ -272,7 +300,7 @@
 	<form method="post" action="?/updateLegalName" novalidate use:legalNameEnhance>
 		<fieldset>
 			<legend class="empty" />
-			<StudentIdField form={$legalNameForm} errors={$legalNameErrors} />
+			<HiddenIdField value={student.id} />
 			<StudentLegalNameFields form={$legalNameForm} errors={$legalNameErrors} />
 		</fieldset>
 		<FormSubmit message={$legalNameMessage} />
@@ -284,7 +312,7 @@
 	<form method="post" action="?/updateRomanizedName" novalidate use:romanizedNameEnhance>
 		<fieldset>
 			<legend class="empty" />
-			<StudentIdField form={$romanizedNameForm} errors={$romanizedNameErrors} />
+			<HiddenIdField value={student.id} />
 			<StudentRomanizedNameFields form={$romanizedNameForm} errors={$romanizedNameErrors} />
 		</fieldset>
 		<FormSubmit message={$romanizedNameMessage} />
@@ -296,7 +324,7 @@
 	<form method="post" action="?/updateGender" novalidate use:genderEnhance>
 		<fieldset>
 			<legend class="empty" />
-			<StudentIdField form={$genderForm} errors={$genderErrors} />
+			<HiddenIdField value={student.id} />
 			<StudentGenderField form={$genderForm} errors={$genderErrors} />
 		</fieldset>
 		<FormSubmit message={$genderMessage} />
@@ -308,7 +336,7 @@
 	<form method="post" action="?/updateCitizenship" novalidate use:citizenshipEnhance>
 		<fieldset>
 			<legend class="empty" />
-			<StudentIdField form={$citizenshipForm} errors={$citizenshipErrors} />
+			<HiddenIdField value={student.id} />
 			<StudentCitizenshipField form={$citizenshipForm} errors={$citizenshipErrors} />
 		</fieldset>
 		<FormSubmit message={$citizenshipMessage} />
@@ -320,7 +348,7 @@
 	<form method="post" action="?/updateDateOfBirth" novalidate use:dateOfBirthEnhance>
 		<fieldset>
 			<legend class="empty" />
-			<StudentIdField form={$dateOfBirthForm} errors={$dateOfBirthErrors} />
+			<HiddenIdField value={student.id} />
 			<StudentDobField form={$dateOfBirthForm} errors={$dateOfBirthErrors} />
 		</fieldset>
 		<FormSubmit message={$dateOfBirthMessage} />
@@ -332,7 +360,7 @@
 	<form method="post" action="?/updateResidence" novalidate use:residenceEnhance>
 		<fieldset>
 			<legend class="empty" />
-			<StudentIdField form={$residenceForm} errors={$residenceErrors} />
+			<HiddenIdField value={student.id} />
 			<StudentResidenceFields form={$residenceForm} errors={$residenceErrors} />
 		</fieldset>
 		<FormSubmit message={$residenceMessage} />
@@ -344,7 +372,7 @@
 	<form method="post" action="?/updateComments" novalidate use:commentsEnhance>
 		<fieldset>
 			<legend class="empty" />
-			<StudentIdField form={$commentsForm} errors={$commentsErrors} />
+			<HiddenIdField value={student.id} />
 			<StudentCommentsField form={$commentsForm} errors={$commentsErrors} />
 		</fieldset>
 		<FormSubmit message={$commentsMessage} />
@@ -354,9 +382,22 @@
 <Dialog title="Create a contract" exitHelper bind:dialog={contractCreateDialog}>
 	<!-- <SuperDebug data={$contractCreateForm} /> -->
 	<form method="post" action="?/createContract" novalidate use:contractCreateEnhance>
+		<HiddenIdField value={student.id} name="studentId" />
+
 		<fieldset>
-			<legend class="empty" />
+			<legend>Contract</legend>
 			<ContractFormFields form={$contractCreateForm} errors={$contractCreateErrors} />
+		</fieldset>
+
+		<fieldset>
+			<legend>People involved</legend>
+			<ServiceFormFields
+				form={$contractCreateForm}
+				errors={$contractCreateErrors}
+				{planners}
+				{essayAdvisors}
+				{specialPeople}
+			/>
 		</fieldset>
 		<FormSubmit message={$contractCreateMessae} />
 	</form>

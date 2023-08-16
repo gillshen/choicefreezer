@@ -11,8 +11,7 @@
 	import StudentDobField from '$lib/components/StudentDobField.svelte';
 	import StudentResidenceFields from '$lib/components/StudentResidenceFields.svelte';
 	import ContractFormFields from '$lib/components/ContractFormFields.svelte';
-	import OptionList from '$lib/components/OptionList.svelte';
-	import FormSelect from '$lib/components/FormSelect.svelte';
+	import ServiceFormFields from '$lib/components/ServiceFormFields.svelte';
 	import FormSubmit from '$lib/components/FormSubmit.svelte';
 
 	import {
@@ -65,54 +64,8 @@
 		</fieldset>
 
 		<fieldset>
-			<legend>Services</legend>
-
-			<FormSelect id="planner-select" name="cf_planner" label="顾问" form={$form} errors={$errors}>
-				<OptionList options={planners} valueField="id" textField="username" />
-			</FormSelect>
-
-			<FormSelect
-				id="asst-planner-select"
-				name="cf_asst_planner"
-				label="服务顾问"
-				form={$form}
-				errors={$errors}
-				optional
-			>
-				<OptionList options={planners} valueField="id" textField="username" insertNullRow />
-			</FormSelect>
-
-			<FormSelect
-				id="strat-planner-select"
-				name="cf_strat_planner"
-				label="战略顾问"
-				form={$form}
-				errors={$errors}
-				optional
-			>
-				<OptionList options={specialPeople} valueField="id" textField="username" insertNullRow />
-			</FormSelect>
-
-			<FormSelect
-				id="essay-advisor-1-select"
-				name="cf_essay_advisor_1"
-				label="文案1"
-				form={$form}
-				errors={$errors}
-			>
-				<OptionList options={essayAdvisors} valueField="id" textField="username" />
-			</FormSelect>
-
-			<FormSelect
-				id="essay-advisor-2-select"
-				name="cf_essay_advisor_2"
-				label="文案2"
-				form={$form}
-				errors={$errors}
-				optional
-			>
-				<OptionList options={essayAdvisors} valueField="id" textField="username" insertNullRow />
-			</FormSelect>
+			<legend>People involved</legend>
+			<ServiceFormFields form={$form} errors={$errors} {planners} {essayAdvisors} {specialPeople} />
 		</fieldset>
 
 		<FormSubmit message={$message} />

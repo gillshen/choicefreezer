@@ -5,11 +5,11 @@ export function sortByUsername(users: UserListItem[]) {
 }
 
 export function filterForPlanners(users: UserListItem[]) {
-	return users.filter((user) => user.department.startsWith('顾问'));
+	return users.filter((user) => user.department.includes('顾问'));
 }
 
 export function filterForEssayAdvisors(users: UserListItem[]) {
-	return users.filter((user) => user.department.startsWith('文案'));
+	return users.filter((user) => user.department.includes('文案'));
 }
 
 export function filterForSpecial(users: UserListItem[]) {
