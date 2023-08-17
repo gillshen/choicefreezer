@@ -22,6 +22,7 @@
 		filterForSpecial,
 		sortByUsername
 	} from '$lib/utils/userUtils.js';
+	import ContractCard from '$lib/components/ContractCard.svelte';
 
 	export let data;
 	const {
@@ -62,55 +63,55 @@
 
 <PageSection>
 	<div class="student-profile-grid">
-		<div class="key row-span-2">Name</div>
-		<div class="value">
+		<div class="cf-key row-span-2">Name</div>
+		<div class="cf-value">
 			{formatStudentName(student)}
 			{#if userCanEdit}
 				<button on:click={() => legalNameDialog.showModal()}>Update</button>
 			{/if}
 		</div>
 
-		<div class="value">
+		<div class="cf-value">
 			{formatStudentRomanizedName(student)}
 			{#if userCanEdit}
 				<button on:click={() => romanizedNameDialog.showModal()}>Update</button>
 			{/if}
 		</div>
 
-		<div class="key">Gender</div>
-		<div class="value">
+		<div class="cf-key">Gender</div>
+		<div class="cf-value">
 			{student.gender}
 			{#if userCanEdit}
 				<button on:click={() => genderDialog.showModal()}>Update</button>
 			{/if}
 		</div>
 
-		<div class="key">Citizen of</div>
-		<div class="value">
+		<div class="cf-key">Citizen of</div>
+		<div class="cf-value">
 			{student.citizenship}
 			{#if userCanEdit}
 				<button on:click={() => citizenshipDialog.showModal()}>Update</button>
 			{/if}
 		</div>
 
-		<div class="key">Born</div>
-		<div class="value">
+		<div class="cf-key">Born</div>
+		<div class="cf-value">
 			{student.date_of_birth ?? ''}
 			{#if userCanEdit}
 				<button on:click={() => dateOfBirthDialog.showModal()}>Update</button>
 			{/if}
 		</div>
 
-		<div class="key">Based in</div>
-		<div class="value">
+		<div class="cf-key">Based in</div>
+		<div class="cf-value">
 			{formatResidence(student)}
 			{#if userCanEdit}
 				<button on:click={() => residenceDialog.showModal()}>Update</button>
 			{/if}
 		</div>
 
-		<div class="key">Comments</div>
-		<div class="value">
+		<div class="cf-key">Comments</div>
+		<div class="cf-value">
 			{student.comments}
 			{#if userCanEdit}
 				<button on:click={() => commentsDialog.showModal()}>Update</button>
@@ -120,12 +121,30 @@
 </PageSection>
 
 <PageSection>
-	<svelte:fragment slot="h2">Contracts</svelte:fragment>
-	<pre class="text-surface-400">{JSON.stringify(contracts, null, 2)}</pre>
+	<svelte:fragment slot="h2">{contracts.length > 1 ? 'Contracts' : 'Contract'}</svelte:fragment>
 
-	<button class="cf-secondary" on:click={() => contractCreateDialog.showModal()}
+	<div class="flex flex-wrap gap-4">
+		{#each contracts as contract}
+			<ContractCard {contract}>
+				{#if userCanEdit}
+					<!-- TODO turn the edit button into a link -->
+					<button class="text-primary-600 hover:text-primary-500">Edit</button>
+					<button class="text-error-600 hover:text-error-500">Delete</button>
+				{/if}
+			</ContractCard>
+		{/each}
+	</div>
+
+	<button class="cf-secondary my-8" on:click={() => contractCreateDialog.showModal()}
 		>Create a contract</button
 	>
+</PageSection>
+
+<PageSection>
+	<svelte:fragment slot="h2">Applications</svelte:fragment>
+	<pre class="text-surface-400">{JSON.stringify(applications, null, 2)}</pre>
+
+	<button class="cf-primary">Add an application</button>
 </PageSection>
 
 <PageSection>
@@ -181,13 +200,6 @@
 	{/if}
 
 	<button class="cf-secondary">Add a test</button>
-</PageSection>
-
-<PageSection>
-	<svelte:fragment slot="h2">Applications</svelte:fragment>
-	<pre class="text-surface-400">{JSON.stringify(applications, null, 2)}</pre>
-
-	<button class="cf-primary">Add an application</button>
 </PageSection>
 
 <!-- Dialogs -->
@@ -274,18 +286,18 @@
 		row-gap: 1rem;
 		column-gap: 2rem;
 	}
-	.student-profile-grid .key {
-		@apply text-surface-400;
-	}
-	.student-profile-grid .value {
+	.student-profile-grid .cf-value {
 		@apply flex flex-wrap gap-4 w-full;
 	}
-	.student-profile-grid .value button {
-		@apply text-primary-500;
+	.student-profile-grid .cf-value button {
 		opacity: 0;
 		transition: opacity 0.5s;
+		@apply text-primary-600;
 	}
-	.student-profile-grid .value:hover button {
+	.student-profile-grid .cf-value:hover button {
 		opacity: 1;
+	}
+	.student-profile-grid .cf-value:hover button:hover {
+		@apply text-primary-500;
 	}
 </style>

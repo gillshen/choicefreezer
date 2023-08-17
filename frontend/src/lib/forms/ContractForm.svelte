@@ -35,7 +35,7 @@
 	</fieldset>
 
 	<fieldset>
-		<legend>People involved</legend>
+		<legend>CF people</legend>
 		<ServiceFormFields form={$form} errors={$errors} {planners} {essayAdvisors} {specialPeople} />
 	</fieldset>
 	<FormSubmit message={$message} />

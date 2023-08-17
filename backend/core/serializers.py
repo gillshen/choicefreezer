@@ -49,6 +49,14 @@ class ApplicationLogSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class ServiceListItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Service
+        fields = "__all__"
+
+    cf_username = serializers.CharField()
+
+
 class StudentListItemSerializer(serializers.ModelSerializer):
     """
     Fields:
@@ -97,15 +105,7 @@ class StudentListItemSerializer(serializers.ModelSerializer):
 
     name = serializers.CharField()
     contracts = ContractSerializer(many=True)
-
-    class _ServiceSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = Service
-            fields = "__all__"
-
-        cf_username = serializers.CharField()
-
-    services = _ServiceSerializer(many=True)
+    services = ServiceListItemSerializer(many=True)
 
 
 class ContractListItemSerializer(serializers.ModelSerializer):
@@ -113,7 +113,7 @@ class ContractListItemSerializer(serializers.ModelSerializer):
         model = Contract
         fields = "__all__"
 
-    services = ServiceSerializer(many=True)
+    services = ServiceListItemSerializer(many=True)
 
 
 class ApplicationListItemSerializer(serializers.ModelSerializer):
