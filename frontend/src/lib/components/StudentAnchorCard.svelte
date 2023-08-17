@@ -8,8 +8,7 @@
 	<a href={`../students/${student.id}/`} class="student-anchor card">
 		<header class="card-header px-6 pt-4 pb-2 text-sm">
 			<!-- TODO colored chip -->
-			{student.latest_target_year}
-			{student.latest_contract_type.slice(0, 4)}
+			{student.latest_contract_type}
 		</header>
 		<section class="flex-grow px-6 pt-2 pb-8 text-lg flex items-center font-bold">
 			{student.name}
@@ -24,9 +23,11 @@
 {/if}
 
 <style lang="postcss">
-	.student-anchor,
-	.student-anchor div {
-		@apply w-[12rem] flex flex-col card-hover rounded-sm min-h-[4rem];
+	.student-anchor.card,
+	.student-anchor.card div {
+		@apply w-[12rem] min-h-[4rem] max-h-fit;
+		@apply flex flex-col;
+		@apply card-hover rounded-sm;
 	}
 	.student-anchor:hover {
 		@apply bg-primary-500 text-black;
