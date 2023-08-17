@@ -89,3 +89,296 @@ form div.error-message {
 .cf-key {
 	@apply text-surface-400;
 }
+
+/* Data grid styles */
+.data-grid {
+	/* TODO adjust height */
+	height: 70vh;
+	width: 100%;
+	overflow: scroll;
+}
+.data-grid a {
+	@apply text-secondary-200 hover:text-surface-50;
+}
+
+/* Overriding Ag-Grid defaults */
+:root {
+	--cf-theme-primary-500: #7ddc14;
+	--cf-theme-surface-900: #2d2d2d;
+}
+.ag-theme-alpine-dark {
+	--ag-font-family: 'Fira Sans', Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+		'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Noto Sans SC', sans-serif,
+		'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+	/* --ag-font-size */
+
+	/* The icon font used by the grid. */
+	/* --ag-icon-font-family */
+
+	--ag-alpine-active-color: var(--cf-theme-primary-500);
+
+	/* Colour of text and icons in primary UI elements like menus */
+	--ag-foreground-color: #e7e7e7;
+
+	/* Background colour of the grid */
+	--ag-background-color: var(--cf-theme-surface-900);
+
+	/* Colour of text and icons in UI elements that need to be slightly 
+	 * less emphasised to avoid distracting attention from data */
+	--ag-secondary-foreground-color: #454545;
+
+	/* Colour of text in grid cells */
+	--ag-data-color: #e7e7e7;
+
+	/* Colour of text and icons in the header */
+	--ag-header-foreground-color: var(--cf-theme-surface-900);
+
+	/* Background colour for all headers, including the grid header, panels etc */
+	--ag-header-background-color: var(--cf-theme-primary-500);
+
+	/* Background colour for all tooltips */
+	/* --ag-tooltip-background-color */
+
+	/* Color of elements that can't be interacted with because they are disabled */
+	/* --ag-disabled-foreground-color */
+
+	/* # Subheader styles */
+	/* --ag-subheader-background-color */
+	/* --ag-subheader-toolbar-background-color */
+
+	/* Background for areas of the interface that contain UI controls, like 
+	 * tool panels and the chart settings menu */
+	--ag-control-panel-background-color: var(--cf-theme-surface-900);
+
+	/* Background for the active tab on the side of the control panel */
+	/* --ag-side-button-selected-background-color */
+
+	/* Background color of selected rows in the grid and in dropdown menus */
+	/* --ag-selected-row-background-color */
+
+	/* Background colour applied to every other row */
+	--ag-odd-row-background-color: #373737;
+
+	/* Background color of the overlay shown over the grid e.g. a data loading indicator */
+	/* --ag-modal-overlay-background-color */
+
+	/* Background color when hovering over rows in the grid and in dropdown menus.
+	 * Set to transparent to disable the hover effect. */
+	--ag-row-hover-color: #3d6c0a;
+
+	/* Background color when hovering over columns in the grid */
+	/* --ag-column-hover-color */
+
+	/* # Selection styles */
+	/* --ag-range-selection-border-color */
+	/* --ag-range-selection-border-style */
+	/* --ag-range-selection-background-color */
+	/* --ag-range-selection-background-color-2 */
+	/* --ag-range-selection-background-color-3 */
+	/* --ag-range-selection-background-color-4 */
+	/* --ag-range-selection-highlight-color */
+
+	/* # Tabs styles */
+	/* --ag-selected-tab-underline-color */
+	/* --ag-selected-tab-underline-width */
+	/* --ag-selected-tab-underline-transition-speed */
+
+	/* # Range selection chart styles */
+	/* --ag-range-selection-chart-category-background-color */
+	/* --ag-range-selection-chart-background-color */
+
+	/* Rollover colour for header cells. If you set this variable and have enabled
+	 * column reordering by dragging, you may want to set
+	 * `--ag-header-cell-moving-background-color` to ensure that the rollover colour
+	 * remains in place during dragging. */
+	--ag-header-cell-hover-background-color: #a4e75b;
+
+	/* Colour applied to header cells when the column is being dragged to a new position */
+	--ag-header-cell-moving-background-color: #a4e75b;
+
+	/* # Value change styles */
+	/* --ag-value-change-value-highlight-background-color */
+	/* --ag-value-change-delta-up-color */
+	/* --ag-value-change-delta-down-color */
+
+	/* Colour for the 'chip' that represents a column that has been dragged 
+	 * onto a drop zone */
+	--ag-chip-background-color: #a4e75b;
+
+	/* Enable or disable borders around most UI elements in the grid. 
+	 * Set this to a border style and thickness, e.g. `solid 1px` to enable borders, 
+	 * or none to disable borders. Use the other `--ag-borders-*` variables for 
+	 * more fine grained control over which UI elements get borders. */
+	--ag-borders: thin solid;
+
+	/* Colour for border around major UI components like the grid itself, headers; 
+	 * footers and tool panels. */
+	--ag-border-color: var(--cf-theme-primary-500);
+
+	/* Enable or disable borders that are critical to UX, e.g. those between 
+	 * headers and rows. Themes that disable borders generally may want to enable 
+	 * these borders. Set this to a border style and thickness, e.g. `solid 1px`
+	 * to enable borders, or none to disable borders. */
+	/* --ag-borders-critical: none; */
+
+	/* Draw decorative borders separating UI elements within components. */
+	/* --ag-borders-secondary */
+
+	/* Colour for borders used to separate elements within a major UI component */
+	/* --ag-secondary-border-color */
+
+	/* # Row border styles. */
+	/* --ag-row-border-style */
+	/* --ag-row-border-width */
+	/* --ag-row-border-color */
+
+	/* Default border for cells. This can be used to specify the border-style and 
+	 * border-color properties e.g. dashed red but the border-width is fixed at 1px. */
+	/* --ag-cell-horizontal-border */
+
+	/* Draw borders around inputs. */
+	--ag-borders-input: thin solid;
+
+	/* Colour for borders around inputs */
+	--ag-input-border-color: #5c5c5c;
+
+	/* Draw borders around inputs when their content has failed validation */
+	/* --ag-borders-input-invalid */
+
+	/* The color for the border around invalid inputs */
+	/* --ag-input-border-color-invalid */
+
+	/* Draw borders around the vertical tabs on the side of the control panel. */
+	/* --ag-borders-side-button */
+
+	/* Border radius applied to many elements such as dialogs and form widgets */
+	--ag-border-radius: 0;
+
+	/* # Input styles */
+	/* --ag-invalid-color */
+	/* --ag-input-disabled-border-color */
+	/* --ag-input-disabled-background-color */
+	/* --ag-checkbox-background-color */
+	/* --ag-checkbox-border-radius */
+	--ag-checkbox-checked-color: #b2dcf5;
+	/* --ag-checkbox-unchecked-color */
+	/* --ag-checkbox-indeterminate-color */
+	/* --ag-toggle-button-border-width */
+	/* --ag-toggle-button-on-border-color */
+	/* --ag-toggle-button-off-border-color */
+	/* --ag-toggle-button-on-background-color */
+	/* --ag-toggle-button-off-background-color */
+	/* --ag-toggle-button-switch-background-color */
+	/* --ag-toggle-button-switch-border-color */
+	/* --ag-toggle-button-width */
+	/* --ag-toggle-button-height */
+
+	/* Box shadow around focussed inputs */
+	--ag-input-focus-box-shadow: 0 0 0;
+
+	/* Colour of the border around focussed inputs. Set to `var(--ag-input-border-color)`
+	 * if you do not want to change the border colour on focus. */
+	--ag-input-focus-border-color: var(--cf-theme-primary-500);
+
+	/* # Minichart styles */
+	/* --ag-minichart-selected-chart-color */
+	/* --ag-minichart-selected-page-color */
+
+	/* `grid-size` is the main control for affecting how tightly data and UI elements
+	 * are packed together. All padding and spacing in the grid is defined as a multiple 
+	 * of `grid-size`, so increasing it will make most components larger by increasing 
+	 * their internal white space while leaving the size of text and icons unchanged. */
+	/* --ag-grid-size */
+
+	/* The size of square icons and icon-buttons */
+	/* --ag-icon-size */
+
+	/* The horizontal padding of containers that contain stacked widgets, 
+	 * such as menus and tool panels */
+	--ag-widget-container-horizontal-padding: 1rem;
+
+	/* The vertical padding of containers that contain stacked widgets, 
+	 * such as menus and tool panels */
+	--ag-widget-container-vertical-padding: 1rem;
+
+	/* The horizontal spacing between widgets in containers that contain horizontally 
+	 * stacked widgets such as the column groups header component. */
+	--ag-widget-horizontal-spacing: 1rem;
+
+	/* The vertical spacing between widgets in containers that contain vertically 
+	 * stacked widgets */
+	--ag-widget-vertical-spacing: 1rem;
+
+	/* Horizontal padding for grid and header cells (vertical padding is not 
+	 * set explicitly, but inferred from row-height / header-height */
+	/* --ag-cell-horizontal-padding */
+
+	/* Horizontal spacing between widgets inside cells (e.g. row group expand buttons
+	 * and row selection checkboxes) */
+	/* --ag-cell-widget-spacing */
+
+	/* Height of grid rows */
+	/* --ag-row-height */
+
+	/* Height of header rows */
+	/* --ag-header-height */
+
+	/* Height of items in lists (example of lists are dropdown select inputs
+	 * and column menu set filters) */
+	--ag-list-item-height: 2rem;
+
+	/* Whether to display the header column separator - a vertical line that 
+	 * displays between every header cell */
+	--ag-header-column-separator-display: none;
+
+	/* Height of the header column separator. Percentage values are relative to 
+	 * the header height. */
+	/* --ag-header-column-separator-height */
+
+	/* Width of the header column separator */
+	/* --ag-header-column-separator-width */
+
+	/* Colour of the header column separator */
+	/* --ag-header-column-separator-color */
+
+	/* Whether to show the header column resize handle - a vertical line that displays 
+	 * only between resizeable header columns, indicating where to drag in order to 
+	 * resize the column. */
+	--ag-header-column-resize-handle-display: none;
+	/* --ag-header-column-resize-handle-height */
+	/* --ag-header-column-resize-handle-width */
+	/* --ag-header-column-resize-handle-color */
+
+	/* # Indents and widths */
+	/* --ag-column-select-indent-size */
+	/* --ag-set-filter-indent-size */
+	/* --ag-row-group-indent-size */
+	/* --ag-filter-tool-panel-group-indent */
+	/* --ag-tab-min-width */
+	/* --ag-menu-min-width */
+	/* --ag-side-bar-panel-width */
+
+	/* Cards are elements that float above the UI */
+	--ag-card-radius: 0;
+
+	/* The default card shadow applies to simple cards like column drag indicators
+	 * and text editors */
+	/* --ag-card-shadow */
+
+	/* Override the shadow for popups - cards that contain complex UI, 
+	 * like menus and charts */
+	/* --ag-popup-shadow */
+}
+
+.ag-icon:hover {
+	color: var(--cf-theme-surface-900);
+}
+.ag-picker-field-wrapper {
+	border-radius: 0;
+	@apply p-1;
+}
+.ag-text-field-input {
+	background: #373737 !important;
+	@apply p-2;
+}
