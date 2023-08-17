@@ -1,11 +1,8 @@
-import { z } from 'zod';
 import { message, superValidate } from 'sveltekit-superforms/server';
 import { fail, redirect } from '@sveltejs/kit';
 
-import { studentValidators, contractValidators } from '$lib/validators.js';
+import { newStudentSchema } from '$lib/schemas.js';
 import { createStudent, performCreateContract } from '$lib/api.js';
-
-const newStudentSchema = z.object({ ...studentValidators, ...contractValidators });
 
 export async function load(event) {
 	const form = await superValidate(event, newStudentSchema);

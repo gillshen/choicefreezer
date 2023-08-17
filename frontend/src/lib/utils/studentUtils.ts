@@ -31,3 +31,16 @@ export function sortByRomanizedName(
 		a.first_name_romanized.localeCompare(b.first_name_romanized)
 	);
 }
+
+export function sortByTargetYearDesc(
+	a: { latest_target_year: number },
+	b: { latest_target_year: number }
+) {
+	if (a.latest_target_year > b.latest_target_year) {
+		return -1;
+	} else if (a.latest_target_year < b.latest_target_year) {
+		return 1;
+	} else {
+		return 0;
+	}
+}

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import PageSection from '$lib/components/PageSection.svelte';
 	import StudentAnchorCard from '$lib/components/StudentAnchorCard.svelte';
-	import { sortByRomanizedName } from '$lib/utils/studentUtils.js';
+	import { sortByRomanizedName, sortByTargetYearDesc } from '$lib/utils/studentUtils.js';
 
 	export let data;
 	const { user, applications } = data;
@@ -33,7 +33,7 @@
 	<h3 class="mb-4 mt-8">Past students</h3>
 
 	<div class="flex flex-wrap gap-4">
-		{#each user.past_students.sort(sortByRomanizedName) as student}
+		{#each user.past_students.sort(sortByRomanizedName).sort(sortByTargetYearDesc) as student}
 			<StudentAnchorCard {student} />
 		{/each}
 	</div>

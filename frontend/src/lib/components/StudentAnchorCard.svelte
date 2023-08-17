@@ -29,6 +29,6 @@
 		@apply w-[12rem] flex flex-col card-hover rounded-sm min-h-[4rem];
 	}
 	.student-anchor:hover {
-		@apply text-primary-500;
+		@apply bg-primary-500 text-black;
 	}
 </style>

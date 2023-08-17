@@ -1,4 +1,3 @@
-import { z } from 'zod';
 import { message, superValidate } from 'sveltekit-superforms/server';
 import type { SuperValidated } from 'sveltekit-superforms/index.d.ts';
 import { error, fail } from '@sveltejs/kit';
@@ -21,40 +20,15 @@ import {
 } from '$lib/api';
 
 import {
-	contractValidators,
-	studentCitizenshipValidator,
-	studentCommentsValidator,
-	studentDateOfBirthValidator,
-	studentGenderValidator,
-	idValidator,
-	studentLegalNameValidators,
-	studentResidenceValidators,
-	studentRomanizedNameValidators
-} from '$lib/validators.js';
-
-const studentLegalNameSchema = z.object({ ...idValidator, ...studentLegalNameValidators });
-
-const studentRomanizedNameSchema = z.object({
-	...idValidator,
-	...studentRomanizedNameValidators
-});
-
-const studentGenderSchema = z.object({ ...idValidator, ...studentGenderValidator });
-
-const studentCitizenshipSchema = z.object({
-	...idValidator,
-	...studentCitizenshipValidator
-});
-
-const studentDateOfBirthSchema = z.object({
-	...idValidator,
-	...studentDateOfBirthValidator
-});
-
-const studentResidenceSchema = z.object({ ...idValidator, ...studentResidenceValidators });
-const studentCommentsSchema = z.object({ ...idValidator, ...studentCommentsValidator });
-
-const contractSchema = z.object({ studentId: idValidator.id, ...contractValidators });
+	studentLegalNameSchema,
+	studentRomanizedNameSchema,
+	studentGenderSchema,
+	studentCitizenshipSchema,
+	studentDateOfBirthSchema,
+	studentResidenceSchema,
+	studentCommentsSchema,
+	contractSchema
+} from '$lib/schemas.js';
 
 export async function load(event) {
 	const id = parseInt(event.params.id, 10);
