@@ -10,6 +10,8 @@ class Department(models.TextChoices):
     ESSAY_ADVISING = "文案", _("文案")
     PLANNING_PLUS = "顾问+", _("顾问+")
     ESSAY_ADVISING_PLUS = "文案+", _("文案+")
+    ALL = "顾问/文案", _("顾问/文案")
+    ALL_PLUS = "顾问/文案+", _("顾问/文案+")
 
 
 class CfUser(AbstractUser):

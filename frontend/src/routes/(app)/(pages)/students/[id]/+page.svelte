@@ -142,21 +142,27 @@
 
 <PageSection>
 	<svelte:fragment slot="h2">Applications</svelte:fragment>
-	<pre class="text-surface-400">{JSON.stringify(applications, null, 2)}</pre>
+	{#if applications.length}
+		<pre class="text-surface-400">{JSON.stringify(applications, null, 2)}</pre>
+	{/if}
 
 	<button class="cf-primary">Add an application</button>
 </PageSection>
 
 <PageSection>
 	<svelte:fragment slot="h2">Logs</svelte:fragment>
-	<pre class="text-surface-400">{JSON.stringify(logs, null, 2)}</pre>
+	{#if logs.length}
+		<pre class="text-surface-400">{JSON.stringify(logs, null, 2)}</pre>
+	{/if}
 
 	<button class="cf-secondary">Add an update</button>
 </PageSection>
 
 <PageSection>
 	<svelte:fragment slot="h2">Enrollments</svelte:fragment>
-	<pre class="text-surface-400">{JSON.stringify(enrollments, null, 2)}</pre>
+	{#if enrollments.length}
+		<pre class="text-surface-400">{JSON.stringify(enrollments, null, 2)}</pre>
+	{/if}
 
 	<button class="cf-secondary">Add an enrollment</button>
 </PageSection>
