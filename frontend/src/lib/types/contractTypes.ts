@@ -14,6 +14,7 @@ export type Contract = {
 	type: string;
 	target_year: number;
 	date_signed: string | null;
+	student_progression_at_signing: string;
 	status: 'Effective' | 'Fulfilled' | 'Terminated';
 	services: Service[];
 };

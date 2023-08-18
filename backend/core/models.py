@@ -6,13 +6,53 @@ from user.models import CfUser
 from target.models import Target, SubTarget
 
 
+class Progression(models.TextChoices):
+    GRADE_9_FALL = "High School G9 - Fall", _("High School G9 - Fall")
+    GRADE_9_SPRING = "High School G9 - Spring", _("High School G9 - Spring")
+
+    GRADE_10_FALL = "High School G10 - Fall", _("High School G10 - Fall")
+    GRADE_10_SPRING = "High School G10 - Spring", _("High School G10 - Spring")
+
+    GRADE_11_FALL = "High School G11 - Fall", _("High School G11 - Fall")
+    GRADE_11_SPRING = "High School G11 - Spring", _("High School G11 - Spring")
+
+    GRADE_12_FALL = "High School G12 - Fall", _("High School G12 - Fall")
+    GRADE_12_SPRING = "High School G12 - Spring", _("High School G12 - Spring")
+
+    YEAR_1_FALL = "College Year 1 - Fall", _("College Year 1 - Fall")
+    YEAR_1_SPRING = "College Year 1 - Spring", _("College Year 1 - Spring")
+
+    YEAR_2_FALL = "College Year 2 - Fall", _("College Year 2 - Fall")
+    YEAR_2_SPRING = "College Year 2 - Spring", _("College Year 2 - Spring")
+
+    YEAR_3_FALL = "College Year 3 - Fall", _("College Year 3 - Fall")
+    YEAR_3_SPRING = "College Year 3 - Spring", _("College Year 3 - Spring")
+
+    YEAR_4_FALL = "College Year 4 - Fall", _("College Year 4 - Fall")
+    YEAR_4_SPRING = "College Year 4 - Spring", _("College Year 4 - Spring")
+
+
+class CfProduct(models.Model):
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = "CF products"
+
+        constraints = [
+            models.UniqueConstraint(Lower("name"), name="unique_cfproduct_name")
+        ]
+
+    def __str__(self) -> str:
+        return self.name
+
+
 class Student(models.Model):
     """
     Fields:
         id: number;
         last_name: string;
         first_name: string;
-        name_in_chinese: boolean;
+        last_name_first: boolean;
 
         last_name_romanized?: string;
         first_name_romanized?: string;
@@ -26,6 +66,8 @@ class Student(models.Model):
 
         comments?: string;
 
+        cf_products: number[]; // referencing CfProduct
+
     Related fields:
         contracts: [Contract];
         logs: [StudentLog];
@@ -35,6 +77,8 @@ class Student(models.Model):
         name: string;
         is_current: boolean;
         services: [Service];
+        latest_target_year: number;
+        latest_contract_type: <Contract.Type>;
     """
 
     class Gender(models.TextChoices):
@@ -44,7 +88,7 @@ class Student(models.Model):
 
     last_name = models.CharField(max_length=50)
     first_name = models.CharField(max_length=50)
-    name_in_chinese = models.BooleanField(default=True)
+    last_name_first = models.BooleanField(default=True)
 
     last_name_romanized = models.CharField(max_length=50, blank=True)
     first_name_romanized = models.CharField(max_length=50, blank=True)
@@ -58,6 +102,12 @@ class Student(models.Model):
     state = models.CharField(max_length=50, blank=True)
 
     comments = models.TextField(max_length=1000, blank=True)
+
+    cf_products = models.ManyToManyField(
+        CfProduct,
+        related_name="students",
+        blank=True,
+    )
 
     class Meta:
         constraints = [
@@ -85,7 +135,7 @@ class Student(models.Model):
 
     @property
     def name(self):
-        if self.name_in_chinese:
+        if self.last_name_first:
             return f"{self.last_name}{self.first_name}"
         else:
             return f"{self.first_name} {self.last_name}"
@@ -178,6 +228,13 @@ class Contract(models.Model):
     type = models.CharField(max_length=100, choices=Type.choices)
     target_year = models.IntegerField()
     date_signed = models.DateField(blank=True, null=True)
+
+    student_progression_at_signing = models.CharField(
+        max_length=50,
+        choices=Progression.choices,
+        blank=True,
+    )
+
     status = models.CharField(max_length=50, choices=Status.choices)
 
     class Meta:
@@ -274,6 +331,13 @@ class Application(models.Model):
         subtarget: number;
         cf_exclude: [number];
 
+        submitting_toefl: boolean;
+        submitting_ielts: boolean;
+        submitting_det: boolean;
+        submitting_sat: boolean;
+        submitting_act: boolean;
+        submitting_gre: boolean;
+
         scholarship_amount: number; // default 0
         scholarship_currency?: string;
 
@@ -312,6 +376,14 @@ class Application(models.Model):
         related_name="excluded_applications",
         blank=True,
     )
+
+    submitting_toefl = models.BooleanField(default=False)
+    submitting_ielts = models.BooleanField(default=False)
+    submitting_det = models.BooleanField(default=False)
+
+    submitting_sat = models.BooleanField(default=False)
+    submitting_act = models.BooleanField(default=False)
+    submitting_gre = models.BooleanField(default=False)
 
     scholarship_amount = models.PositiveIntegerField(default=0)
     scholarship_currency = models.CharField(max_length=50, blank=True)
@@ -436,6 +508,7 @@ class MajorChoice(models.Model):
     Fields:
         id: number;
         application: number;
+        major_category: string;
         major: string;
         rank: number;
     """
@@ -446,6 +519,7 @@ class MajorChoice(models.Model):
         on_delete=models.CASCADE,
     )
 
+    major_category = models.CharField(max_length=100)
     major = models.CharField(max_length=100)
     rank = models.PositiveIntegerField()
 

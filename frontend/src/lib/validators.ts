@@ -10,7 +10,7 @@ export const idValidator = { id: z.number().positive() };
 export const studentLegalNameValidators = {
 	last_name: z.string().trim().min(1, fieldRequired),
 	first_name: z.string().trim().min(1, fieldRequired),
-	name_in_chinese: z.boolean().default(true)
+	last_name_first: z.boolean().default(true)
 };
 
 export const studentRomanizedNameValidators = {
@@ -25,11 +25,11 @@ export const studentCitizenshipValidator = { citizenship: z.string().min(1).defa
 export const studentDateOfBirthValidator = { date_of_birth: z.string().nullable() };
 
 export const studentResidenceValidators = {
-	city: z.string().trim().default('').optional(),
-	state: z.string().trim().default('').optional()
+	city: z.string().trim(),
+	state: z.string().trim()
 };
 
-export const studentCommentsValidator = { comments: z.string().trim().default('').optional() };
+export const studentCommentsValidator = { comments: z.string().trim() };
 
 export const studentValidators = {
 	...studentLegalNameValidators,
@@ -47,6 +47,7 @@ export const contractValidators = {
 	type: z.string().min(1, selectionRequired),
 	target_year: z.number().positive(selectionRequired).default(nextYear),
 	date_signed: z.string().nullable(),
+	student_progression_at_signing: z.string().trim(),
 	status: z.string().min(1, selectionRequired),
 
 	// Service fields

@@ -5,7 +5,8 @@ from contextlib import suppress
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
-from core.models import Student
+from user.models import CfUser
+from core.models import Student, Progression
 from target.models import School, Program, Target
 
 
@@ -18,6 +19,7 @@ class StudentLog(models.Model):
         text?: string;
         pinned: boolean;
         private: boolean;
+        author: number; // CfUser
         updated: string; // datetime
     """
 
@@ -31,6 +33,12 @@ class StudentLog(models.Model):
     text = models.TextField(max_length=1000, blank=True)
     pinned = models.BooleanField(default=False)
     private = models.BooleanField(default=False)
+
+    author = models.ForeignKey(
+        CfUser,
+        related_name="student_logs",
+        on_delete=models.CASCADE,
+    )
 
     updated = models.DateTimeField(auto_now=True)
 
@@ -47,32 +55,6 @@ class StudentLog(models.Model):
         return f"{self.student}: {self.title}"
 
 
-class Progression(models.TextChoices):
-    GRADE_9 = "Grade 9", _("Grade 9")
-    GRADE_9R = "Grade 9 (Retake)", _("Grade 9 (Retake)")
-
-    GRADE_10 = "Grade 10", _("Grade 10")
-    GRADE_10R = "Grade 10 (Retake)", _("Grade 10 (Retake)")
-
-    GRADE_11 = "Grade 11", _("Grade 11")
-    GRADE_11R = "Grade 11 (Retake)", _("Grade 11 (Retake)")
-
-    GRADE_12 = "Grade 12", _("Grade 12")
-    GRADE_12R = "Grade 12 (Retake)", _("Grade 12 (Retake)")
-
-    YEAR_1 = "Year 1", _("Year 1")
-    YEAR_1R = "Year 1 (Retake)", _("Year 1 (Retake)")
-
-    YEAR_2 = "Year 2", _("Year 2")
-    YEAR_2R = "Year 2 (Retake)", _("Year 2 (Retake)")
-
-    YEAR_3 = "Year 3", _("Year 3")
-    YEAR_3R = "Year 3 (Retake)", _("Year 3 (Retake)")
-
-    YEAR_4 = "Year 4", _("Year 4")
-    YEAR_4R = "Year 4 (Retake)", _("Year 4 (Retake)")
-
-
 class Enrollment(models.Model):
     """
     Fields:
@@ -81,7 +63,7 @@ class Enrollment(models.Model):
         school: number;
 
         program_type: Program.Type;
-        starts_as: <.Progression>;
+        starting_progression: <core.Progression>;
 
         start_year: number;
         start_term: Target.Term;
@@ -115,7 +97,7 @@ class Enrollment(models.Model):
     )
 
     program_type = models.CharField(max_length=100, choices=Program.Type.choices)
-    starts_as = models.CharField(max_length=50, choices=Progression.choices)
+    starting_progression = models.CharField(max_length=50, choices=Progression.choices)
 
     start_year = models.IntegerField()
     start_term = models.CharField(max_length=50, choices=Target.Term.choices)
@@ -137,7 +119,7 @@ class GPA(models.Model):
     Fields:
         id: number;
         enrollment: number;
-        progression: <.Progression>;
+        progression: <core.Progression>;
         term: <target.Target.Term>;
         value: number;
         scale: number;
@@ -183,7 +165,7 @@ class ClassRank(models.Model):
     Fields:
         id: number;
         enrollment: number;
-        progression: <.Progression>;
+        progression: <core.Progression>;
         term: <target.Target.Term>;
         class_size?: number | null;
         rank?: number | null;
@@ -312,7 +294,10 @@ class IELTS(BaseTest):
     reading = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
     writing = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
     speaking = models.DecimalField(
-        max_digits=2, decimal_places=1, blank=True, null=True
+        max_digits=2,
+        decimal_places=1,
+        blank=True,
+        null=True,
     )
 
     class Meta:
@@ -471,3 +456,35 @@ class GRE(BaseTest):
     def result(self) -> int | None:
         with suppress(TypeError):
             return self.verbal + self.quant
+
+
+class GMAT(BaseTest):
+    """
+    Fields:
+        id: number;
+        student: number;
+        date?: string | null; // date
+        comments?: string;
+
+        total?: number;
+        verbal?: number;
+        quant?: number;
+        reasoning?: number;
+        writing?: number;
+
+    Computed fields:
+        result: number;
+    """
+
+    total = models.PositiveSmallIntegerField(blank=True, null=True)
+    verbal = models.PositiveSmallIntegerField(blank=True, null=True)
+    quant = models.PositiveSmallIntegerField(blank=True, null=True)
+    reasoning = models.PositiveSmallIntegerField(blank=True, null=True)
+    writing = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = "GMAT scores"
+
+    @property
+    def result(self) -> int | None:
+        return self.total

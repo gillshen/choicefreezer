@@ -11,6 +11,7 @@ from student.models import (
     ACT,
     AP,
     GRE,
+    GMAT,
 )
 
 
@@ -77,4 +78,10 @@ class AP_Serializer(serializers.ModelSerializer):
 class GRE_Serializer(serializers.ModelSerializer):
     class Meta:
         model = GRE
+        fields = "__all__"
+
+
+class GMAT_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = GMAT
         fields = "__all__"

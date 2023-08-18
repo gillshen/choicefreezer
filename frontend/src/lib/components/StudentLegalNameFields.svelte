@@ -12,7 +12,7 @@
 
 <FormCheckInput
 	id="chinese-name-check"
-	name="name_in_chinese"
-	label="This is a Chinese name"
+	name="last_name_first"
+	label="The last name comes before the first"
 	{form}
 />

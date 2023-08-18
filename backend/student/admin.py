@@ -9,7 +9,7 @@ class StudentLogAdmin(admin.ModelAdmin):
 
 @admin.register(models.Enrollment)
 class EnrollmentAdmin(admin.ModelAdmin):
-    list_display = "id", "student", "school", "program_type", "starts_as"
+    list_display = "id", "student", "school", "program_type", "starting_progression"
 
 
 @admin.register(models.GPA)
@@ -70,4 +70,9 @@ class AP_Admin(admin.ModelAdmin):
 
 @admin.register(models.GRE)
 class GRE_Admin(admin.ModelAdmin):
+    list_display = "id", "student", "result", "writing", "date"
+
+
+@admin.register(models.GMAT)
+class GMAT_Admin(admin.ModelAdmin):
     list_display = "id", "student", "result", "writing", "date"

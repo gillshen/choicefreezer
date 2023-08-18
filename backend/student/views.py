@@ -16,6 +16,7 @@ from student.models import (
     ACT,
     AP,
     GRE,
+    GMAT,
 )
 
 from student.serializers import (
@@ -30,6 +31,7 @@ from student.serializers import (
     ACT_Serializer,
     AP_Serializer,
     GRE_Serializer,
+    GMAT_Serializer,
 )
 
 
@@ -207,3 +209,18 @@ class GRE_UpdateDeleteView(RetrieveUpdateDestroyAPIView):
 class GRE_ListView(StudentQueryMixin, ListAPIView):
     _model = GRE
     serializer_class = GRE_Serializer
+
+
+class GMAT_CreateView(CreateAPIView):
+    queryset = GMAT.objects.all()
+    serializer_class = GMAT_Serializer
+
+
+class GMAT_UpdateDeleteView(RetrieveUpdateDestroyAPIView):
+    queryset = GMAT.objects.all()
+    serializer_class = GMAT_Serializer
+
+
+class GMAT_ListView(StudentQueryMixin, ListAPIView):
+    _model = GMAT
+    serializer_class = GMAT_Serializer

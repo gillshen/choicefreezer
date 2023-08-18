@@ -1,9 +1,9 @@
 export function formatStudentName(student: {
 	last_name: string;
 	first_name: string;
-	name_in_chinese: boolean;
+	last_name_first: boolean;
 }) {
-	return student.name_in_chinese
+	return student.last_name_first
 		? `${student.last_name}${student.first_name}`
 		: `${student.first_name} ${student.last_name}`;
 }

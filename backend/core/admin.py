@@ -2,6 +2,11 @@ from django.contrib import admin
 from . import models
 
 
+@admin.register(models.CfProduct)
+class CfProductAdmin(admin.ModelAdmin):
+    list_display = "id", "name"
+
+
 @admin.register(models.Student)
 class StudentAdmin(admin.ModelAdmin):
     list_display = "id", "name", "gender", "citizenship", "is_current"

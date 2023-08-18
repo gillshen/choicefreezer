@@ -8,6 +8,10 @@ from user.views import (
 )
 
 from core.views import (
+    CfProductCreateView,
+    CfProductRetrieveView,
+    CfProductUpdateDeleteView,
+    CfProductListView,
     StudentCreateView,
     StudentRetrieveView,
     StudentUpdateDeleteView,
@@ -85,6 +89,9 @@ from student.views import (
     GRE_CreateView,
     GRE_UpdateDeleteView,
     GRE_ListView,
+    GMAT_CreateView,
+    GMAT_UpdateDeleteView,
+    GMAT_ListView,
 )
 
 # user.views
@@ -96,6 +103,15 @@ urlpatterns = [
 ]
 
 # core.views
+
+# CfProduct views
+urlpatterns += [
+    path("products/new/", CfProductCreateView.as_view()),
+    path("products/<int:pk>/", CfProductRetrieveView.as_view()),
+    path("products/<int:pk>/update/", CfProductUpdateDeleteView.as_view()),
+    path("products/<int:pk>/delete/", CfProductUpdateDeleteView.as_view()),
+    path("products/", CfProductListView.as_view()),
+]
 
 # Student views
 urlpatterns += [
@@ -285,4 +301,12 @@ urlpatterns += [
     path("s.gre/<int:pk>/update/", GRE_UpdateDeleteView.as_view()),
     path("s.gre/<int:pk>/delete/", GRE_UpdateDeleteView.as_view()),
     path("s.gre/", GRE_ListView.as_view()),
+]
+
+# GMAT views
+urlpatterns += [
+    path("s.gmat/new/", GMAT_CreateView.as_view()),
+    path("s.gmat/<int:pk>/update/", GMAT_UpdateDeleteView.as_view()),
+    path("s.gmat/<int:pk>/delete/", GMAT_UpdateDeleteView.as_view()),
+    path("s.gmat/", GMAT_ListView.as_view()),
 ]

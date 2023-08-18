@@ -6,6 +6,7 @@ from rest_framework.generics import (
 )
 
 from core.models import (
+    CfProduct,
     Student,
     Contract,
     Service,
@@ -16,6 +17,7 @@ from core.models import (
 
 from core.serializers import (
     # Create, update, delete
+    CfProductSerializer,
     StudentSerializer,
     ContractSerializer,
     ServiceSerializer,
@@ -27,6 +29,21 @@ from core.serializers import (
     ContractListItemSerializer,
     ApplicationListItemSerializer,
 )
+
+
+class CfProductCreateView(CreateAPIView):
+    queryset = CfProduct.objects.all()
+    serializer_class = CfProductSerializer
+
+
+class CfProductRetrieveView(RetrieveAPIView):
+    queryset = CfProduct.objects.all()
+    serializer_class = CfProductSerializer
+
+
+class CfProductUpdateDeleteView(RetrieveUpdateDestroyAPIView):
+    queryset = CfProduct.objects.all()
+    serializer_class = CfProductSerializer
 
 
 class StudentCreateView(CreateAPIView):
@@ -99,6 +116,11 @@ class ApplicationLogCreateView(CreateAPIView):
 class ApplicationLogUpdateDeleteView(RetrieveUpdateDestroyAPIView):
     queryset = ApplicationLog.objects.all()
     serializer_class = ApplicationLogSerializer
+
+
+class CfProductListView(ListAPIView):
+    queryset = CfProduct.objects.all()
+    serializer_class = CfProductSerializer
 
 
 class StudentListView(ListAPIView):

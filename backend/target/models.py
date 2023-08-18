@@ -126,6 +126,7 @@ class Program(models.Model):
 
     @classmethod
     def of_exact_schools(cls, *schools):
+        """Return programs hosted by exactly the specified schools"""
         # Narrow down to programs hosted by *at least* the given schools.
         programs = cls.objects.all()
         for school in schools:
@@ -145,6 +146,7 @@ class Target(models.Model):
         program: number;
         year: number;
         term: <Target.Term>;
+        subjective_rank?: number;
 
     Related fields:
         subtargets: [SubTarget];
@@ -164,6 +166,10 @@ class Target(models.Model):
     )
     year = models.IntegerField()
     term = models.CharField(max_length=50, choices=Term.choices)
+
+    # Allow users to assign whatever rank they please; the database does
+    # not enforce any checks (except that the values must be positive).
+    subjective_rank = models.PositiveIntegerField(null=True, blank=True)
 
     class Meta:
         constraints = [
@@ -294,6 +300,7 @@ class SubTarget(models.Model):
         deadline?: string | null; // datetime
         deadline_timezone?: string;
 
+        decision_date?: string | null; // date
         comments?: string;
 
     Related fields:
@@ -329,6 +336,7 @@ class SubTarget(models.Model):
     deadline = models.DateTimeField(blank=True, null=True)
     deadline_timezone = models.CharField(max_length=50, blank=True)
 
+    decision_date = models.DateField(blank=True, null=True)
     comments = models.CharField(max_length=1000, blank=True)
 
     class Meta:

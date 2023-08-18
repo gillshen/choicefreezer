@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from core.models import (
+    CfProduct,
     Student,
     Contract,
     Service,
@@ -11,6 +12,12 @@ from core.models import (
 )
 
 from target.models import School, Program, Target, SubTarget
+
+
+class CfProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CfProduct
+        fields = "__all__"
 
 
 class StudentSerializer(serializers.ModelSerializer):
@@ -65,7 +72,7 @@ class StudentListItemSerializer(serializers.ModelSerializer):
 
         last_name: string;
         first_name: string;
-        name_in_chinese: boolean;
+        last_name_first: boolean;
 
         last_name_romanized: string;
         first_name_romanized: string;
@@ -97,6 +104,11 @@ class StudentListItemSerializer(serializers.ModelSerializer):
             contract: number;
             cf_person: number;
         }[];
+
+        cf_products: {
+            id: number;
+            name: string;
+        }[];
     """
 
     class Meta:
@@ -106,6 +118,7 @@ class StudentListItemSerializer(serializers.ModelSerializer):
     name = serializers.CharField()
     contracts = ContractSerializer(many=True)
     services = ServiceListItemSerializer(many=True)
+    cf_products = CfProductSerializer(many=True)
 
 
 class ContractListItemSerializer(serializers.ModelSerializer):
