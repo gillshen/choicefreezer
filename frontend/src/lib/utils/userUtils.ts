@@ -16,3 +16,7 @@ export function filterForEssayAdvisors(users: UserListItem[]) {
 export function filterForSpecial(users: UserListItem[]) {
 	return users.filter((user) => user.department.endsWith(PLUS_SUFFIX));
 }
+
+export function filterForActive(users: UserListItem[]) {
+	return users.filter((user) => user.is_active);
+}

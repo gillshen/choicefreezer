@@ -9,8 +9,12 @@ body {
 main {
 	@apply flex-grow;
 }
-nav a:hover {
+nav a:hover,
+.nav-link:hover {
 	@apply text-primary-600;
+}
+nav .divider {
+	@apply bg-surface-500;
 }
 
 footer > div {
@@ -84,6 +88,13 @@ form div.form-actions {
 }
 form div.error-message {
 	@apply mt-1 text-error-500 text-sm;
+}
+
+.dropdown-nav ul {
+	@apply gap-2 h-fit;
+}
+.dropdown-nav li {
+	@apply text-left w-fit min-w-[5rem];
 }
 
 .cf-key {

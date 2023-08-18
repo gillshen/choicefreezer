@@ -17,7 +17,7 @@
 {:else}
 	<a href="../students/new/" class="student-anchor card">
 		<div class="flex-grow flex justify-center items-center bg-primary-500 text-black">
-			Create a student
+			Add a student
 		</div>
 	</a>
 {/if}

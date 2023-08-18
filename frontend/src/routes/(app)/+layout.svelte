@@ -1,22 +1,47 @@
 <script lang="ts">
+	import CfPeopleNav from '$lib/components/CfPeopleNav.svelte';
+	import { filterForActive } from '$lib/utils/userUtils.js';
 	import { AppBar } from '@skeletonlabs/skeleton';
+
+	export let data;
+	const { cfPeople } = data;
+
+	const activePeople = filterForActive(cfPeople);
 </script>
 
 <AppBar slotDefault="place-self-center" slotTrail="place-content-end">
 	<svelte:fragment slot="lead">(icon) ChoiceFreezer</svelte:fragment>
-	<nav class="flex gap-6 flex-wrap">
+	<nav class="flex gap-8 flex-wrap">
 		<a href="../home">Home</a>
-		<!-- TODO implement [People], [Tables] and [About]; remove the rest -->
-		<button>People</button>
-		<button>Tables</button>
+
+		<button class="dropdown-trigger">
+			People <i class="fa-solid fa-chevron-down" />
+			<div class="dropdown-nav">
+				<CfPeopleNav cfPeople={activePeople} />
+			</div>
+		</button>
+
 		<a href="../tables/students">Students</a>
-		<a href="../tables/applications">Apps</a>
-		<a href="../tables/programs">Programs</a>
+
+		<a href="../tables/applications">Applications</a>
+
+		<button class="dropdown-trigger">
+			More <i class="fa-solid fa-chevron-down" />
+			<div class="dropdown-nav">
+				<ul class="flex flex-col pr-4">
+					<li><a href="../tables/schools">Schools</a></li>
+					<li><a href="../tables/programs">Programs</a></li>
+					<li><div class="divider w-[12rem] h-[1px]" /></li>
+					<li>(More)</li>
+				</ul>
+			</div>
+		</button>
+
 		<a href="../about">About</a>
 	</nav>
 	<svelte:fragment slot="trail">
-		<div class="flex flex-wrap flex-shrink gap-2">
-			<button class="btn hover:variant-filled-secondary">Settings</button>
+		<div class="flex flex-wrap flex-shrink gap-4 items-center">
+			<a class="nav-link" href="../home">Settings</a>
 			<button class="cf-secondary">Log Out</button>
 		</div>
 	</svelte:fragment>
@@ -29,3 +54,18 @@
 <footer>
 	<div class="max-w-5xl mx-auto">(footer)</div>
 </footer>
+
+<style lang="postcss">
+	.dropdown-trigger:hover {
+		@apply text-primary-500;
+	}
+	.dropdown-nav {
+		@apply min-w-[12rem];
+		@apply hidden absolute top-12 p-4 pl-6 pb-6;
+		@apply text-surface-50 bg-surface-700;
+		@apply rounded-sm;
+	}
+	.dropdown-trigger:hover .dropdown-nav {
+		@apply flex z-10;
+	}
+</style>

@@ -3,6 +3,8 @@
 	const { schools } = data;
 </script>
 
-<h1 class="h1">Schools</h1>
+<h1 class="max-w-6xl px-8">Schools</h1>
 
-<pre class="text-surface-400">{JSON.stringify(schools, null, 2)}</pre>
+{#if schools.length}
+	<pre class="text-surface-400">{JSON.stringify(schools, null, 2)}</pre>
+{/if}

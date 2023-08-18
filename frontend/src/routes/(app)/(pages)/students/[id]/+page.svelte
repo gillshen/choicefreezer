@@ -127,7 +127,7 @@
 		{#each contracts as contract}
 			<ContractCard {contract}>
 				{#if userCanEdit}
-					<!-- TODO turn the edit button into a link -->
+					<!-- TODO turn the edit button into a link? -->
 					<button class="text-primary-600 hover:text-primary-500">Edit</button>
 					<button class="text-error-600 hover:text-error-500">Delete</button>
 				{/if}
@@ -136,7 +136,7 @@
 	</div>
 
 	<button class="cf-secondary my-8" on:click={() => contractCreateDialog.showModal()}
-		>Create a contract</button
+		>Add a contract</button
 	>
 </PageSection>
 
@@ -150,7 +150,7 @@
 </PageSection>
 
 <PageSection>
-	<svelte:fragment slot="h2">Logs</svelte:fragment>
+	<svelte:fragment slot="h2">Updates</svelte:fragment>
 	{#if logs.length}
 		<pre class="text-surface-400">{JSON.stringify(logs, null, 2)}</pre>
 	{/if}
@@ -159,12 +159,12 @@
 </PageSection>
 
 <PageSection>
-	<svelte:fragment slot="h2">Enrollments</svelte:fragment>
+	<svelte:fragment slot="h2">School performance</svelte:fragment>
 	{#if enrollments.length}
 		<pre class="text-surface-400">{JSON.stringify(enrollments, null, 2)}</pre>
 	{/if}
 
-	<button class="cf-secondary">Add an enrollment</button>
+	<button class="cf-secondary">Add a school</button>
 </PageSection>
 
 <PageSection>
@@ -287,17 +287,15 @@
 
 <style lang="postcss">
 	.student-profile-grid {
-		display: grid;
+		@apply grid gap-x-8 gap-y-4;
 		grid-template-columns: max-content 20rem;
-		row-gap: 1rem;
-		column-gap: 2rem;
 	}
 	.student-profile-grid .cf-value {
 		@apply flex flex-wrap gap-4 w-full;
 	}
 	.student-profile-grid .cf-value button {
 		opacity: 0;
-		transition: opacity 0.5s;
+		transition: opacity 0.4s;
 		@apply text-primary-600;
 	}
 	.student-profile-grid .cf-value:hover button {
