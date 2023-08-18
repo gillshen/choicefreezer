@@ -3,6 +3,10 @@
 	const { applications } = data;
 </script>
 
-<h1 class="h1">Applications</h1>
+<h1 class="max-w-6xl px-8">Applications</h1>
 
-<pre class="text-surface-400">{JSON.stringify(applications, null, 2)}</pre>
+<div class="h-full max-w-6xl mx-auto p-8 flex flex-col gap-8">
+	{#if applications.length}
+		<pre class="text-surface-400">{JSON.stringify(applications, null, 2)}</pre>
+	{/if}
+</div>

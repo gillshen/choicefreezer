@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { formatResidence } from '$lib/utils/studentUtils.js';
+	import { onMount } from 'svelte';
 	import {
 		Grid,
 		type GridOptions,
@@ -7,7 +7,8 @@
 		type ICellRendererParams,
 		type ValueGetterParams
 	} from 'ag-grid-community';
-	import { onMount } from 'svelte';
+
+	import { formatResidence } from '$lib/utils/studentUtils.js';
 
 	export let data;
 	const { students } = data;
@@ -15,8 +16,9 @@
 	const defaultColDef = {
 		sortable: true,
 		resizable: true,
-		width: 150,
+		flex: 1,
 		minWidth: 50,
+		maxWidth: 500,
 		filter: 'agTextColumnFilter'
 	};
 
@@ -63,13 +65,13 @@
 	};
 
 	const columnDefs = [
-		{ headerName: 'Name', cellRenderer: NameRenderer },
+		{ field: 'name', cellRenderer: NameRenderer },
 		{ headerName: 'Is current', cellDataType: 'boolean', valueGetter: isCurrentValueGetter },
-		{ headerName: 'Target year', type: ['numberColumn'], valueGetter: targetYearValueGetter },
+		{ headerName: 'Target', type: ['numberColumn'], valueGetter: targetYearValueGetter },
 		{ field: 'gender' },
 		{ field: 'citizenship' },
 		{ field: 'date_of_birth', headerName: 'Born', type: ['dateStringColumn'] },
-		{ headerName: 'Residence', valueGetter: residenceValueGetter },
+		{ headerName: 'Based in', valueGetter: residenceValueGetter },
 		{ field: 'comments' }
 		// TODO current_staff fields
 	];
@@ -81,23 +83,26 @@
 		rowData: students
 	};
 
+	function exportToCsv() {
+		gridOptions.api?.exportDataAsCsv();
+	}
+
 	onMount(() => {
-		console.log(students);
 		// Render the grid
 		const gridEl = document.getElementById('grid') as HTMLElement;
 		new Grid(gridEl, gridOptions);
-		gridOptions.api?.sizeColumnsToFit();
+		gridOptions.columnApi?.autoSizeAllColumns();
 	});
 </script>
 
-<h1 class="h1">Students</h1>
+<h1 class="max-w-6xl px-8">Students</h1>
 
 <div class="h-full max-w-6xl mx-auto p-8 flex flex-col gap-8">
 	<div id="grid" class="data-grid ag-theme-alpine-dark" />
 
-	<pre class="text-surface-400 overflow-hidden">{JSON.stringify(
-			students.slice(0, 1),
-			null,
-			2
-		)}</pre>
+	<button class="cf-primary max-w-fit" on:click={exportToCsv}>Export to CSV</button>
+
+	{#if students.length}
+		<pre class="text-surface-400">{JSON.stringify(students[0], null, 2)}</pre>
+	{/if}
 </div>
