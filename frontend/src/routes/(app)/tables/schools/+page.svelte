@@ -3,8 +3,12 @@
 	const { schools } = data;
 </script>
 
-<h1 class="max-w-6xl px-8">Schools</h1>
+<div class="grid-page-container">
+	<div class="grid-page-sidebar">
+		<pre>{JSON.stringify(schools, null, 2)}</pre>
+	</div>
 
-{#if schools.length}
-	<pre class="text-surface-400">{JSON.stringify(schools, null, 2)}</pre>
-{/if}
+	<div class="grid-page-content">
+		<h1 class="grid-page-title">Schools</h1>
+	</div>
+</div>

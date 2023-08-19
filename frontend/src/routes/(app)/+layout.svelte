@@ -52,7 +52,7 @@
 </main>
 
 <footer>
-	<div class="max-w-5xl mx-auto">(footer)</div>
+	<div class="p-0 m-0 w-fit mx-auto">(footer)</div>
 </footer>
 
 <style lang="postcss">
@@ -67,5 +67,10 @@
 	}
 	.dropdown-trigger:hover .dropdown-nav {
 		@apply flex z-10;
+	}
+	footer {
+		@apply bg-surface-50 text-surface-900;
+		@apply w-full;
+		@apply p-4;
 	}
 </style>

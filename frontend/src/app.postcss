@@ -115,14 +115,42 @@ form small.error-message {
 	@apply text-secondary-200 hover:text-surface-50;
 }
 
+.grid-page-container,
+.grid-page-sidebar,
+.grid-page-content {
+	display: flex;
+}
+.grid-page-container {
+	align-items: stretch;
+}
+.grid-page-sidebar,
+.grid-page-content {
+	/* 74px is the height of the topbar */
+	height: calc(100vh - 74px);
+	max-height: calc(100vh - 74px);
+}
+.grid-page-sidebar {
+	@apply bg-amber-500 text-surface-900;
+	@apply w-[24rem] min-w-[24rem] max-w-[24rem];
+	@apply overflow-auto;
+}
+.grid-page-content {
+	@apply flex-col flex-grow gap-6;
+	@apply pl-8 pr-4 py-6;
+}
+h1.grid-page-title {
+	@apply p-0 m-0;
+}
+
 /* Overriding Ag-Grid defaults */
 :root {
 	--cf-theme-primary-500: #7ddc14;
 	--cf-theme-surface-900: #2d2d2d;
 }
 .ag-theme-alpine-dark {
-	--ag-font-family: 'Fira Sans', Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-		'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Noto Sans SC', sans-serif,
+	/* Not using Fira Sans because its numbers are not monowidth */
+	--ag-font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Roboto,
+		'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans', 'Noto Sans SC', sans-serif,
 		'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
 	/* --ag-font-size */
@@ -179,7 +207,8 @@ form small.error-message {
 
 	/* Background color when hovering over rows in the grid and in dropdown menus.
 	 * Set to transparent to disable the hover effect. */
-	--ag-row-hover-color: #3d6c0a;
+	--ag-row-hover-color: rgb(12, 74, 110);
+	/* #3d6c0a; */
 
 	/* Background color when hovering over columns in the grid */
 	/* --ag-column-hover-color */
