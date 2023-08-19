@@ -7,5 +7,5 @@
 </div>
 
 {#if message}
-	<div class="my-4 text-error-500 max-w-sm">{message}</div>
+	<small class="error-message mt-4 mb-4 max-w-sm">{message}</small>
 {/if}

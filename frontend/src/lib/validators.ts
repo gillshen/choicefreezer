@@ -1,21 +1,24 @@
 import { z } from 'zod';
 import { THIS_YEAR } from './utils/dateUtils';
 
-export const fieldRequired = { message: 'This field is required' };
-export const selectionRequired = { message: 'Select an option' };
+const safeForHtml = (value: string) => !/[<>&"]/.test(value);
+const beSafeForHtml = { message: 'Characters <, >, &, and " are not allowed' };
+
+const fieldRequired = { message: 'This field is required' };
+const selectionRequired = { message: 'Select an option' };
 
 // The id field is never directly exposed to user
 export const idValidator = { id: z.number().positive() };
 
 export const studentLegalNameValidators = {
-	last_name: z.string().trim().min(1, fieldRequired),
-	first_name: z.string().trim().min(1, fieldRequired),
+	last_name: z.string().trim().min(1, fieldRequired).refine(safeForHtml, beSafeForHtml),
+	first_name: z.string().trim().min(1, fieldRequired).refine(safeForHtml, beSafeForHtml),
 	last_name_first: z.boolean().default(true)
 };
 
 export const studentRomanizedNameValidators = {
-	last_name_romanized: z.string().trim().min(1, fieldRequired),
-	first_name_romanized: z.string().trim().min(1, fieldRequired)
+	last_name_romanized: z.string().trim().min(1, fieldRequired).refine(safeForHtml, beSafeForHtml),
+	first_name_romanized: z.string().trim().min(1, fieldRequired).refine(safeForHtml, beSafeForHtml)
 };
 
 export const studentGenderValidator = { gender: z.string().min(1, selectionRequired) };
@@ -25,8 +28,8 @@ export const studentCitizenshipValidator = { citizenship: z.string().min(1).defa
 export const studentDateOfBirthValidator = { date_of_birth: z.string().nullable() };
 
 export const studentResidenceValidators = {
-	city: z.string().trim(),
-	state: z.string().trim()
+	city: z.string().trim().refine(safeForHtml, beSafeForHtml),
+	state: z.string().trim().refine(safeForHtml, beSafeForHtml)
 };
 
 export const studentCommentsValidator = { comments: z.string().trim() };

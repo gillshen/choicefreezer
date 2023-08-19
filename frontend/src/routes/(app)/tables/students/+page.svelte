@@ -8,9 +8,9 @@
 		type ValueGetterParams
 	} from 'ag-grid-community';
 
-	import { formatResidence } from '$lib/utils/studentUtils.js';
-	import { ASST_PLANNER, ESSAY_ADVISOR, PLANNER, STRAT_PLANNER } from '$lib/constants/cfRoles.js';
 	import type { StudentListItemType } from '$lib/types/studentTypes.js';
+	import { ASST_PLANNER, ESSAY_ADVISOR, PLANNER, STRAT_PLANNER } from '$lib/constants/cfRoles.js';
+	import { formatResidence } from '$lib/utils/studentUtils.js';
 	import { toUsernamesWithRole } from '$lib/utils/serviceUtils.js';
 
 	export let data;

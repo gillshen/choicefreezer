@@ -6,9 +6,23 @@
 	export let errors: any;
 </script>
 
-<FormTextInput id="last-name-input" name="last_name" label="Last name" {form} {errors} />
+<FormTextInput
+	id="last-name-input"
+	name="last_name"
+	label="Last name"
+	{form}
+	{errors}
+	maxlength={50}
+/>
 
-<FormTextInput id="first-name-input" name="first_name" label="First name" {form} {errors} />
+<FormTextInput
+	id="first-name-input"
+	name="first_name"
+	label="First name"
+	{form}
+	{errors}
+	maxlength={50}
+/>
 
 <FormCheckInput
 	id="chinese-name-check"

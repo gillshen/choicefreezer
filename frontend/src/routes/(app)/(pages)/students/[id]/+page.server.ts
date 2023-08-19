@@ -1,6 +1,8 @@
+import type { PageServerLoadEvent } from './$types.js';
+import { error, fail } from '@sveltejs/kit';
+
 import { message, superValidate } from 'sveltekit-superforms/server';
 import type { SuperValidated } from 'sveltekit-superforms/index.d.ts';
-import { error, fail } from '@sveltejs/kit';
 
 import {
 	fetchACT,
@@ -30,7 +32,7 @@ import {
 	contractSchema
 } from '$lib/schemas.js';
 
-export async function load(event) {
+export async function load(event: PageServerLoadEvent) {
 	const id = parseInt(event.params.id, 10);
 
 	if (isNaN(id)) {

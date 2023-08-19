@@ -4,12 +4,12 @@
 	export let label: string;
 	export let form: any;
 	export let errors: any;
-	export let optional: boolean = false;
+	export let optional = false;
 
 	const labelClassName = optional ? 'label optional' : 'label required';
 </script>
 
-<div>
+<div class="flex flex-col">
 	<label class={labelClassName} for={id}>{label}</label>
 	<select
 		{id}
@@ -22,6 +22,6 @@
 		<slot />
 	</select>
 	{#if errors[name]}
-		<div class="error-message">{errors[name]}</div>
+		<small class="error-message">{errors[name]}</small>
 	{/if}
 </div>

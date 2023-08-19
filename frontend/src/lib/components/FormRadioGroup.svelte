@@ -35,6 +35,6 @@
 		{/each}
 	</div>
 	{#if errors.gender}
-		<div class="error-message">{errors.gender}</div>
+		<small class="error-message">{errors.gender}</small>
 	{/if}
 </div>

@@ -7,11 +7,13 @@
 	export let optional: boolean = false;
 	export let rows = 5;
 	export let placeholder = '';
+	export let maxlength = 5000;
+	export let showCharCount = true;
 
 	const labelClassName = optional ? 'label optional' : 'label required';
 </script>
 
-<div>
+<div class="flex flex-col">
 	<label class={labelClassName} for={id}>{label}</label>
 	<textarea
 		{id}
@@ -22,8 +24,12 @@
 		required={!optional}
 		{placeholder}
 		{rows}
+		{maxlength}
 	/>
+	{#if showCharCount}
+		<small class="char-count">{form[name].length}/{maxlength}</small>
+	{/if}
 	{#if errors[name]}
-		<div class="error-message">{errors[name]}</div>
+		<small class="error-message">{errors[name]}</small>
 	{/if}
 </div>

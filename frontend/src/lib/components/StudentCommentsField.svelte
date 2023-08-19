@@ -5,4 +5,12 @@
 	export let placeholder = '';
 </script>
 
-<FormTextArea id="comments-area" name="comments" label="Comments" {form} {errors} {placeholder} />
+<FormTextArea
+	id="comments-area"
+	name="comments"
+	label="Comments"
+	{form}
+	{errors}
+	{placeholder}
+	maxlength={1000}
+/>
