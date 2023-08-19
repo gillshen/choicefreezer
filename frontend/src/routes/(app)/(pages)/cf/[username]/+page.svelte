@@ -62,8 +62,7 @@
 	>
 		<h3 class="px-0 py-2 m-0">
 			Past students <i
-				id="past-students-toggle-icon"
-				class={`fa-solid fa-chevron-down ${showPastStudents ? 'open' : ''}`}
+				class={`toggle-icon fa-solid fa-chevron-down ${showPastStudents ? 'open' : ''}`}
 			/>
 		</h3>
 	</button>
@@ -108,10 +107,10 @@
 	#past-students-wrapper * {
 		min-height: 0;
 	}
-	#past-students-toggle-icon {
+	.toggle-icon {
 		transition: all 0.4s ease-in-out;
 	}
-	#past-students-toggle-icon.open {
+	.toggle-icon.open {
 		rotate: 180deg;
 	}
 </style>

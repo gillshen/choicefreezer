@@ -1,12 +1,18 @@
 <script lang="ts">
-	import CfPeopleNav from '$lib/components/CfPeopleNav.svelte';
-	import { filterForActive } from '$lib/utils/userUtils.js';
 	import { AppBar } from '@skeletonlabs/skeleton';
+
+	import { filterForActive } from '$lib/utils/userUtils.js';
+	import CfPeopleNav from '$lib/components/CfPeopleNav.svelte';
+
+	import { clickOutside } from '$lib/utils/clickOutside.js';
 
 	export let data;
 	const { cfPeople } = data;
 
 	const activePeople = filterForActive(cfPeople);
+
+	let showPeople = false;
+	let showMore = false;
 </script>
 
 <AppBar slotDefault="place-self-center" slotTrail="place-content-end">
@@ -14,10 +20,16 @@
 	<nav class="flex gap-8 flex-wrap">
 		<a href="../home">Home</a>
 
-		<button class="dropdown-trigger">
-			People <i class="fa-solid fa-chevron-down" />
-			<div class="dropdown-nav">
-				<CfPeopleNav cfPeople={activePeople} />
+		<button
+			class="dropdown-trigger"
+			on:click={() => (showPeople = !showPeople)}
+			use:clickOutside={() => showPeople && (showPeople = false)}
+		>
+			People <i class={`toggle-icon fa-solid fa-chevron-down ${showPeople ? 'open' : ''}`} />
+			<div class={`dropdown-nav ${showPeople ? 'open' : ''}`}>
+				<div>
+					<CfPeopleNav cfPeople={activePeople} />
+				</div>
 			</div>
 		</button>
 
@@ -25,9 +37,13 @@
 
 		<a href="../tables/applications">Applications</a>
 
-		<button class="dropdown-trigger">
-			More <i class="fa-solid fa-chevron-down" />
-			<div class="dropdown-nav">
+		<button
+			class="dropdown-trigger"
+			on:click={() => (showMore = !showMore)}
+			use:clickOutside={() => showMore && (showMore = false)}
+		>
+			More <i class={`toggle-icon fa-solid fa-chevron-down ${showMore ? 'open' : ''}`} />
+			<div class={`dropdown-nav ${showMore ? 'open' : ''}`}>
 				<ul class="flex flex-col pr-4">
 					<li><a href="../tables/schools">Schools</a></li>
 					<li><a href="../tables/programs">Programs</a></li>
@@ -60,13 +76,38 @@
 		@apply text-primary-500;
 	}
 	.dropdown-nav {
-		@apply min-w-[12rem];
-		@apply hidden absolute top-12 p-4 pl-6 pb-6;
+		@apply absolute top-14;
+		@apply z-10;
 		@apply text-surface-50 bg-surface-700;
 		@apply rounded-sm;
+		display: grid;
+		grid-template-rows: 0fr;
+		overflow: hidden;
+		opacity: 1;
+		transition: all 0.2s ease-in-out;
 	}
-	.dropdown-trigger:hover .dropdown-nav {
-		@apply flex z-10;
+	.dropdown-nav.open {
+		grid-template-rows: 1fr;
+		opacity: 1;
+	}
+	.dropdown-nav * {
+		min-height: 0;
+	}
+	.dropdown-nav > * {
+		@apply pl-6;
+		transform: scaleY(0);
+		transform-origin: top;
+		transition: all 0.2s ease-in-out;
+	}
+	.dropdown-nav.open > * {
+		@apply p-4 pl-6 pb-6;
+		transform: scaleY(1);
+	}
+	.toggle-icon {
+		transition: all 0.4s ease-in-out;
+	}
+	.toggle-icon.open {
+		rotate: 180deg;
 	}
 	footer {
 		@apply bg-surface-50 text-surface-900;
