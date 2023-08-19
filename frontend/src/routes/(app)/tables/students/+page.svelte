@@ -74,8 +74,8 @@
 
 	const columnDefs = [
 		{ headerName: 'Name', field: 'name', cellRenderer: NameRenderer },
-		{ headerName: 'Is current', field: 'is_current', cellDataType: 'boolean' },
-		{ headerName: 'Contract Type', field: 'latest_contract_type' },
+		{ headerName: 'Contract in effect', field: 'is_current', cellDataType: 'boolean' },
+		{ headerName: 'Contract type', field: 'latest_contract_type' },
 		{ headerName: 'Target Year', field: 'latest_target_year', type: ['numberColumn'] },
 		{ headerName: 'Gender', field: 'gender' },
 		{ headerName: 'Citizenship', field: 'citizenship' },
@@ -122,6 +122,6 @@
 
 		<div id="grid" class="data-grid ag-theme-alpine-dark" />
 
-		<button class="cf-primary max-w-fit" on:click={exportToCsv}>Export to CSV</button>
+		<button class="grid-page-export" on:click={exportToCsv}>Export to CSV</button>
 	</div>
 </div>

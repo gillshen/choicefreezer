@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { patchStudent } from '$lib/api.js';
 	import MinimalRadioGroup from '$lib/components/MinimalRadioGroup.svelte';
 	import PageSection from '$lib/components/PageSection.svelte';
 	import StudentAnchorCard from '$lib/components/StudentAnchorCard.svelte';
@@ -33,12 +34,14 @@
 		filterYearPast === 'All'
 			? user.past_students
 			: user.past_students.filter((s) => s.latest_target_year === filterYearPast);
+
+	let showPastStudents = false;
 </script>
 
 <h1>{banner}</h1>
 
 <PageSection>
-	<h3 class="mb-4">Current students</h3>
+	<h2 class="mb-4">Current students</h2>
 
 	<div class="student-grid">
 		<MinimalRadioGroup bind:target={filterYearCurrent} options={['All', ...yearOptionsCurrent]} />
@@ -53,16 +56,27 @@
 		</div>
 	</div>
 
-	<!-- TODO change to a button? -->
-	<h3 class="mb-4 mt-8">Past students</h3>
+	<button
+		class="mt-8 hover:text-primary-500"
+		on:click={() => (showPastStudents = !showPastStudents)}
+	>
+		<h3 class="px-0 py-2 m-0">
+			Past students <i
+				id="past-students-toggle-icon"
+				class={`fa-solid fa-chevron-down ${showPastStudents ? 'open' : ''}`}
+			/>
+		</h3>
+	</button>
 
-	<div class="student-grid">
-		<MinimalRadioGroup bind:target={filterYearPast} options={['All', ...yearOptionsPast]} />
+	<div id="past-students-wrapper" class={showPastStudents ? 'open' : ''}>
+		<div class="student-grid">
+			<MinimalRadioGroup bind:target={filterYearPast} options={['All', ...yearOptionsPast]} />
 
-		<div class="student-cards-container">
-			{#each filteredPastStudents.sort(sortByRomanizedName).sort(sortByTargetYearDesc) as student}
-				<StudentAnchorCard {student} />
-			{/each}
+			<div class="student-cards-container">
+				{#each filteredPastStudents.sort(sortByRomanizedName).sort(sortByTargetYearDesc) as student}
+					<StudentAnchorCard {student} />
+				{/each}
+			</div>
 		</div>
 	</div>
 </PageSection>
@@ -79,5 +93,25 @@
 	.student-cards-container {
 		@apply flex flex-wrap gap-4;
 		@apply h-fit;
+	}
+	#past-students-wrapper {
+		display: grid;
+		grid-template-rows: 0fr;
+		overflow: hidden;
+		opacity: 0;
+		transition: all 0.4s ease-in-out;
+	}
+	#past-students-wrapper.open {
+		grid-template-rows: 1fr;
+		opacity: 1;
+	}
+	#past-students-wrapper * {
+		min-height: 0;
+	}
+	#past-students-toggle-icon {
+		transition: all 0.4s ease-in-out;
+	}
+	#past-students-toggle-icon.open {
+		rotate: 180deg;
 	}
 </style>
