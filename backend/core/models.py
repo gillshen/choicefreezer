@@ -153,7 +153,17 @@ class Student(models.Model):
         return Service.objects.filter(contract__student=self)
 
     @property
+    def latest_contracts(self):
+        """
+        Return a query set containing the *latest contracts*, i.e.,
+        contracts with the latest target year (first looking at current
+        contracts and if there aren't any, then at past contracts).
+        """
+        return self.contracts.filter(target_year=self.latest_target_year)
+
+    @property
     def latest_target_year(self):
+        """Return the target year of the latest contracts"""
         if self.is_current:
             return self.current_contracts.latest("target_year").target_year
         else:
@@ -161,9 +171,14 @@ class Student(models.Model):
 
     @property
     def latest_contract_type(self):
-        latest_contracts = self.contracts.filter(target_year=self.latest_target_year)
-        latest_type = latest_contracts.values("type").last()
+        """Return the type of the last-added of the latest contracts"""
+        latest_type = self.latest_contracts.values("type").last()
         return latest_type["type"]
+
+    @property
+    def latest_services(self):
+        """Return Service objects attached to the latest contract"""
+        return self.services.filter(contract__in=self.latest_contracts)
 
     @classmethod
     def filter(

@@ -1,3 +1,5 @@
+import type { StudentListItemType } from './types/studentTypes';
+
 const BASE = 'http://127.0.0.1:8000/api/';
 
 async function get(url: string) {
@@ -41,7 +43,7 @@ export async function patchStudent(id: number, data: any) {
 	return await patch(`students/${id}/update/`, data);
 }
 
-export async function fetchStudents() {
+export async function fetchStudents(): Promise<StudentListItemType[]> {
 	return await get('students/');
 }
 

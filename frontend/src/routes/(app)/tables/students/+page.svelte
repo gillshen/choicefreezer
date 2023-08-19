@@ -9,6 +9,9 @@
 	} from 'ag-grid-community';
 
 	import { formatResidence } from '$lib/utils/studentUtils.js';
+	import { ASST_PLANNER, ESSAY_ADVISOR, PLANNER, STRAT_PLANNER } from '$lib/constants/cfRoles.js';
+	import type { StudentListItemType } from '$lib/types/studentTypes.js';
+	import { toUsernamesWithRole } from '$lib/utils/serviceUtils.js';
 
 	export let data;
 	const { students } = data;
@@ -17,7 +20,7 @@
 		sortable: true,
 		resizable: true,
 		flex: 1,
-		minWidth: 50,
+		minWidth: 100,
 		maxWidth: 500,
 		filter: 'agTextColumnFilter'
 	};
@@ -40,17 +43,21 @@
 		}
 	}
 
-	function residenceValueGetter(params: ValueGetterParams): string {
-		return formatResidence(params.data);
+	function usernameGetterByRole(role: string) {
+		return (params: ValueGetterParams): string => {
+			const student: StudentListItemType = params.data;
+			return toUsernamesWithRole(student.latest_services, role);
+		};
 	}
 
-	// TODO should be returned from the backend
-	function isCurrentValueGetter(params: ValueGetterParams): boolean {
-		return params.data.contracts.filter((c: any) => c.status === 'Effective').length > 0;
+	function residenceValueGetter(params: ValueGetterParams): string {
+		const student: StudentListItemType = params.data;
+		return formatResidence(student);
 	}
-	// TODO should be returned from the backend
-	function targetYearValueGetter(params: ValueGetterParams): number {
-		return Math.max(...params.data.contracts.map((c: any) => c.target_year));
+
+	function usedCfProductValueGetter(params: ValueGetterParams): boolean {
+		const student: StudentListItemType = params.data;
+		return student.cf_products.length > 0;
 	}
 
 	const columnTypes = {
@@ -58,6 +65,7 @@
 			cellDataType: 'number',
 			filter: 'agNumberColumnFilter'
 		},
+
 		dateStringColumn: {
 			cellDataType: 'dateString',
 			filter: 'agDateColumnFilter'
@@ -65,15 +73,24 @@
 	};
 
 	const columnDefs = [
-		{ field: 'name', cellRenderer: NameRenderer },
-		{ headerName: 'Is current', cellDataType: 'boolean', valueGetter: isCurrentValueGetter },
-		{ headerName: 'Target', type: ['numberColumn'], valueGetter: targetYearValueGetter },
-		{ field: 'gender' },
-		{ field: 'citizenship' },
-		{ field: 'date_of_birth', headerName: 'Born', type: ['dateStringColumn'] },
+		{ headerName: 'Name', field: 'name', cellRenderer: NameRenderer },
+		{ headerName: 'Is current', field: 'is_current', cellDataType: 'boolean' },
+		{ headerName: 'Contract Type', field: 'latest_contract_type' },
+		{ headerName: 'Target Year', field: 'latest_target_year', type: ['numberColumn'] },
+		{ headerName: 'Gender', field: 'gender' },
+		{ headerName: 'Citizenship', field: 'citizenship' },
+		{ headerName: PLANNER, valueGetter: usernameGetterByRole(PLANNER) },
+		{ headerName: ASST_PLANNER, valueGetter: usernameGetterByRole(ASST_PLANNER) },
+		{ headerName: STRAT_PLANNER, valueGetter: usernameGetterByRole(STRAT_PLANNER) },
+		{ headerName: ESSAY_ADVISOR, valueGetter: usernameGetterByRole(ESSAY_ADVISOR) },
+		{ headerName: 'Born', field: 'date_of_birth', type: ['dateStringColumn'] },
 		{ headerName: 'Based in', valueGetter: residenceValueGetter },
-		{ field: 'comments' }
-		// TODO current_staff fields
+		{
+			headerName: 'Used CF products',
+			cellDataType: 'boolean',
+			valueGetter: usedCfProductValueGetter
+		},
+		{ headerName: 'Comments', field: 'comments' }
 	];
 
 	const gridOptions: GridOptions = {

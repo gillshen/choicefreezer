@@ -68,7 +68,6 @@ class StudentListItemSerializer(serializers.ModelSerializer):
     """
     Fields:
         id: number;
-        name: string; // computed
 
         last_name: string;
         first_name: string;
@@ -86,16 +85,16 @@ class StudentListItemSerializer(serializers.ModelSerializer):
 
         comments: string;
 
-        contracts: {
+        cf_products: {
             id: number;
-            type: <Contract.Type>;
-            target_year: number;
-            date_signed: string | null; // date
-            status: <Contract.Status>,
-            student: number;
+            name: string;
         }[];
 
-        services: {
+        name: string;
+        is_current: boolean;
+        latest_target_year: number;
+        latest_contract_type: string;
+        latest_services: {
             id: number;
             cf_username: string;
             role: <Service.Role>;
@@ -104,21 +103,19 @@ class StudentListItemSerializer(serializers.ModelSerializer):
             contract: number;
             cf_person: number;
         }[];
-
-        cf_products: {
-            id: number;
-            name: string;
-        }[];
     """
 
     class Meta:
         model = Student
         fields = "__all__"
 
-    name = serializers.CharField()
-    contracts = ContractSerializer(many=True)
-    services = ServiceListItemSerializer(many=True)
     cf_products = CfProductSerializer(many=True)
+
+    name = serializers.CharField()
+    is_current = serializers.BooleanField()
+    latest_target_year = serializers.IntegerField()
+    latest_contract_type = serializers.CharField()
+    latest_services = ServiceListItemSerializer(many=True)
 
 
 class ContractListItemSerializer(serializers.ModelSerializer):
