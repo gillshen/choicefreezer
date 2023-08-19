@@ -97,7 +97,10 @@ form small.error-message {
 }
 
 .dropdown-nav ul {
-	@apply gap-2 h-fit;
+	@apply h-fit;
+	/* Shared grid properties; other grid properties
+	 * are defined in individual components */
+	@apply gap-y-2 gap-x-6;
 }
 .dropdown-nav li {
 	@apply text-left w-fit min-w-[5rem];
