@@ -18,7 +18,7 @@
 </script>
 
 <div>
-	<label class={labelClassName} for={id}>{label}</label>
+	<label class={`radio-group-label ${labelClassName}`} for={id}>{label}</label>
 	<div {id} class="flex flex-col space-y-2" aria-invalid={errors[name] ? 'true' : undefined}>
 		{#each values as [value, text]}
 			<label class="flex items-center space-x-2">
@@ -38,3 +38,9 @@
 		<small class="error-message">{errors.gender}</small>
 	{/if}
 </div>
+
+<style>
+	label.radio-group-label {
+		margin-bottom: 0.5rem;
+	}
+</style>

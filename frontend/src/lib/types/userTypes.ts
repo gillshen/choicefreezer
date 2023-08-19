@@ -1,3 +1,5 @@
+import type { ContractType } from '$lib/types/contractTypes';
+
 export type UserListItem = {
 	readonly id: number;
 	readonly username: string;
@@ -11,7 +13,7 @@ export type StudentOfUser = {
 	last_name_romanized: string;
 	first_name_romanized: string;
 	latest_target_year: number;
-	latest_contract_type: string;
+	latest_contract_type: ContractType;
 };
 
 // Returned by cf/<username>

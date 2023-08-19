@@ -121,7 +121,7 @@
 </PageSection>
 
 <PageSection>
-	<svelte:fragment slot="h2">{contracts.length > 1 ? 'Contracts' : 'Contract'}</svelte:fragment>
+	<svelte:fragment slot="h2">Contracts</svelte:fragment>
 
 	<div class="flex flex-wrap gap-4">
 		{#each contracts as contract}
@@ -135,7 +135,7 @@
 		{/each}
 	</div>
 
-	<button class="cf-secondary my-8" on:click={() => contractCreateDialog.showModal()}
+	<button class="section-cta" on:click={() => contractCreateDialog.showModal()}
 		>Add a contract</button
 	>
 </PageSection>
@@ -146,7 +146,7 @@
 		<pre class="text-surface-400">{JSON.stringify(applications, null, 2)}</pre>
 	{/if}
 
-	<button class="cf-primary">Add an application</button>
+	<button class="section-cta">Add an application</button>
 </PageSection>
 
 <PageSection>
@@ -155,7 +155,7 @@
 		<pre class="text-surface-400">{JSON.stringify(logs, null, 2)}</pre>
 	{/if}
 
-	<button class="cf-secondary">Add an update</button>
+	<button class="section-cta">Add an update</button>
 </PageSection>
 
 <PageSection>
@@ -164,7 +164,7 @@
 		<pre class="text-surface-400">{JSON.stringify(enrollments, null, 2)}</pre>
 	{/if}
 
-	<button class="cf-secondary">Add a school</button>
+	<button class="section-cta">Add a school</button>
 </PageSection>
 
 <PageSection>
@@ -205,7 +205,7 @@
 		<pre class="text-surface-400">{JSON.stringify(greScores, null, 2)}</pre>
 	{/if}
 
-	<button class="cf-secondary">Add a test</button>
+	<button class="section-cta">Add a test score</button>
 </PageSection>
 
 <!-- Dialogs -->

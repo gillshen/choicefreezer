@@ -1,3 +1,6 @@
+import type { CONTRACT_TYPES } from '$lib/constants/contractTypes';
+import type { CONTRACT_STATUSES } from '$lib/constants/contractStatuses';
+
 export type Service = {
 	id: number;
 	contract: number;
@@ -8,13 +11,17 @@ export type Service = {
 	end_date: string | null;
 };
 
+export type ContractType = (typeof CONTRACT_TYPES)[number];
+
+export type ContractStatus = (typeof CONTRACT_STATUSES)[number];
+
 export type Contract = {
 	id: number;
 	student: number;
-	type: string;
+	type: ContractType;
 	target_year: number;
 	date_signed: string | null;
 	student_progression_at_signing: string;
-	status: 'Effective' | 'Fulfilled' | 'Terminated';
+	status: ContractStatus;
 	services: Service[];
 };

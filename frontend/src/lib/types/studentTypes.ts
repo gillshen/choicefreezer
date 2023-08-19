@@ -1,4 +1,7 @@
-type Gender = 'Female' | 'Male' | 'Other';
+import type { GENDERS } from '$lib/constants/genders';
+import type { ContractType } from '$lib/types/contractTypes';
+
+type Gender = (typeof GENDERS)[number];
 
 export type StudentListItemType = {
 	id: number;
@@ -9,7 +12,7 @@ export type StudentListItemType = {
 	name: string;
 	is_current: boolean;
 	latest_target_year: number;
-	latest_contract_type: string;
+	latest_contract_type: ContractType;
 	latest_services: Array<{
 		id: number;
 		cf_username: string;

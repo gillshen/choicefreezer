@@ -7,7 +7,7 @@ export const HIGH_SCHOOL_PROGRESSIONS = [
 	'High School G11 - Spring',
 	'High School G12 - Fall',
 	'High School G12 - Spring'
-];
+] as const;
 
 export const COLLEGE_PROGRESSIONS = [
 	'College Year 1 - Fall',
@@ -18,6 +18,6 @@ export const COLLEGE_PROGRESSIONS = [
 	'College Year 3 - Spring',
 	'College Year 4 - Fall',
 	'College Year 4 - Spring'
-];
+] as const;
 
-export const ALL_PROGRESSIONS = [...HIGH_SCHOOL_PROGRESSIONS, ...COLLEGE_PROGRESSIONS];
+export const ALL_PROGRESSIONS = [...HIGH_SCHOOL_PROGRESSIONS, ...COLLEGE_PROGRESSIONS] as const;

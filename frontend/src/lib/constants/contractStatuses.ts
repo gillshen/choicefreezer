@@ -1,5 +1,1 @@
-export enum ContractStatus {
-	Effective = 'Effective',
-	Fulfilled = 'Fulfilled',
-	Terminated = 'Terminated'
-}
+export const CONTRACT_STATUSES = ['Effective', 'Fulfilled', 'Terminated'] as const;
