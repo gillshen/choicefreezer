@@ -99,6 +99,9 @@ class Program(models.Model):
 
     Related fields:
         targets: [Target];
+
+    Computed fields:
+        display_name: string;
     """
 
     class Type(models.TextChoices):
@@ -106,7 +109,7 @@ class Program(models.Model):
         UG_FRESHMAN = "UG Freshman", _("UG Freshman")
         UG_TRANSFER = "UG Transfer", _("UG Transfer")
         MASTER = "Master", _("Master")
-        DOCTORATE = "Doctorate", _("Doctorate")
+        PHD = "PhD", _("PhD")
         OTHER = "Other", _("Other")
 
     type = models.CharField(max_length=100, choices=Type.choices)
@@ -123,6 +126,14 @@ class Program(models.Model):
     def __str__(self) -> str:
         schools = School.format_names(self.schools.all())
         return f"{schools} | ({self.type}) {self.name} {self.degree}".strip()
+
+    @property
+    def display_name(self):
+        if self.degree:
+            degree = f" ({self.degree})"
+        else:
+            degree = ""
+        return f"{self.name or self.type}{degree}"
 
     @classmethod
     def of_exact_schools(cls, *schools):

@@ -26,6 +26,7 @@ from target.serializers import (
     # List items
     SchoolListItemSerializer,
     ProgramListItemSerializer,
+    ProgramSelectItemSerializer,
     TargetListItemSerializer,
 )
 
@@ -122,6 +123,11 @@ class SchoolListView(ListAPIView):
 class ProgramListView(ListAPIView):
     queryset = Program.objects.all()
     serializer_class = ProgramListItemSerializer
+
+
+class ProgramSelectView(ListAPIView):
+    queryset = Program.objects.all()
+    serializer_class = ProgramSelectItemSerializer
 
 
 class TargetListView(ListAPIView):

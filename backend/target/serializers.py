@@ -90,6 +90,12 @@ class ProgramListItemSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class ProgramSelectItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Program
+        fields = ["id", "type", "display_name", "schools"]
+
+
 # TODO
 class TargetListItemSerializer(serializers.ModelSerializer):
     class Meta:

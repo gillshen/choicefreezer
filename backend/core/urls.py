@@ -43,6 +43,7 @@ from target.views import (
     ProgramRetrieveView,
     ProgramUpdateDeleteView,
     ProgramListView,
+    ProgramSelectView,
     TargetCreateView,
     TargetRetrieveView,
     TargetUpdateDeleteView,
@@ -186,6 +187,7 @@ urlpatterns += [
     path("programs/<int:pk>/update/", ProgramUpdateDeleteView.as_view()),
     path("programs/<int:pk>/delete/", ProgramUpdateDeleteView.as_view()),
     path("programs/", ProgramListView.as_view()),
+    path("programs/select/", ProgramSelectView.as_view()),
 ]
 
 # Target views
