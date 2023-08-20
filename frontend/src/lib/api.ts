@@ -1,3 +1,5 @@
+import type { ProgramSelectItem } from './types/programTypes';
+import type { School } from './types/schoolTypes';
 import type { StudentListItemType } from './types/studentTypes';
 
 const BASE = 'http://127.0.0.1:8000/api/';
@@ -63,7 +65,7 @@ export async function fetchSchool(id: number) {
 	return await get(`schools/${id}/`);
 }
 
-export async function fetchSchools() {
+export async function fetchSchools(): Promise<School[]> {
 	return await get('schools/');
 }
 
@@ -73,6 +75,10 @@ export async function fetchProgram(id: number) {
 
 export async function fetchPrograms() {
 	return await get('programs/');
+}
+
+export async function fetchProgramSelectList(): Promise<ProgramSelectItem[]> {
+	return await get('programs/select/');
 }
 
 export async function fetchTarget(id: number) {

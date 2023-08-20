@@ -1,4 +1,8 @@
-export function sortCountries(a: string, b: string) {
+export function byName(a: { name: string }, b: { name: string }) {
+	return a.name.localeCompare(b.name);
+}
+
+export function byCountryName(a: string, b: string) {
 	// Put China and the US at the top
 	if (a === 'China' || (a === 'United States' && b !== 'China')) {
 		return -1;

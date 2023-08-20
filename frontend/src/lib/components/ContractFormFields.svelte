@@ -13,7 +13,7 @@
 </script>
 
 <FormSelect id="contract-type-select" name="type" label="Type" {form} {errors}>
-	<OptionList options={CONTRACT_TYPES} />
+	<OptionList options={Array.from(CONTRACT_TYPES)} />
 </FormSelect>
 
 <FormSelect id="target-year-select" name="target_year" label="Target year of entry" {form} {errors}>
@@ -37,9 +37,9 @@
 	{errors}
 	optional
 >
-	<OptionList options={ALL_PROGRESSIONS} />
+	<OptionList options={Array.from(ALL_PROGRESSIONS)} />
 </FormSelect>
 
 <FormSelect id="contract-status-select" name="status" label="Status" {form} {errors}>
-	<OptionList options={CONTRACT_STATUSES} />
+	<OptionList options={Array.from(CONTRACT_STATUSES)} />
 </FormSelect>

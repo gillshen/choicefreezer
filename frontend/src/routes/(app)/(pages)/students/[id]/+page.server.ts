@@ -18,7 +18,9 @@ import {
 	fetchTOEFL,
 	fetchApplicationsOfStudent,
 	patchStudent,
-	performCreateContract
+	performCreateContract,
+	fetchSchools,
+	fetchProgramSelectList
 } from '$lib/api';
 
 import {
@@ -29,7 +31,8 @@ import {
 	studentDateOfBirthSchema,
 	studentResidenceSchema,
 	studentCommentsSchema,
-	contractSchema
+	contractSchema,
+	applicationSchema
 } from '$lib/schemas.js';
 
 export async function load(event: PageServerLoadEvent) {
@@ -55,6 +58,9 @@ export async function load(event: PageServerLoadEvent) {
 
 	const contractCreateForm = await superValidate(event, contractSchema);
 
+	// TODO
+	const applicationCreateForm = await superValidate(event, applicationSchema);
+
 	return {
 		// profile
 		student,
@@ -68,6 +74,7 @@ export async function load(event: PageServerLoadEvent) {
 		// contracts
 		contracts: fetchContracts(id),
 		contractCreateForm,
+		applicationCreateForm,
 		// logs
 		logs: fetchLogsOfStudents(id),
 		// enrollments
@@ -80,7 +87,10 @@ export async function load(event: PageServerLoadEvent) {
 		actScores: fetchACT(id),
 		apScores: fetchAP(id),
 		greScores: fetchGRE(id),
-		applications: fetchApplicationsOfStudent(id)
+		applications: fetchApplicationsOfStudent(id),
+		// application form data:
+		schools: fetchSchools(),
+		programs: fetchProgramSelectList()
 	};
 }
 
@@ -122,7 +132,6 @@ export const actions = {
 
 	createContract: async (event) => {
 		const form = await superValidate(event, contractSchema);
-		console.log(form);
 		if (!form.valid) {
 			return fail(400, { form });
 		}
@@ -132,6 +141,15 @@ export const actions = {
 			console.log(error);
 			const messageText = 'Sorry, an unexpected error occurred. Please contact tech support.';
 			return message(form, messageText, { status: 400 });
+		}
+		return { form };
+	},
+
+	createApplication: async (event) => {
+		const form = await superValidate(event, applicationSchema);
+		console.log(form);
+		if (!form.valid) {
+			return fail(400, { form });
 		}
 		return { form };
 	}

@@ -9,6 +9,7 @@
 	import StudentResidenceForm from '$lib/forms/StudentResidenceForm.svelte';
 	import StudentCommentsForm from '$lib/forms/StudentCommentsForm.svelte';
 	import ContractForm from '$lib/forms/ContractForm.svelte';
+	import ApplicationForm from '$lib/forms/ApplicationForm.svelte';
 
 	import {
 		formatStudentName,
@@ -57,6 +58,7 @@
 	let residenceDialog: HTMLDialogElement;
 	let commentsDialog: HTMLDialogElement;
 	let contractCreateDialog: HTMLDialogElement;
+	let applicationCreateDialog: HTMLDialogElement;
 </script>
 
 <h1>{formatStudentName(student)}</h1>
@@ -146,7 +148,9 @@
 		<pre class="text-surface-400">{JSON.stringify(applications, null, 2)}</pre>
 	{/if}
 
-	<button class="section-cta">Add an application</button>
+	<button class="section-cta" on:click={() => applicationCreateDialog.showModal()}
+		>Add an application</button
+	>
 </PageSection>
 
 <PageSection>
@@ -273,7 +277,7 @@
 	/>
 </Dialog>
 
-<Dialog title="Create a contract" exitHelper bind:dialog={contractCreateDialog}>
+<Dialog title="Add a contract" exitHelper bind:dialog={contractCreateDialog}>
 	<ContractForm
 		dialog={contractCreateDialog}
 		action="?/createContract"
@@ -282,6 +286,16 @@
 		{planners}
 		{essayAdvisors}
 		{specialPeople}
+	/>
+</Dialog>
+
+<Dialog title="Add an application" exitHelper bind:dialog={applicationCreateDialog}>
+	<ApplicationForm
+		dialog={applicationCreateDialog}
+		action="?/createApplication"
+		data={data.applicationCreateForm}
+		schools={data.schools}
+		programs={data.programs}
 	/>
 </Dialog>
 

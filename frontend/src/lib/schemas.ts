@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import {
+	applicationValidators,
 	contractValidators,
 	idValidator,
 	studentCitizenshipValidator,
@@ -72,3 +73,9 @@ export const contractSchema = z.object({
 });
 
 export type ContractSchema = typeof contractSchema;
+
+export const applicationSchema = z.object({
+	...applicationValidators
+});
+
+export type ApplicationSchema = typeof applicationSchema;

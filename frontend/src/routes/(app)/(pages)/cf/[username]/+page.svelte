@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { patchStudent } from '$lib/api.js';
-	import MinimalRadioGroup from '$lib/components/MinimalRadioGroup.svelte';
 	import PageSection from '$lib/components/PageSection.svelte';
+	import MinimalRadioGroup from '$lib/components/MinimalRadioGroup.svelte';
 	import StudentAnchorCard from '$lib/components/StudentAnchorCard.svelte';
 	import { sortByRomanizedName, sortByTargetYearDesc } from '$lib/utils/studentUtils.js';
 
