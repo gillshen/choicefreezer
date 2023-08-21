@@ -17,7 +17,8 @@
 	const { form, errors, message, enhance } = superForm(data, {
 		id: action,
 		scrollToError: 'auto',
-		onResult: closeAndReloadOnSuccess(dialog!)
+		taintedMessage: null,
+		onResult: closeAndReloadOnSuccess(dialog)
 	});
 </script>
 

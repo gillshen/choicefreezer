@@ -1,5 +1,5 @@
 import type { PageServerLoadEvent } from './$types.js';
-import { error, fail } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
 
 import { message, superValidate } from 'sveltekit-superforms/server';
 import type { SuperValidated } from 'sveltekit-superforms/index.d.ts';
@@ -58,7 +58,6 @@ export async function load(event: PageServerLoadEvent) {
 
 	const contractCreateForm = await superValidate(event, contractSchema);
 
-	// TODO
 	const applicationCreateForm = await superValidate(event, applicationSchema);
 
 	return {
@@ -151,7 +150,11 @@ export const actions = {
 		if (!form.valid) {
 			return fail(400, { form });
 		}
-		return { form };
+		const { data } = form;
+		if (data.programId === 0) {
+			console.log('creating a new program');
+		}
+		throw redirect(301, '../tables/applications/');
 	}
 };
 

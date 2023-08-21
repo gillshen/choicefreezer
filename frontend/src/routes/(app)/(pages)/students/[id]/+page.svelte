@@ -216,7 +216,7 @@
 
 <Dialog exitHelper bind:dialog={legalNameDialog}>
 	<StudentLegalNameForm
-		dialog={legalNameDialog}
+		bind:dialog={legalNameDialog}
 		action="?/updateLegalName"
 		studentId={student.id}
 		data={data.legalNameForm}
@@ -225,7 +225,7 @@
 
 <Dialog exitHelper bind:dialog={romanizedNameDialog}>
 	<StudentRomanizedNameForm
-		dialog={romanizedNameDialog}
+		bind:dialog={romanizedNameDialog}
 		action="?/updateRomanizedName"
 		studentId={student.id}
 		data={data.romanizedNameForm}
@@ -234,7 +234,7 @@
 
 <Dialog exitHelper bind:dialog={genderDialog}>
 	<StudentGenderForm
-		dialog={genderDialog}
+		bind:dialog={genderDialog}
 		action="?/updateGender"
 		studentId={student.id}
 		data={data.genderForm}
@@ -243,7 +243,7 @@
 
 <Dialog exitHelper bind:dialog={citizenshipDialog}>
 	<StudentCitizenshipForm
-		dialog={citizenshipDialog}
+		bind:dialog={citizenshipDialog}
 		action="?/updateCitizenship"
 		studentId={student.id}
 		data={data.citizenshipForm}
@@ -252,7 +252,7 @@
 
 <Dialog exitHelper bind:dialog={dateOfBirthDialog}>
 	<StudentDateOfBirthForm
-		dialog={dateOfBirthDialog}
+		bind:dialog={dateOfBirthDialog}
 		action="?/updateDateOfBirth"
 		studentId={student.id}
 		data={data.dateOfBirthForm}
@@ -261,7 +261,7 @@
 
 <Dialog exitHelper bind:dialog={residenceDialog}>
 	<StudentResidenceForm
-		dialog={residenceDialog}
+		bind:dialog={residenceDialog}
 		action="?/updateResidence"
 		studentId={student.id}
 		data={data.residenceForm}
@@ -270,7 +270,7 @@
 
 <Dialog exitHelper bind:dialog={commentsDialog}>
 	<StudentCommentsForm
-		dialog={commentsDialog}
+		bind:dialog={commentsDialog}
 		action="?/updateComments"
 		studentId={student.id}
 		data={data.commentsForm}
@@ -279,7 +279,7 @@
 
 <Dialog title="Add a contract" exitHelper bind:dialog={contractCreateDialog}>
 	<ContractForm
-		dialog={contractCreateDialog}
+		bind:dialog={contractCreateDialog}
 		action="?/createContract"
 		studentId={student.id}
 		data={data.contractCreateForm}
@@ -291,7 +291,7 @@
 
 <Dialog title="Add an application" exitHelper bind:dialog={applicationCreateDialog}>
 	<ApplicationForm
-		dialog={applicationCreateDialog}
+		bind:dialog={applicationCreateDialog}
 		action="?/createApplication"
 		data={data.applicationCreateForm}
 		schools={data.schools}
