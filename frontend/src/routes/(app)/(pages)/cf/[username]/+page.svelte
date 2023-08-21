@@ -2,7 +2,7 @@
 	import PageSection from '$lib/components/PageSection.svelte';
 	import MinimalRadioGroup from '$lib/components/MinimalRadioGroup.svelte';
 	import StudentAnchorCard from '$lib/components/StudentAnchorCard.svelte';
-	import { sortByRomanizedName, sortByTargetYearDesc } from '$lib/utils/studentUtils.js';
+	import { byContractType, byRomanizedName, byTargetYearDesc } from '$lib/utils/studentUtils.js';
 
 	export let data;
 	const { user, applications } = data;
@@ -47,8 +47,9 @@
 
 		<div class="student-cards-container">
 			{#each filteredCurrentStudents
-				.sort(sortByRomanizedName)
-				.sort(sortByTargetYearDesc) as student}
+				.sort(byRomanizedName)
+				.sort(byTargetYearDesc)
+				.sort(byContractType) as student}
 				<StudentAnchorCard {student} />
 			{/each}
 			<StudentAnchorCard />
@@ -71,7 +72,10 @@
 			<MinimalRadioGroup bind:target={filterYearPast} options={['All', ...yearOptionsPast]} />
 
 			<div class="student-cards-container">
-				{#each filteredPastStudents.sort(sortByRomanizedName).sort(sortByTargetYearDesc) as student}
+				{#each filteredPastStudents
+					.sort(byRomanizedName)
+					.sort(byTargetYearDesc)
+					.sort(byContractType) as student}
 					<StudentAnchorCard {student} />
 				{/each}
 			</div>
@@ -89,7 +93,7 @@
 		@apply grid grid-cols-[1fr,_4fr] gap-x-16;
 	}
 	.student-cards-container {
-		@apply flex flex-wrap gap-4;
+		@apply flex flex-wrap gap-6;
 		@apply h-fit;
 	}
 	#past-students-wrapper {

@@ -22,7 +22,7 @@ export function formatResidence(student: { city: string; state: string }) {
 	return student.city || student.state;
 }
 
-export function sortByRomanizedName(
+export function byRomanizedName(
 	a: { last_name_romanized: string; first_name_romanized: string },
 	b: { last_name_romanized: string; first_name_romanized: string }
 ) {
@@ -32,7 +32,7 @@ export function sortByRomanizedName(
 	);
 }
 
-export function sortByTargetYearDesc(
+export function byTargetYearDesc(
 	a: { latest_target_year: number },
 	b: { latest_target_year: number }
 ) {
@@ -43,4 +43,12 @@ export function sortByTargetYearDesc(
 	} else {
 		return 0;
 	}
+}
+
+export function byContractType(
+	a: { latest_contract_type: string },
+	b: { latest_contract_type: string }
+) {
+	// Graduate < UG Freshman < UG Transfer
+	return a.latest_contract_type.localeCompare(b.latest_contract_type);
 }
