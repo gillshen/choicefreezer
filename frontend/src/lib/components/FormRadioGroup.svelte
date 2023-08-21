@@ -19,7 +19,12 @@
 
 <div>
 	<label class={`radio-group-label ${labelClassName}`} for={id}>{label}</label>
-	<div {id} class="flex flex-col space-y-2" aria-invalid={errors[name] ? 'true' : undefined}>
+	<div
+		{id}
+		class="flex flex-col space-y-2"
+		aria-invalid={errors[name] ? 'true' : undefined}
+		on:change={() => (errors[name] = false)}
+	>
 		{#each values as [value, text]}
 			<label class="flex items-center space-x-2">
 				<input
@@ -34,8 +39,8 @@
 			</label>
 		{/each}
 	</div>
-	{#if errors.gender}
-		<small class="error-message">{errors.gender}</small>
+	{#if errors[name]}
+		<small class="error-message">{errors[name]}</small>
 	{/if}
 </div>
 

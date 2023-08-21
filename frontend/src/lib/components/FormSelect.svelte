@@ -18,6 +18,7 @@
 		bind:value={form[name]}
 		aria-invalid={errors[name] ? 'true' : undefined}
 		required={!optional}
+		on:change={() => (errors[name] = false)}
 	>
 		<slot />
 	</select>

@@ -22,6 +22,7 @@
 		aria-invalid={errors[name] ? 'true' : undefined}
 		required={!optional}
 		{maxlength}
+		on:input={() => (errors[name] = false)}
 	/>
 	{#if showCharCount}
 		<small class="char-count">{form[name].length}/{maxlength}</small>

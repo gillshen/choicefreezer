@@ -25,6 +25,7 @@
 		{placeholder}
 		{rows}
 		{maxlength}
+		on:input={() => (errors[name] = false)}
 	/>
 	{#if showCharCount}
 		<small class="char-count">{form[name].length}/{maxlength}</small>

@@ -28,7 +28,8 @@
 	const { form, errors, message, enhance } = superForm(data, {
 		id: action,
 		scrollToError: 'auto',
-		onResult: closeAndReloadOnSuccess(dialog!)
+		taintedMessage: null,
+		onResult: closeAndReloadOnSuccess(dialog)
 	});
 
 	// The unselected state
@@ -60,23 +61,7 @@
 
 	let addProgramEnabled = false;
 
-	const onJointProgramChange = () => {
-		$form.programId = -1;
-		$form.secondSchoolId = isJointProgram ? -1 : 0;
-		onFiltersChange();
-	};
-
-	const onSchoolChange = () => {
-		$form.programId = -1;
-		onFiltersChange();
-	};
-
-	const onProgramTypeChange = () => {
-		$form.programId = -1;
-		onFiltersChange();
-	};
-
-	const onFiltersChange = () => {
+	function onFiltersChange() {
 		filteredPrograms = programs.filter(programsFilter);
 
 		const firstSchoolSelected = !!$form.schoolId;
@@ -88,7 +73,36 @@
 		filtersSet = firstSchoolSelected && secondSchoolFulfilled && programTypeSelected;
 		programNotFound = filtersSet && filteredProgramsEmpty;
 		addProgramEnabled = programNotFound || userWantsToAdd;
-	};
+	}
+
+	function onJointProgramChange() {
+		$form.programId = -1;
+		$form.secondSchoolId = isJointProgram ? -1 : 0;
+		onFiltersChange();
+	}
+
+	function onSchoolChange() {
+		$form.programId = -1;
+		$errors.schoolId = [];
+		onFiltersChange();
+	}
+
+	function onSecondSchoolChange() {
+		$form.programId = -1;
+		$errors.secondSchoolId = [];
+		onFiltersChange();
+	}
+
+	function onProgramTypeChange() {
+		$form.programId = -1;
+		$errors.programType = [];
+		onFiltersChange();
+	}
+
+	function onProgramChange() {
+		$errors.programId = [];
+		onFiltersChange();
+	}
 
 	$: isUndergraduate = ['UG Freshman', 'UG Transfer'].includes($form.programType);
 
@@ -137,7 +151,7 @@
 					name="secondSchoolId"
 					class="select"
 					bind:value={$form.secondSchoolId}
-					on:change={onSchoolChange}
+					on:change={onSecondSchoolChange}
 				>
 					<!--
 						To allow -1 to be submitted for this nonnegative field so as
@@ -176,8 +190,8 @@
 				Choose a program
 				{#if filteredPrograms.length}
 					<small>
-						If you do not find the program you are looking for, select the last option "Add a
-						program..."
+						If you do not find the program you are looking for, select "Add a program..." at the
+						bottom
 					</small>
 				{/if}
 			</label>
@@ -187,7 +201,7 @@
 				class="select"
 				bind:value={$form.programId}
 				disabled={programNotFound}
-				on:change={onFiltersChange}
+				on:change={onProgramChange}
 			>
 				<option value={-1} />
 				{#each filteredPrograms as program}
