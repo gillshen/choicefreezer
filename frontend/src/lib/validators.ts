@@ -66,7 +66,34 @@ export const contractValidators = {
 // Application creation form
 export const applicationValidators = {
 	schoolId: z.number().positive(selectionRequired),
-	secondSchoolId: z.number().nullable(),
+
+	/* The second school id is required for a joint program but
+	 * optional otherwise. Forms should set it to a negative value
+	 * by default when it is required, and default to 0 if not. */
+	secondSchoolId: z.number().nonnegative(selectionRequired),
+
 	programType: z.string().min(1, selectionRequired),
-	programId: z.number().nullable()
+
+	/* The program id is not required when the user explicitly
+	 * indicates that they want a new program created, which forms
+	 * should represent by setting the value to 0. The default value
+	 * should be negative to trigger the validation error. */
+	programId: z.number().nonnegative(selectionRequired),
+
+	programName: z.string().trim().default(''),
+	programDegree: z.string().trim().default(''),
+
+	year: z
+		.number()
+		.positive(selectionRequired)
+		.default(THIS_YEAR + 1),
+	term: z.string().min(1, selectionRequired),
+	admissionPlan: z.string().min(1, selectionRequired),
+
+	firstMajorCategory: z.string().trim().nullable(),
+	firstMajor: z.string().trim().nullable(),
+	secondMajorCategory: z.string().trim().nullable(),
+	secondMajor: z.string().trim().nullable(),
+	thirdMajorCategory: z.string().trim().nullable(),
+	thirdMajor: z.string().trim().nullable()
 };

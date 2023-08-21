@@ -109,7 +109,7 @@ class Program(models.Model):
         UG_FRESHMAN = "UG Freshman", _("UG Freshman")
         UG_TRANSFER = "UG Transfer", _("UG Transfer")
         MASTER = "Master", _("Master")
-        PHD = "PhD", _("PhD")
+        PHD = "Doctorate", _("Doctorate")
         OTHER = "Other", _("Other")
 
     type = models.CharField(max_length=100, choices=Type.choices)

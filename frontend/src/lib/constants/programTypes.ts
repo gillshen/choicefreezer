@@ -3,6 +3,6 @@ export const PROGRAM_TYPES = [
 	'UG Freshman',
 	'UG Transfer',
 	'Master',
-	'PhD',
+	'Doctorate',
 	'Other'
 ] as const;

@@ -1,0 +1,35 @@
+<script lang="ts">
+	import FormTextInput from './FormTextInput.svelte';
+	import FormSelect from './FormSelect.svelte';
+	import OptionList from './OptionList.svelte';
+
+	import { MAJOR_CATEGORIES } from '$lib/constants/majorCategories';
+
+	export let rank: 'First' | 'Second' | 'Third';
+	export let majorFieldName: string;
+	export let majorCategoryFieldName: string;
+	export let form: any;
+	export let errors: any;
+
+	const rankLower = rank.toLowerCase();
+</script>
+
+<FormTextInput
+	id={`${rankLower}-major-input`}
+	name={majorFieldName}
+	label={`${rank} major`}
+	{form}
+	{errors}
+	optional
+/>
+
+<FormSelect
+	id={`${rankLower}-major-category-select`}
+	name={majorCategoryFieldName}
+	label="The category it belongs to"
+	{form}
+	{errors}
+	optional
+>
+	<OptionList options={Array.from(MAJOR_CATEGORIES)} insertNullRow />
+</FormSelect>
