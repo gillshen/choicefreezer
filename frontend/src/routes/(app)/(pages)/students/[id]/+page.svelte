@@ -69,14 +69,14 @@
 		<div class="cf-value">
 			{formatStudentName(student)}
 			{#if userCanEdit}
-				<button on:click={() => legalNameDialog.showModal()}>Update</button>
+				<button on:click={() => legalNameDialog.showModal()}>Edit</button>
 			{/if}
 		</div>
 
 		<div class="cf-value">
 			{formatStudentRomanizedName(student)}
 			{#if userCanEdit}
-				<button on:click={() => romanizedNameDialog.showModal()}>Update</button>
+				<button on:click={() => romanizedNameDialog.showModal()}>Edit</button>
 			{/if}
 		</div>
 
@@ -84,7 +84,7 @@
 		<div class="cf-value">
 			{student.gender}
 			{#if userCanEdit}
-				<button on:click={() => genderDialog.showModal()}>Update</button>
+				<button on:click={() => genderDialog.showModal()}>Edit</button>
 			{/if}
 		</div>
 
@@ -92,7 +92,7 @@
 		<div class="cf-value">
 			{student.citizenship}
 			{#if userCanEdit}
-				<button on:click={() => citizenshipDialog.showModal()}>Update</button>
+				<button on:click={() => citizenshipDialog.showModal()}>Edit</button>
 			{/if}
 		</div>
 
@@ -100,7 +100,7 @@
 		<div class="cf-value">
 			{student.date_of_birth ?? ''}
 			{#if userCanEdit}
-				<button on:click={() => dateOfBirthDialog.showModal()}>Update</button>
+				<button on:click={() => dateOfBirthDialog.showModal()}>Edit</button>
 			{/if}
 		</div>
 
@@ -108,7 +108,7 @@
 		<div class="cf-value">
 			{formatResidence(student)}
 			{#if userCanEdit}
-				<button on:click={() => residenceDialog.showModal()}>Update</button>
+				<button on:click={() => residenceDialog.showModal()}>Edit</button>
 			{/if}
 		</div>
 
@@ -116,7 +116,7 @@
 		<div class="cf-value">
 			{student.comments}
 			{#if userCanEdit}
-				<button on:click={() => commentsDialog.showModal()}>Update</button>
+				<button on:click={() => commentsDialog.showModal()}>Edit</button>
 			{/if}
 		</div>
 	</div>
@@ -130,8 +130,8 @@
 			<ContractCard {contract}>
 				{#if userCanEdit}
 					<!-- TODO turn the edit button into a link? -->
-					<button class="text-primary-600 hover:text-primary-500">Edit</button>
-					<button class="text-error-600 hover:text-error-500">Delete</button>
+					<button class="text-primary-600 hover:text-primary-500" disabled>Edit</button>
+					<button class="text-error-600 hover:text-error-500" disabled>Delete</button>
 				{/if}
 			</ContractCard>
 		{/each}
@@ -293,6 +293,7 @@
 	<ApplicationForm
 		bind:dialog={applicationCreateDialog}
 		action="?/createApplication"
+		studentId={student.id}
 		data={data.applicationCreateForm}
 		schools={data.schools}
 		programs={data.programs}
@@ -305,17 +306,19 @@
 		grid-template-columns: max-content 20rem;
 	}
 	.student-profile-grid .cf-value {
-		@apply flex flex-wrap gap-4 w-full;
+		@apply flex flex-wrap gap-3 w-full;
 	}
 	.student-profile-grid .cf-value button {
 		opacity: 0;
 		transition: opacity 0.4s;
 		@apply text-primary-600;
+		@apply px-3;
+		@apply rounded-md;
 	}
 	.student-profile-grid .cf-value:hover button {
 		opacity: 1;
 	}
 	.student-profile-grid .cf-value:hover button:hover {
-		@apply text-primary-500;
+		@apply text-primary-500 bg-surface-700;
 	}
 </style>

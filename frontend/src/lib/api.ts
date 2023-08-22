@@ -1,6 +1,9 @@
-import type { ProgramSelectItem } from './types/programTypes';
-import type { School } from './types/schoolTypes';
 import type { StudentListItemType } from './types/studentTypes';
+import type { School } from './types/schoolTypes';
+import type { NewProgram, ProgramSelectItem } from './types/programTypes';
+import type { NewTarget } from './types/targetTypes';
+import type { NewSubTarget } from './types/subTargetTypes';
+import type { NewApplication } from './types/applicationTypes';
 
 const BASE = 'http://127.0.0.1:8000/api/';
 
@@ -69,6 +72,10 @@ export async function fetchSchools(): Promise<School[]> {
 	return await get('schools/');
 }
 
+export async function createProgram(data: NewProgram) {
+	return await post('programs/new/', data);
+}
+
 export async function fetchProgram(id: number) {
 	return await get(`programs/${id}/`);
 }
@@ -81,6 +88,10 @@ export async function fetchProgramSelectList(): Promise<ProgramSelectItem[]> {
 	return await get('programs/select/');
 }
 
+export async function fetchOrCreateTarget(data: NewTarget) {
+	return await post('targets/new/', data);
+}
+
 export async function fetchTarget(id: number) {
 	return await get(`targets/${id}/`);
 }
@@ -89,8 +100,16 @@ export async function fetchRequirementsOfTarget(targetId: number) {
 	return await get(`reqs/${targetId}/`);
 }
 
+export async function fetchOrCreateSubTarget(data: NewSubTarget) {
+	return await post('subtargets/new/', data);
+}
+
 export async function fetchSubTargetsOfTarget(targetId: number) {
 	return await get(`subtargets/?target=${targetId}`);
+}
+
+export async function createApplication(data: NewApplication) {
+	return await post('applications/new/', data);
 }
 
 export async function fetchApplication(id: number) {

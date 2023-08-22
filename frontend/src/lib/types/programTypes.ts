@@ -10,6 +10,8 @@ export type Program = {
 	schools: number[];
 };
 
+export type NewProgram = Omit<Program, 'id'>;
+
 export type ProgramSelectItem = {
 	id: number;
 	type: ProgramType;

@@ -18,9 +18,11 @@
 	import FormTextInput from '$lib/components/FormTextInput.svelte';
 	import FormSelect from '$lib/components/FormSelect.svelte';
 	import MajorFormFields from '$lib/components/MajorFormFields.svelte';
+	import HiddenIdField from '$lib/components/HiddenIdField.svelte';
 
 	export let dialog: HTMLDialogElement | undefined;
 	export let action: string;
+	export let studentId: number;
 	export let data: SuperValidated<ApplicationSchema>;
 	export let schools: School[];
 	export let programs: ProgramSelectItem[];
@@ -113,6 +115,8 @@
 </script>
 
 <form method="post" {action} novalidate use:enhance>
+	<HiddenIdField value={studentId} name="studentId" />
+
 	<fieldset>
 		<legend>Choose a program</legend>
 

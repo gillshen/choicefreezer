@@ -65,6 +65,8 @@ export const contractValidators = {
 
 // Application creation form
 export const applicationValidators = {
+	studentId: idValidator.id,
+
 	schoolId: z.number().positive(selectionRequired),
 
 	/* The second school id is required for a joint program but

@@ -20,7 +20,11 @@ import {
 	patchStudent,
 	performCreateContract,
 	fetchSchools,
-	fetchProgramSelectList
+	fetchProgramSelectList,
+	createProgram,
+	fetchOrCreateTarget,
+	fetchOrCreateSubTarget,
+	createApplication
 } from '$lib/api';
 
 import {
@@ -34,6 +38,12 @@ import {
 	contractSchema,
 	applicationSchema
 } from '$lib/schemas.js';
+
+import type { Program, ProgramType } from '$lib/types/programTypes.js';
+import type { NewTarget, Target } from '$lib/types/targetTypes.js';
+import type { NewSubTarget, SubTarget } from '$lib/types/subTargetTypes.js';
+import type { NewApplication } from '$lib/types/applicationTypes.js';
+import { UNKNOWN_ERROR } from '$lib/constants/messages.js';
 
 export async function load(event: PageServerLoadEvent) {
 	const id = parseInt(event.params.id, 10);
@@ -138,8 +148,7 @@ export const actions = {
 			await performCreateContract({ studentId: form.data.studentId, formData: form.data });
 		} catch (error) {
 			console.log(error);
-			const messageText = 'Sorry, an unexpected error occurred. Please contact tech support.';
-			return message(form, messageText, { status: 400 });
+			return message(form, UNKNOWN_ERROR, { status: 400 });
 		}
 		return { form };
 	},
@@ -147,14 +156,63 @@ export const actions = {
 	createApplication: async (event) => {
 		const form = await superValidate(event, applicationSchema);
 		console.log(form);
+
 		if (!form.valid) {
 			return fail(400, { form });
 		}
 		const { data } = form;
+
+		// Create a new program
 		if (data.programId === 0) {
-			console.log('creating a new program');
+			const newProgram = {
+				type: data.programType as ProgramType,
+				name: data.programName,
+				degree: data.programDegree,
+				schools: [data.schoolId]
+			};
+			if (data.secondSchoolId) {
+				newProgram.schools.push(data.secondSchoolId);
+			}
+			const createProgramResponse = await createProgram(newProgram);
+			if (!createProgramResponse.ok) {
+				return message(form, UNKNOWN_ERROR, { status: 400 });
+			}
+			const createdProgram: Program = await createProgramResponse.json();
+			data.programId = createdProgram.id;
 		}
-		throw redirect(301, '../tables/applications/');
+
+		const targetParams: NewTarget = {
+			program: data.programId,
+			year: data.year,
+			term: data.term
+		};
+		const targetResponse = await fetchOrCreateTarget(targetParams);
+		if (!targetResponse.ok) {
+			return message(form, UNKNOWN_ERROR, { status: 400 });
+		}
+		const target: Target = await targetResponse.json();
+
+		const subTargetParams: NewSubTarget = {
+			target: target.id,
+			admission_plan: data.admissionPlan
+		};
+		const subTargetResponse = await fetchOrCreateSubTarget(subTargetParams);
+		if (!subTargetResponse.ok) {
+			return message(form, UNKNOWN_ERROR, { status: 400 });
+		}
+		const subTarget: SubTarget = await subTargetResponse.json();
+
+		const applicationParams: NewApplication = {
+			student: data.studentId,
+			subtarget: subTarget.id
+		};
+		const createApplicationResponse = await createApplication(applicationParams);
+		if (!createApplicationResponse.ok) {
+			return message(form, UNKNOWN_ERROR, { status: 400 });
+		}
+		const createdApplication = await createApplicationResponse.json();
+
+		throw redirect(301, `../applications/${createdApplication.id}/`);
 	}
 };
 

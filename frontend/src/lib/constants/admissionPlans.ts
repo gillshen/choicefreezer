@@ -1,14 +1,11 @@
-const COMMON_PLANS = ['Rolling', 'To Be Decided'];
+const commonPlans = ['Rolling', 'To Be Decided'];
 
-export const UG_PLANS = ['ED', 'EA', 'REA', 'ED II', 'RD', 'Priority', ...COMMON_PLANS] as const;
+const ugPlans = ['ED', 'EA', 'REA', 'ED II', 'RD', 'Priority'];
 
-export const NONUG_PLANS = [
-	'Priority',
-	'Regular',
-	'Round 1',
-	'Round 2',
-	'Round 3',
-	'Round 4',
-	'Round 5',
-	...COMMON_PLANS
-] as const;
+const nonUgPlans = ['Priority', 'Regular', 'Round 1', 'Round 2', 'Round 3', 'Round 4', 'Round 5'];
+
+export const UG_PLANS = [...ugPlans, ...commonPlans] as const;
+
+export const NONUG_PLANS = [...nonUgPlans, ...commonPlans] as const;
+
+export const ADMISSION_PLANS = [...ugPlans, ...nonUgPlans, ...commonPlans] as const;
