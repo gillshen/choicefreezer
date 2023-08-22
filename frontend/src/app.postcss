@@ -37,17 +37,25 @@ h3 {
 	@apply h3 pt-4;
 }
 
+dialog {
+	@apply rounded-xl;
+}
+
 button {
 	cursor: default;
 }
 button.cf-primary {
 	@apply btn variant-filled-primary;
+	@apply rounded-md;
 }
 button.cf-secondary {
 	@apply btn variant-outline-primary hover:variant-filled-primary;
+	@apply rounded-md;
 }
 button.section-cta {
-	@apply btn variant-filled-primary mt-8;
+	@apply btn variant-filled-primary;
+	@apply rounded-md;
+	@apply mt-8;
 }
 
 /* Form */
@@ -93,6 +101,7 @@ form small.error-message {
 	@apply my-1 text-error-500 text-sm;
 }
 
+/* navigation */
 .dropdown-nav ul {
 	@apply h-fit;
 	/* Shared grid properties; other grid properties
@@ -138,6 +147,37 @@ form small.error-message {
 }
 .graduate {
 	@apply bg-indigo-400;
+}
+
+/* status chips */
+.app-status-chip.started,
+.app-status-chip.deferred {
+	@apply bg-orange-400;
+}
+.app-status-chip.submitted,
+.app-status-chip.under-review {
+	@apply bg-sky-400;
+}
+.app-status-chip.ready-to-submit {
+	@apply bg-lime-300;
+}
+.app-status-chip.admitted,
+.app-status-chip.enrolled,
+.app-status-chip.offer-declined {
+	@apply bg-primary-500;
+}
+.app-status-chip.on-waitlist {
+	@apply bg-purple-400;
+}
+.app-status-chip.rejected,
+.app-status-chip.late,
+.app-status-chip.disqualified {
+	@apply bg-red-400;
+}
+.app-status-chip.withdrawn,
+.app-status-chip.canceled,
+.app-status-chip.application-closed {
+	@apply bg-gray-400;
 }
 
 /* Data grid styles */

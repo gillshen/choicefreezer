@@ -1,5 +1,6 @@
 <script lang="ts">
 	import PageSection from '$lib/components/PageSection.svelte';
+	import { statusToClass } from '$lib/utils/applicationUtils.js';
 
 	export let data;
 
@@ -66,10 +67,12 @@
 
 		<div class="cf-key">Latest status</div>
 		<div class="cf-value">
-			<!-- TODO style the chip -->
-			<div class="status-chip">
-				{application.latest_status ?? 'n/a'}
-			</div>
+			{#if application.latest_status}
+				<div class={`app-status-chip ${statusToClass(application.latest_status)}`}>
+					{application.latest_status ?? 'n/a'}
+				</div>
+			{:else}n/a
+			{/if}
 		</div>
 	</div>
 </PageSection>
@@ -77,14 +80,10 @@
 <PageSection>
 	<svelte:fragment slot="h2">Timeline</svelte:fragment>
 	{#if application.logs.length}
-		<pre class="text-surface-400 bg-surface-700 mb-4">{JSON.stringify(
-				application.logs,
-				null,
-				2
-			)}</pre>
+		<pre class="text-surface-400 bg-surface-700">{JSON.stringify(application.logs, null, 2)}</pre>
 	{/if}
 
-	<button class="cf-primary">Add an entry</button>
+	<button class="section-cta">Add an entry</button>
 </PageSection>
 
 <PageSection>
@@ -92,7 +91,7 @@
 </PageSection>
 
 <style lang="postcss">
-	.status-chip {
+	.app-status-chip {
 		@apply px-4 py-1 min-w-[10rem];
 		@apply text-center;
 		@apply rounded-full;
