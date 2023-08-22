@@ -56,15 +56,14 @@
 		</div>
 	</div>
 
+	<h2 class="mt-8">Past students</h2>
+
 	<button
-		class="mt-8 hover:text-primary-500"
+		class="text-primary-500 hover:text-primary-400"
 		on:click={() => (showPastStudents = !showPastStudents)}
 	>
-		<h3 class="px-0 py-2 m-0">
-			Past students <i
-				class={`toggle-icon fa-solid fa-chevron-down ${showPastStudents ? 'open' : ''}`}
-			/>
-		</h3>
+		{showPastStudents ? 'Hide' : 'Show'}
+		<i class={`toggle-icon fa-solid fa-chevron-down ${showPastStudents ? 'open' : ''}`} />
 	</button>
 
 	<div id="past-students-wrapper" class={showPastStudents ? 'open' : ''}>

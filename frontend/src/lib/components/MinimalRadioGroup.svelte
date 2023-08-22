@@ -8,8 +8,13 @@
 		<button
 			class="filter-button"
 			data-filter-selected={target === option ? 'true' : 'false'}
-			on:click={() => (target = option)}>{option}</button
+			on:click={() => (target = option)}
 		>
+			{#if target === option}
+				&bullet;
+			{/if}
+			{option}
+		</button>
 	{/each}
 </div>
 
