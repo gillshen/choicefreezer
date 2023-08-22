@@ -159,6 +159,7 @@ class ApplicationListItemSerializer(serializers.ModelSerializer):
             id: number;
             year: number;
             term: <Target.Term>;
+            subjective_ranking: number | null;
         };
 
         subtarget: {
@@ -195,6 +196,7 @@ class ApplicationListItemSerializer(serializers.ModelSerializer):
 
     student = _StudentSerializer()
 
+    # TODO need roles
     class _UserSerializer(serializers.ModelSerializer):
         class Meta:
             model = CfUser
@@ -230,11 +232,6 @@ class ApplicationListItemSerializer(serializers.ModelSerializer):
 
     subtarget = _SubTargetSerializer()
 
-    class _MajorChoiceSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = MajorChoice
-            fields = ["major", "rank"]
-
     majors_list = serializers.ListField()
 
     class _ApplicationLogSerializer(serializers.ModelSerializer):
@@ -243,3 +240,117 @@ class ApplicationListItemSerializer(serializers.ModelSerializer):
             fields = ["date", "status", "updated"]
 
     latest_log = _ApplicationLogSerializer()
+
+
+class ApplicationPageDataSerializer(serializers.ModelSerializer):
+    """
+    Fields:
+        id: number;
+
+        student: {
+            id: number;
+            name: string;
+        };
+
+        schools: {
+            id: number;
+            name: string;
+            abbreviation: string;
+        }[];
+
+        program: {
+            id: number;
+            type: <Program.Type>;
+            name: string;
+            degree: string;
+            display_name: string;
+        };
+
+        target: {
+            id: number;
+            year: number;
+            term: <Target.Term>;
+            subjective_ranking: number | null;
+        };
+
+        subtarget: {
+            id: number;
+            admission_plan: <SubTarget.AdmissionPlan>;
+            deadline: string | null; // datetime
+            deadline_timezone: string;
+        };
+
+        majors_choices: {
+            id: number;
+            application: number;
+            major_category: string;
+            major: string;
+            rank: number;
+        }[];
+
+        logs: {
+            id: number;
+            application: number;
+            date: string;
+            status: <ApplicationLog.Status>;
+            comments: string;
+            updated: string; // datetime
+        };
+
+        scholarship_amount: number;
+        scholarship_currency: string;
+        alt_admitted_into: number;
+        latest_status: string;
+    """
+
+    class Meta:
+        model = Application
+        fields = "__all__"
+
+    class _StudentSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Student
+            fields = ["id", "name"]
+
+        name = serializers.CharField()
+
+    student = _StudentSerializer()
+
+    class _SchoolSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = School
+            fields = ["id", "name", "abbreviation"]
+
+    schools = _SchoolSerializer(many=True)
+
+    class _ProgramSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Program
+            exclude = ["schools"]
+
+        display_name = serializers.CharField()
+
+    program = _ProgramSerializer()
+
+    class _TargetSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Target
+            exclude = ["program"]
+
+    target = _TargetSerializer()
+
+    class _SubTargetSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = SubTarget
+            exclude = ["target"]
+
+    subtarget = _SubTargetSerializer()
+
+    class _MajorChoiceSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = MajorChoice
+            fields = ["major_category", "major", "rank"]
+
+    major_choices = MajorChoiceSerializer(many=True)
+    logs = ApplicationLogSerializer(many=True)
+    latest_status = serializers.CharField()

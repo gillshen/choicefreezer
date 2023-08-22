@@ -369,6 +369,7 @@ class Application(models.Model):
         target: target.Target;
         majors_list: [string];
         latest_log: ApplicationLog | null;
+        latest_status: string | null;
         general_status: string;
     """
 
@@ -450,6 +451,13 @@ class Application(models.Model):
     @property
     def latest_log(self):
         return self.logs.latest()
+
+    @property
+    def latest_status(self) -> str:
+        if self.latest_log is None:
+            return
+        else:
+            return self.latest_log.status
 
     @property
     def general_status(self) -> str:

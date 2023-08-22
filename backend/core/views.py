@@ -28,6 +28,7 @@ from core.serializers import (
     StudentListItemSerializer,
     ContractListItemSerializer,
     ApplicationListItemSerializer,
+    ApplicationPageDataSerializer,
 )
 
 
@@ -89,8 +90,7 @@ class ApplicationCreateView(CreateAPIView):
 
 class ApplicationRetrieveView(RetrieveAPIView):
     queryset = Application.objects.all()
-    # TODO
-    serializer_class = ApplicationSerializer
+    serializer_class = ApplicationPageDataSerializer
 
 
 class ApplicationUpdateDeleteView(RetrieveUpdateDestroyAPIView):
