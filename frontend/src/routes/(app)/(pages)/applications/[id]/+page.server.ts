@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit';
-import { fetchApplication, fetchLogsOfApplication } from '$lib/api.js';
+import { fetchApplication } from '$lib/api.js';
 
 export async function load({ params }) {
 	const id = parseInt(params.id, 10);
@@ -14,5 +14,5 @@ export async function load({ params }) {
 		throw error(404, 'Not found');
 	}
 
-	return { application, logs: fetchLogsOfApplication(id) };
+	return { application };
 }

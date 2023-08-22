@@ -1,8 +1,12 @@
+import type { TERMS } from '$lib/constants/terms';
+
+export type Term = (typeof TERMS)[number];
+
 export type Target = {
 	id: number;
 	program: number;
 	year: number;
-	term: string;
+	term: Term;
 	subjective_rank: number | null;
 };
 

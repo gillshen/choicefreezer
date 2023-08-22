@@ -1,7 +1,7 @@
 import type { GENDERS } from '$lib/constants/genders';
 import type { ContractType } from '$lib/types/contractTypes';
 
-type Gender = (typeof GENDERS)[number];
+export type Gender = (typeof GENDERS)[number];
 
 export type StudentListItemType = {
 	id: number;

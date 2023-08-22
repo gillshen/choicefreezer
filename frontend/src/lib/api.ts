@@ -3,7 +3,12 @@ import type { School } from './types/schoolTypes';
 import type { NewProgram, ProgramSelectItem } from './types/programTypes';
 import type { NewTarget } from './types/targetTypes';
 import type { NewSubTarget } from './types/subTargetTypes';
-import type { NewApplication } from './types/applicationTypes';
+import type {
+	ApplicationListItem,
+	ApplicationPageData,
+	NewApplication
+} from './types/applicationTypes';
+import type { NewMajorChoice } from './types/majorChoiceTypes';
 
 const BASE = 'http://127.0.0.1:8000/api/';
 
@@ -112,11 +117,11 @@ export async function createApplication(data: NewApplication) {
 	return await post('applications/new/', data);
 }
 
-export async function fetchApplication(id: number) {
+export async function fetchApplication(id: number): Promise<ApplicationPageData> {
 	return await get(`applications/${id}/`);
 }
 
-export async function fetchApplications() {
+export async function fetchApplications(): Promise<ApplicationListItem[]> {
 	return await get('applications/');
 }
 
@@ -138,6 +143,10 @@ export async function fetchApplicationsOfProgram(programId: number) {
 
 export async function fetchApplicationsOfTarget(targetId: number) {
 	return await get(`applications/?target=${targetId}`);
+}
+
+export async function createMajorChoice(data: NewMajorChoice) {
+	return await post(`major_choices/new/`, data);
 }
 
 export async function fetchLogsOfApplication(applicationId: number) {

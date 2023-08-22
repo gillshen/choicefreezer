@@ -80,9 +80,6 @@ input.date,
 select.select {
 	@apply max-w-sm h-10 px-2;
 }
-input.checkbox {
-	@apply rounded-none;
-}
 input.radio {
 	@apply rounded-full;
 }
@@ -108,6 +105,28 @@ form small.error-message {
 
 .cf-key {
 	@apply text-surface-400;
+}
+
+/* profile grid */
+.profile-grid {
+	@apply grid gap-x-8 gap-y-4;
+	grid-template-columns: max-content 1fr;
+}
+.profile-grid .cf-value {
+	@apply flex flex-wrap gap-3 w-full;
+}
+.profile-grid .cf-value button {
+	opacity: 0;
+	transition: opacity 0.4s;
+	@apply text-primary-600 bg-surface-700;
+	@apply px-3;
+	@apply rounded-md;
+}
+.profile-grid .cf-value:hover button {
+	opacity: 1;
+}
+.profile-grid .cf-value:hover button:hover {
+	@apply text-surface-900 bg-primary-500;
 }
 
 /* contract type labels */

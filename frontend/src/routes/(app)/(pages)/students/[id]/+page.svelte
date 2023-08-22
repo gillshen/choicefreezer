@@ -26,25 +26,12 @@
 	import ContractCard from '$lib/components/ContractCard.svelte';
 
 	export let data;
-	const {
-		cfPeople,
-		student,
-		contracts,
-		logs,
-		enrollments,
-		toeflScores,
-		ieltslScores,
-		detScores,
-		satScores,
-		actScores,
-		apScores,
-		greScores,
-		applications
-	} = data;
 
-	const planners = sortByUsername(filterForPlanners(cfPeople));
-	const essayAdvisors = sortByUsername(filterForEssayAdvisors(cfPeople));
-	const specialPeople = sortByUsername(filterForSpecial(cfPeople));
+	$: student = data.student;
+
+	const planners = sortByUsername(filterForPlanners(data.cfPeople));
+	const essayAdvisors = sortByUsername(filterForEssayAdvisors(data.cfPeople));
+	const specialPeople = sortByUsername(filterForSpecial(data.cfPeople));
 
 	const userCanEdit = true;
 
@@ -64,7 +51,7 @@
 <h1>{formatStudentName(student)}</h1>
 
 <PageSection>
-	<div class="student-profile-grid">
+	<div class="profile-grid">
 		<div class="cf-key row-span-2">Name</div>
 		<div class="cf-value">
 			{formatStudentName(student)}
@@ -126,7 +113,7 @@
 	<svelte:fragment slot="h2">Contracts</svelte:fragment>
 
 	<div class="flex flex-wrap gap-4">
-		{#each contracts as contract}
+		{#each data.contracts as contract}
 			<ContractCard {contract}>
 				{#if userCanEdit}
 					<!-- TODO turn the edit button into a link? -->
@@ -144,8 +131,13 @@
 
 <PageSection>
 	<svelte:fragment slot="h2">Applications</svelte:fragment>
-	{#if applications.length}
-		<pre class="text-surface-400">{JSON.stringify(applications, null, 2)}</pre>
+	{#if data.applications.length}
+		<pre
+			class="text-surface-400 overflow-auto h-[50vh] min-h-[10rem] bg-surface-700">{JSON.stringify(
+				data.applications,
+				null,
+				2
+			)}</pre>
 	{/if}
 
 	<button class="section-cta" on:click={() => applicationCreateDialog.showModal()}
@@ -155,8 +147,8 @@
 
 <PageSection>
 	<svelte:fragment slot="h2">Updates</svelte:fragment>
-	{#if logs.length}
-		<pre class="text-surface-400">{JSON.stringify(logs, null, 2)}</pre>
+	{#if data.logs.length}
+		<pre class="text-surface-400">{JSON.stringify(data.logs, null, 2)}</pre>
 	{/if}
 
 	<button class="section-cta">Add an update</button>
@@ -164,8 +156,8 @@
 
 <PageSection>
 	<svelte:fragment slot="h2">School performance</svelte:fragment>
-	{#if enrollments.length}
-		<pre class="text-surface-400">{JSON.stringify(enrollments, null, 2)}</pre>
+	{#if data.enrollments.length}
+		<pre class="text-surface-400">{JSON.stringify(data.enrollments, null, 2)}</pre>
 	{/if}
 
 	<button class="section-cta">Add a school</button>
@@ -174,39 +166,39 @@
 <PageSection>
 	<svelte:fragment slot="h2">Test Scores</svelte:fragment>
 
-	{#if toeflScores.length}
+	{#if data.toeflScores.length}
 		<h3>TOEFL</h3>
-		<pre class="text-surface-400">{JSON.stringify(toeflScores, null, 2)}</pre>
+		<pre class="text-surface-400">{JSON.stringify(data.toeflScores, null, 2)}</pre>
 	{/if}
 
-	{#if ieltslScores.length}
+	{#if data.ieltslScores.length}
 		<h3>IELTS</h3>
-		<pre class="text-surface-400">{JSON.stringify(ieltslScores, null, 2)}</pre>
+		<pre class="text-surface-400">{JSON.stringify(data.ieltslScores, null, 2)}</pre>
 	{/if}
 
-	{#if detScores.length}
+	{#if data.detScores.length}
 		<h3>DET</h3>
-		<pre class="text-surface-400">{JSON.stringify(detScores, null, 2)}</pre>
+		<pre class="text-surface-400">{JSON.stringify(data.detScores, null, 2)}</pre>
 	{/if}
 
-	{#if satScores.length}
+	{#if data.satScores.length}
 		<h3>SAT</h3>
-		<pre class="text-surface-400">{JSON.stringify(satScores, null, 2)}</pre>
+		<pre class="text-surface-400">{JSON.stringify(data.satScores, null, 2)}</pre>
 	{/if}
 
-	{#if actScores.length}
+	{#if data.actScores.length}
 		<h3>ACT</h3>
-		<pre class="text-surface-400">{JSON.stringify(actScores, null, 2)}</pre>
+		<pre class="text-surface-400">{JSON.stringify(data.actScores, null, 2)}</pre>
 	{/if}
 
-	{#if apScores.length}
+	{#if data.apScores.length}
 		<h3>AP</h3>
-		<pre class="text-surface-400">{JSON.stringify(apScores, null, 2)}</pre>
+		<pre class="text-surface-400">{JSON.stringify(data.apScores, null, 2)}</pre>
 	{/if}
 
-	{#if greScores.length}
+	{#if data.greScores.length}
 		<h3>GRE</h3>
-		<pre class="text-surface-400">{JSON.stringify(greScores, null, 2)}</pre>
+		<pre class="text-surface-400">{JSON.stringify(data.greScores, null, 2)}</pre>
 	{/if}
 
 	<button class="section-cta">Add a test score</button>
@@ -299,26 +291,3 @@
 		programs={data.programs}
 	/>
 </Dialog>
-
-<style lang="postcss">
-	.student-profile-grid {
-		@apply grid gap-x-8 gap-y-4;
-		grid-template-columns: max-content 20rem;
-	}
-	.student-profile-grid .cf-value {
-		@apply flex flex-wrap gap-3 w-full;
-	}
-	.student-profile-grid .cf-value button {
-		opacity: 0;
-		transition: opacity 0.4s;
-		@apply text-primary-600;
-		@apply px-3;
-		@apply rounded-md;
-	}
-	.student-profile-grid .cf-value:hover button {
-		opacity: 1;
-	}
-	.student-profile-grid .cf-value:hover button:hover {
-		@apply text-primary-500 bg-surface-700;
-	}
-</style>

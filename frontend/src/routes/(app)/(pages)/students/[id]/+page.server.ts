@@ -24,7 +24,8 @@ import {
 	createProgram,
 	fetchOrCreateTarget,
 	fetchOrCreateSubTarget,
-	createApplication
+	createApplication,
+	createMajorChoice
 } from '$lib/api';
 
 import {
@@ -40,10 +41,11 @@ import {
 } from '$lib/schemas.js';
 
 import type { Program, ProgramType } from '$lib/types/programTypes.js';
-import type { NewTarget, Target } from '$lib/types/targetTypes.js';
+import type { NewTarget, Target, Term } from '$lib/types/targetTypes.js';
 import type { NewSubTarget, SubTarget } from '$lib/types/subTargetTypes.js';
 import type { NewApplication } from '$lib/types/applicationTypes.js';
 import { UNKNOWN_ERROR } from '$lib/constants/messages.js';
+import type { NewMajorChoice } from '$lib/types/majorChoiceTypes.js';
 
 export async function load(event: PageServerLoadEvent) {
 	const id = parseInt(event.params.id, 10);
@@ -184,7 +186,7 @@ export const actions = {
 		const targetParams: NewTarget = {
 			program: data.programId,
 			year: data.year,
-			term: data.term
+			term: data.term as Term
 		};
 		const targetResponse = await fetchOrCreateTarget(targetParams);
 		if (!targetResponse.ok) {
@@ -211,6 +213,47 @@ export const actions = {
 			return message(form, UNKNOWN_ERROR, { status: 400 });
 		}
 		const createdApplication = await createApplicationResponse.json();
+
+		// TODO refactor? Create major choices
+
+		if (data.firstMajor) {
+			const firstMajorParams: NewMajorChoice = {
+				application: createdApplication.id,
+				major_category: data.firstMajorCategory,
+				major: data.firstMajor,
+				rank: 1
+			};
+			const firstMajorResponse = await createMajorChoice(firstMajorParams);
+			if (!firstMajorResponse.ok) {
+				return message(form, UNKNOWN_ERROR, { status: 400 });
+			}
+		}
+
+		if (data.secondMajor) {
+			const secondMajorParams: NewMajorChoice = {
+				application: createdApplication.id,
+				major_category: data.secondMajorCategory,
+				major: data.secondMajor,
+				rank: 2
+			};
+			const secondMajorResponse = await createMajorChoice(secondMajorParams);
+			if (!secondMajorResponse.ok) {
+				return message(form, UNKNOWN_ERROR, { status: 400 });
+			}
+		}
+
+		if (data.thirdMajor) {
+			const thirdMajorParams: NewMajorChoice = {
+				application: createdApplication.id,
+				major_category: data.thirdMajorCategory,
+				major: data.thirdMajor,
+				rank: 2
+			};
+			const thirdMajorResponse = await createMajorChoice(thirdMajorParams);
+			if (!thirdMajorResponse.ok) {
+				return message(form, UNKNOWN_ERROR, { status: 400 });
+			}
+		}
 
 		throw redirect(301, `../applications/${createdApplication.id}/`);
 	}

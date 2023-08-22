@@ -92,10 +92,10 @@ export const applicationValidators = {
 	term: z.string().min(1, selectionRequired),
 	admissionPlan: z.string().min(1, selectionRequired),
 
-	firstMajorCategory: z.string().trim().nullable(),
+	firstMajorCategory: z.string().trim().optional().default(''),
 	firstMajor: z.string().trim().nullable(),
-	secondMajorCategory: z.string().trim().nullable(),
+	secondMajorCategory: z.string().trim().optional().default(''),
 	secondMajor: z.string().trim().nullable(),
-	thirdMajorCategory: z.string().trim().nullable(),
+	thirdMajorCategory: z.string().trim().optional().default(''),
 	thirdMajor: z.string().trim().nullable()
 };
