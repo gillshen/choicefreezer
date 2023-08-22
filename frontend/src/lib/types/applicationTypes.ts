@@ -33,6 +33,7 @@ export type ApplicationListItem = {
 		type: ProgramType;
 		name: string;
 		degree: string;
+		display_name: string;
 	};
 
 	target: {

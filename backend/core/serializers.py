@@ -153,6 +153,7 @@ class ApplicationListItemSerializer(serializers.ModelSerializer):
             type: <Program.Type>;
             name: string;
             degree: string;
+            display_name: string;
         };
 
         target: {
@@ -215,6 +216,8 @@ class ApplicationListItemSerializer(serializers.ModelSerializer):
         class Meta:
             model = Program
             exclude = ["schools"]
+
+        display_name = serializers.CharField()
 
     program = _ProgramSerializer()
 

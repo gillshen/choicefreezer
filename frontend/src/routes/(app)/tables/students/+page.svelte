@@ -8,6 +8,7 @@
 		type ValueGetterParams
 	} from 'ag-grid-community';
 
+	import { defaultColDef, columnTypes } from '$lib/utils/gridUtils.js';
 	import type { StudentListItemType } from '$lib/types/studentTypes.js';
 	import { ASST_PLANNER, ESSAY_ADVISOR, PLANNER, STRAT_PLANNER } from '$lib/constants/cfRoles.js';
 	import { formatResidence } from '$lib/utils/studentUtils.js';
@@ -15,15 +16,6 @@
 
 	export let data;
 	const { students } = data;
-
-	const defaultColDef = {
-		sortable: true,
-		resizable: true,
-		flex: 1,
-		minWidth: 100,
-		maxWidth: 500,
-		filter: 'agTextColumnFilter'
-	};
 
 	class NameRenderer implements ICellRendererComp {
 		eGui!: HTMLAnchorElement;
@@ -59,18 +51,6 @@
 		const student: StudentListItemType = params.data;
 		return student.cf_products.length > 0;
 	}
-
-	const columnTypes = {
-		numberColumn: {
-			cellDataType: 'number',
-			filter: 'agNumberColumnFilter'
-		},
-
-		dateStringColumn: {
-			cellDataType: 'dateString',
-			filter: 'agDateColumnFilter'
-		}
-	};
 
 	const columnDefs = [
 		{ headerName: 'Name', field: 'name', cellRenderer: NameRenderer },
