@@ -84,7 +84,11 @@
 
 <PageSection>
 	<svelte:fragment slot="h2">Applications</svelte:fragment>
-	<pre class="text-surface-400">{JSON.stringify(applications, null, 2)}</pre>
+	<pre class="text-surface-400 overflow-auto h-[50vh] min-h-[10rem] bg-surface-700">{JSON.stringify(
+			applications,
+			null,
+			2
+		)}</pre>
 </PageSection>
 
 <style lang="postcss">

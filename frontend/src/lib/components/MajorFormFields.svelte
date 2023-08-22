@@ -31,5 +31,5 @@
 	{errors}
 	optional
 >
-	<OptionList options={Array.from(MAJOR_CATEGORIES)} insertNullRow />
+	<OptionList options={Array.from(MAJOR_CATEGORIES)} insertEmptyRow />
 </FormSelect>

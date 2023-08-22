@@ -345,6 +345,7 @@
 		@apply text-primary-500;
 		border: 1px solid;
 		@apply border-primary-500;
+		@apply rounded-md;
 	}
 	button.major-button.remove {
 		@apply text-surface-50 bg-error-700;

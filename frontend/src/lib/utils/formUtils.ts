@@ -13,7 +13,7 @@ export function closeAndReloadOnSuccess(dialog: HTMLDialogElement | undefined) {
 			 * normal page loads -- possibly because the immediate reload
 			 * breaks something superform is doing. So wait for half a second.
 			 */
-			setTimeout(() => location.reload(), 500);
+			// setTimeout(() => location.reload(), 500);
 		}
 	};
 }
