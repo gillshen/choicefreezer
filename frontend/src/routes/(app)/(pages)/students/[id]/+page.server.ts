@@ -60,6 +60,9 @@ export async function load(event: PageServerLoadEvent) {
 		throw error(404, 'Not found');
 	}
 
+	const schools = await fetchSchools();
+	const programs = await fetchProgramSelectList();
+
 	const legalNameForm = await superValidate(student, studentLegalNameSchema);
 	const romanizedNameForm = await superValidate(student, studentRomanizedNameSchema);
 	const genderForm = await superValidate(student, studentGenderSchema);
@@ -100,8 +103,8 @@ export async function load(event: PageServerLoadEvent) {
 		greScores: fetchGRE(id),
 		applications: fetchApplicationsOfStudent(id),
 		// application form data:
-		schools: fetchSchools(),
-		programs: fetchProgramSelectList()
+		schools,
+		programs
 	};
 }
 
