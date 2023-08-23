@@ -7,9 +7,6 @@
 	export let options: any[];
 	export let valueField = '';
 	export let textField = '';
-	export let optional = false;
-
-	const labelClassName = optional ? 'label optional' : 'label required';
 
 	const values =
 		valueField && textField
@@ -18,7 +15,7 @@
 </script>
 
 <div>
-	<label class={`radio-group-label ${labelClassName}`} for={id}>{label}</label>
+	<label class="label radio-group-label" for={id}>{label}</label>
 	<div
 		{id}
 		class="flex flex-col space-y-2"
@@ -27,14 +24,7 @@
 	>
 		{#each values as [value, text]}
 			<label class="flex items-center space-x-2">
-				<input
-					{name}
-					{value}
-					type="radio"
-					class="radio"
-					bind:group={form[name]}
-					required={!optional}
-				/>
+				<input {name} {value} type="radio" class="radio" bind:group={form[name]} required />
 				<p>{text}</p>
 			</label>
 		{/each}

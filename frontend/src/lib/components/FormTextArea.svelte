@@ -4,17 +4,19 @@
 	export let label: string;
 	export let form: any;
 	export let errors: any;
-	export let optional: boolean = false;
+	export let optional = false;
 	export let rows = 5;
 	export let placeholder = '';
 	export let maxlength = 5000;
 	export let showCharCount = true;
-
-	const labelClassName = optional ? 'label optional' : 'label required';
+	export let optionalText = 'optional';
 </script>
 
 <div class="flex flex-col">
-	<label class={labelClassName} for={id}>{label}</label>
+	<label class="optional" for={id}>
+		{label}
+		{#if optional}<span class="optional">({optionalText})</span>{/if}
+	</label>
 	<textarea
 		{id}
 		{name}

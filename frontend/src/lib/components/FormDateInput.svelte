@@ -5,12 +5,14 @@
 	export let form: any;
 	export let errors: any;
 	export let optional = false;
-
-	const labelClassName = optional ? 'label optional' : 'label required';
+	export let optionalText = 'optional';
 </script>
 
 <div class="flex flex-col">
-	<label class={labelClassName} for={id}>{label}</label>
+	<label class="label" for={id}>
+		{label}
+		{#if optional}<span class="optional">({optionalText})</span>{/if}
+	</label>
 	<input
 		{id}
 		{name}

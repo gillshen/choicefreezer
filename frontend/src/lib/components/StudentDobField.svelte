@@ -5,4 +5,4 @@
 	export let errors: any;
 </script>
 
-<FormDateInput id="dob-input" name="date_of_birth" label="Date of birth" {form} {errors} />
+<FormDateInput id="dob-input" name="date_of_birth" label="Date of birth" {form} {errors} optional />

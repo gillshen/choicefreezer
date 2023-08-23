@@ -26,10 +26,11 @@
 <FormSelect
 	id={`${rankLower}-major-category-select`}
 	name={majorCategoryFieldName}
-	label="The category it belongs to"
+	label={`Category of the ${rank.toLowerCase()} major`}
 	{form}
 	{errors}
 	optional
+	optionalText="required if you specified a major"
 >
 	<OptionList options={Array.from(MAJOR_CATEGORIES)} insertEmptyRow />
 </FormSelect>
