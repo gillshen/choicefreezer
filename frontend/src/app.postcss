@@ -54,7 +54,7 @@ button.cf-primary,
 button.cf-secondary,
 button.section-cta,
 button.grid-page-export {
-	@apply hover:scale-[102%] origin-left duration-300;
+	@apply hover:scale-[101%] origin-left duration-300;
 }
 button.cf-primary,
 button.section-cta,
@@ -79,6 +79,10 @@ button.section-cta {
 	@apply btn variant-filled-primary;
 	@apply rounded-md;
 	@apply mt-8;
+}
+button.section-cta.delete {
+	@apply bg-surface-700 text-error-500;
+	@apply hover:bg-error-500 hover:text-surface-900;
 }
 button.grid-page-export {
 	@apply max-w-fit m-0;

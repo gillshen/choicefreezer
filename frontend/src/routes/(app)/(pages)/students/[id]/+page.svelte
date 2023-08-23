@@ -127,6 +127,10 @@
 			{/if}
 		</div>
 	</div>
+
+	{#if userCanEdit}
+		<button class="section-cta delete">Delete this student</button>
+	{/if}
 </PageSection>
 
 <PageSection>
@@ -137,9 +141,9 @@
 			<ContractCard {contract}>
 				{#if userCanEdit}
 					<!-- TODO turn the edit button into a link? -->
-					<button class="text-primary-600 hover:text-primary-500" disabled>Edit</button>
+					<button class="btn py-1 px-2 text-primary-600 hover:bg-surface-700">Edit</button>
 					<button
-						class="text-error-500 hover:text-error-400"
+						class="btn py-1 px-2 text-error-500 hover:bg-surface-700"
 						on:click={() => tableContractForDeletion(contract)}>Delete</button
 					>
 				{/if}

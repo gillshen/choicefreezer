@@ -69,6 +69,10 @@
 			{/if}
 		</div>
 	</div>
+
+	{#if userCanEdit}
+		<button class="btn section-cta delete">Delete this application</button>
+	{/if}
 </PageSection>
 
 <PageSection>

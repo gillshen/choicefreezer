@@ -62,6 +62,6 @@
 		@apply mb-0 pb-2 flex flex-col gap-4;
 	}
 	.card .actions {
-		@apply px-4 pb-4 flex-grow flex gap-4 items-end justify-end;
+		@apply px-4 pb-4 flex-grow flex gap-2 items-end justify-end;
 	}
 </style>
