@@ -5,7 +5,9 @@
 
 <div class="grid-page-container">
 	<div class="grid-page-sidebar">
-		<pre>{JSON.stringify(schools, null, 2)}</pre>
+		<div class="grid-page-sidebar-content">
+			<pre>{JSON.stringify(schools, null, 2)}</pre>
+		</div>
 	</div>
 
 	<div class="grid-page-content">

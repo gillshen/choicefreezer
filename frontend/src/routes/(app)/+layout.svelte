@@ -78,13 +78,14 @@
 	.dropdown-nav {
 		@apply absolute top-14;
 		@apply z-10;
-		@apply text-surface-50 bg-surface-700;
-		@apply rounded-sm;
+		@apply text-surface-50 bg-surface-800;
+		@apply rounded-lg;
 		display: grid;
 		grid-template-rows: 0fr;
 		overflow: hidden;
 		opacity: 1;
 		transition: all 0.2s ease-in-out;
+		box-shadow: 10px 10px 24px rgb(25, 25, 25), -8px -8px 20px rgb(55, 55, 55);
 	}
 	.dropdown-nav.open {
 		grid-template-rows: 1fr;

@@ -23,6 +23,7 @@
 		init(params: ICellRendererParams<any, any, any>): void {
 			this.eGui = document.createElement('a');
 			this.eGui.href = `../students/${params.data.id}/`;
+			this.eGui.title = 'Go to the student page';
 			this.eGui.innerHTML = params.data.name;
 		}
 
@@ -54,8 +55,8 @@
 
 	const columnDefs = [
 		{ headerName: 'Name', field: 'name', cellRenderer: NameRenderer },
-		{ headerName: 'Contract in effect', field: 'is_current', cellDataType: 'boolean' },
-		{ headerName: 'Contract type', field: 'latest_contract_type' },
+		{ headerName: 'Current', field: 'is_current', cellDataType: 'boolean' },
+		{ headerName: 'Contract Type', field: 'latest_contract_type' },
 		{ headerName: 'Target Year', field: 'latest_target_year', type: ['numberColumn'] },
 		{ headerName: 'Gender', field: 'gender' },
 		{ headerName: 'Citizenship', field: 'citizenship' },
@@ -64,9 +65,9 @@
 		{ headerName: STRAT_PLANNER, valueGetter: usernameGetterByRole(STRAT_PLANNER) },
 		{ headerName: ESSAY_ADVISOR, valueGetter: usernameGetterByRole(ESSAY_ADVISOR) },
 		{ headerName: 'Born', field: 'date_of_birth', type: ['dateStringColumn'] },
-		{ headerName: 'Based in', valueGetter: residenceValueGetter },
+		{ headerName: 'Based', valueGetter: residenceValueGetter },
 		{
-			headerName: 'Used CF products',
+			headerName: 'Used CF Products',
 			cellDataType: 'boolean',
 			valueGetter: usedCfProductValueGetter
 		},
@@ -94,7 +95,9 @@
 
 <div class="grid-page-container">
 	<div class="grid-page-sidebar">
-		<pre>{JSON.stringify(students[0], null, 2)}</pre>
+		<div class="grid-page-sidebar-content">
+			<pre>{JSON.stringify(students[0], null, 2)}</pre>
+		</div>
 	</div>
 
 	<div class="grid-page-content">

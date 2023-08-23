@@ -24,6 +24,7 @@
 		sortByUsername
 	} from '$lib/utils/userUtils.js';
 	import ContractCard from '$lib/components/ContractCard.svelte';
+	import { byStatusThenTargetYearDesc } from '$lib/utils/sortUtils.js';
 
 	export let data;
 
@@ -113,7 +114,7 @@
 	<svelte:fragment slot="h2">Contracts</svelte:fragment>
 
 	<div class="flex flex-wrap gap-4">
-		{#each data.contracts as contract}
+		{#each data.contracts.sort(byStatusThenTargetYearDesc) as contract}
 			<ContractCard {contract}>
 				{#if userCanEdit}
 					<!-- TODO turn the edit button into a link? -->

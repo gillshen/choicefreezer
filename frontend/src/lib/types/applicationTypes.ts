@@ -2,11 +2,14 @@ import type { Gender } from '$lib/types/studentTypes';
 import type { ProgramType } from '$lib/types/programTypes';
 import type { AdmissionPlan } from '$lib/types/subTargetTypes';
 import type { Term } from '$lib/types/targetTypes';
+import type { APPLICATION_STATUSES } from '$lib/constants/applicationStatuses';
 
 export type NewApplication = {
 	student: number;
 	subtarget: number;
 };
+
+export type ApplicationStatus = (typeof APPLICATION_STATUSES)[number];
 
 export type ApplicationListItem = {
 	id: number;
@@ -55,7 +58,7 @@ export type ApplicationListItem = {
 
 	latest_log: {
 		date: string;
-		status: string; // TODO
+		status: ApplicationStatus;
 		updated: string; // datetime
 	};
 
@@ -113,7 +116,7 @@ export type ApplicationPageData = {
 		id: number;
 		application: number;
 		date: string;
-		status: string; // TODO
+		status: ApplicationStatus;
 		comments: string;
 		updated: string; // datetime
 	}>;
@@ -121,5 +124,5 @@ export type ApplicationPageData = {
 	scholarship_amount: number;
 	scholarship_currency: string;
 	alt_admitted_into: number;
-	latest_status: string | null;
+	latest_status: ApplicationStatus | null;
 };

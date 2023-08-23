@@ -5,6 +5,7 @@
 	export let data;
 
 	$: application = data.application;
+	$: statusClassName = statusToClass(application.latest_status ?? '');
 
 	const userCanEdit = true;
 </script>
@@ -68,7 +69,7 @@
 		<div class="cf-key">Latest status</div>
 		<div class="cf-value">
 			{#if application.latest_status}
-				<div class={`app-status-chip ${statusToClass(application.latest_status)}`}>
+				<div class={`app-status-chip ${statusClassName}`}>
 					{application.latest_status ?? 'n/a'}
 				</div>
 			{:else}n/a

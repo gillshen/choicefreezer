@@ -30,7 +30,7 @@
 	const specialPeople = sortByUsername(filterForSpecial(cfPeople));
 </script>
 
-<h1>Add a student</h1>
+<h1 class="font-normal">Add a student</h1>
 
 <PageSection>
 	<!-- <SuperDebug data={$form} /> -->

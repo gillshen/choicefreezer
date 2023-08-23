@@ -1,5 +1,11 @@
 <script lang="ts">
-	import { Grid, type GridOptions, type ValueGetterParams } from 'ag-grid-community';
+	import {
+		Grid,
+		type GridOptions,
+		type ICellRendererComp,
+		type ICellRendererParams,
+		type ValueGetterParams
+	} from 'ag-grid-community';
 
 	import { defaultColDef, columnTypes } from '$lib/utils/gridUtils.js';
 	import type { ApplicationListItem } from '$lib/types/applicationTypes.js';
@@ -7,6 +13,25 @@
 
 	export let data;
 	const { applications } = data;
+
+	class IdRenderer implements ICellRendererComp {
+		eGui!: HTMLAnchorElement;
+
+		init(params: ICellRendererParams<any, any, any>): void {
+			this.eGui = document.createElement('a');
+			this.eGui.href = `../applications/${params.data.id}/`;
+			this.eGui.title = 'Go to the application page';
+			this.eGui.innerHTML = '<i class="fa-solid fa-arrow-up-right-from-square" />';
+		}
+
+		getGui(): HTMLElement {
+			return this.eGui;
+		}
+
+		refresh(): boolean {
+			return false;
+		}
+	}
 
 	function schoolAbbreviationsValueGetter(params: ValueGetterParams): string {
 		const application: ApplicationListItem = params.data;
@@ -19,17 +44,28 @@
 	}
 
 	const columnDefs = [
+		{
+			headerName: '',
+			field: 'id',
+			type: ['numberColumn'],
+			filter: false,
+			sortable: false,
+			width: 50,
+			minWidth: 50,
+			cellRenderer: IdRenderer
+		},
 		{ headerName: 'Student', field: 'student.name' },
-		{ headerName: 'School', valueGetter: schoolAbbreviationsValueGetter },
+		{ headerName: 'School(s)', valueGetter: schoolAbbreviationsValueGetter },
 		{ headerName: 'Program', field: 'program.display_name' },
-		{ headerName: 'Majors', valueGetter: majorsValueGetter },
+		{ headerName: 'Major(s)', valueGetter: majorsValueGetter },
 		{ headerName: 'Year', field: 'target.year', type: ['numberColumn'] },
 		{ headerName: 'Term', field: 'target.term' },
 		{ headerName: 'Admission Plan', field: 'subtarget.admission_plan' },
 		// TODO include timezone
 		{ headerName: 'Deadline', field: 'subtarget.deadline' },
 		{ headerName: 'Decision Date', field: 'subtarget.decision_date' },
-		{ headerName: 'Latest Status', field: 'latest_log.status' }
+		{ headerName: 'Latest Status', field: 'latest_log.status' },
+		{ headerName: 'Latest Updated', field: 'latest_log.updated' }
 	];
 
 	const gridOptions: GridOptions = {
@@ -52,7 +88,9 @@
 
 <div class="grid-page-container">
 	<div class="grid-page-sidebar">
-		<pre>{JSON.stringify(applications, null, 2)}</pre>
+		<div class="grid-page-sidebar-content">
+			<pre>{JSON.stringify(applications, null, 2)}</pre>
+		</div>
 	</div>
 
 	<div class="grid-page-content">

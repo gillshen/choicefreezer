@@ -26,7 +26,7 @@
 		border-bottom: 1px solid;
 		@apply w-full h-12;
 		@apply text-left;
-		@apply border-b-primary-500;
+		@apply border-b-primary-900;
 	}
 	button.filter-button:hover {
 		@apply text-primary-700;

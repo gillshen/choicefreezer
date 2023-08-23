@@ -28,13 +28,17 @@ article.main > section:nth-child(odd) {
 }
 
 h1 {
-	@apply h1 w-full max-w-5xl mx-auto p-4 pt-12;
+	@apply h1;
+	@apply w-full max-w-5xl mx-auto p-4 pt-12;
+	@apply font-bold;
 }
 h2 {
-	@apply h2 py-4;
+	@apply h2;
+	@apply py-4;
 }
 h3 {
-	@apply h3 pt-4;
+	@apply h3;
+	@apply pt-4;
 }
 
 dialog {
@@ -44,7 +48,24 @@ dialog {
 button {
 	cursor: default;
 }
-button.cf-primary {
+button.cf-primary,
+button.cf-secondary,
+button.section-cta,
+button.grid-page-export {
+	@apply hover:scale-[102%] origin-left duration-300;
+}
+button.cf-primary,
+button.section-cta,
+button.grid-page-export {
+	box-shadow: 6px 6px 24px rgb(25, 25, 25), -6px -6px 20px rgb(55, 55, 55);
+}
+button.cf-primary:hover,
+button.section-cta:hover,
+button.grid-page-export:hover {
+	box-shadow: 8px 8px 24px rgb(25, 25, 25), -8px -8px 20px rgb(55, 55, 55);
+}
+button.cf-primary,
+button.grid-page-export {
 	@apply btn variant-filled-primary;
 	@apply rounded-md;
 }
@@ -57,6 +78,9 @@ button.section-cta {
 	@apply rounded-md;
 	@apply mt-8;
 }
+button.grid-page-export {
+	@apply max-w-fit m-0;
+}
 
 /* Form */
 form {
@@ -65,7 +89,7 @@ form {
 fieldset {
 	@apply flex flex-col gap-4;
 	/* --color-surface-500 */
-	border-top: 1px solid #5c5c5c;
+	/* border-top: 1px solid #5c5c5c; */
 }
 fieldset:not(:first-child) {
 	@apply mt-12;
@@ -116,6 +140,12 @@ form small.error-message {
 	@apply text-surface-400;
 }
 
+/* student card hovering effect */
+.student-cards-container .card:hover {
+	transform: scale(1.05);
+	transition: all 0.15s ease;
+}
+
 /* profile grid */
 .profile-grid {
 	@apply grid gap-x-8 gap-y-4;
@@ -127,7 +157,7 @@ form small.error-message {
 .profile-grid .cf-value button {
 	opacity: 0;
 	transition: opacity 0.4s;
-	@apply text-primary-600 bg-surface-700;
+	@apply text-sm text-primary-600 bg-surface-700;
 	@apply px-3;
 	@apply rounded-md;
 }
@@ -138,15 +168,41 @@ form small.error-message {
 	@apply text-surface-900 bg-primary-500;
 }
 
-/* contract type labels */
-.ug-freshman {
-	@apply bg-yellow-400;
+/* contract types */
+.border-ug-freshman,
+.border-ug-transfer,
+.border-graduate {
+	border-bottom: 2px solid;
 }
-.ug-transfer {
-	@apply bg-rose-400;
+.text-ug-freshman {
+	@apply text-yellow-400;
 }
-.graduate {
-	@apply bg-indigo-400;
+.border-ug-freshman {
+	@apply border-b-yellow-400;
+}
+.text-ug-transfer {
+	@apply text-rose-400;
+}
+.border-ug-transfer {
+	@apply border-b-rose-400;
+}
+.text-graduate {
+	@apply text-blue-400;
+}
+.border-graduate {
+	@apply border-b-blue-400;
+}
+
+/* contract statuses */
+.bg-effective {
+	@apply text-surface-900;
+	@apply bg-primary-400;
+}
+.bg-fulfilled {
+	@apply bg-zinc-600;
+}
+.bg-terminated {
+	@apply bg-error-700;
 }
 
 /* status chips */
@@ -206,19 +262,22 @@ form small.error-message {
 	max-height: calc(100vh - 74px);
 }
 .grid-page-sidebar {
-	@apply bg-yellow-400 text-surface-900;
 	@apply w-[24rem] min-w-[24rem] max-w-[24rem];
-	@apply overflow-auto;
+}
+.grid-page-sidebar-content {
+	@apply ml-8 mr-12 my-8;
+	@apply p-4;
+	@apply overflow-hidden;
+	@apply bg-surface-800 text-surface-400;
+	@apply rounded-xl;
+	box-shadow: 18px 18px 36px rgb(25, 25, 25), -18px -18px 36px rgb(55, 55, 55);
 }
 .grid-page-content {
 	@apply flex-col flex-grow gap-6;
-	@apply pl-8 pr-4 pt-8 pb-6;
+	@apply pl-6 pr-12 pt-8 pb-6;
 }
 h1.grid-page-title {
 	@apply p-0 m-0;
-}
-button.grid-page-export {
-	@apply btn variant-filled-primary m-0 max-w-fit;
 }
 
 /* Overriding Ag-Grid defaults */
@@ -286,8 +345,7 @@ button.grid-page-export {
 
 	/* Background color when hovering over rows in the grid and in dropdown menus.
 	 * Set to transparent to disable the hover effect. */
-	--ag-row-hover-color: rgb(12, 74, 110);
-	/* #3d6c0a; */
+	--ag-row-hover-color: rgb(63 63 70);
 
 	/* Background color when hovering over columns in the grid */
 	/* --ag-column-hover-color */
@@ -360,10 +418,10 @@ button.grid-page-export {
 	/* --ag-cell-horizontal-border */
 
 	/* Draw borders around inputs. */
-	--ag-borders-input: thin solid;
+	--ag-borders-input: none;
 
 	/* Colour for borders around inputs */
-	--ag-input-border-color: #5c5c5c;
+	/* --ag-input-border-color: #5c5c5c; */
 
 	/* Draw borders around inputs when their content has failed validation */
 	/* --ag-borders-input-invalid */
@@ -375,7 +433,7 @@ button.grid-page-export {
 	/* --ag-borders-side-button */
 
 	/* Border radius applied to many elements such as dialogs and form widgets */
-	--ag-border-radius: 0;
+	--ag-border-radius: 4px;
 
 	/* # Input styles */
 	/* --ag-invalid-color */
@@ -383,8 +441,8 @@ button.grid-page-export {
 	/* --ag-input-disabled-background-color */
 	/* --ag-checkbox-background-color */
 	/* --ag-checkbox-border-radius */
-	--ag-checkbox-checked-color: #b2dcf5;
-	/* --ag-checkbox-unchecked-color */
+	--ag-checkbox-checked-color: white;
+	/* --ag-checkbox-unchecked-color: white; */
 	/* --ag-checkbox-indeterminate-color */
 	/* --ag-toggle-button-border-width */
 	/* --ag-toggle-button-on-border-color */
@@ -482,7 +540,7 @@ button.grid-page-export {
 	/* --ag-side-bar-panel-width */
 
 	/* Cards are elements that float above the UI */
-	--ag-card-radius: 0;
+	--ag-card-radius: 8px;
 
 	/* The default card shadow applies to simple cards like column drag indicators
 	 * and text editors */
@@ -497,7 +555,7 @@ button.grid-page-export {
 	color: var(--cf-theme-surface-900);
 }
 .ag-picker-field-wrapper {
-	border-radius: 0;
+	border-radius: 4px;
 	@apply p-1;
 }
 .ag-text-field-input {

@@ -67,7 +67,7 @@
 	</button>
 
 	<div id="past-students-wrapper" class={showPastStudents ? 'open' : ''}>
-		<div class="student-grid">
+		<div class="student-grid mt-8">
 			<MinimalRadioGroup bind:target={filterYearPast} options={['All', ...yearOptionsPast]} />
 
 			<div class="student-cards-container">
@@ -96,7 +96,7 @@
 		@apply grid grid-cols-[1fr,_4fr] gap-x-16;
 	}
 	.student-cards-container {
-		@apply flex flex-wrap gap-6;
+		@apply flex flex-wrap gap-8;
 		@apply h-fit;
 	}
 	#past-students-wrapper {
@@ -109,6 +109,8 @@
 	#past-students-wrapper.open {
 		grid-template-rows: 1fr;
 		opacity: 1;
+		/* make room for shadows */
+		padding-bottom: 30px;
 	}
 	#past-students-wrapper * {
 		min-height: 0;
