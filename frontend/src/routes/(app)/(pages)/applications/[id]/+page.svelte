@@ -1,11 +1,10 @@
 <script lang="ts">
 	import PageSection from '$lib/components/PageSection.svelte';
-	import { statusToClass } from '$lib/utils/applicationUtils.js';
+	import ApplicationStatusChip from '$lib/components/ApplicationStatusChip.svelte';
 
 	export let data;
 
 	$: application = data.application;
-	$: statusClassName = statusToClass(application.latest_status ?? '');
 
 	const userCanEdit = true;
 </script>
@@ -13,6 +12,10 @@
 <h1>
 	{application.student.name} &bullet;
 	{application.schools.map((s) => s.abbreviation).join(' | ')}
+
+	<div class="mt-8">
+		<ApplicationStatusChip status={application.latest_status} />
+	</div>
 </h1>
 
 <PageSection>
@@ -65,16 +68,6 @@
 				<button>Edit</button>
 			{/if}
 		</div>
-
-		<div class="cf-key">Latest status</div>
-		<div class="cf-value">
-			{#if application.latest_status}
-				<div class={`app-status-chip ${statusClassName}`}>
-					{application.latest_status ?? 'n/a'}
-				</div>
-			{:else}n/a
-			{/if}
-		</div>
 	</div>
 </PageSection>
 
@@ -91,7 +84,7 @@
 	<pre class="text-surface-400 bg-surface-700">{JSON.stringify(application, null, 2)}</pre>
 </PageSection>
 
-<style lang="postcss">
+<!-- <style lang="postcss">
 	.app-status-chip {
 		@apply px-4 py-1 min-w-[10rem];
 		@apply text-center;
@@ -99,4 +92,4 @@
 		@apply text-surface-900;
 		@apply bg-surface-50;
 	}
-</style>
+</style> -->

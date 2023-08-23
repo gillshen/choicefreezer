@@ -208,7 +208,14 @@ form small.error-message {
 }
 
 /* status chips */
-.app-status-chip.started,
+.app-status-chip {
+	@apply px-4 py-1 min-w-[10rem] max-w-[10rem];
+	@apply rounded-full;
+	@apply text-base text-center font-bold;
+	@apply text-surface-900;
+	@apply bg-surface-50;
+}
+.started,
 .app-status-chip.deferred {
 	@apply bg-orange-400;
 }
