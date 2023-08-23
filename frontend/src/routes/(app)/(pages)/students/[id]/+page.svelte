@@ -25,6 +25,9 @@
 	} from '$lib/utils/userUtils.js';
 	import ContractCard from '$lib/components/ContractCard.svelte';
 	import { byStatusThenTargetYearDesc } from '$lib/utils/sortUtils.js';
+	import OkayCancelDialog from '$lib/components/OkayCancelDialog.svelte';
+	import { deleteContract } from '$lib/api.js';
+	import { invalidate, invalidateAll } from '$app/navigation';
 
 	export let data;
 
@@ -46,7 +49,23 @@
 	let residenceDialog: HTMLDialogElement;
 	let commentsDialog: HTMLDialogElement;
 	let contractCreateDialog: HTMLDialogElement;
+	let contractDeleteDialog: HTMLDialogElement;
 	let applicationCreateDialog: HTMLDialogElement;
+
+	// Contract deletion
+	let activeContract: (typeof data.contracts)[number];
+
+	function tableContractForDeletion(contract: (typeof data.contracts)[number]) {
+		activeContract = contract;
+		contractDeleteDialog.showModal();
+	}
+
+	async function handleContractDeletion() {
+		const response = await deleteContract(activeContract.id);
+		alert(response.ok ? 'Contract deleted!' : 'Something went wrong');
+		contractDeleteDialog.close();
+		invalidateAll();
+	}
 </script>
 
 <h1>{formatStudentName(student)}</h1>
@@ -119,7 +138,10 @@
 				{#if userCanEdit}
 					<!-- TODO turn the edit button into a link? -->
 					<button class="text-primary-600 hover:text-primary-500" disabled>Edit</button>
-					<button class="text-error-600 hover:text-error-500" disabled>Delete</button>
+					<button
+						class="text-error-500 hover:text-error-400"
+						on:click={() => tableContractForDeletion(contract)}>Delete</button
+					>
 				{/if}
 			</ContractCard>
 		{/each}
@@ -281,6 +303,19 @@
 		{specialPeople}
 	/>
 </Dialog>
+
+<OkayCancelDialog
+	title="Delete this contract?"
+	bind:dialog={contractDeleteDialog}
+	onOkay={handleContractDeletion}
+	okayButtonText="Yes"
+	cancelButtonText="No, it was a misclick"
+	dangerous
+>
+	<p>
+		{activeContract?.type}, {activeContract?.target_year}
+	</p>
+</OkayCancelDialog>
 
 <Dialog title="Add an application" exitHelper bind:dialog={applicationCreateDialog}>
 	<ApplicationForm

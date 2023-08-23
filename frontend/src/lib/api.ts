@@ -33,6 +33,10 @@ async function patch(url: string, data: any) {
 	});
 }
 
+async function destroy(url: string) {
+	return await fetch(`${BASE}${url}`, { method: 'DELETE' });
+}
+
 export async function fetchUser(username: string) {
 	return await get(`cf/${username}/`);
 }
@@ -63,6 +67,10 @@ export async function createContract(data: any) {
 
 export async function fetchContracts(studentId: number) {
 	return await get(`contracts/?student=${studentId}`);
+}
+
+export async function deleteContract(contractId: number) {
+	return await destroy(`contracts/${contractId}/delete/`);
 }
 
 export async function createService(data: any) {

@@ -24,7 +24,7 @@
 		<div class="text-3xl font-bold">{target_year}</div>
 		<div class="flex justify-between">
 			<div class="font-bold py-1">{type}</div>
-			<div class={`px-4 py-1 rounded-full bg-${status.toLowerCase()}`}>
+			<div class={`px-4 py-1 rounded-full scale-90 bg-${status.toLowerCase()}`}>
 				{status === 'Effective' ? 'In effect' : status}
 			</div>
 		</div>
@@ -44,7 +44,7 @@
 	</section>
 
 	<section class="actions">
-		<!-- actions slot -->
+		<!-- Edit and delete buttons -->
 		<slot />
 	</section>
 </article>
