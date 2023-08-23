@@ -145,6 +145,7 @@ class ApplicationListItemSerializer(serializers.ModelSerializer):
 
         schools: {
             id: number;
+            name: string;
             abbreviation: string;
         }[];
 
@@ -208,7 +209,7 @@ class ApplicationListItemSerializer(serializers.ModelSerializer):
     class _SchoolSerializer(serializers.ModelSerializer):
         class Meta:
             model = School
-            fields = ["id", "abbreviation"]
+            fields = ["id", "name", "abbreviation"]
 
     schools = _SchoolSerializer(many=True)
 

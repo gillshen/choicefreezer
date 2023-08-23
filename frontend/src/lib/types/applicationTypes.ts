@@ -28,6 +28,7 @@ export type ApplicationListItem = {
 
 	schools: Array<{
 		id: number;
+		name: string;
 		abbreviation: string;
 	}>;
 

@@ -1,41 +1,56 @@
 <script lang="ts">
-	import {
-		Grid,
-		type GridOptions,
-		type ICellRendererComp,
-		type ICellRendererParams,
-		type ValueGetterParams
-	} from 'ag-grid-community';
-
-	import { defaultColDef, columnTypes } from '$lib/utils/gridUtils.js';
-	import type { ApplicationListItem } from '$lib/types/applicationTypes.js';
 	import { onMount } from 'svelte';
+	import type { GridOptions, ICellRendererParams, ValueGetterParams } from 'ag-grid-community';
+
+	import { defaultColDef, columnTypes, AgCellRenderer, mountGrid } from '$lib/utils/gridUtils.js';
+	import type { ApplicationListItem } from '$lib/types/applicationTypes.js';
+	import GridDownloadButton from '$lib/components/GridDownloadButton.svelte';
 
 	export let data;
 	const { applications } = data;
 
-	class IdRenderer implements ICellRendererComp {
-		eGui!: HTMLAnchorElement;
-
+	class IdRenderer extends AgCellRenderer {
 		init(params: ICellRendererParams<any, any, any>): void {
 			this.eGui = document.createElement('a');
 			this.eGui.href = `../applications/${params.data.id}/`;
 			this.eGui.title = 'Go to the application page';
 			this.eGui.innerHTML = '<i class="fa-solid fa-arrow-up-right-from-square" />';
 		}
+	}
 
-		getGui(): HTMLElement {
-			return this.eGui;
+	class ProgramRenderer extends AgCellRenderer {
+		init(params: ICellRendererParams<any, any, any>): void {
+			const { program } = params.data;
+			this.eGui = document.createElement('a');
+			this.eGui.href = `../programs/${program.id}/`;
+			this.eGui.title = 'Go to the program page';
+			this.eGui.innerText = program.display_name;
 		}
+	}
 
-		refresh(): boolean {
-			return false;
+	class TargetRenderer extends AgCellRenderer {
+		init(params: ICellRendererParams<any, any, any>): void {
+			const { target } = params.data;
+			this.eGui = document.createElement('a');
+			this.eGui.href = `../targets/${target.id}/`;
+			this.eGui.title = 'Go to the target page';
+			this.eGui.innerText = `${target.term} ${target.year}`;
 		}
+	}
+
+	function schoolValueGetter(params: ValueGetterParams): string {
+		const application: ApplicationListItem = params.data;
+		return application.schools.map((s) => s.name).join(' | ');
 	}
 
 	function schoolAbbreviationsValueGetter(params: ValueGetterParams): string {
 		const application: ApplicationListItem = params.data;
 		return application.schools.map((s) => s.abbreviation).join(' | ');
+	}
+
+	function targetValueGetter(params: ValueGetterParams): string {
+		const application: ApplicationListItem = params.data;
+		return `${application.target.term} ${application.target.year}`;
 	}
 
 	function majorsValueGetter(params: ValueGetterParams): string {
@@ -55,11 +70,13 @@
 			cellRenderer: IdRenderer
 		},
 		{ headerName: 'Student', field: 'student.name' },
-		{ headerName: 'School(s)', valueGetter: schoolAbbreviationsValueGetter },
-		{ headerName: 'Program', field: 'program.display_name' },
-		{ headerName: 'Major(s)', valueGetter: majorsValueGetter },
-		{ headerName: 'Year', field: 'target.year', type: ['numberColumn'] },
-		{ headerName: 'Term', field: 'target.term' },
+		{ headerName: 'School', valueGetter: schoolValueGetter },
+		{ headerName: 'School Abbr.', valueGetter: schoolAbbreviationsValueGetter },
+		{ headerName: 'Program', field: 'program.display_name', cellRenderer: ProgramRenderer },
+		{ headerName: 'Major', valueGetter: majorsValueGetter },
+		// { headerName: 'Year', field: 'target.year', type: ['numberColumn'] },
+		// { headerName: 'Term', field: 'target.term' },
+		{ headerName: 'Target', valueGetter: targetValueGetter, cellRenderer: TargetRenderer },
 		{ headerName: 'Admission Plan', field: 'subtarget.admission_plan' },
 		// TODO include timezone
 		{ headerName: 'Deadline', field: 'subtarget.deadline' },
@@ -75,15 +92,7 @@
 		rowData: applications
 	};
 
-	function exportToCsv() {
-		gridOptions.api?.exportDataAsCsv();
-	}
-
-	onMount(() => {
-		const gridEl = document.getElementById('grid') as HTMLElement;
-		new Grid(gridEl, gridOptions);
-		gridOptions.columnApi?.autoSizeAllColumns();
-	});
+	onMount(() => mountGrid('grid', gridOptions));
 </script>
 
 <div class="grid-page-container">
@@ -98,6 +107,6 @@
 
 		<div id="grid" class="data-grid ag-theme-alpine-dark" />
 
-		<button class="grid-page-export" on:click={exportToCsv}>Export to CSV</button>
+		<GridDownloadButton {gridOptions} />
 	</div>
 </div>

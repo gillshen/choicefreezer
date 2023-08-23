@@ -1,38 +1,23 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import {
-		Grid,
-		type GridOptions,
-		type ICellRendererComp,
-		type ICellRendererParams,
-		type ValueGetterParams
-	} from 'ag-grid-community';
+	import type { GridOptions, ICellRendererParams, ValueGetterParams } from 'ag-grid-community';
 
-	import { defaultColDef, columnTypes } from '$lib/utils/gridUtils.js';
+	import { defaultColDef, columnTypes, AgCellRenderer, mountGrid } from '$lib/utils/gridUtils.js';
 	import type { StudentListItemType } from '$lib/types/studentTypes.js';
 	import { ASST_PLANNER, ESSAY_ADVISOR, PLANNER, STRAT_PLANNER } from '$lib/constants/cfRoles.js';
 	import { formatResidence } from '$lib/utils/studentUtils.js';
 	import { toUsernamesWithRole } from '$lib/utils/serviceUtils.js';
+	import GridDownloadButton from '$lib/components/GridDownloadButton.svelte';
 
 	export let data;
 	const { students } = data;
 
-	class NameRenderer implements ICellRendererComp {
-		eGui!: HTMLAnchorElement;
-
+	class NameRenderer extends AgCellRenderer {
 		init(params: ICellRendererParams<any, any, any>): void {
 			this.eGui = document.createElement('a');
 			this.eGui.href = `../students/${params.data.id}/`;
 			this.eGui.title = 'Go to the student page';
 			this.eGui.innerHTML = params.data.name;
-		}
-
-		getGui(): HTMLElement {
-			return this.eGui;
-		}
-
-		refresh(): boolean {
-			return false;
 		}
 	}
 
@@ -81,16 +66,7 @@
 		rowData: students
 	};
 
-	function exportToCsv() {
-		gridOptions.api?.exportDataAsCsv();
-	}
-
-	onMount(() => {
-		// Render the grid
-		const gridEl = document.getElementById('grid') as HTMLElement;
-		new Grid(gridEl, gridOptions);
-		gridOptions.columnApi?.autoSizeAllColumns();
-	});
+	onMount(() => mountGrid('grid', gridOptions));
 </script>
 
 <div class="grid-page-container">
@@ -105,6 +81,6 @@
 
 		<div id="grid" class="data-grid ag-theme-alpine-dark" />
 
-		<button class="grid-page-export" on:click={exportToCsv}>Export to CSV</button>
+		<GridDownloadButton {gridOptions} />
 	</div>
 </div>
