@@ -1,4 +1,5 @@
 import type { StudentListItemType } from './types/studentTypes';
+import type { ContractListItem, ContractPageData } from './types/contractTypes';
 import type { School } from './types/schoolTypes';
 import type { NewProgram, ProgramSelectItem } from './types/programTypes';
 import type { NewTarget } from './types/targetTypes';
@@ -9,6 +10,8 @@ import type {
 	NewApplication
 } from './types/applicationTypes';
 import type { NewMajorChoice } from './types/majorChoiceTypes';
+
+import { PLANNER, ASST_PLANNER, STRAT_PLANNER, ESSAY_ADVISOR } from './constants/cfRoles';
 
 const BASE = 'http://127.0.0.1:8000/api/';
 
@@ -65,16 +68,28 @@ export async function createContract(data: any) {
 	return await post('contracts/new/', data);
 }
 
-export async function fetchContracts(studentId: number) {
-	return await get(`contracts/?student=${studentId}`);
+export async function fetchContract(contractId: number): Promise<ContractPageData> {
+	return await get(`contracts/${contractId}/`);
+}
+
+export async function patchContract(contractId: number, data: any) {
+	return await patch(`contracts/${contractId}/update/`, data);
 }
 
 export async function deleteContract(contractId: number) {
 	return await destroy(`contracts/${contractId}/delete/`);
 }
 
+export async function fetchContractsOfStudent(studentId: number): Promise<ContractListItem[]> {
+	return await get(`contracts/?student=${studentId}`);
+}
+
 export async function createService(data: any) {
 	return await post('services/new/', data);
+}
+
+export async function deleteService(serviceId: number) {
+	return await destroy(`services/${serviceId}/delete/`);
 }
 
 export async function fetchSchool(id: number) {
@@ -220,19 +235,19 @@ export async function performCreateContract(params: {
 		start_date: formData.date_signed
 	};
 
-	await createService({ cf_person: formData.cf_planner, role: '顾问', ...shared });
+	await createService({ cf_person: formData.cf_planner, role: PLANNER, ...shared });
 
 	if (formData.cf_asst_planner) {
-		await createService({ cf_person: formData.cf_asst_planner, role: '服务顾问', ...shared });
+		await createService({ cf_person: formData.cf_asst_planner, role: ASST_PLANNER, ...shared });
 	}
 
 	if (formData.cf_strat_planner) {
-		await createService({ cf_person: formData.cf_strat_planner, role: '战略顾问', ...shared });
+		await createService({ cf_person: formData.cf_strat_planner, role: STRAT_PLANNER, ...shared });
 	}
 
-	await createService({ cf_person: formData.cf_essay_advisor_1, role: '文案', ...shared });
+	await createService({ cf_person: formData.cf_essay_advisor_1, role: ESSAY_ADVISOR, ...shared });
 
 	if (formData.cf_essay_advisor_2) {
-		await createService({ cf_person: formData.cf_essay_advisor_2, role: '文案', ...shared });
+		await createService({ cf_person: formData.cf_essay_advisor_2, role: ESSAY_ADVISOR, ...shared });
 	}
 }

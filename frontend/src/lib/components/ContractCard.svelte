@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { Contract } from '$lib/types/contractTypes';
+	import type { ContractListItem } from '$lib/types/contractTypes';
 	import { PLANNER, ASST_PLANNER, STRAT_PLANNER, ESSAY_ADVISOR } from '$lib/constants/cfRoles';
-	import { typeToClass, typeToInitial } from '$lib/utils/contractUtils';
+	import { typeToClass, typeToInitial, statusToClass } from '$lib/utils/contractUtils';
 
-	export let contract: Contract;
+	export let contract: ContractListItem;
 
 	const { type, target_year, services, status } = contract;
 
@@ -30,7 +30,7 @@
 			</div>
 			<div class="text-3xl font-bold">{target_year}</div>
 		</div>
-		<div class={`status-chip bg-${status.toLowerCase()}`}>
+		<div class={`contract-status-chip bg-${statusToClass(status)}`}>
 			{status === 'Effective' ? 'In effect' : status}
 		</div>
 	</section>
@@ -45,16 +45,12 @@
 			{/if}
 		{/each}
 	</section>
-
-	<section class="actions">
-		<!-- Move to contract page -->
-		<slot />
-	</section>
 </a>
 
 <style lang="postcss">
 	.contract-card {
-		@apply p-4 rounded-xl grid grid-cols-[2fr_3fr] gap-4;
+		@apply p-4 rounded-xl;
+		@apply grid grid-cols-[2fr_3fr] gap-4 items-start;
 	}
 	.card-left {
 		@apply mx-2 py-4;
@@ -64,8 +60,11 @@
 		@apply m-2 px-0 py-2;
 		@apply grid grid-cols-[max-content_2fr] gap-x-8 gap-y-4;
 	}
-	.status-chip {
-		@apply max-w-fit mt-4 px-4 py-1 rounded-full origin-left scale-90;
+	.contract-status-chip {
+		@apply font-normal;
+		@apply mt-2 origin-left scale-90;
+		min-width: none !important;
+		width: fit-content !important;
 	}
 	.type-mark {
 		@apply w-8 h-8;

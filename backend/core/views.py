@@ -27,6 +27,7 @@ from core.serializers import (
     # List items
     StudentListItemSerializer,
     ContractListItemSerializer,
+    ContractPageDataSerializer,
     ApplicationListItemSerializer,
     ApplicationPageDataSerializer,
 )
@@ -66,6 +67,11 @@ class StudentUpdateDeleteView(RetrieveUpdateDestroyAPIView):
 class ContractCreateView(CreateAPIView):
     queryset = Contract.objects.all()
     serializer_class = ContractSerializer
+
+
+class ContractRetrieveView(RetrieveAPIView):
+    queryset = Contract.objects.all()
+    serializer_class = ContractPageDataSerializer
 
 
 class ContractUpdateDeleteView(RetrieveUpdateDestroyAPIView):

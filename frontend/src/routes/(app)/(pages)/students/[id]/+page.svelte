@@ -8,7 +8,7 @@
 	import StudentDateOfBirthForm from '$lib/forms/StudentDateOfBirthForm.svelte';
 	import StudentResidenceForm from '$lib/forms/StudentResidenceForm.svelte';
 	import StudentCommentsForm from '$lib/forms/StudentCommentsForm.svelte';
-	import ContractForm from '$lib/forms/ContractForm.svelte';
+	import ContractServiceForm from '$lib/forms/ContractServiceForm.svelte';
 	import ApplicationForm from '$lib/forms/ApplicationForm.svelte';
 
 	import {
@@ -25,9 +25,6 @@
 	} from '$lib/utils/userUtils.js';
 	import ContractCard from '$lib/components/ContractCard.svelte';
 	import { byStatusThenTargetYearDesc } from '$lib/utils/sortUtils.js';
-	import OkayCancelDialog from '$lib/components/OkayCancelDialog.svelte';
-	import { deleteContract } from '$lib/api.js';
-	import { invalidateAll } from '$app/navigation';
 
 	export let data;
 
@@ -49,31 +46,15 @@
 	let residenceDialog: HTMLDialogElement;
 	let commentsDialog: HTMLDialogElement;
 	let contractCreateDialog: HTMLDialogElement;
-	let contractDeleteDialog: HTMLDialogElement;
 	let applicationCreateDialog: HTMLDialogElement;
-
-	// Contract deletion
-	let activeContract: (typeof data.contracts)[number];
-
-	function tableContractForDeletion(contract: (typeof data.contracts)[number]) {
-		activeContract = contract;
-		contractDeleteDialog.showModal();
-	}
-
-	async function handleContractDeletion() {
-		const response = await deleteContract(activeContract.id);
-		alert(response.ok ? 'Contract deleted!' : 'Something went wrong');
-		contractDeleteDialog.close();
-		invalidateAll();
-	}
 </script>
 
 <h1>{formatStudentName(student)}</h1>
 
 <PageSection>
-	<div class="grid grid-cols-[1fr_1fr] gap-x-12 gap-y-8 auto-rows-min">
+	<div class="grid grid-cols-[1fr_1fr] gap-x-12 gap-y-8 auto-rows-min items-start">
 		<div class="cf-card-shadow px-8 py-6 auto-rows-min rounded-xl flex flex-col">
-			<div class="profile-grid flex-grow">
+			<div class="profile-grid flex-grow pb-6">
 				<div class="cf-key row-span-2">Name</div>
 				<div class="cf-value">
 					{formatStudentName(student)}
@@ -107,7 +88,7 @@
 
 				<div class="cf-key">Born</div>
 				<div class="cf-value">
-					{student.date_of_birth ?? ''}
+					{student.date_of_birth ?? 'n/a'}
 					{#if userCanEdit}
 						<button on:click={() => dateOfBirthDialog.showModal()}>Edit</button>
 					{/if}
@@ -115,7 +96,7 @@
 
 				<div class="cf-key">Based in</div>
 				<div class="cf-value">
-					{formatResidence(student)}
+					{formatResidence(student) || 'n/a'}
 					{#if userCanEdit}
 						<button on:click={() => residenceDialog.showModal()}>Edit</button>
 					{/if}
@@ -123,7 +104,7 @@
 
 				<div class="cf-key">Comments</div>
 				<div class="cf-value">
-					{student.comments}
+					{student.comments || 'n/a'}
 					{#if userCanEdit}
 						<button on:click={() => commentsDialog.showModal()}>Edit</button>
 					{/if}
@@ -164,16 +145,7 @@
 
 	<div class="grid grid-cols-2 gap-12">
 		{#each data.contracts.sort(byStatusThenTargetYearDesc) as contract}
-			<ContractCard {contract}>
-				{#if userCanEdit}
-					<!-- TODO turn the edit button into a link? -->
-					<button class="btn py-1 px-2 text-primary-600 hover:bg-surface-700">Edit</button>
-					<button
-						class="btn py-1 px-2 text-error-500 hover:bg-surface-700"
-						on:click={() => tableContractForDeletion(contract)}>Delete</button
-					>
-				{/if}
-			</ContractCard>
+			<ContractCard {contract} />
 		{/each}
 	</div>
 
@@ -328,7 +300,7 @@
 </Dialog>
 
 <Dialog title="Add a contract" exitHelper bind:dialog={contractCreateDialog}>
-	<ContractForm
+	<ContractServiceForm
 		bind:dialog={contractCreateDialog}
 		action="?/createContract"
 		studentId={student.id}
@@ -338,19 +310,6 @@
 		{specialPeople}
 	/>
 </Dialog>
-
-<OkayCancelDialog
-	title="Delete this contract?"
-	bind:dialog={contractDeleteDialog}
-	onOkay={handleContractDeletion}
-	okayButtonText="Yes"
-	cancelButtonText="No, it was a misclick"
-	dangerous
->
-	<p>
-		{activeContract?.type}, {activeContract?.target_year}
-	</p>
-</OkayCancelDialog>
 
 <Dialog title="Add an application" exitHelper bind:dialog={applicationCreateDialog}>
 	<ApplicationForm

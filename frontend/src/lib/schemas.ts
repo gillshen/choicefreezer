@@ -1,7 +1,8 @@
 import { z } from 'zod';
 import {
 	applicationValidators,
-	contractValidators,
+	contractServiceValidators,
+	contractUpdateValidators,
 	idValidator,
 	studentCitizenshipValidator,
 	studentCommentsValidator,
@@ -15,7 +16,7 @@ import {
 
 export const newStudentSchema = z.object({
 	...studentValidators,
-	...contractValidators
+	...contractServiceValidators
 });
 
 export const studentLegalNameSchema = z.object({
@@ -67,12 +68,18 @@ export const studentCommentsSchema = z.object({
 
 export type StudentCommentsSchema = typeof studentCommentsSchema;
 
-export const contractSchema = z.object({
-	studentId: idValidator.id,
-	...contractValidators
+export const contractUpdateSchema = z.object({
+	...contractUpdateValidators
 });
 
-export type ContractSchema = typeof contractSchema;
+export type ContractUpdateSchema = typeof contractUpdateSchema;
+
+export const contractServiceSchema = z.object({
+	studentId: idValidator.id,
+	...contractServiceValidators
+});
+
+export type ContractServiceSchema = typeof contractServiceSchema;
 
 export const applicationSchema = z.object({
 	...applicationValidators

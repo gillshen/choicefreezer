@@ -2,22 +2,16 @@
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import { superForm } from 'sveltekit-superforms/client';
 
-	import type { ContractSchema } from '$lib/schemas';
+	import type { ContractUpdateSchema } from '$lib/schemas';
 	import { closeAndReloadOnSuccess } from '$lib/utils/formUtils';
 
 	import HiddenIdField from '$lib/components/HiddenIdField.svelte';
 	import ContractFormFields from '$lib/components/ContractFormFields.svelte';
-	import ServiceFormFields from '$lib/components/ServiceFormFields.svelte';
 	import FormSubmit from '$lib/components/FormSubmit.svelte';
-	import type { UserListItem } from '$lib/types/userTypes';
 
 	export let dialog: HTMLDialogElement | undefined;
 	export let action: string;
-	export let studentId: number;
-	export let data: SuperValidated<ContractSchema>;
-	export let planners: UserListItem[];
-	export let essayAdvisors: UserListItem[];
-	export let specialPeople: UserListItem[];
+	export let data: SuperValidated<ContractUpdateSchema>;
 
 	const { form, errors, message, enhance } = superForm(data, {
 		id: action,
@@ -27,16 +21,10 @@
 </script>
 
 <form method="post" {action} novalidate use:enhance>
-	<HiddenIdField value={studentId} name="studentId" />
-
+	<HiddenIdField value={$form.id} name="id" />
 	<fieldset>
-		<legend>Contract</legend>
 		<ContractFormFields form={$form} errors={$errors} />
 	</fieldset>
 
-	<fieldset>
-		<legend>CF people</legend>
-		<ServiceFormFields form={$form} errors={$errors} {planners} {essayAdvisors} {specialPeople} />
-	</fieldset>
 	<FormSubmit message={$message} />
 </form>

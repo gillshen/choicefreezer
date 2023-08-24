@@ -7,7 +7,7 @@ import type { SuperValidated } from 'sveltekit-superforms/index.d.ts';
 import {
 	fetchACT,
 	fetchAP,
-	fetchContracts,
+	fetchContractsOfStudent,
 	fetchDET,
 	fetchEnrollments,
 	fetchGRE,
@@ -36,7 +36,7 @@ import {
 	studentDateOfBirthSchema,
 	studentResidenceSchema,
 	studentCommentsSchema,
-	contractSchema,
+	contractServiceSchema,
 	applicationSchema
 } from '$lib/schemas.js';
 
@@ -71,7 +71,7 @@ export async function load(event: PageServerLoadEvent) {
 	const residenceForm = await superValidate(student, studentResidenceSchema);
 	const commentsForm = await superValidate(student, studentCommentsSchema);
 
-	const contractCreateForm = await superValidate(event, contractSchema);
+	const contractCreateForm = await superValidate(event, contractServiceSchema);
 
 	const applicationCreateForm = await superValidate(event, applicationSchema);
 
@@ -86,7 +86,7 @@ export async function load(event: PageServerLoadEvent) {
 		residenceForm,
 		commentsForm,
 		// contracts
-		contracts: fetchContracts(id),
+		contracts: fetchContractsOfStudent(id),
 		contractCreateForm,
 		applicationCreateForm,
 		// logs
@@ -145,7 +145,7 @@ export const actions = {
 	},
 
 	createContract: async (event) => {
-		const form = await superValidate(event, contractSchema);
+		const form = await superValidate(event, contractServiceSchema);
 		if (!form.valid) {
 			return fail(400, { form });
 		}

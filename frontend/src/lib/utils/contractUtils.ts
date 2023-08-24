@@ -1,4 +1,4 @@
-import type { ContractType } from '$lib/types/contractTypes';
+import type { ContractStatus, ContractType } from '$lib/types/contractTypes';
 
 export function typeToClass(contractType: ContractType): string {
 	return contractType.replace(/ /g, '-').toLocaleLowerCase();
@@ -13,4 +13,8 @@ export function typeToInitial(contractType: ContractType): string {
 		case 'Graduate':
 			return 'G';
 	}
+}
+
+export function statusToClass(contractStatus: ContractStatus): string {
+	return contractStatus.toLowerCase();
 }

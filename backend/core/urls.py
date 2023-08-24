@@ -17,6 +17,7 @@ from core.views import (
     StudentUpdateDeleteView,
     StudentListView,
     ContractCreateView,
+    ContractRetrieveView,
     ContractUpdateDeleteView,
     ContractListView,
     ServiceCreateView,
@@ -126,6 +127,7 @@ urlpatterns += [
 # Contract views
 urlpatterns += [
     path("contracts/new/", ContractCreateView.as_view()),
+    path("contracts/<int:pk>/", ContractRetrieveView.as_view()),
     path("contracts/<int:pk>/update/", ContractUpdateDeleteView.as_view()),
     path("contracts/<int:pk>/delete/", ContractUpdateDeleteView.as_view()),
     # contracts involving a student

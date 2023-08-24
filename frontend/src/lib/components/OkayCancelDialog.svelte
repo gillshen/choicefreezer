@@ -23,7 +23,7 @@
 
 	<slot />
 
-	<div class="mt-12 flex justify-between gap-8">
+	<div class="mt-12 grid grid-cols-3 gap-4">
 		<button class="cf-primary" on:click={onOkay}>{okayButtonText}</button>
 		<button class="btn bg-surface-800 hover:bg-surface-700" on:click={() => dialog.close()}
 			>{cancelButtonText}</button
@@ -33,7 +33,6 @@
 
 <style lang="postcss">
 	button {
-		@apply min-w-[9rem];
 		@apply rounded-md;
 	}
 </style>

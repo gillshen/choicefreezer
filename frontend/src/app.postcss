@@ -41,6 +41,10 @@ h3 {
 	@apply pt-4;
 }
 
+p + p {
+	@apply mt-4;
+}
+
 dialog {
 	@apply rounded-xl;
 	box-shadow: 18px 18px 36px rgb(25, 25, 25), -18px -18px 36px rgb(55, 55, 55);
@@ -88,7 +92,7 @@ button.section-cta {
 	@apply mt-8;
 }
 button.section-cta.delete {
-	@apply bg-surface-700 text-error-500;
+	@apply bg-surface-700 text-surface-50;
 	@apply hover:bg-error-500 hover:text-surface-900;
 	box-shadow: 0 0 0;
 }
@@ -180,6 +184,9 @@ form small.error-message {
 .profile-grid .cf-value:hover button:hover {
 	@apply text-surface-900 bg-primary-500;
 }
+.profile-grid a:hover {
+	@apply text-secondary-400;
+}
 
 /* contract types */
 .border-ug-freshman,
@@ -206,25 +213,32 @@ form small.error-message {
 	@apply border-b-blue-400;
 }
 
-/* contract statuses */
-.bg-effective {
-	@apply text-surface-900;
-	@apply bg-primary-400;
-}
-.bg-fulfilled {
-	@apply bg-zinc-600;
-}
-.bg-terminated {
-	@apply bg-error-900;
-}
-
 /* status chips */
+.contract-status-chip,
 .app-status-chip {
-	@apply px-4 py-1 min-w-[10rem] max-w-[10rem];
+	@apply px-4 py-1;
 	@apply rounded-full;
 	@apply text-base text-center font-bold;
 	@apply text-surface-900;
 	@apply bg-surface-50;
+}
+
+/* contract status chip */
+.contract-status-chip.bg-effective {
+	@apply bg-primary-500;
+}
+.contract-status-chip.bg-fulfilled {
+	@apply text-surface-50;
+	@apply bg-zinc-600;
+}
+.contract-status-chip.bg-terminated {
+	@apply text-surface-50;
+	@apply bg-error-900;
+}
+
+/* application status chip */
+.app-status-chip {
+	@apply min-w-[10rem] max-w-[10rem];
 }
 .started,
 .app-status-chip.deferred {

@@ -1,4 +1,5 @@
-import type { ContractStatus } from '$lib/types/contractTypes';
+import type { ContractStatus, ServiceRole } from '$lib/types/contractTypes';
+import { SERVICE_ROLE_ORDER } from '$lib/constants/cfRoles';
 
 export function byName(a: { name: string }, b: { name: string }) {
 	return a.name.localeCompare(b.name);
@@ -30,4 +31,14 @@ export function byStatusThenTargetYearDesc(
 		return 1;
 	}
 	return b.target_year - a.target_year;
+}
+
+export function byServiceRoleThenUsername(
+	a: { cf_username: string; role: ServiceRole },
+	b: { cf_username: string; role: ServiceRole }
+) {
+	if (a.role === b.role) {
+		return a.cf_username.localeCompare(b.cf_username);
+	}
+	return SERVICE_ROLE_ORDER[a.role] - SERVICE_ROLE_ORDER[b.role];
 }

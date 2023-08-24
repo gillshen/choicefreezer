@@ -126,6 +126,22 @@ class ContractListItemSerializer(serializers.ModelSerializer):
     services = ServiceListItemSerializer(many=True)
 
 
+class ContractPageDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contract
+        fields = "__all__"
+
+    class _StudentSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Student
+            fields = ["id", "name"]
+
+        name = serializers.CharField()
+
+    student = _StudentSerializer()
+    services = ServiceListItemSerializer(many=True)
+
+
 class ApplicationListItemSerializer(serializers.ModelSerializer):
     """
     Fields:

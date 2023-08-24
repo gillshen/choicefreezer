@@ -20,8 +20,8 @@
 
 <PageSection>
 	<div class="grid grid-cols-[1fr_1fr] gap-x-12 gap-y-8 auto-rows-min">
-		<div class="cf-card-shadow px-8 py-6 rounded-xl auto-rows-min">
-			<div class="profile-grid pb-8">
+		<div class="cf-card-shadow px-8 pt-6 py-6 rounded-xl auto-rows-min">
+			<div class="profile-grid pb-6">
 				<div class="cf-key">Student</div>
 				<div class="cf-value">
 					<a href={`../students/${application.student.id}`}>
@@ -65,14 +65,14 @@
 					{#if application.major_choices.length > 1}Majors{:else}Major{/if}
 				</div>
 				<div class="cf-value">
-					{application.major_choices.map((mc) => mc.major).join(', ')}
+					{application.major_choices.map((mc) => mc.major).join(', ') || 'n/a'}
 					{#if userCanEdit}
 						<button>Edit</button>
 					{/if}
 				</div>
 
 				<div class="cf-key">CF people</div>
-				<div class="cf-value">TODO</div>
+				<div class="cf-value text-yellow-300">TODO</div>
 			</div>
 		</div>
 
@@ -105,9 +105,3 @@
 		<button class="btn section-cta delete">Delete this application</button>
 	{/if}
 </PageSection>
-
-<style lang="postcss">
-	.profile-grid a:hover {
-		@apply text-secondary-400;
-	}
-</style>

@@ -44,7 +44,7 @@ export const studentValidators = {
 	...studentCommentsValidator
 };
 
-export const contractValidators = {
+const contractValidators = {
 	type: z.string().min(1, selectionRequired),
 	target_year: z
 		.number()
@@ -52,7 +52,16 @@ export const contractValidators = {
 		.default(THIS_YEAR + 1),
 	date_signed: z.string().nullable(),
 	student_progression_at_signing: z.string().trim(),
-	status: z.string().min(1, selectionRequired),
+	status: z.string().min(1, selectionRequired)
+};
+
+export const contractUpdateValidators = {
+	...idValidator,
+	...contractValidators
+};
+
+export const contractServiceValidators = {
+	...contractValidators,
 
 	// Service fields
 	cf_planner: z.number().positive(selectionRequired),
