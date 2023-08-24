@@ -47,6 +47,13 @@ dialog {
 	border: none;
 }
 
+.cf-card-shadow {
+	box-shadow: 6px 6px 24px rgb(25, 25, 25), -10px -10px 20px rgb(55, 55, 55);
+}
+.cf-card-shadow-hover:hover {
+	box-shadow: 8px 8px 24px rgb(25, 25, 25), -10px -10px 20px rgb(55, 55, 55);
+}
+
 button {
 	cursor: default;
 }
@@ -83,6 +90,7 @@ button.section-cta {
 button.section-cta.delete {
 	@apply bg-surface-700 text-error-500;
 	@apply hover:bg-error-500 hover:text-surface-900;
+	box-shadow: 0 0 0;
 }
 button.grid-page-export {
 	@apply max-w-fit m-0 flex gap-2;
@@ -141,10 +149,6 @@ form small.error-message {
 	@apply text-left w-fit min-w-[5rem];
 }
 
-.cf-key {
-	@apply text-surface-400;
-}
-
 /* student card hovering effect */
 .student-cards-container .card:hover {
 	transform: scale(1.05);
@@ -153,8 +157,12 @@ form small.error-message {
 
 /* profile grid */
 .profile-grid {
-	@apply grid gap-x-8 gap-y-4;
+	@apply grid gap-x-8 gap-y-4 auto-rows-min;
+	@apply rounded-xl;
 	grid-template-columns: max-content 1fr;
+}
+.profile-grid .cf-key {
+	@apply text-surface-400;
 }
 .profile-grid .cf-value {
 	@apply flex flex-wrap gap-3 w-full;
@@ -179,20 +187,20 @@ form small.error-message {
 .border-graduate {
 	border-bottom: 2px solid;
 }
-.text-ug-freshman {
-	@apply text-yellow-400;
+.bg-ug-freshman {
+	@apply bg-yellow-400;
 }
 .border-ug-freshman {
 	@apply border-b-yellow-400;
 }
-.text-ug-transfer {
-	@apply text-rose-400;
+.bg-ug-transfer {
+	@apply bg-rose-400;
 }
 .border-ug-transfer {
 	@apply border-b-rose-400;
 }
-.text-graduate {
-	@apply text-blue-400;
+.bg-graduate {
+	@apply bg-blue-400;
 }
 .border-graduate {
 	@apply border-b-blue-400;
@@ -207,7 +215,7 @@ form small.error-message {
 	@apply bg-zinc-600;
 }
 .bg-terminated {
-	@apply bg-error-700;
+	@apply bg-error-900;
 }
 
 /* status chips */
@@ -256,7 +264,7 @@ form small.error-message {
 	overflow: scroll;
 }
 .data-grid a {
-	@apply text-secondary-300 hover:text-secondary-200;
+	@apply text-secondary-400 hover:text-secondary-300;
 }
 
 .grid-page-container,

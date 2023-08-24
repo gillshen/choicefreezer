@@ -27,7 +27,7 @@
 	import { byStatusThenTargetYearDesc } from '$lib/utils/sortUtils.js';
 	import OkayCancelDialog from '$lib/components/OkayCancelDialog.svelte';
 	import { deleteContract } from '$lib/api.js';
-	import { invalidate, invalidateAll } from '$app/navigation';
+	import { invalidateAll } from '$app/navigation';
 
 	export let data;
 
@@ -71,72 +71,98 @@
 <h1>{formatStudentName(student)}</h1>
 
 <PageSection>
-	<div class="profile-grid">
-		<div class="cf-key row-span-2">Name</div>
-		<div class="cf-value">
-			{formatStudentName(student)}
-			{#if userCanEdit}
-				<button on:click={() => legalNameDialog.showModal()}>Edit</button>
-			{/if}
+	<div class="grid grid-cols-[1fr_1fr] gap-x-12 gap-y-8 auto-rows-min">
+		<div class="cf-card-shadow px-8 py-6 auto-rows-min rounded-xl flex flex-col">
+			<div class="profile-grid flex-grow">
+				<div class="cf-key row-span-2">Name</div>
+				<div class="cf-value">
+					{formatStudentName(student)}
+					{#if userCanEdit}
+						<button on:click={() => legalNameDialog.showModal()}>Edit</button>
+					{/if}
+				</div>
+
+				<div class="cf-value">
+					{formatStudentRomanizedName(student)}
+					{#if userCanEdit}
+						<button on:click={() => romanizedNameDialog.showModal()}>Edit</button>
+					{/if}
+				</div>
+
+				<div class="cf-key">Gender</div>
+				<div class="cf-value">
+					{student.gender}
+					{#if userCanEdit}
+						<button on:click={() => genderDialog.showModal()}>Edit</button>
+					{/if}
+				</div>
+
+				<div class="cf-key">Citizen of</div>
+				<div class="cf-value">
+					{student.citizenship}
+					{#if userCanEdit}
+						<button on:click={() => citizenshipDialog.showModal()}>Edit</button>
+					{/if}
+				</div>
+
+				<div class="cf-key">Born</div>
+				<div class="cf-value">
+					{student.date_of_birth ?? ''}
+					{#if userCanEdit}
+						<button on:click={() => dateOfBirthDialog.showModal()}>Edit</button>
+					{/if}
+				</div>
+
+				<div class="cf-key">Based in</div>
+				<div class="cf-value">
+					{formatResidence(student)}
+					{#if userCanEdit}
+						<button on:click={() => residenceDialog.showModal()}>Edit</button>
+					{/if}
+				</div>
+
+				<div class="cf-key">Comments</div>
+				<div class="cf-value">
+					{student.comments}
+					{#if userCanEdit}
+						<button on:click={() => commentsDialog.showModal()}>Edit</button>
+					{/if}
+				</div>
+			</div>
 		</div>
 
-		<div class="cf-value">
-			{formatStudentRomanizedName(student)}
-			{#if userCanEdit}
-				<button on:click={() => romanizedNameDialog.showModal()}>Edit</button>
-			{/if}
-		</div>
+		<div class="flex flex-col gap-8">
+			<div class="cf-card-shadow p-4 rounded-xl grid grid-cols-[1fr_1fr] gap-6 auto-rows-min">
+				<div class="w-full aspect-video bg-surface-700 rounded-md flex items-center justify-center">
+					GPA
+				</div>
+				<div class="w-full aspect-video bg-surface-700 rounded-md flex items-center justify-center">
+					Class rank
+				</div>
+			</div>
 
-		<div class="cf-key">Gender</div>
-		<div class="cf-value">
-			{student.gender}
-			{#if userCanEdit}
-				<button on:click={() => genderDialog.showModal()}>Edit</button>
-			{/if}
-		</div>
+			<div class="cf-card-shadow p-4 rounded-xl grid grid-cols-[1fr_1fr] gap-6 auto-rows-min">
+				<div class="w-full aspect-video bg-surface-700 rounded-md flex items-center justify-center">
+					SAT / ACT / GRE 1
+				</div>
+				<div class="w-full aspect-video bg-surface-700 rounded-md flex items-center justify-center">
+					SAT / ACT / GRE 2
+				</div>
+			</div>
 
-		<div class="cf-key">Citizen of</div>
-		<div class="cf-value">
-			{student.citizenship}
-			{#if userCanEdit}
-				<button on:click={() => citizenshipDialog.showModal()}>Edit</button>
-			{/if}
-		</div>
-
-		<div class="cf-key">Born</div>
-		<div class="cf-value">
-			{student.date_of_birth ?? ''}
-			{#if userCanEdit}
-				<button on:click={() => dateOfBirthDialog.showModal()}>Edit</button>
-			{/if}
-		</div>
-
-		<div class="cf-key">Based in</div>
-		<div class="cf-value">
-			{formatResidence(student)}
-			{#if userCanEdit}
-				<button on:click={() => residenceDialog.showModal()}>Edit</button>
-			{/if}
-		</div>
-
-		<div class="cf-key">Comments</div>
-		<div class="cf-value">
-			{student.comments}
-			{#if userCanEdit}
-				<button on:click={() => commentsDialog.showModal()}>Edit</button>
-			{/if}
+			<div class="cf-card-shadow p-4 rounded-xl grid grid-cols-[1fr_1fr] gap-6 auto-rows-min">
+				<div class="w-full aspect-video bg-surface-700 rounded-md flex items-center justify-center">
+					TOEFL / IELTS
+				</div>
+			</div>
 		</div>
 	</div>
-
-	{#if userCanEdit}
-		<button class="section-cta delete">Delete this student</button>
-	{/if}
 </PageSection>
 
 <PageSection>
 	<svelte:fragment slot="h2">Contracts</svelte:fragment>
 
-	<div class="flex flex-wrap gap-4">
+	<div class="grid grid-cols-2 gap-12">
 		{#each data.contracts.sort(byStatusThenTargetYearDesc) as contract}
 			<ContractCard {contract}>
 				{#if userCanEdit}
@@ -229,6 +255,11 @@
 	{/if}
 
 	<button class="section-cta">Add a test score</button>
+
+	{#if userCanEdit}
+		<div />
+		<button class="section-cta delete max-w-fit self-center">Delete this student</button>
+	{/if}
 </PageSection>
 
 <!-- Dialogs -->

@@ -170,11 +170,8 @@
 			</div>
 		{/if}
 
-		<!-- spacer -->
-		<div class="my-2" />
-
 		<div class="flex flex-col">
-			<label class="label" for="program-type-select">Choose a program type</label>
+			<label class="label" for="program-type-select">Program type</label>
 			<select
 				id="program-type-select"
 				name="programType"
@@ -194,7 +191,7 @@
 				Choose a program
 				{#if filteredPrograms.length}
 					<small>
-						If you do not find the program you are looking for, select "Add a program..." at the
+						If the program you are looking for is not listed, select "Add a program..." at the
 						bottom
 					</small>
 				{/if}
@@ -342,13 +339,10 @@
 	}
 	button.major-button {
 		@apply max-w-fit py-2 px-4;
-		@apply text-primary-500;
-		border: 1px solid;
-		@apply border-primary-500;
 		@apply rounded-md;
+		@apply text-primary-500 bg-surface-700;
 	}
 	button.major-button.remove {
-		@apply text-surface-50 bg-error-700;
-		border: none;
+		@apply text-error-500;
 	}
 </style>

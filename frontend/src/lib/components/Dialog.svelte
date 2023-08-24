@@ -7,7 +7,7 @@
 <dialog
 	bind:this={dialog}
 	on:close
-	class="w-full max-w-3xl max-h-[50rem] p-12 text-surface-50 bg-surface-900"
+	class="w-full max-w-3xl max-h-[80vh] p-12 text-surface-50 bg-surface-900"
 >
 	{#if title}
 		<h2>{title}</h2>

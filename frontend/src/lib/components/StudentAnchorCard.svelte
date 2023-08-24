@@ -1,14 +1,14 @@
 <script lang="ts">
 	import type { StudentOfUser } from '$lib/types/userTypes';
-	import { typeToClass } from '$lib/utils/contractUtils';
+	import { typeToClass, typeToInitial } from '$lib/utils/contractUtils';
 
 	export let student: StudentOfUser | null = null;
 </script>
 
 {#if student}
 	<a href={`../students/${student.id}/`} class="student-anchor card">
-		<header class={`contract-chip text-${typeToClass(student.latest_contract_type)}`}>
-			{student.latest_contract_type}
+		<header class={`contract-chip bg-${typeToClass(student.latest_contract_type)}`}>
+			<p>{typeToInitial(student.latest_contract_type)}</p>
 		</header>
 		<section>{student.name}</section>
 	</a>
@@ -21,16 +21,17 @@
 {/if}
 
 <style lang="postcss">
-	.student-anchor.card,
-	.student-anchor.card div {
+	.student-anchor,
+	.student-anchor div {
 		@apply w-[9rem] h-[9rem] max-w-[9rem];
 		@apply flex flex-col;
 		@apply rounded-2xl;
 	}
-	.student-anchor.card {
+	/* globally: cf-card-shadow */
+	.student-anchor {
 		box-shadow: 10px 10px 24px rgb(25, 25, 25), -8px -8px 20px rgb(55, 55, 55);
 	}
-	.student-anchor.card:hover {
+	.student-anchor:hover {
 		box-shadow: 12px 12px 24px rgb(25, 25, 25), -10px -10px 20px rgb(55, 55, 55);
 	}
 	.student-anchor section {
@@ -39,9 +40,10 @@
 		@apply p-6;
 	}
 	header.contract-chip {
-		@apply px-6 py-2;
-		@apply rounded-t-2xl;
-		@apply text-sm;
-		text-shadow: 1px 1px 2px rgb(25, 25, 25);
+		@apply p-0 mx-6 mt-4;
+		@apply rounded-full;
+		@apply w-6 h-6;
+		@apply flex items-center justify-center;
+		@apply text-sm text-surface-900 font-bold text-center;
 	}
 </style>

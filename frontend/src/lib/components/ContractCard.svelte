@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Contract } from '$lib/types/contractTypes';
 	import { PLANNER, ASST_PLANNER, STRAT_PLANNER, ESSAY_ADVISOR } from '$lib/constants/cfRoles';
-	import { typeToClass } from '$lib/utils/contractUtils';
+	import { typeToClass, typeToInitial } from '$lib/utils/contractUtils';
 
 	export let contract: Contract;
 
@@ -19,49 +19,61 @@
 	}
 </script>
 
-<article class="card">
-	<header class={`card-header border-${typeToClass(type)}`}>
-		<div class="text-3xl font-bold">{target_year}</div>
-		<div class="flex justify-between">
-			<div class="font-bold py-1">{type}</div>
-			<div class={`px-4 py-1 rounded-full scale-90 bg-${status.toLowerCase()}`}>
-				{status === 'Effective' ? 'In effect' : status}
+<a
+	href={`../contracts/${contract.id}/`}
+	class="contract-card cf-card-shadow cf-card-shadow-hover card-hover"
+>
+	<section class="card-left">
+		<div class="flex items-center gap-2">
+			<div class={`type-mark bg-${typeToClass(type)}`}>
+				{typeToInitial(type)}
 			</div>
+			<div class="text-3xl font-bold">{target_year}</div>
 		</div>
-	</header>
+		<div class={`status-chip bg-${status.toLowerCase()}`}>
+			{status === 'Effective' ? 'In effect' : status}
+		</div>
+	</section>
 
-	<section class="card-footer">
+	<section class="card-right profile-grid">
 		{#each roles as role}
 			{#if servicesByRole[role].length}
-				<div class="flex flex-col gap-1">
-					<div class="cf-key">{role}</div>
-					<div class="cf-value">
-						{servicesByRole[role].sort().join(', ')}
-					</div>
+				<div class="cf-key">{role}</div>
+				<div class="cf-value">
+					{servicesByRole[role].sort().join(', ')}
 				</div>
 			{/if}
 		{/each}
 	</section>
 
 	<section class="actions">
-		<!-- Edit and delete buttons -->
+		<!-- Move to contract page -->
 		<slot />
 	</section>
-</article>
+</a>
 
 <style lang="postcss">
-	.card {
-		border: thin solid;
-		@apply border-surface-400 w-[18rem] flex flex-col;
+	.contract-card {
+		@apply p-4 rounded-xl grid grid-cols-[2fr_3fr] gap-4;
 	}
-	.card-header {
-		@apply m-4 p-0 pb-4;
+	.card-left {
+		@apply mx-2 py-4;
 		@apply flex flex-col gap-2;
 	}
-	.card-footer {
-		@apply mb-0 pb-2 flex flex-col gap-4;
+	.card-right {
+		@apply m-2 px-0 py-2;
+		@apply grid grid-cols-[max-content_2fr] gap-x-8 gap-y-4;
 	}
-	.card .actions {
-		@apply px-4 pb-4 flex-grow flex gap-2 items-end justify-end;
+	.status-chip {
+		@apply max-w-fit mt-4 px-4 py-1 rounded-full origin-left scale-90;
+	}
+	.type-mark {
+		@apply w-8 h-8;
+		@apply font-bold text-surface-900;
+		@apply rounded-full;
+		@apply flex justify-center items-center;
+	}
+	.actions {
+		@apply flex-grow flex gap-2 items-end justify-start;
 	}
 </style>

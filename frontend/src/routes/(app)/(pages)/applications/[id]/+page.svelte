@@ -19,60 +19,73 @@
 </h1>
 
 <PageSection>
-	<div class="profile-grid">
-		<div class="cf-key">Student</div>
-		<div>{application.student.name}</div>
+	<div class="grid grid-cols-[1fr_1fr] gap-x-12 gap-y-8 auto-rows-min">
+		<div class="cf-card-shadow px-8 py-6 rounded-xl auto-rows-min">
+			<div class="profile-grid pb-8">
+				<div class="cf-key">Student</div>
+				<div class="cf-value">
+					<a href={`../students/${application.student.id}`}>
+						{application.student.name}
+					</a>
+				</div>
 
-		<div class="cf-key">
-			{#if application.schools.length > 1}Schools{:else}School{/if}
+				<div class="cf-key">
+					{#if application.schools.length > 1}Schools{:else}School{/if}
+				</div>
+				<div class="cf-value flex flex-col">
+					{#each application.schools as school}
+						<a href={`../schools/${school.id}/`}>{school.name}</a>
+					{/each}
+				</div>
+
+				<div class="cf-key">Program</div>
+				<div class="cf-value">
+					<a href={`../programs/${application.program.id}/`}>
+						{application.program.display_name}
+					</a>
+				</div>
+
+				<div class="cf-key">Target</div>
+				<div class="cf-value">
+					<a href={`../targets/${application.target.id}/`}>
+						{application.target.term}
+						{application.target.year}
+					</a>
+				</div>
+
+				<div class="cf-key">Admission plan</div>
+				<div class="cf-value">
+					{application.subtarget.admission_plan}
+					{#if userCanEdit}
+						<button>Edit</button>
+					{/if}
+				</div>
+
+				<div class="cf-key">
+					{#if application.major_choices.length > 1}Majors{:else}Major{/if}
+				</div>
+				<div class="cf-value">
+					{application.major_choices.map((mc) => mc.major).join(', ')}
+					{#if userCanEdit}
+						<button>Edit</button>
+					{/if}
+				</div>
+
+				<div class="cf-key">CF people</div>
+				<div class="cf-value">TODO</div>
+			</div>
 		</div>
-		<div class="cf-value">{application.schools.map((s) => s.name).join(' | ')}</div>
 
-		<div class="cf-key">Program</div>
-		<div class="cf-value">{application.program.display_name}</div>
-
-		<div class="cf-key">
-			{#if application.major_choices.length > 1}Majors{:else}Major{/if}
-		</div>
-		<div class="cf-value">
-			{application.major_choices.map((mc) => mc.major).join(', ')}
-			{#if userCanEdit}
-				<button>Edit</button>
-			{/if}
-		</div>
-
-		<div class="cf-key">Target</div>
-		<div class="cf-value">{application.target.term} {application.target.year}</div>
-
-		<div class="cf-key">Admission plan</div>
-		<div class="cf-value">
-			{application.subtarget.admission_plan}
-			{#if userCanEdit}
-				<button>Edit</button>
-			{/if}
-		</div>
-
-		<div class="cf-key">Deadline</div>
-		<div class="cf-value">
-			{application.subtarget.deadline ?? 'n/a'}
-			{application.subtarget.deadline_timezone}
-			{#if userCanEdit}
-				<button>Edit</button>
-			{/if}
-		</div>
-
-		<div class="cf-key">Decision date</div>
-		<div class="cf-value">
-			{application.subtarget.decision_date ?? 'n/a'}
-			{#if userCanEdit}
-				<button>Edit</button>
-			{/if}
+		<div class="grid grid-cols-2 gap-8 auto-rows-min">
+			<div class="cf-card-shadow p-4 rounded-lg">Deadline</div>
+			<div class="cf-card-shadow p-4 rounded-lg">Decision date</div>
+			<div class="cf-card-shadow p-4 rounded-lg">SAT / ACT / GRE / GMAT 1</div>
+			<div class="cf-card-shadow p-4 rounded-lg">SAT / ACT / GRE / GMAT 2</div>
+			<div class="cf-card-shadow p-4 rounded-lg">TOEFL / IELTS</div>
+			<div class="cf-card-shadow p-4 rounded-lg">Scholarship</div>
+			<div class="cf-card-shadow p-4 rounded-lg col-span-2 font-mono">#if alt_admitted_into</div>
 		</div>
 	</div>
-
-	{#if userCanEdit}
-		<button class="btn section-cta delete">Delete this application</button>
-	{/if}
 </PageSection>
 
 <PageSection>
@@ -86,14 +99,15 @@
 
 <PageSection>
 	<pre class="text-surface-400 bg-surface-700">{JSON.stringify(application, null, 2)}</pre>
+
+	{#if userCanEdit}
+		<div />
+		<button class="btn section-cta delete">Delete this application</button>
+	{/if}
 </PageSection>
 
-<!-- <style lang="postcss">
-	.app-status-chip {
-		@apply px-4 py-1 min-w-[10rem];
-		@apply text-center;
-		@apply rounded-full;
-		@apply text-surface-900;
-		@apply bg-surface-50;
+<style lang="postcss">
+	.profile-grid a:hover {
+		@apply text-secondary-400;
 	}
-</style> -->
+</style>
