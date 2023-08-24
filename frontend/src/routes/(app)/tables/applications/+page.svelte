@@ -82,7 +82,14 @@
 		{ headerName: 'Deadline', field: 'subtarget.deadline' },
 		{ headerName: 'Decision Date', field: 'subtarget.decision_date' },
 		{ headerName: 'Latest Status', field: 'latest_log.status' },
-		{ headerName: 'Latest Updated', field: 'latest_log.updated' }
+		{ headerName: 'Status Updated', field: 'latest_log.updated' },
+		{ headerName: 'SAT', field: 'submitting_sat', cellDataType: 'boolean' },
+		{ headerName: 'ACT', field: 'submitting_act', cellDataType: 'boolean' },
+		{ headerName: 'GRE', field: 'submitting_gre', cellDataType: 'boolean' },
+		{ headerName: 'GMAT', field: 'submitting_gmat', cellDataType: 'boolean' },
+		{ headerName: 'TOEFL', field: 'submitting_toefl', cellDataType: 'boolean' },
+		{ headerName: 'IELTS', field: 'submitting_ielts', cellDataType: 'boolean' },
+		{ headerName: 'DET', field: 'submitting_det', cellDataType: 'boolean' }
 	];
 
 	const gridOptions: GridOptions = {

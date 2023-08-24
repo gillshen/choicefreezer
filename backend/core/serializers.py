@@ -179,6 +179,14 @@ class ApplicationListItemSerializer(serializers.ModelSerializer):
             updated: string; // datetime
         };
 
+        submitting_toefl: boolean;
+        submitting_ielts: boolean;
+        submitting_det: boolean;
+        submitting_sat: boolean;
+        submitting_act: boolean;
+        submitting_gre: boolean;
+        submitting_gmat: boolean;
+
         scholarship_amount: number;
         scholarship_currency: string;
         alt_admitted_into: number;
@@ -300,6 +308,14 @@ class ApplicationPageDataSerializer(serializers.ModelSerializer):
             comments: string;
             updated: string; // datetime
         };
+
+        submitting_toefl: boolean;
+        submitting_ielts: boolean;
+        submitting_det: boolean;
+        submitting_sat: boolean;
+        submitting_act: boolean;
+        submitting_gre: boolean;
+        submitting_gmat: boolean;
 
         scholarship_amount: number;
         scholarship_currency: string;
