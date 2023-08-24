@@ -20,8 +20,8 @@
 	async function handleDeleteContract() {
 		const response = await deleteContract(contract.id);
 		if (response.ok) {
-			alert('Contract deleted.\nYou will be redirecting to the student page.');
 			goto(`../students/${contract.student.id}/`);
+			alert('Contract deleted');
 		} else {
 			alert(UNKNOWN_ERROR);
 		}

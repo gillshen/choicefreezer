@@ -143,7 +143,7 @@
 <PageSection>
 	<svelte:fragment slot="h2">Contracts</svelte:fragment>
 
-	<div class="grid grid-cols-2 gap-12">
+	<div class="grid grid-cols-2 gap-x-12 gap-y-8">
 		{#each data.contracts.sort(byStatusThenTargetYearDesc) as contract}
 			<ContractCard {contract} />
 		{/each}
