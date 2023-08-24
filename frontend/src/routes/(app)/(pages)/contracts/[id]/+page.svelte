@@ -17,6 +17,8 @@
 	let contractUpdateDialog: HTMLDialogElement;
 	let contractDeleteDialog: HTMLDialogElement;
 
+	// TODO move to server side?
+	// TODO proper notification
 	async function handleDeleteContract() {
 		const response = await deleteContract(contract.id);
 		if (response.ok) {
@@ -35,7 +37,7 @@
 	{contract.type}
 	{contract.target_year}
 
-	<div class="mt-8 max-w-[10rem] min-w-[10rem]">
+	<div class="mt-8">
 		<ContractStatusChip status={contract.status} />
 	</div>
 </h1>
@@ -101,14 +103,6 @@
 					</div>
 				{/each}
 			</div>
-
-			{#if userCanEdit}
-				<div class="grid grid-cols-2 gap-8">
-					<button class="section-cta mt-0 flex gap-2" disabled
-						><i class="fa-solid fa-plus-minus" /> members</button
-					>
-				</div>
-			{/if}
 		</div>
 	</div>
 </PageSection>

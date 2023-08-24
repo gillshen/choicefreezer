@@ -74,6 +74,13 @@
 				<div class="cf-key">CF people</div>
 				<div class="cf-value text-yellow-300">TODO</div>
 			</div>
+
+			{#if userCanEdit}
+				<div class="grid grid-cols-3 gap-4">
+					<button class="section-cta" on:click={() => alert('todo')}>Edit</button>
+					<button class="section-cta delete" on:click={() => alert('todo')}>Delete</button>
+				</div>
+			{/if}
 		</div>
 
 		<div class="grid grid-cols-2 gap-8 auto-rows-min">
@@ -99,9 +106,4 @@
 
 <PageSection>
 	<pre class="text-surface-400 bg-surface-700">{JSON.stringify(application, null, 2)}</pre>
-
-	{#if userCanEdit}
-		<div />
-		<button class="btn section-cta delete">Delete this application</button>
-	{/if}
 </PageSection>

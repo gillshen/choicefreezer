@@ -13,12 +13,13 @@
 	class="contract-card cf-card-shadow cf-card-shadow-hover card-hover"
 >
 	<section class="card-left">
-		<div class="flex items-center gap-2">
+		<div class="flex gap-4">
 			<div class={`type-mark bg-${typeToClass(type)}`}>
 				{typeToInitial(type)}
 			</div>
-			<div class="text-3xl font-bold">{target_year}</div>
+			<div class="text-4xl font-bold">{target_year}</div>
 		</div>
+
 		<div class={`contract-status-chip bg-${statusToClass(status)}`}>
 			{status === 'Effective' ? 'In effect' : status}
 		</div>
@@ -39,8 +40,8 @@
 		@apply grid grid-cols-[1fr_1fr] gap-4 items-start;
 	}
 	.card-left {
-		@apply mx-2 py-4;
-		@apply flex flex-col gap-2;
+		@apply mx-2 pt-3;
+		@apply flex flex-col gap-4;
 	}
 	.card-right {
 		@apply m-2 px-0 py-2;
@@ -53,12 +54,12 @@
 		width: fit-content !important;
 	}
 	.type-mark {
-		@apply w-8 h-8;
+		@apply aspect-square text-lg;
 		@apply font-bold text-surface-900;
 		@apply rounded-full;
 		@apply flex justify-center items-center;
 	}
-	.actions {
-		@apply flex-grow flex gap-2 items-end justify-start;
+	.profile-grid {
+		@apply gap-y-3;
 	}
 </style>

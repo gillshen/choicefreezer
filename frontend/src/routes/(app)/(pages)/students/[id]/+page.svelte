@@ -55,20 +55,19 @@
 	<div class="grid grid-cols-[1fr_1fr] gap-x-12 gap-y-8 auto-rows-min items-start">
 		<div class="cf-card-shadow px-8 py-6 auto-rows-min rounded-xl flex flex-col">
 			<div class="profile-grid flex-grow pb-6">
-				<div class="cf-key row-span-2">Name</div>
+				<div class="cf-key">Name</div>
 				<div class="cf-value">
-					{formatStudentName(student)}
+					{formatStudentName(student)} / {formatStudentRomanizedName(student)}
 					{#if userCanEdit}
 						<button on:click={() => legalNameDialog.showModal()}>Edit</button>
 					{/if}
 				</div>
 
-				<div class="cf-value">
-					{formatStudentRomanizedName(student)}
+				<!-- <div class="cf-value">
 					{#if userCanEdit}
 						<button on:click={() => romanizedNameDialog.showModal()}>Edit</button>
 					{/if}
-				</div>
+				</div> -->
 
 				<div class="cf-key">Gender</div>
 				<div class="cf-value">
@@ -110,6 +109,13 @@
 					{/if}
 				</div>
 			</div>
+
+			{#if userCanEdit}
+				<div class="grid grid-cols-3 gap-4">
+					<button class="section-cta" on:click={() => alert('todo')}>Edit</button>
+					<button class="section-cta delete" on:click={() => alert('todo')}>Delete</button>
+				</div>
+			{/if}
 		</div>
 
 		<div class="flex flex-col gap-8">
@@ -227,11 +233,6 @@
 	{/if}
 
 	<button class="section-cta">Add a test score</button>
-
-	{#if userCanEdit}
-		<div />
-		<button class="section-cta delete max-w-fit self-center">Delete this student</button>
-	{/if}
 </PageSection>
 
 <!-- Dialogs -->
