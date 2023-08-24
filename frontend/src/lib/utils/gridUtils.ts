@@ -1,3 +1,4 @@
+import type { SetVisibleParams } from '$lib/types/gridTypes';
 import {
 	Grid,
 	type GridOptions,
@@ -46,4 +47,12 @@ export function mountGrid(elemId: string, gridOptions: GridOptions) {
 	const gridEl = document.getElementById(elemId) as HTMLElement;
 	new Grid(gridEl, gridOptions);
 	gridOptions.columnApi?.autoSizeAllColumns();
+}
+
+export function setColumnVisible(gridOptions: GridOptions, params: SetVisibleParams) {
+	const { headerName, hide } = params;
+	const columns = gridOptions.columnApi!.getColumns();
+	const column = columns!.find((col) => col.getColDef().headerName === headerName);
+	gridOptions.columnApi!.setColumnVisible(column!, !hide);
+	gridOptions.columnApi!.autoSizeColumn(column!);
 }

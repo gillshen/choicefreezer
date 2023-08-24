@@ -2,12 +2,16 @@
 	import { onMount } from 'svelte';
 	import type { GridOptions, ICellRendererParams, ValueGetterParams } from 'ag-grid-community';
 
-	import { defaultColDef, columnTypes, AgCellRenderer, mountGrid } from '$lib/utils/gridUtils.js';
 	import type { StudentListItemType } from '$lib/types/studentTypes.js';
+	import type { ColumnControls } from '$lib/types/gridTypes.js';
 	import { ASST_PLANNER, ESSAY_ADVISOR, PLANNER, STRAT_PLANNER } from '$lib/constants/cfRoles.js';
+
+	import { defaultColDef, columnTypes, AgCellRenderer, mountGrid } from '$lib/utils/gridUtils.js';
+	import ColumnVisibilityControl from '$lib/components/ColumnVisibilityControl.svelte';
+	import GridDownloadButton from '$lib/components/GridDownloadButton.svelte';
+
 	import { formatResidence } from '$lib/utils/studentUtils.js';
 	import { toUsernamesWithRole } from '$lib/utils/serviceUtils.js';
-	import GridDownloadButton from '$lib/components/GridDownloadButton.svelte';
 
 	export let data;
 	const { students } = data;
@@ -19,6 +23,11 @@
 			this.eGui.title = 'Go to the student page';
 			this.eGui.innerHTML = params.data.name;
 		}
+	}
+
+	function romanizedNameValueGetter(params: ValueGetterParams): string {
+		const student: StudentListItemType = params.data;
+		return `${student.first_name_romanized} ${student.last_name_romanized}`.trim();
 	}
 
 	function usernameGetterByRole(role: string) {
@@ -38,32 +47,52 @@
 		return student.cf_products.length > 0;
 	}
 
+	const columnControls: ColumnControls = {
+		name: { headerName: 'Name', hide: false },
+		romanizedName: { headerName: 'Eng./Pinyin Name', hide: true },
+		current: { headerName: 'Current', hide: false },
+		contractType: { headerName: 'Contract Type', hide: false },
+		target: { headerName: 'Target', hide: false },
+		gender: { headerName: 'Gender', hide: false },
+		citizenship: { headerName: 'Citizenship', hide: false },
+		stratPlanner: { headerName: STRAT_PLANNER, hide: true },
+		planner: { headerName: PLANNER, hide: false },
+		asstPlanner: { headerName: ASST_PLANNER, hide: true },
+		essayAdvisor: { headerName: ESSAY_ADVISOR, hide: false },
+		born: { headerName: 'Born', hide: false },
+		based: { headerName: 'Based', hide: false },
+		usedCfProducts: { headerName: 'Used CF Products', hide: true },
+		comments: { headerName: 'Comments', hide: false }
+	};
+
 	const columnDefs = [
-		{ headerName: 'Name', field: 'name', cellRenderer: NameRenderer },
-		{ headerName: 'Current', field: 'is_current', cellDataType: 'boolean' },
-		{ headerName: 'Contract Type', field: 'latest_contract_type' },
-		{ headerName: 'Target Year', field: 'latest_target_year', type: ['numberColumn'] },
-		{ headerName: 'Gender', field: 'gender' },
-		{ headerName: 'Citizenship', field: 'citizenship' },
-		{ headerName: PLANNER, valueGetter: usernameGetterByRole(PLANNER) },
-		{ headerName: ASST_PLANNER, valueGetter: usernameGetterByRole(ASST_PLANNER) },
-		{ headerName: STRAT_PLANNER, valueGetter: usernameGetterByRole(STRAT_PLANNER) },
-		{ headerName: ESSAY_ADVISOR, valueGetter: usernameGetterByRole(ESSAY_ADVISOR) },
-		{ headerName: 'Born', field: 'date_of_birth', type: ['dateStringColumn'] },
-		{ headerName: 'Based', valueGetter: residenceValueGetter },
+		{ ...columnControls.name, field: 'name', cellRenderer: NameRenderer },
+		{ ...columnControls.romanizedName, valueGetter: romanizedNameValueGetter },
+		{ ...columnControls.current, field: 'is_current', cellDataType: 'boolean' },
+		{ ...columnControls.contractType, field: 'latest_contract_type' },
+		{ ...columnControls.target, field: 'latest_target_year', type: ['numberColumn'] },
+		{ ...columnControls.gender, field: 'gender' },
+		{ ...columnControls.citizenship, field: 'citizenship' },
+		{ ...columnControls.stratPlanner, valueGetter: usernameGetterByRole(STRAT_PLANNER) },
+		{ ...columnControls.planner, valueGetter: usernameGetterByRole(PLANNER) },
+		{ ...columnControls.asstPlanner, valueGetter: usernameGetterByRole(ASST_PLANNER) },
+		{ ...columnControls.essayAdvisor, valueGetter: usernameGetterByRole(ESSAY_ADVISOR) },
+		{ ...columnControls.born, field: 'date_of_birth', type: ['dateStringColumn'] },
+		{ ...columnControls.based, valueGetter: residenceValueGetter },
 		{
-			headerName: 'Used CF Products',
+			...columnControls.usedCfProducts,
 			cellDataType: 'boolean',
 			valueGetter: usedCfProductValueGetter
 		},
-		{ headerName: 'Comments', field: 'comments' }
+		{ ...columnControls.comments, field: 'comments' }
 	];
 
 	const gridOptions: GridOptions = {
 		defaultColDef,
 		columnTypes,
 		columnDefs,
-		rowData: students
+		rowData: students,
+		suppressDragLeaveHidesColumns: true
 	};
 
 	onMount(() => mountGrid('grid', gridOptions));
@@ -72,7 +101,7 @@
 <div class="grid-page-container">
 	<div class="grid-page-sidebar">
 		<div class="grid-page-sidebar-content">
-			<pre>{JSON.stringify(students[0], null, 2)}</pre>
+			<ColumnVisibilityControl {gridOptions} initialStates={Object.values(columnControls)} />
 		</div>
 	</div>
 

@@ -2,9 +2,12 @@
 	import { onMount } from 'svelte';
 	import type { GridOptions, ICellRendererParams, ValueGetterParams } from 'ag-grid-community';
 
-	import { defaultColDef, columnTypes, AgCellRenderer, mountGrid } from '$lib/utils/gridUtils.js';
 	import type { ApplicationListItem } from '$lib/types/applicationTypes.js';
+	import type { ColumnControls } from '$lib/types/gridTypes.js';
+
+	import { defaultColDef, columnTypes, AgCellRenderer, mountGrid } from '$lib/utils/gridUtils.js';
 	import GridDownloadButton from '$lib/components/GridDownloadButton.svelte';
+	import ColumnVisibilityControl from '$lib/components/ColumnVisibilityControl.svelte';
 
 	export let data;
 	const { applications } = data;
@@ -13,8 +16,15 @@
 		init(params: ICellRendererParams<any, any, any>): void {
 			this.eGui = document.createElement('a');
 			this.eGui.href = `../applications/${params.data.id}/`;
-			this.eGui.title = 'Go to the application page';
 			this.eGui.innerHTML = '<i class="fa-solid fa-arrow-up-right-from-square" />';
+		}
+	}
+
+	class StudentRenderer extends AgCellRenderer {
+		init(params: ICellRendererParams<any, any, any>): void {
+			this.eGui = document.createElement('a');
+			this.eGui.href = `../students/${params.data.student.id}/`;
+			this.eGui.innerText = params.data.student.name;
 		}
 	}
 
@@ -58,45 +68,67 @@
 		return application.majors_list.join('; ');
 	}
 
+	const columnControls: ColumnControls = {
+		link: { headerName: 'Link', hide: false },
+		student: { headerName: 'Student', hide: false },
+		school: { headerName: 'School', hide: true },
+		schoolAbbr: { headerName: 'School Abbr.', hide: false },
+		program: { headerName: 'Program', hide: false },
+		major: { headerName: 'Major', hide: false },
+		target: { headerName: 'Target', hide: false },
+		admissionPlan: { headerName: 'Admission Plan', hide: false },
+		deadline: { headerName: 'Deadline', hide: false },
+		decisionDate: { headerName: 'Decision Date', hide: true },
+		satScore: { headerName: 'SAT', hide: true },
+		actScore: { headerName: 'ACT', hide: true },
+		greScore: { headerName: 'GRE', hide: true },
+		gmatScore: { headerName: 'GMAT', hide: true },
+		toeflScore: { headerName: 'TOEFL', hide: true },
+		ieltsScore: { headerName: 'IELTS', hide: true },
+		detScore: { headerName: 'DET', hide: true },
+		latestStatus: { headerName: 'Latest Status', hide: false },
+		statusUpdated: { headerName: 'Status Updated', hide: false }
+	};
+
 	const columnDefs = [
 		{
-			headerName: '',
+			...columnControls.link,
 			field: 'id',
-			type: ['numberColumn'],
 			filter: false,
 			sortable: false,
-			width: 50,
 			minWidth: 50,
 			cellRenderer: IdRenderer
 		},
-		{ headerName: 'Student', field: 'student.name' },
-		{ headerName: 'School', valueGetter: schoolValueGetter },
-		{ headerName: 'School Abbr.', valueGetter: schoolAbbreviationsValueGetter },
-		{ headerName: 'Program', field: 'program.display_name', cellRenderer: ProgramRenderer },
-		{ headerName: 'Major', valueGetter: majorsValueGetter },
-		// { headerName: 'Year', field: 'target.year', type: ['numberColumn'] },
-		// { headerName: 'Term', field: 'target.term' },
-		{ headerName: 'Target', valueGetter: targetValueGetter, cellRenderer: TargetRenderer },
-		{ headerName: 'Admission Plan', field: 'subtarget.admission_plan' },
+		{ ...columnControls.student, field: 'student.name', cellRenderer: StudentRenderer },
+		{ ...columnControls.school, valueGetter: schoolValueGetter },
+		{ ...columnControls.schoolAbbr, valueGetter: schoolAbbreviationsValueGetter },
+		{ ...columnControls.program, field: 'program.display_name', cellRenderer: ProgramRenderer },
+		{ ...columnControls.major, valueGetter: majorsValueGetter },
+
+		{ ...columnControls.target, valueGetter: targetValueGetter, cellRenderer: TargetRenderer },
+		{ ...columnControls.admissionPlan, field: 'subtarget.admission_plan' },
 		// TODO include timezone
-		{ headerName: 'Deadline', field: 'subtarget.deadline' },
-		{ headerName: 'Decision Date', field: 'subtarget.decision_date' },
-		{ headerName: 'Latest Status', field: 'latest_log.status' },
-		{ headerName: 'Status Updated', field: 'latest_log.updated' },
-		{ headerName: 'SAT', field: 'submitting_sat', cellDataType: 'boolean' },
-		{ headerName: 'ACT', field: 'submitting_act', cellDataType: 'boolean' },
-		{ headerName: 'GRE', field: 'submitting_gre', cellDataType: 'boolean' },
-		{ headerName: 'GMAT', field: 'submitting_gmat', cellDataType: 'boolean' },
-		{ headerName: 'TOEFL', field: 'submitting_toefl', cellDataType: 'boolean' },
-		{ headerName: 'IELTS', field: 'submitting_ielts', cellDataType: 'boolean' },
-		{ headerName: 'DET', field: 'submitting_det', cellDataType: 'boolean' }
+		{ ...columnControls.deadline, field: 'subtarget.deadline' },
+		{ ...columnControls.decisionDate, field: 'subtarget.decision_date' },
+
+		{ ...columnControls.satScore, field: 'submitting_sat', cellDataType: 'boolean' },
+		{ ...columnControls.actScore, field: 'submitting_act', cellDataType: 'boolean' },
+		{ ...columnControls.greScore, field: 'submitting_gre', cellDataType: 'boolean' },
+		{ ...columnControls.gmatScore, field: 'submitting_gmat', cellDataType: 'boolean' },
+		{ ...columnControls.toeflScore, field: 'submitting_toefl', cellDataType: 'boolean' },
+		{ ...columnControls.ieltsScore, field: 'submitting_ielts', cellDataType: 'boolean' },
+		{ ...columnControls.detScore, field: 'submitting_det', cellDataType: 'boolean' },
+
+		{ ...columnControls.latestStatus, field: 'latest_log.status' },
+		{ ...columnControls.statusUpdated, field: 'latest_log.updated' }
 	];
 
 	const gridOptions: GridOptions = {
 		defaultColDef,
 		columnTypes,
 		columnDefs,
-		rowData: applications
+		rowData: applications,
+		suppressDragLeaveHidesColumns: true
 	};
 
 	onMount(() => mountGrid('grid', gridOptions));
@@ -105,7 +137,7 @@
 <div class="grid-page-container">
 	<div class="grid-page-sidebar">
 		<div class="grid-page-sidebar-content">
-			<pre>{JSON.stringify(applications, null, 2)}</pre>
+			<ColumnVisibilityControl {gridOptions} initialStates={Object.values(columnControls)} />
 		</div>
 	</div>
 
