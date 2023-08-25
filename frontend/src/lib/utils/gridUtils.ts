@@ -12,7 +12,8 @@ export const defaultColDef = {
 	flex: 1,
 	minWidth: 100,
 	maxWidth: 500,
-	filter: 'agTextColumnFilter'
+	filter: 'agTextColumnFilter',
+	floatingFilter: true
 };
 
 export const columnTypes = {

@@ -65,7 +65,7 @@ button.cf-primary,
 button.cf-secondary,
 button.section-cta,
 button.grid-page-export {
-	@apply hover:scale-[101%] origin-left duration-300;
+	@apply hover:scale-[101%] duration-300;
 }
 button.cf-primary,
 button.section-cta,
@@ -97,6 +97,7 @@ button.section-cta.delete {
 	box-shadow: 0 0 0;
 }
 button.grid-page-export {
+	@apply font-normal;
 	@apply max-w-fit m-0 flex gap-2;
 }
 
@@ -296,15 +297,13 @@ form small.error-message {
 	max-height: calc(100vh - 74px);
 }
 .grid-page-sidebar {
-	@apply w-[24rem] min-w-[24rem] max-w-[24rem];
+	@apply w-[22rem] min-w-[22rem] max-w-[22rem];
 }
 .grid-page-sidebar-content {
-	@apply ml-8 mr-12 my-8;
-	@apply px-8 py-6;
+	@apply m-8;
+	@apply pl-8 pr-6 py-6;
 	@apply w-full overflow-auto;
-	@apply bg-surface-800 text-surface-400;
 	@apply rounded-xl;
-	box-shadow: 18px 18px 36px rgb(25, 25, 25), -18px -18px 36px rgb(55, 55, 55);
 }
 .grid-page-content {
 	@apply flex-col flex-grow gap-6;
@@ -312,6 +311,7 @@ form small.error-message {
 }
 h1.grid-page-title {
 	@apply p-0 m-0 mb-4;
+	@apply max-w-none;
 }
 
 /* Overriding Ag-Grid defaults */
@@ -592,7 +592,23 @@ h1.grid-page-title {
 	border-radius: 4px;
 	@apply p-1;
 }
+.ag-input-field-input {
+	background: #454545 !important;
+}
 .ag-text-field-input {
-	background: #373737 !important;
 	@apply p-2;
+}
+/* floating filters */
+.ag-header-cell.ag-floating-filter {
+	@apply bg-surface-900 text-surface-50;
+}
+.ag-floating-filter .ag-input-field-input {
+	@apply bg-surface-700;
+	@apply font-normal;
+}
+.ag-header-cell.ag-floating-filter:hover {
+	@apply !bg-surface-900;
+}
+.ag-header-cell-filtered {
+	@apply text-secondary-800;
 }

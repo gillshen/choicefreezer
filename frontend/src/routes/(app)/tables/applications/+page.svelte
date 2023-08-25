@@ -142,10 +142,11 @@
 	</div>
 
 	<div class="grid-page-content">
-		<h1 class="grid-page-title">Applications</h1>
+		<h1 class="grid-page-title flex justify-between">
+			Applications
+			<GridDownloadButton {gridOptions} />
+		</h1>
 
 		<div id="grid" class="data-grid ag-theme-alpine-dark" />
-
-		<GridDownloadButton {gridOptions} />
 	</div>
 </div>
