@@ -167,6 +167,22 @@ export const actions = {
 		}
 		const { data } = form;
 
+		// Check if majors are assigned to categories as they should
+		const majorCategoryError = 'Since you have specified a major, assign it to a category';
+
+		if (data.firstMajor && !data.firstMajorCategory) {
+			form.errors.firstMajorCategory = [majorCategoryError];
+			return fail(400, { form });
+		}
+		if (data.secondMajor && !data.secondMajorCategory) {
+			form.errors.secondMajorCategory = [majorCategoryError];
+			return fail(400, { form });
+		}
+		if (data.thirdMajor && !data.thirdMajorCategory) {
+			form.errors.thirdMajorCategory = [majorCategoryError];
+			return fail(400, { form });
+		}
+
 		// Create a new program
 		if (data.programId === 0) {
 			const newProgram = {
@@ -217,44 +233,26 @@ export const actions = {
 		}
 		const createdApplication = await createApplicationResponse.json();
 
-		// TODO refactor? Create major choices
+		// Create major choices
+		let majorRank = 1;
 
-		if (data.firstMajor) {
-			const firstMajorParams: NewMajorChoice = {
-				application: createdApplication.id,
-				major_category: data.firstMajorCategory,
-				major: data.firstMajor,
-				rank: 1
-			};
-			const firstMajorResponse = await createMajorChoice(firstMajorParams);
-			if (!firstMajorResponse.ok) {
-				return message(form, UNKNOWN_ERROR, { status: 400 });
-			}
-		}
-
-		if (data.secondMajor) {
-			const secondMajorParams: NewMajorChoice = {
-				application: createdApplication.id,
-				major_category: data.secondMajorCategory,
-				major: data.secondMajor,
-				rank: 2
-			};
-			const secondMajorResponse = await createMajorChoice(secondMajorParams);
-			if (!secondMajorResponse.ok) {
-				return message(form, UNKNOWN_ERROR, { status: 400 });
-			}
-		}
-
-		if (data.thirdMajor) {
-			const thirdMajorParams: NewMajorChoice = {
-				application: createdApplication.id,
-				major_category: data.thirdMajorCategory,
-				major: data.thirdMajor,
-				rank: 2
-			};
-			const thirdMajorResponse = await createMajorChoice(thirdMajorParams);
-			if (!thirdMajorResponse.ok) {
-				return message(form, UNKNOWN_ERROR, { status: 400 });
+		for (const [major, majorCategory] of [
+			[data.firstMajor, data.firstMajorCategory],
+			[data.secondMajor, data.secondMajorCategory],
+			[data.thirdMajor, data.thirdMajorCategory]
+		]) {
+			if (major) {
+				const params: NewMajorChoice = {
+					application: createdApplication.id,
+					major,
+					major_category: majorCategory!,
+					rank: majorRank
+				};
+				const majorResponse = await createMajorChoice(params);
+				if (!majorResponse.ok) {
+					return message(form, UNKNOWN_ERROR, { status: 400 });
+				}
+				majorRank++;
 			}
 		}
 

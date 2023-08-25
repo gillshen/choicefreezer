@@ -7,7 +7,8 @@ const majorCategories = [
 	'Public and Social Services',
 	'Science, Technology, Engineering, and Math',
 	'Social Sciences',
-	'Trades and Personal Services'
+	'Trades and Personal Services',
+	'Undecided'
 ].sort();
 
 export const MAJOR_CATEGORIES = [...majorCategories] as const;
