@@ -6,6 +6,7 @@
 	export let errors: any;
 	export let optional = false;
 	export let optionalText = 'optional';
+	export let width: undefined | 'wider' = undefined;
 </script>
 
 <div class="flex flex-col">
@@ -16,7 +17,7 @@
 	<select
 		{id}
 		{name}
-		class="select"
+		class={`select ${width ? width : ''}`}
 		bind:value={form[name]}
 		aria-invalid={errors[name] ? 'true' : undefined}
 		required={!optional}

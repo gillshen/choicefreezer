@@ -29,6 +29,7 @@
 	}
 	/* globally: cf-card-shadow */
 	.student-anchor {
+		@apply bg-surface-900;
 		box-shadow: 10px 10px 24px rgb(25, 25, 25), -8px -8px 20px rgb(55, 55, 55);
 	}
 	.student-anchor:hover {

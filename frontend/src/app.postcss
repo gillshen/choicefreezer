@@ -52,6 +52,7 @@ dialog {
 }
 
 .cf-card-shadow {
+	@apply bg-surface-900;
 	box-shadow: 6px 6px 24px rgb(25, 25, 25), -10px -10px 20px rgb(55, 55, 55);
 }
 .cf-card-shadow-hover:hover {
@@ -128,7 +129,12 @@ label .optional {
 input.input,
 input.date,
 select.select {
-	@apply max-w-sm h-10 px-2;
+	@apply w-[20rem] h-10 px-2;
+	@apply rounded-md;
+}
+input.input.wider,
+select.select.wider {
+	@apply w-[28rem];
 }
 input.radio {
 	@apply rounded-full;

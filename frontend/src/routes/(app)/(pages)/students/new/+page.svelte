@@ -35,7 +35,7 @@
 <PageSection>
 	<!-- <SuperDebug data={$form} /> -->
 
-	<form method="post" novalidate use:enhance>
+	<form class="w-fit" method="post" novalidate use:enhance>
 		<fieldset>
 			<legend>Legal name</legend>
 			<StudentLegalNameFields form={$form} errors={$errors} />
@@ -46,7 +46,7 @@
 			<StudentRomanizedNameFields form={$form} errors={$errors} />
 		</fieldset>
 
-		<fieldset>
+		<fieldset class="single-column">
 			<legend>Personal information</legend>
 			<StudentGenderField form={$form} errors={$errors} />
 			<StudentCitizenshipField form={$form} errors={$errors} />
@@ -58,16 +58,25 @@
 			<StudentResidenceFields form={$form} errors={$errors} />
 		</fieldset>
 
-		<fieldset>
+		<fieldset class="single-column">
 			<legend>Contract</legend>
 			<ContractFormFields form={$form} errors={$errors} />
 		</fieldset>
 
-		<fieldset>
-			<legend>People involved</legend>
+		<fieldset class="single-column">
+			<legend>CF team</legend>
 			<ServiceFormFields form={$form} errors={$errors} {planners} {essayAdvisors} {specialPeople} />
 		</fieldset>
 
 		<FormSubmit message={$message} />
 	</form>
 </PageSection>
+
+<style lang="postcss">
+	fieldset {
+		@apply grid grid-cols-[minmax(20rem,1fr)_minmax(20rem,1fr)] gap-8 gap-y-4;
+	}
+	fieldset.single-column {
+		@apply grid grid-cols-1 max-w-[20rem];
+	}
+</style>

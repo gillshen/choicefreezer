@@ -8,6 +8,7 @@
 	export let maxlength = 1000;
 	export let showCharCount = false;
 	export let optionalText = 'optional';
+	export let width: undefined | 'wider' = undefined;
 </script>
 
 <div class="flex flex-col">
@@ -19,7 +20,7 @@
 		{id}
 		{name}
 		type="text"
-		class="input"
+		class={`input ${width ? width : ''}`}
 		bind:value={form[name]}
 		aria-invalid={errors[name] ? 'true' : undefined}
 		required={!optional}

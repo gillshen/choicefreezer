@@ -6,17 +6,17 @@
 </script>
 
 <FormTextInput
-	id="last-name-romanized-input"
-	name="last_name_romanized"
-	label="Last name"
+	id="first-name-romanized-input"
+	name="first_name_romanized"
+	label="First or preferred name"
 	{form}
 	{errors}
 />
 
 <FormTextInput
-	id="first-name-romanized-input"
-	name="first_name_romanized"
-	label="First or preferred name"
+	id="last-name-romanized-input"
+	name="last_name_romanized"
+	label="Last name"
 	{form}
 	{errors}
 />

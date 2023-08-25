@@ -10,9 +10,6 @@
 			data-filter-selected={target === option ? 'true' : 'false'}
 			on:click={() => (target = option)}
 		>
-			{#if target === option}
-				&bullet;
-			{/if}
 			{option}
 		</button>
 	{/each}
@@ -23,15 +20,19 @@
 		@apply mb-4 w-full flex flex-col items-stretch gap-1;
 	}
 	button.filter-button {
-		border-bottom: 1px solid;
 		@apply w-full h-12;
+		@apply px-4;
+		@apply rounded-md;
 		@apply text-left;
-		@apply border-b-primary-900;
+		@apply border-2;
+		@apply border-transparent;
 	}
 	button.filter-button:hover {
-		@apply text-primary-700;
+		@apply bg-surface-700;
 	}
 	button.filter-button[data-filter-selected='true'] {
 		@apply text-primary-500;
+		@apply border-b-primary-900;
+		@apply rounded-b-none;
 	}
 </style>

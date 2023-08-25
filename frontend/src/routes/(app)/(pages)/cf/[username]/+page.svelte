@@ -3,6 +3,7 @@
 	import MinimalRadioGroup from '$lib/components/MinimalRadioGroup.svelte';
 	import StudentAnchorCard from '$lib/components/StudentAnchorCard.svelte';
 	import { byContractType, byRomanizedName, byTargetYearDesc } from '$lib/utils/studentUtils.js';
+	import { goto } from '$app/navigation';
 
 	export let data;
 	const { user, applications } = data;
@@ -43,7 +44,12 @@
 	<h2 class="mb-4">Current students</h2>
 
 	<div class="student-grid">
-		<MinimalRadioGroup bind:target={filterYearCurrent} options={['All', ...yearOptionsCurrent]} />
+		<div>
+			<MinimalRadioGroup bind:target={filterYearCurrent} options={['All', ...yearOptionsCurrent]} />
+			<button class="cf-primary mt-4 w-full" on:click={() => goto('../students/new/')}
+				>Add a student</button
+			>
+		</div>
 
 		<div class="student-cards-container">
 			{#each filteredCurrentStudents
@@ -52,7 +58,6 @@
 				.sort(byContractType) as student}
 				<StudentAnchorCard {student} />
 			{/each}
-			<StudentAnchorCard />
 		</div>
 	</div>
 

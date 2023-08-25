@@ -21,6 +21,7 @@
 	{form}
 	{errors}
 	optional
+	width="wider"
 />
 
 <FormSelect
@@ -31,6 +32,7 @@
 	{errors}
 	optional
 	optionalText="required if you specified a major"
+	width="wider"
 >
 	<OptionList options={Array.from(MAJOR_CATEGORIES)} insertEmptyRow />
 </FormSelect>
