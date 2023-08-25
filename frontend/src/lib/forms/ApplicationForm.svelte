@@ -128,7 +128,7 @@
 				bind:checked={isJointProgram}
 				on:change={onJointProgramChange}
 			/>
-			<label class="label" for="joint-program-check">This is a joint program</label>
+			<label class="label" for="joint-program-check">Applying to a joint program</label>
 		</div>
 
 		<div class="flex flex-col">
@@ -136,7 +136,7 @@
 			<select
 				id="school-select"
 				name="schoolId"
-				class="select"
+				class="select wider"
 				bind:value={$form.schoolId}
 				on:change={onSchoolChange}
 			>
@@ -153,7 +153,7 @@
 				<select
 					id="second-school-select"
 					name="secondSchoolId"
-					class="select"
+					class="select wider"
 					bind:value={$form.secondSchoolId}
 					on:change={onSecondSchoolChange}
 				>
@@ -189,7 +189,7 @@
 		<div class="flex flex-col">
 			<label class="label flex flex-col" for="program-select">
 				Choose a program
-				{#if filteredPrograms.length}
+				{#if filteredPrograms.length && !isUndergraduate}
 					<small>
 						If the program you are looking for is not listed, select "Add a program..." at the
 						bottom
@@ -199,7 +199,7 @@
 			<select
 				id="program-select"
 				name="programId"
-				class="select"
+				class="select wider"
 				bind:value={$form.programId}
 				disabled={programNotFound}
 				on:change={onProgramChange}
@@ -208,9 +208,7 @@
 				{#each filteredPrograms as program}
 					<option value={program.id}>{program.display_name}</option>
 				{/each}
-				{#if programNotFound}
-					<option value={-2} disabled class="text-surface-400">No such program found</option>
-				{:else if filtersSet}
+				{#if filtersSet && !isUndergraduate}
 					<option value={0} class="text-primary-500">Add a program...</option>
 				{/if}
 			</select>
@@ -218,15 +216,28 @@
 				<small class="error-message">{$errors.programId}</small>
 			{/if}
 		</div>
+	</fieldset>
 
-		{#if addProgramEnabled}
+	{#if addProgramEnabled && isUndergraduate && programNotFound}
+		<p class="instruction">
+			The program you are looking for is not yet in the database, but it will be added to the
+			database automatically when you submit the form.
+		</p>
+	{:else if addProgramEnabled}
+		<!--  !isUndergraduate or !programNotFound  -->
+		<p class="instruction">
+			{#if programNotFound}We cannot find the program you are looking for.{/if} Please fill out the &ldquo;New
+			Program&rdquo; section below to add it to the database.
+		</p>
+
+		<fieldset>
+			<legend>New program</legend>
 			<FormTextInput
 				id="program-name-input"
 				name="programName"
 				label="Name of the program"
 				form={$form}
 				errors={$errors}
-				optional
 			/>
 
 			<FormTextInput
@@ -237,8 +248,8 @@
 				errors={$errors}
 				optional
 			/>
-		{/if}
-	</fieldset>
+		</fieldset>
+	{/if}
 
 	<fieldset>
 		<legend>Choose an admission plan</legend>
@@ -344,5 +355,10 @@
 	}
 	button.major-button.remove {
 		@apply text-error-500;
+	}
+
+	p.instruction {
+		@apply max-w-prose text-secondary-400;
+		@apply mt-6;
 	}
 </style>
