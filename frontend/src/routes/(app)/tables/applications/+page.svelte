@@ -33,7 +33,6 @@
 			const { program } = params.data;
 			this.eGui = document.createElement('a');
 			this.eGui.href = `../programs/${program.id}/`;
-			this.eGui.title = 'Go to the program page';
 			this.eGui.innerText = program.display_name;
 		}
 	}
@@ -43,7 +42,6 @@
 			const { target } = params.data;
 			this.eGui = document.createElement('a');
 			this.eGui.href = `../targets/${target.id}/`;
-			this.eGui.title = 'Go to the target page';
 			this.eGui.innerText = `${target.term} ${target.year}`;
 		}
 	}

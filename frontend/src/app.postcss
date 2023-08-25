@@ -190,11 +190,6 @@ form small.error-message {
 }
 
 /* contract types */
-.border-ug-freshman,
-.border-ug-transfer,
-.border-graduate {
-	border-bottom: 2px solid;
-}
 .bg-ug-freshman {
 	@apply bg-yellow-400;
 }
@@ -273,13 +268,10 @@ form small.error-message {
 
 /* Data grid styles */
 .data-grid {
-	/* TODO adjust height */
-	height: 70vh;
-	width: 100%;
-	overflow: scroll;
+	@apply w-full h-full overflow-scroll;
 }
 .data-grid a {
-	@apply text-secondary-400 hover:text-secondary-300;
+	@apply text-indigo-200 hover:text-primary-500;
 }
 
 .grid-page-container,
@@ -340,16 +332,16 @@ h1.grid-page-title {
 
 	/* Colour of text and icons in UI elements that need to be slightly 
 	 * less emphasised to avoid distracting attention from data */
-	--ag-secondary-foreground-color: #454545;
+	--ag-secondary-foreground-color: #bebebe;
 
 	/* Colour of text in grid cells */
 	--ag-data-color: #e7e7e7;
 
 	/* Colour of text and icons in the header */
-	--ag-header-foreground-color: var(--cf-theme-surface-900);
+	--ag-header-foreground-color: #e7e7e7;
 
 	/* Background colour for all headers, including the grid header, panels etc */
-	--ag-header-background-color: var(--cf-theme-primary-500);
+	--ag-header-background-color: #373737;
 
 	/* Background colour for all tooltips */
 	/* --ag-tooltip-background-color */
@@ -406,7 +398,7 @@ h1.grid-page-title {
 	 * column reordering by dragging, you may want to set
 	 * `--ag-header-cell-moving-background-color` to ensure that the rollover colour
 	 * remains in place during dragging. */
-	--ag-header-cell-hover-background-color: #a4e75b;
+	--ag-header-cell-hover-background-color: #454545;
 
 	/* Colour applied to header cells when the column is being dragged to a new position */
 	--ag-header-cell-moving-background-color: #a4e75b;
@@ -424,11 +416,11 @@ h1.grid-page-title {
 	 * Set this to a border style and thickness, e.g. `solid 1px` to enable borders, 
 	 * or none to disable borders. Use the other `--ag-borders-*` variables for 
 	 * more fine grained control over which UI elements get borders. */
-	--ag-borders: thin solid;
+	--ag-borders: none;
 
 	/* Colour for border around major UI components like the grid itself, headers; 
 	 * footers and tool panels. */
-	--ag-border-color: var(--cf-theme-primary-500);
+	/* --ag-border-color: #373737; */
 
 	/* Enable or disable borders that are critical to UX, e.g. those between 
 	 * headers and rows. Themes that disable borders generally may want to enable 
@@ -503,7 +495,7 @@ h1.grid-page-title {
 	 * are packed together. All padding and spacing in the grid is defined as a multiple 
 	 * of `grid-size`, so increasing it will make most components larger by increasing 
 	 * their internal white space while leaving the size of text and icons unchanged. */
-	/* --ag-grid-size */
+	--ag-grid-size: 0.4rem;
 
 	/* The size of square icons and icon-buttons */
 	/* --ag-icon-size */
@@ -585,8 +577,11 @@ h1.grid-page-title {
 	/* --ag-popup-shadow */
 }
 
-.ag-icon:hover {
-	color: var(--cf-theme-surface-900);
+.ag-header-cell:hover .ag-icon {
+	@apply text-surface-50;
+}
+.ag-header-cell:hover .ag-icon:hover {
+	@apply text-primary-500;
 }
 .ag-picker-field-wrapper {
 	border-radius: 4px;
@@ -610,5 +605,15 @@ h1.grid-page-title {
 	@apply !bg-surface-900;
 }
 .ag-header-cell-filtered {
-	@apply text-secondary-800;
+	@apply text-amber-400;
+}
+
+/* Rounded top corners */
+.ag-header {
+	@apply rounded-t-md;
+}
+
+/* Override the default 0.5 */
+.ag-checkbox-input-wrapper.ag-disabled {
+	opacity: 0.8 !important;
 }
