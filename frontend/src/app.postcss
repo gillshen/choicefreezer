@@ -52,7 +52,6 @@ dialog {
 }
 
 .cf-card-shadow {
-	@apply bg-surface-900;
 	box-shadow: 6px 6px 24px rgb(25, 25, 25), -10px -10px 20px rgb(55, 55, 55);
 }
 .cf-card-shadow-hover:hover {
@@ -404,7 +403,7 @@ h1.grid-page-title {
 	 * column reordering by dragging, you may want to set
 	 * `--ag-header-cell-moving-background-color` to ensure that the rollover colour
 	 * remains in place during dragging. */
-	--ag-header-cell-hover-background-color: #454545;
+	/* --ag-header-cell-hover-background-color: #454545; */
 
 	/* Colour applied to header cells when the column is being dragged to a new position */
 	--ag-header-cell-moving-background-color: #a4e75b;
@@ -557,7 +556,7 @@ h1.grid-page-title {
 	/* Whether to show the header column resize handle - a vertical line that displays 
 	 * only between resizeable header columns, indicating where to drag in order to 
 	 * resize the column. */
-	--ag-header-column-resize-handle-display: none;
+	--ag-header-column-resize-handle-display: block;
 	/* --ag-header-column-resize-handle-height */
 	/* --ag-header-column-resize-handle-width */
 	/* --ag-header-column-resize-handle-color */
@@ -601,22 +600,22 @@ h1.grid-page-title {
 }
 /* floating filters */
 .ag-header-cell.ag-floating-filter {
-	@apply bg-surface-900 text-surface-50;
+	@apply bg-surface-800 text-surface-50;
 }
 .ag-floating-filter .ag-input-field-input {
 	@apply bg-surface-700;
 	@apply font-normal;
 }
 .ag-header-cell.ag-floating-filter:hover {
-	@apply !bg-surface-900;
+	@apply !bg-surface-800;
 }
 .ag-header-cell-filtered {
 	@apply text-amber-400;
 }
 
-/* Rounded top corners */
+/* Rounded corners for the headers */
 .ag-header {
-	@apply rounded-t-md;
+	@apply rounded-md;
 }
 
 /* Override the default 0.5 */

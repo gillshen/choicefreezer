@@ -92,6 +92,8 @@
 		{
 			...columnControls.link,
 			field: 'id',
+			flex: 0,
+			maxWidth: 80,
 			filter: false,
 			sortable: false,
 			minWidth: 50,

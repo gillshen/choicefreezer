@@ -47,7 +47,7 @@ export class AgCellRenderer implements ICellRendererComp {
 export function mountGrid(elemId: string, gridOptions: GridOptions) {
 	const gridEl = document.getElementById(elemId) as HTMLElement;
 	new Grid(gridEl, gridOptions);
-	gridOptions.columnApi?.autoSizeAllColumns();
+	gridOptions.api!.sizeColumnsToFit();
 }
 
 export function setColumnVisible(gridOptions: GridOptions, params: SetVisibleParams) {
@@ -55,5 +55,5 @@ export function setColumnVisible(gridOptions: GridOptions, params: SetVisiblePar
 	const columns = gridOptions.columnApi!.getColumns();
 	const column = columns!.find((col) => col.getColDef().headerName === headerName);
 	gridOptions.columnApi!.setColumnVisible(column!, !hide);
-	gridOptions.columnApi!.autoSizeColumn(column!);
+	gridOptions.api!.sizeColumnsToFit();
 }
