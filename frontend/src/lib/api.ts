@@ -10,6 +10,7 @@ import type {
 	NewApplication
 } from './types/applicationTypes';
 import type { NewMajorChoice } from './types/majorChoiceTypes';
+import type { NewApplicationLog } from './types/applicationLogTypes';
 
 import { PLANNER, ASST_PLANNER, STRAT_PLANNER, ESSAY_ADVISOR } from './constants/cfRoles';
 
@@ -170,6 +171,10 @@ export async function fetchApplicationsOfTarget(targetId: number) {
 
 export async function createMajorChoice(data: NewMajorChoice) {
 	return await post(`major_choices/new/`, data);
+}
+
+export async function createApplicationLog(data: NewApplicationLog) {
+	return await post(`application_logs/new/`, data);
 }
 
 export async function fetchLogsOfApplication(applicationId: number) {

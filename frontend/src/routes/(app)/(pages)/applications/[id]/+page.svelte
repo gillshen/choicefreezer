@@ -1,12 +1,16 @@
 <script lang="ts">
 	import PageSection from '$lib/components/PageSection.svelte';
 	import ApplicationStatusChip from '$lib/components/ApplicationStatusChip.svelte';
+	import Dialog from '$lib/components/Dialog.svelte';
+	import ApplicationLogForm from '$lib/forms/ApplicationLogForm.svelte';
 
 	export let data;
 
-	$: application = data.application;
-
 	const userCanEdit = true;
+
+	let logCreationDialog: HTMLDialogElement;
+
+	$: application = data.application;
 </script>
 
 <h1>
@@ -95,9 +99,18 @@
 		<pre class="text-surface-400 bg-surface-700">{JSON.stringify(application.logs, null, 2)}</pre>
 	{/if}
 
-	<button class="section-cta">Add an entry</button>
+	<button class="section-cta" on:click={() => logCreationDialog.showModal()}>Add an entry</button>
 </PageSection>
 
 <PageSection>
 	<pre class="text-surface-400 bg-surface-700">{JSON.stringify(application, null, 2)}</pre>
 </PageSection>
+
+<Dialog exitHelper bind:dialog={logCreationDialog}>
+	<ApplicationLogForm
+		dialog={logCreationDialog}
+		data={data.logCreationForm}
+		action="?/createLog"
+		applicationId={application.id}
+	/>
+</Dialog>

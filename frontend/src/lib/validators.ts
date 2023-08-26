@@ -108,3 +108,11 @@ export const applicationValidators = {
 	thirdMajorCategory: z.string().trim().optional().default(''),
 	thirdMajor: z.string().trim().nullable()
 };
+
+// Application log creation form
+export const applicationLogValidators = {
+	application: idValidator.id,
+	date: z.string().optional().default(''),
+	status: z.string().min(1, selectionRequired),
+	comments: z.string().trim().optional().default('')
+};

@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import {
+	applicationLogValidators,
 	applicationValidators,
 	contractServiceValidators,
 	contractUpdateValidators,
@@ -37,3 +38,9 @@ export const applicationSchema = z.object({
 });
 
 export type ApplicationSchema = typeof applicationSchema;
+
+export const newApplicationLogSchema = z.object({
+	...applicationLogValidators
+});
+
+export type NewApplicationLogSchema = typeof newApplicationLogSchema;
