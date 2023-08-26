@@ -145,6 +145,9 @@ input.input.wider,
 select.select.wider {
 	@apply w-[28rem];
 }
+textarea.input {
+	@apply min-h-[3rem];
+}
 input.radio {
 	@apply rounded-full;
 }
@@ -228,7 +231,7 @@ form small.error-message {
 .contract-status-chip,
 .app-status-chip {
 	@apply px-4 py-1;
-	@apply min-w-[8rem] max-w-[8rem];
+	@apply min-w-[8rem] max-w-fit;
 	@apply rounded-full;
 	@apply text-base text-center font-normal;
 	@apply text-surface-900;
@@ -249,31 +252,53 @@ form small.error-message {
 	@apply bg-error-900;
 }
 
-/* application status chip */
-.started,
+/* application status chip & dot */
+.app-status-dot {
+	@apply w-4 min-w-[1rem] h-4 min-h-[1rem] rounded-full;
+	@apply bg-surface-50;
+}
+.app-status-dot-text {
+	@apply overflow-hidden text-ellipsis;
+}
+.app-status-dot.started,
+.app-status-dot.deferred,
+.app-status-chip.started,
 .app-status-chip.deferred {
 	@apply bg-orange-400;
 }
+.app-status-dot.submitted,
+.app-status-dot.under-review,
 .app-status-chip.submitted,
 .app-status-chip.under-review {
 	@apply bg-sky-400;
 }
+.app-status-dot.ready-to-submit,
 .app-status-chip.ready-to-submit {
 	@apply bg-lime-300;
 }
+.app-status-dot.admitted,
+.app-status-dot.enrolled,
+.app-status-dot.offer-declined,
 .app-status-chip.admitted,
 .app-status-chip.enrolled,
 .app-status-chip.offer-declined {
 	@apply bg-primary-500;
 }
+.app-status-dot.on-waitlist,
 .app-status-chip.on-waitlist {
 	@apply bg-purple-400;
 }
+.app-status-dot.rejected,
+.app-status-dot.late,
+.app-status-dot.disqualified,
 .app-status-chip.rejected,
 .app-status-chip.late,
 .app-status-chip.disqualified {
 	@apply bg-red-400;
 }
+.app-status-dot.withdrawn,
+.app-status-dot.canceled,
+.app-status-dot.application-closed,
 .app-status-chip.withdrawn,
 .app-status-chip.canceled,
 .app-status-chip.application-closed {

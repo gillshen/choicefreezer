@@ -7,6 +7,7 @@
 	import {
 		ApplicantRenderer,
 		ApplicationIdRenderer,
+		StatusRenderer,
 		majorsValueGetter
 	} from '$lib/utils/applicationGridUtils.js';
 	import { NO_ROWS_YET } from '$lib/constants/messages.js';
@@ -29,7 +30,7 @@
 		{ headerName: 'Admission Plan', field: 'subtarget.admission_plan' },
 		{ headerName: 'Deadline', field: 'subtarget.deadline' },
 		{ headerName: 'Decision Date', field: 'subtarget.decision_date' },
-		{ headerName: 'Status', field: 'latest_log.status' }
+		{ headerName: 'Status', field: 'latest_log.status', cellRenderer: StatusRenderer }
 	];
 
 	const gridOptions = {

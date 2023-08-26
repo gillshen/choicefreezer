@@ -29,7 +29,7 @@ export const columnTypes = {
 };
 
 export class AgCellRenderer implements ICellRendererComp {
-	eGui!: HTMLAnchorElement;
+	eGui!: HTMLElement;
 
 	init(params: ICellRendererParams<any, any, any>): void {
 		console.log(params);

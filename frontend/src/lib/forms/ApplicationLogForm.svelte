@@ -38,10 +38,9 @@
 		<FormDateInput
 			id="date-input"
 			name="date"
-			label="Date"
+			label="Date (to your best knowledge)"
 			form={$form}
 			errors={$errors}
-			optional
 		/>
 
 		<FormTextArea

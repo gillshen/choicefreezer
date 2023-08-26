@@ -9,6 +9,7 @@
 		ApplicantRenderer,
 		ProgramRenderer,
 		TargetRenderer,
+		StatusRenderer,
 		targetValueGetter,
 		majorsValueGetter
 	} from '$lib/utils/applicationGridUtils.js';
@@ -32,7 +33,7 @@
 		{ headerName: 'Program', field: 'program.display_name', cellRenderer: ProgramRenderer },
 		{ headerName: 'Major', valueGetter: majorsValueGetter },
 		{ headerName: 'Admission Plan', field: 'subtarget.admission_plan' },
-		{ headerName: 'Status', field: 'latest_log.status' }
+		{ headerName: 'Status', field: 'latest_log.status', cellRenderer: StatusRenderer }
 	];
 
 	const gridOptions = {

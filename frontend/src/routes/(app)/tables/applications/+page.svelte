@@ -10,6 +10,7 @@
 		ApplicantRenderer,
 		ProgramRenderer,
 		TargetRenderer,
+		StatusRenderer,
 		schoolValueGetter,
 		schoolAbbreviationsValueGetter,
 		targetValueGetter,
@@ -76,7 +77,7 @@
 		{ ...columnControls.ieltsScore, field: 'submitting_ielts', cellDataType: 'boolean' },
 		{ ...columnControls.detScore, field: 'submitting_det', cellDataType: 'boolean' },
 
-		{ ...columnControls.latestStatus, field: 'latest_log.status' },
+		{ ...columnControls.latestStatus, field: 'latest_log.status', cellRenderer: StatusRenderer },
 		{ ...columnControls.statusUpdated, field: 'latest_log.updated' }
 	];
 

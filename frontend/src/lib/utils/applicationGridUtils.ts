@@ -1,8 +1,11 @@
 import type { ICellRendererParams, ValueGetterParams } from 'ag-grid-community';
 import type { ApplicationListItem } from '$lib/types/applicationTypes';
 import { AgCellRenderer } from '$lib/utils/gridUtils';
+import { statusToClass } from '$lib/utils/applicationUtils';
 
 export class ApplicationIdRenderer extends AgCellRenderer {
+	declare eGui: HTMLAnchorElement;
+
 	init(params: ICellRendererParams<any, any, any>): void {
 		this.eGui = document.createElement('a');
 		this.eGui.href = `../applications/${params.data.id}/`;
@@ -11,6 +14,8 @@ export class ApplicationIdRenderer extends AgCellRenderer {
 }
 
 export class ApplicantRenderer extends AgCellRenderer {
+	declare eGui: HTMLAnchorElement;
+
 	init(params: ICellRendererParams<any, any, any>): void {
 		this.eGui = document.createElement('a');
 		this.eGui.href = `../students/${params.data.student.id}/`;
@@ -19,6 +24,8 @@ export class ApplicantRenderer extends AgCellRenderer {
 }
 
 export class ProgramRenderer extends AgCellRenderer {
+	declare eGui: HTMLAnchorElement;
+
 	init(params: ICellRendererParams<any, any, any>): void {
 		const { program } = params.data;
 		this.eGui = document.createElement('a');
@@ -28,11 +35,37 @@ export class ProgramRenderer extends AgCellRenderer {
 }
 
 export class TargetRenderer extends AgCellRenderer {
+	declare eGui: HTMLAnchorElement;
+
 	init(params: ICellRendererParams<any, any, any>): void {
 		const { target } = params.data;
 		this.eGui = document.createElement('a');
 		this.eGui.href = `../targets/${target.id}/`;
 		this.eGui.innerText = `${target.term} ${target.year}`;
+	}
+}
+
+export class StatusRenderer extends AgCellRenderer {
+	declare eGui: HTMLDivElement;
+
+	init(params: ICellRendererParams<any, any, any>): void {
+		const { latest_log } = params.data;
+		this.eGui = document.createElement('div');
+
+		if (!latest_log) {
+			this.eGui.innerHTML = '';
+			return;
+		}
+		this.eGui.classList.add('flex', 'gap-2', 'items-center');
+
+		const statusDot = document.createElement('div');
+		statusDot.classList.add('app-status-dot', statusToClass(latest_log.status));
+		this.eGui.appendChild(statusDot);
+
+		const statusText = document.createElement('div');
+		statusText.classList.add('app-status-dot-text');
+		statusText.innerText = latest_log.status;
+		this.eGui.appendChild(statusText);
 	}
 }
 
