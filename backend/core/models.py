@@ -162,18 +162,21 @@ class Student(models.Model):
         return self.contracts.filter(target_year=self.latest_target_year)
 
     @property
-    def latest_target_year(self):
+    def latest_target_year(self) -> int | None:
         """Return the target year of the latest contracts"""
+        if not self.contracts.exists():
+            return
         if self.is_current:
             return self.current_contracts.latest("target_year").target_year
         else:
             return self.contracts.latest("target_year").target_year
 
     @property
-    def latest_contract_type(self):
+    def latest_contract_type(self) -> str | None:
         """Return the type of the last-added of the latest contracts"""
         latest_type = self.latest_contracts.values("type").last()
-        return latest_type["type"]
+        if latest_type:
+            return latest_type["type"]
 
     @property
     def latest_services(self):
