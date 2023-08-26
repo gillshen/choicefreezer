@@ -69,11 +69,11 @@
 	const columnControls: ColumnControls = {
 		link: { headerName: 'Link', hide: false },
 		student: { headerName: 'Student', hide: false },
+		target: { headerName: 'Target', hide: false },
 		school: { headerName: 'School', hide: true },
 		schoolAbbr: { headerName: 'School Abbr.', hide: false },
 		program: { headerName: 'Program', hide: false },
 		major: { headerName: 'Major', hide: false },
-		target: { headerName: 'Target', hide: false },
 		admissionPlan: { headerName: 'Admission Plan', hide: false },
 		deadline: { headerName: 'Deadline', hide: false },
 		decisionDate: { headerName: 'Decision Date', hide: true },
@@ -100,12 +100,13 @@
 			cellRenderer: IdRenderer
 		},
 		{ ...columnControls.student, field: 'student.name', cellRenderer: StudentRenderer },
+		{ ...columnControls.target, valueGetter: targetValueGetter, cellRenderer: TargetRenderer },
+
 		{ ...columnControls.school, valueGetter: schoolValueGetter },
 		{ ...columnControls.schoolAbbr, valueGetter: schoolAbbreviationsValueGetter },
 		{ ...columnControls.program, field: 'program.display_name', cellRenderer: ProgramRenderer },
 		{ ...columnControls.major, valueGetter: majorsValueGetter },
 
-		{ ...columnControls.target, valueGetter: targetValueGetter, cellRenderer: TargetRenderer },
 		{ ...columnControls.admissionPlan, field: 'subtarget.admission_plan' },
 		// TODO include timezone
 		{ ...columnControls.deadline, field: 'subtarget.deadline' },

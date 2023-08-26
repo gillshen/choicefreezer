@@ -25,10 +25,5 @@
 />
 
 <div class="col-span-2">
-	<FormCheckInput
-		id="chinese-name-check"
-		name="last_name_first"
-		label="The last name comes before the first"
-		{form}
-	/>
+	<FormCheckInput id="chinese-name-check" name="last_name_first" label="Last name first" {form} />
 </div>

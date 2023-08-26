@@ -52,10 +52,22 @@ dialog {
 }
 
 .cf-card-shadow {
-	box-shadow: 6px 6px 24px rgb(25, 25, 25), -10px -10px 20px rgb(55, 55, 55);
+	box-shadow: 12px 12px 24px rgb(35, 35, 35), 2px 2px 12px rgb(30, 30, 30),
+		-6px -6px 20px rgb(52, 52, 52), -2px -2px 8px rgb(60, 60, 60);
 }
 .cf-card-shadow-hover:hover {
-	box-shadow: 8px 8px 24px rgb(25, 25, 25), -10px -10px 20px rgb(55, 55, 55);
+	box-shadow: 12px 12px 24px rgb(35, 35, 35), 4px 4px 16px rgb(30, 30, 30),
+		-6px -6px 20px rgb(52, 52, 52), -4px -4px 12px rgb(60, 60, 60);
+}
+
+/* on surface-800 */
+.cf-card-shadow-2 {
+	box-shadow: 12px 12px 24px rgb(45, 45, 45), 2px 2px 12px rgb(40, 40, 40),
+		-6px -6px 20px rgb(62, 62, 62), -2px -2px 8px rgb(70, 70, 70);
+}
+.cf-card-shadow-2-hover:hover {
+	box-shadow: 12px 12px 24px rgb(45, 45, 45), 4px 4px 16px rgb(40, 40, 40),
+		-6px -6px 20px rgb(62, 62, 62), -4px -4px 12px rgb(70, 70, 70);
 }
 
 button {
@@ -107,8 +119,6 @@ form {
 }
 fieldset {
 	@apply flex flex-col gap-4;
-	/* --color-surface-500 */
-	/* border-top: 1px solid #5c5c5c; */
 }
 fieldset:not(:first-child) {
 	@apply mt-12;
@@ -307,7 +317,7 @@ form small.error-message {
 	@apply pl-6 pr-12 pt-8 pb-6;
 }
 h1.grid-page-title {
-	@apply p-0 m-0 mb-4;
+	@apply p-0 m-0;
 	@apply max-w-none;
 }
 

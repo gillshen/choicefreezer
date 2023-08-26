@@ -19,8 +19,8 @@
 </h1>
 
 <PageSection>
-	<div class="grid grid-cols-[1fr_1fr] gap-x-12 gap-y-8 auto-rows-min">
-		<div class="cf-card-shadow px-8 pt-6 py-6 rounded-xl auto-rows-min">
+	<div class="grid grid-cols-2 gap-x-12 gap-y-8 auto-rows-min items-start">
+		<div class="px-0 py-6 rounded-xl auto-rows-min">
 			<div class="profile-grid pb-6">
 				<div class="cf-key">Student</div>
 				<div class="cf-value">
@@ -56,9 +56,6 @@
 				<div class="cf-key">Admission plan</div>
 				<div class="cf-value">
 					{application.subtarget.admission_plan}
-					{#if userCanEdit}
-						<button>Edit</button>
-					{/if}
 				</div>
 
 				<div class="cf-key">
@@ -66,9 +63,6 @@
 				</div>
 				<div class="cf-value">
 					{application.major_choices.map((mc) => mc.major).join(', ') || 'n/a'}
-					{#if userCanEdit}
-						<button>Edit</button>
-					{/if}
 				</div>
 
 				<div class="cf-key">CF people</div>

@@ -6,7 +6,7 @@
 </script>
 
 {#if student}
-	<a href={`../students/${student.id}/`} class="student-anchor card">
+	<a href={`../students/${student.id}/`} class="student-anchor cf-card-shadow cf-card-shadow-hover">
 		<header class={`contract-chip bg-${typeToClass(student.latest_contract_type)}`}>
 			<p>{typeToInitial(student.latest_contract_type)}</p>
 		</header>
@@ -23,17 +23,16 @@
 <style lang="postcss">
 	.student-anchor,
 	.student-anchor div {
-		@apply w-[9rem] h-[9rem] max-w-[9rem];
+		/* @apply w-[9rem] h-[9rem] max-w-[9rem]; */
+		@apply w-full h-full aspect-square;
 		@apply flex flex-col;
 		@apply rounded-2xl;
 	}
-	/* globally: cf-card-shadow */
 	.student-anchor {
-		@apply bg-surface-900;
-		box-shadow: 10px 10px 24px rgb(25, 25, 25), -8px -8px 20px rgb(55, 55, 55);
+		transition: all 0.3s ease-in-out;
 	}
 	.student-anchor:hover {
-		box-shadow: 12px 12px 24px rgb(25, 25, 25), -10px -10px 20px rgb(55, 55, 55);
+		@apply scale-105;
 	}
 	.student-anchor section {
 		@apply text-lg;

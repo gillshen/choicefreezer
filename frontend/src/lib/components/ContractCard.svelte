@@ -4,15 +4,13 @@
 	import { byServiceRoleThenUsername } from '$lib/utils/sortUtils';
 
 	export let contract: ContractListItem;
-	export let bodyless: boolean = false;
 
 	const { type, target_year, services, status } = contract;
-	const cardClass = bodyless ? 'contract-card-bodyless' : 'contract-card col-span-2';
 </script>
 
 <a
 	href={`../contracts/${contract.id}/`}
-	class={`${cardClass} cf-card-shadow cf-card-shadow-hover card-hover`}
+	class={`contract-card cf-card-shadow-2 cf-card-shadow-2-hover`}
 >
 	<section class="card-header">
 		<div class="flex gap-4">
@@ -27,24 +25,23 @@
 		</div>
 	</section>
 
-	{#if !bodyless}
-		<section class="card-body profile-grid">
-			{#each services.sort(byServiceRoleThenUsername) as service}
-				<div class="cf-key">{service.role}</div>
-				<div class="cf-value">{service.cf_username}</div>
-			{/each}
-		</section>
-	{/if}
+	<section class="card-body profile-grid">
+		{#each services.sort(byServiceRoleThenUsername) as service}
+			<div class="cf-key">{service.role}</div>
+			<div class="cf-value">{service.cf_username}</div>
+		{/each}
+	</section>
 </a>
 
 <style lang="postcss">
-	.contract-card,
-	.contract-card-bodyless {
+	.contract-card {
 		@apply p-4 rounded-xl;
 		@apply min-h-[10rem];
+		@apply grid grid-cols-2;
+		transition: all 0.3s ease-in-out;
 	}
-	.contract-card {
-		@apply grid grid-cols-[1fr_1fr] gap-4 items-start;
+	.contract-card:hover {
+		@apply scale-[102%];
 	}
 
 	.card-header {

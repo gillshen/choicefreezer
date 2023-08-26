@@ -101,7 +101,8 @@
 		@apply grid grid-cols-[1fr,_4fr] gap-x-16;
 	}
 	.student-cards-container {
-		@apply flex flex-wrap gap-8;
+		@apply grid grid-cols-4;
+		@apply gap-8;
 		@apply h-fit;
 	}
 	#past-students-wrapper {
@@ -116,6 +117,7 @@
 		opacity: 1;
 		/* make room for shadows */
 		padding-bottom: 30px;
+		overflow: visible;
 	}
 	#past-students-wrapper * {
 		min-height: 0;

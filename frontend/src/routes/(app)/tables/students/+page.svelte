@@ -53,14 +53,14 @@
 		current: { headerName: 'Current', hide: false },
 		contractType: { headerName: 'Contract Type', hide: false },
 		target: { headerName: 'Target', hide: false },
-		gender: { headerName: 'Gender', hide: false },
+		gender: { headerName: 'Gender', hide: true },
 		citizenship: { headerName: 'Citizenship', hide: false },
 		stratPlanner: { headerName: STRAT_PLANNER, hide: true },
 		planner: { headerName: PLANNER, hide: false },
 		asstPlanner: { headerName: ASST_PLANNER, hide: true },
 		essayAdvisor: { headerName: ESSAY_ADVISOR, hide: false },
-		born: { headerName: 'Born', hide: false },
-		based: { headerName: 'Based', hide: false },
+		born: { headerName: 'Born', hide: true },
+		based: { headerName: 'Based', hide: true },
 		usedCfProducts: { headerName: 'Used CF Products', hide: true },
 		comments: { headerName: 'Comments', hide: false }
 	};
