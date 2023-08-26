@@ -1,29 +1,74 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
+
 	import PageSection from '$lib/components/PageSection.svelte';
 	import MinimalRadioGroup from '$lib/components/MinimalRadioGroup.svelte';
 	import StudentAnchorCard from '$lib/components/StudentAnchorCard.svelte';
 	import { byContractType, byRomanizedName, byTargetYearDesc } from '$lib/utils/studentUtils.js';
-	import { goto } from '$app/navigation';
+
+	import type { DomLayoutType } from 'ag-grid-community';
+	import { defaultColDef, columnTypes, mountGrid } from '$lib/utils/gridUtils.js';
+	import {
+		ApplicantRenderer,
+		ApplicationIdRenderer,
+		ProgramRenderer,
+		TargetRenderer,
+		schoolAbbreviationsValueGetter,
+		targetValueGetter
+	} from '$lib/utils/applicationGridUtils.js';
+	import { NO_ROWS_YET } from '$lib/constants/messages.js';
 
 	export let data;
-	const { user, applications } = data;
 
-	const banner = user.public_banner || `${user.username}\u2019s Mojo Dojo Casa House`;
+	const applicationColumnDefs = [
+		{
+			headerName: 'Link',
+			field: 'id',
+			flex: 0,
+			maxWidth: 80,
+			filter: false,
+			sortable: false,
+			minWidth: 50,
+			cellRenderer: ApplicationIdRenderer
+		},
+		{ headerName: 'Student', field: 'student.name', cellRenderer: ApplicantRenderer },
+		{ headerName: 'Target', valueGetter: targetValueGetter, cellRenderer: TargetRenderer },
+		{ headerName: 'School', valueGetter: schoolAbbreviationsValueGetter },
+		{ headerName: 'Program', field: 'program.display_name', cellRenderer: ProgramRenderer },
+		{ headerName: 'Admission Plan', field: 'subtarget.admission_plan' },
+		{ headerName: 'Deadline', field: 'subtarget.deadline' },
+		{ headerName: 'Status', field: 'latest_log.status' }
+	];
+
+	const gridOptions = {
+		defaultColDef,
+		columnTypes,
+		columnDefs: applicationColumnDefs,
+		rowData: data.applications,
+		suppressDragLeaveHidesColumns: true,
+		domLayout: data.applications.length > 15 ? undefined : ('autoHeight' as DomLayoutType)
+	};
+
+	let filterYearCurrent: number | string = 'All';
+	let filterYearPast: number | string = 'All';
+	let showPastStudents = false;
+
+	$: user = data.user;
+
+	$: banner = user.public_banner || `${user.username}\u2019s Mojo Dojo Casa House`;
 
 	// Filtering by latest_target_year values
 
 	// - options for current students
-	const yearOptionsCurrent: number[] = Array.from(
+	$: yearOptionsCurrent = Array.from(
 		new Set(user.current_students.map((s) => s.latest_target_year))
 	).sort((a, b) => b - a);
 
 	// - options for past students
-	const yearOptionsPast: number[] = Array.from(
+	$: yearOptionsPast = Array.from(
 		new Set(user.past_students.map((s) => s.latest_target_year))
 	).sort((a, b) => b - a);
-
-	let filterYearCurrent: number | string = 'All';
-	let filterYearPast: number | string = 'All';
 
 	$: filteredCurrentStudents =
 		filterYearCurrent === 'All'
@@ -35,12 +80,13 @@
 			? user.past_students
 			: user.past_students.filter((s) => s.latest_target_year === filterYearPast);
 
-	let showPastStudents = false;
+	onMount(() => mountGrid('applications-grid', gridOptions));
 </script>
 
 <h1>{banner}</h1>
 
 <PageSection>
+	<!-- Using custom h2 for the additional top margin -->
 	<h2 class="mb-4">Current students</h2>
 
 	<div class="student-grid">
@@ -60,8 +106,10 @@
 			{/each}
 		</div>
 	</div>
+</PageSection>
 
-	<h2 class="mt-8">Past students</h2>
+<PageSection>
+	<svelte:fragment slot="h2">Past students</svelte:fragment>
 
 	<button
 		class="text-primary-500 hover:text-primary-400"
@@ -89,11 +137,14 @@
 
 <PageSection>
 	<svelte:fragment slot="h2">Applications</svelte:fragment>
-	<pre class="text-surface-400 overflow-auto h-[50vh] min-h-[10rem] bg-surface-700">{JSON.stringify(
-			applications,
-			null,
-			2
-		)}</pre>
+
+	{#if data.applications.length}
+		<div class={`w-full ${data.applications.length > 15 ? 'h-[calc(100vh-12rem)]' : ''}`}>
+			<div id="applications-grid" class="data-grid ag-theme-alpine-dark" />
+		</div>
+	{:else}
+		<p>{NO_ROWS_YET}</p>
+	{/if}
 </PageSection>
 
 <style lang="postcss">
@@ -115,8 +166,7 @@
 	#past-students-wrapper.open {
 		grid-template-rows: 1fr;
 		opacity: 1;
-		/* make room for shadows */
-		padding-bottom: 30px;
+		/* avoid clipping shadows */
 		overflow: visible;
 	}
 	#past-students-wrapper * {

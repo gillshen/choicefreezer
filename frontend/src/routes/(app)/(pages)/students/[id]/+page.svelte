@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	import PageSection from '$lib/components/PageSection.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
 	import StudentUpdateForm from '$lib/forms/StudentUpdateForm.svelte';
@@ -17,12 +19,52 @@
 		filterForSpecial,
 		sortByUsername
 	} from '$lib/utils/userUtils.js';
+
 	import ContractCard from '$lib/components/ContractCard.svelte';
 	import { byStatusThenTargetYearDesc } from '$lib/utils/sortUtils.js';
+
+	import type { DomLayoutType } from 'ag-grid-community';
+	import { defaultColDef, columnTypes, mountGrid } from '$lib/utils/gridUtils.js';
+	import {
+		ApplicationIdRenderer,
+		TargetRenderer,
+		ProgramRenderer,
+		targetValueGetter,
+		schoolAbbreviationsValueGetter
+	} from '$lib/utils/applicationGridUtils.js';
+	import { NO_ROWS_YET } from '$lib/constants/messages.js';
 
 	export let data;
 
 	const userCanEdit = true;
+
+	const applicationColumnDefs = [
+		{
+			headerName: 'Link',
+			field: 'id',
+			flex: 0,
+			maxWidth: 80,
+			filter: false,
+			sortable: false,
+			minWidth: 50,
+			cellRenderer: ApplicationIdRenderer
+		},
+		{ headerName: 'Target', valueGetter: targetValueGetter, cellRenderer: TargetRenderer },
+		{ headerName: 'School', valueGetter: schoolAbbreviationsValueGetter },
+		{ headerName: 'Program', field: 'program.display_name', cellRenderer: ProgramRenderer },
+		{ headerName: 'Admission Plan', field: 'subtarget.admission_plan' },
+		{ headerName: 'Deadline', field: 'subtarget.deadline' },
+		{ headerName: 'Status', field: 'latest_log.status' }
+	];
+
+	const gridOptions = {
+		defaultColDef,
+		columnTypes,
+		columnDefs: applicationColumnDefs,
+		rowData: data.applications,
+		suppressDragLeaveHidesColumns: true,
+		domLayout: 'autoHeight' as DomLayoutType
+	};
 
 	// Modals
 	let studentUpdateDialog: HTMLDialogElement;
@@ -33,6 +75,8 @@
 
 	$: formattedName = formatStudentName(student);
 	$: formattedRomanizedName = formatStudentRomanizedName(student);
+
+	onMount(() => mountGrid('applications-grid', gridOptions));
 </script>
 
 <h1>{formattedName}</h1>
@@ -110,13 +154,13 @@
 
 <PageSection>
 	<svelte:fragment slot="h2">Applications</svelte:fragment>
+
 	{#if data.applications.length}
-		<pre
-			class="text-surface-400 overflow-auto h-[50vh] min-h-[10rem] bg-surface-700">{JSON.stringify(
-				data.applications,
-				null,
-				2
-			)}</pre>
+		<div class="w-full">
+			<div id="applications-grid" class="data-grid ag-theme-alpine-dark" />
+		</div>
+	{:else}
+		<p>{NO_ROWS_YET}</p>
 	{/if}
 
 	{#if userCanEdit}

@@ -1,70 +1,26 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { GridOptions, ICellRendererParams, ValueGetterParams } from 'ag-grid-community';
+	import type { GridOptions } from 'ag-grid-community';
 
-	import type { ApplicationListItem } from '$lib/types/applicationTypes.js';
 	import type { ColumnControls } from '$lib/types/gridTypes.js';
+	import { defaultColDef, columnTypes, mountGrid } from '$lib/utils/gridUtils.js';
 
-	import { defaultColDef, columnTypes, AgCellRenderer, mountGrid } from '$lib/utils/gridUtils.js';
+	import {
+		ApplicationIdRenderer,
+		ApplicantRenderer,
+		ProgramRenderer,
+		TargetRenderer,
+		schoolValueGetter,
+		schoolAbbreviationsValueGetter,
+		targetValueGetter,
+		majorsValueGetter
+	} from '$lib/utils/applicationGridUtils.js';
+
 	import GridDownloadButton from '$lib/components/GridDownloadButton.svelte';
 	import ColumnVisibilityControl from '$lib/components/ColumnVisibilityControl.svelte';
 
 	export let data;
 	const { applications } = data;
-
-	class IdRenderer extends AgCellRenderer {
-		init(params: ICellRendererParams<any, any, any>): void {
-			this.eGui = document.createElement('a');
-			this.eGui.href = `../applications/${params.data.id}/`;
-			this.eGui.innerHTML = '<i class="fa-solid fa-arrow-up-right-from-square" />';
-		}
-	}
-
-	class StudentRenderer extends AgCellRenderer {
-		init(params: ICellRendererParams<any, any, any>): void {
-			this.eGui = document.createElement('a');
-			this.eGui.href = `../students/${params.data.student.id}/`;
-			this.eGui.innerText = params.data.student.name;
-		}
-	}
-
-	class ProgramRenderer extends AgCellRenderer {
-		init(params: ICellRendererParams<any, any, any>): void {
-			const { program } = params.data;
-			this.eGui = document.createElement('a');
-			this.eGui.href = `../programs/${program.id}/`;
-			this.eGui.innerText = program.display_name;
-		}
-	}
-
-	class TargetRenderer extends AgCellRenderer {
-		init(params: ICellRendererParams<any, any, any>): void {
-			const { target } = params.data;
-			this.eGui = document.createElement('a');
-			this.eGui.href = `../targets/${target.id}/`;
-			this.eGui.innerText = `${target.term} ${target.year}`;
-		}
-	}
-
-	function schoolValueGetter(params: ValueGetterParams): string {
-		const application: ApplicationListItem = params.data;
-		return application.schools.map((s) => s.name).join(' | ');
-	}
-
-	function schoolAbbreviationsValueGetter(params: ValueGetterParams): string {
-		const application: ApplicationListItem = params.data;
-		return application.schools.map((s) => s.abbreviation).join(' | ');
-	}
-
-	function targetValueGetter(params: ValueGetterParams): string {
-		const application: ApplicationListItem = params.data;
-		return `${application.target.term} ${application.target.year}`;
-	}
-
-	function majorsValueGetter(params: ValueGetterParams): string {
-		const application: ApplicationListItem = params.data;
-		return application.majors_list.join('; ');
-	}
 
 	const columnControls: ColumnControls = {
 		link: { headerName: 'Link', hide: false },
@@ -97,9 +53,9 @@
 			filter: false,
 			sortable: false,
 			minWidth: 50,
-			cellRenderer: IdRenderer
+			cellRenderer: ApplicationIdRenderer
 		},
-		{ ...columnControls.student, field: 'student.name', cellRenderer: StudentRenderer },
+		{ ...columnControls.student, field: 'student.name', cellRenderer: ApplicantRenderer },
 		{ ...columnControls.target, valueGetter: targetValueGetter, cellRenderer: TargetRenderer },
 
 		{ ...columnControls.school, valueGetter: schoolValueGetter },

@@ -1,18 +1,68 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import PageSection from '$lib/components/PageSection.svelte';
 
+	import type { DomLayoutType } from 'ag-grid-community';
+	import { defaultColDef, columnTypes, mountGrid } from '$lib/utils/gridUtils.js';
+	import {
+		ApplicationIdRenderer,
+		ApplicantRenderer,
+		ProgramRenderer,
+		TargetRenderer,
+		targetValueGetter,
+		majorsValueGetter
+	} from '$lib/utils/applicationGridUtils.js';
+	import { NO_ROWS_YET } from '$lib/constants/messages.js';
+
 	export let data;
-	const { school, applications } = data;
+
+	const applicationColumnDefs = [
+		{
+			headerName: 'Link',
+			field: 'id',
+			flex: 0,
+			maxWidth: 80,
+			filter: false,
+			sortable: false,
+			minWidth: 50,
+			cellRenderer: ApplicationIdRenderer
+		},
+		{ headerName: 'Student', field: 'student.name', cellRenderer: ApplicantRenderer },
+		{ headerName: 'Target', valueGetter: targetValueGetter, cellRenderer: TargetRenderer },
+		{ headerName: 'Program', field: 'program.display_name', cellRenderer: ProgramRenderer },
+		{ headerName: 'Major', valueGetter: majorsValueGetter },
+		{ headerName: 'Admission Plan', field: 'subtarget.admission_plan' },
+		{ headerName: 'Status', field: 'latest_log.status' }
+	];
+
+	const gridOptions = {
+		defaultColDef,
+		columnTypes,
+		columnDefs: applicationColumnDefs,
+		rowData: data.applications,
+		suppressDragLeaveHidesColumns: true,
+		domLayout: data.applications.length > 15 ? undefined : ('autoHeight' as DomLayoutType)
+	};
+
+	$: school = data.school;
+
+	onMount(() => mountGrid('applications-grid', gridOptions));
 </script>
 
 <h1>{school.name}</h1>
 
 <PageSection>
 	<pre class="text-surface-400">{JSON.stringify(school, null, 2)}</pre>
-	<button class="cf-secondary">Edit</button>
-</PageSection>
+	<button class="section-cta">Edit</button>
 
-<PageSection>
-	<svelte:fragment slot="h2">Applications</svelte:fragment>
-	<pre class="text-surface-400">{JSON.stringify(applications, null, 2)}</pre>
+	<!-- <svelte:fragment slot="h2">Applications</svelte:fragment> -->
+	<h2 class="mt-12">Applications</h2>
+
+	{#if data.applications.length}
+		<div class={`w-full ${data.applications.length > 15 ? 'h-[calc(100vh-12rem)]' : ''}`}>
+			<div id="applications-grid" class="data-grid ag-theme-alpine-dark" />
+		</div>
+	{:else}
+		<p>{NO_ROWS_YET}</p>
+	{/if}
 </PageSection>
