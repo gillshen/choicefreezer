@@ -10,7 +10,7 @@
 
 <a
 	href={`../contracts/${contract.id}/`}
-	class={`contract-card cf-card-shadow-2 cf-card-shadow-2-hover`}
+	class="contract-card cf-card-shadow-2 cf-card-shadow-2-hover"
 >
 	<section class="card-header">
 		<div class="flex gap-4">
@@ -60,7 +60,9 @@
 		width: fit-content !important;
 	}
 	.type-mark {
-		@apply aspect-square text-lg;
+		/* CSS aspect-ratio doesn't work for Chome */
+		@apply w-[40px] min-w-[40px] max-w-[40px] h-[40px] min-h-[40px] max-h-[40px];
+		@apply text-lg;
 		@apply font-bold text-surface-900;
 		@apply rounded-full;
 		@apply flex justify-center items-center;
