@@ -10,7 +10,7 @@
 	import { getYearOptions } from '$lib/utils/dateUtils';
 	import { TERMS } from '$lib/constants/terms';
 
-	import { closeAndReloadOnSuccess } from '$lib/utils/formUtils';
+	import { closeDialogOnSuccess } from '$lib/utils/formUtils';
 	import OptionList from '$lib/components/OptionList.svelte';
 	import FormSubmit from '$lib/components/FormSubmit.svelte';
 
@@ -31,7 +31,7 @@
 		id: action,
 		scrollToError: 'auto',
 		taintedMessage: null,
-		onResult: closeAndReloadOnSuccess(dialog)
+		onResult: ({ result }) => closeDialogOnSuccess(result, dialog!)
 	});
 
 	// The unselected state

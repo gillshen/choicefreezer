@@ -6,7 +6,7 @@
 
 	import HiddenIdField from '$lib/components/HiddenIdField.svelte';
 	import FormSubmit from '$lib/components/FormSubmit.svelte';
-	import { closeAndReloadOnSuccess } from '$lib/utils/formUtils';
+	import { closeDialogOnSuccess } from '$lib/utils/formUtils';
 
 	export let dialog: HTMLDialogElement | undefined;
 	export let action: string;
@@ -18,7 +18,7 @@
 		id: action,
 		scrollToError: 'auto',
 		taintedMessage: null,
-		onResult: closeAndReloadOnSuccess(dialog)
+		onResult: ({ result }) => closeDialogOnSuccess(result, dialog!)
 	});
 </script>
 

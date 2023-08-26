@@ -3,7 +3,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 
 	import type { ContractServiceSchema } from '$lib/schemas';
-	import { closeAndReloadOnSuccess } from '$lib/utils/formUtils';
+	import { closeDialogOnSuccess } from '$lib/utils/formUtils';
 
 	import HiddenIdField from '$lib/components/HiddenIdField.svelte';
 	import ContractFormFields from '$lib/components/ContractFormFields.svelte';
@@ -22,7 +22,8 @@
 	const { form, errors, message, enhance } = superForm(data, {
 		id: action,
 		scrollToError: 'auto',
-		onResult: closeAndReloadOnSuccess(dialog!)
+		taintedMessage: null,
+		onResult: ({ result }) => closeDialogOnSuccess(result, dialog!)
 	});
 </script>
 
