@@ -2,7 +2,6 @@ import type { PageServerLoadEvent } from './$types.js';
 import { error, fail, redirect } from '@sveltejs/kit';
 
 import { message, superValidate } from 'sveltekit-superforms/server';
-import type { SuperValidated } from 'sveltekit-superforms/index.d.ts';
 
 import {
 	fetchACT,
@@ -28,17 +27,7 @@ import {
 	createMajorChoice
 } from '$lib/api';
 
-import {
-	studentLegalNameSchema,
-	studentRomanizedNameSchema,
-	studentGenderSchema,
-	studentCitizenshipSchema,
-	studentDateOfBirthSchema,
-	studentResidenceSchema,
-	studentCommentsSchema,
-	contractServiceSchema,
-	applicationSchema
-} from '$lib/schemas.js';
+import { studentUpdateSchema, contractServiceSchema, applicationSchema } from '$lib/schemas.js';
 
 import type { Program, ProgramType } from '$lib/types/programTypes.js';
 import type { NewTarget, Target, Term } from '$lib/types/targetTypes.js';
@@ -63,28 +52,14 @@ export async function load(event: PageServerLoadEvent) {
 	const schools = await fetchSchools();
 	const programs = await fetchProgramSelectList();
 
-	const legalNameForm = await superValidate(student, studentLegalNameSchema);
-	const romanizedNameForm = await superValidate(student, studentRomanizedNameSchema);
-	const genderForm = await superValidate(student, studentGenderSchema);
-	const citizenshipForm = await superValidate(student, studentCitizenshipSchema);
-	const dateOfBirthForm = await superValidate(student, studentDateOfBirthSchema);
-	const residenceForm = await superValidate(student, studentResidenceSchema);
-	const commentsForm = await superValidate(student, studentCommentsSchema);
-
+	const studentUpdateForm = await superValidate(student, studentUpdateSchema);
 	const contractCreateForm = await superValidate(event, contractServiceSchema);
 
 	const applicationCreateForm = await superValidate(event, applicationSchema);
 
 	return {
-		// profile
 		student,
-		legalNameForm,
-		romanizedNameForm,
-		genderForm,
-		citizenshipForm,
-		dateOfBirthForm,
-		residenceForm,
-		commentsForm,
+		studentUpdateForm,
 		// contracts
 		contracts: fetchContractsOfStudent(id),
 		contractCreateForm,
@@ -109,39 +84,16 @@ export async function load(event: PageServerLoadEvent) {
 }
 
 export const actions = {
-	updateLegalName: async (event) => {
-		const form = await superValidate(event, studentLegalNameSchema);
-		return await performStudentPatch(form);
-	},
-
-	updateRomanizedName: async (event) => {
-		const form = await superValidate(event, studentRomanizedNameSchema);
-		return await performStudentPatch(form);
-	},
-
-	updateGender: async (event) => {
-		const form = await superValidate(event, studentGenderSchema);
-		return await performStudentPatch(form);
-	},
-
-	updateCitizenship: async (event) => {
-		const form = await superValidate(event, studentCitizenshipSchema);
-		return await performStudentPatch(form);
-	},
-
-	updateDateOfBirth: async (event) => {
-		const form = await superValidate(event, studentDateOfBirthSchema);
-		return await performStudentPatch(form);
-	},
-
-	updateResidence: async (event) => {
-		const form = await superValidate(event, studentResidenceSchema);
-		return await performStudentPatch(form);
-	},
-
-	updateComments: async (event) => {
-		const form = await superValidate(event, studentCommentsSchema);
-		return await performStudentPatch(form);
+	updateStudent: async (event) => {
+		const form = await superValidate(event, studentUpdateSchema);
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+		const response = await patchStudent(form.data.id, form.data);
+		if (!response.ok) {
+			return message(form, UNKNOWN_ERROR, { status: 400 });
+		}
+		return { form };
 	},
 
 	createContract: async (event) => {
@@ -259,15 +211,3 @@ export const actions = {
 		throw redirect(301, `../applications/${createdApplication.id}/`);
 	}
 };
-
-async function performStudentPatch(form: SuperValidated<any, any>) {
-	if (!form.valid) {
-		return fail(400, { form });
-	}
-	const response = await patchStudent(form.data.id, form.data);
-	if (!response.ok) {
-		const messageText = 'Sorry, an unexpected error occurred. Please contact tech support.';
-		return message(form, messageText, { status: 400 });
-	}
-	return { form };
-}
