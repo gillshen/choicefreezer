@@ -33,7 +33,7 @@
 		targetValueGetter,
 		schoolAbbreviationsValueGetter
 	} from '$lib/utils/applicationGridUtils.js';
-	import { NO_ROWS_YET } from '$lib/constants/messages.js';
+	import { NO_ROWS_TO_SHOW } from '$lib/constants/messages.js';
 
 	export let data;
 
@@ -161,7 +161,7 @@
 			<div id="applications-grid" class="data-grid ag-theme-alpine-dark" />
 		</div>
 	{:else}
-		<p>{NO_ROWS_YET}</p>
+		<p class="section-placeholder">{NO_ROWS_TO_SHOW}</p>
 	{/if}
 
 	{#if userCanEdit}
