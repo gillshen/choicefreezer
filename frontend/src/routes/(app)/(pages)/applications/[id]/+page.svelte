@@ -3,6 +3,7 @@
 	import ApplicationStatusChip from '$lib/components/ApplicationStatusChip.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
 	import ApplicationLogForm from '$lib/forms/ApplicationLogForm.svelte';
+	import Timeline from '$lib/components/Timeline.svelte';
 
 	export let data;
 
@@ -95,15 +96,16 @@
 
 <PageSection>
 	<svelte:fragment slot="h2">Timeline</svelte:fragment>
+
 	{#if application.logs.length}
-		<pre class="text-surface-400 bg-surface-700">{JSON.stringify(application.logs, null, 2)}</pre>
+		<div class="pl-2">
+			<Timeline logs={application.logs} />
+		</div>
+	{:else}
+		<p class="section-placeholder">No data</p>
 	{/if}
 
 	<button class="section-cta" on:click={() => logCreationDialog.showModal()}>Add an entry</button>
-</PageSection>
-
-<PageSection>
-	<pre class="text-surface-400 bg-surface-700">{JSON.stringify(application, null, 2)}</pre>
 </PageSection>
 
 <Dialog exitHelper bind:dialog={logCreationDialog}>
