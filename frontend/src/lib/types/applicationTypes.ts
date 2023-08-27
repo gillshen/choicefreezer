@@ -11,6 +11,99 @@ export type NewApplication = {
 
 export type ApplicationStatus = (typeof APPLICATION_STATUSES)[number];
 
+export type TOEFLScore = {
+	id: number;
+	student: number;
+	date: string | null; // date
+	comments: string;
+	reading: number | null;
+	listening: number | null;
+	speaking: number | null;
+	writing: number | null;
+	result: number | null;
+};
+
+export type IELTSScore = {
+	id: number;
+	student: number;
+	date: string | null; // date
+	comments: string;
+	listening: number | null;
+	reading: number | null;
+	writing: number | null;
+	speaking: number | null;
+	result: number | null;
+};
+
+export type DETScore = {
+	id: number;
+	student: number;
+	date: string | null; // date
+	comments: string;
+	overall: number;
+	literacy: number | null;
+	comprehension: number | null;
+	conversation: number | null;
+	production: number | null;
+	result: number | null;
+};
+
+export type SATScore = {
+	id: number;
+	student: number;
+	date: string | null; // date
+	comments: string;
+	ebrw: number | null;
+	math: number | null;
+	result: number | null;
+};
+
+export type ACTScore = {
+	id: number;
+	student: number;
+	date: string | null; // date
+	comments: string;
+	english: number | null;
+	math: number | null;
+	reading: number | null;
+	science: number | null;
+	writing: number | null;
+	result: number | null;
+};
+
+export type APScore = {
+	id: number;
+	student: number;
+	date: string | null; // date
+	comments: string;
+	subject: string;
+	score: number | null;
+};
+
+export type GREScore = {
+	id: number;
+	student: number;
+	date: string | null; // date
+	comments: string;
+	verbal: number | null;
+	quant: number | null;
+	writing: number | null;
+	result: number | null;
+};
+
+export type GMATScore = {
+	id: number;
+	student: number;
+	date: string | null; // date
+	comments: string;
+	verbal: number | null;
+	quant: number | null;
+	reasoning: number | null;
+	writing: number | null;
+	total: number | null;
+	result: number | null;
+};
+
 export type ApplicationListItem = {
 	id: number;
 
@@ -63,13 +156,14 @@ export type ApplicationListItem = {
 		updated: string; // datetime
 	};
 
-	submitting_toefl: boolean;
-	submitting_ielts: boolean;
-	submitting_det: boolean;
-	submitting_sat: boolean;
-	submitting_act: boolean;
-	submitting_gre: boolean;
-	submitting_gmat: boolean;
+	toefl_submitted: TOEFLScore[];
+	ielts_submitted: IELTSScore[];
+	det_submitted: DETScore[];
+	sat_submitted: SATScore[];
+	act_submitted: ACTScore[];
+	ap_submitted: APScore[];
+	gre_submitted: GREScore[];
+	gmat_submitted: GMATScore[];
 
 	scholarship_amount: number;
 	scholarship_currency: string;
@@ -130,13 +224,14 @@ export type ApplicationPageData = {
 		updated: string; // datetime
 	}>;
 
-	submitting_toefl: boolean;
-	submitting_ielts: boolean;
-	submitting_det: boolean;
-	submitting_sat: boolean;
-	submitting_act: boolean;
-	submitting_gre: boolean;
-	submitting_gmat: boolean;
+	toefl_submitted: TOEFLScore[];
+	ielts_submitted: IELTSScore[];
+	det_submitted: DETScore[];
+	sat_submitted: SATScore[];
+	act_submitted: ACTScore[];
+	ap_submitted: APScore[];
+	gre_submitted: GREScore[];
+	gmat_submitted: GMATScore[];
 
 	scholarship_amount: number;
 	scholarship_currency: string;

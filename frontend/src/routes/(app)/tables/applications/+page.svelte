@@ -14,7 +14,15 @@
 		schoolValueGetter,
 		schoolAbbreviationsValueGetter,
 		targetValueGetter,
-		majorsValueGetter
+		majorsValueGetter,
+		actBestScoreGetter,
+		satBestScoreGetter,
+		apValueGetter,
+		greBestScoreGetter,
+		gmatBestScoreGetter,
+		toeflBestScoreGetter,
+		ieltsBestScoreGetter,
+		detBestScoreGetter
 	} from '$lib/utils/applicationGridUtils.js';
 
 	import GridDownloadButton from '$lib/components/GridDownloadButton.svelte';
@@ -30,12 +38,13 @@
 		school: { headerName: 'School', hide: true },
 		schoolAbbr: { headerName: 'School Abbr.', hide: false },
 		program: { headerName: 'Program', hide: false },
-		major: { headerName: 'Major', hide: false },
+		major: { headerName: 'Major', hide: true },
 		admissionPlan: { headerName: 'Admission Plan', hide: false },
 		deadline: { headerName: 'Deadline', hide: false },
 		decisionDate: { headerName: 'Decision Date', hide: true },
 		satScore: { headerName: 'SAT', hide: true },
 		actScore: { headerName: 'ACT', hide: true },
+		apScore: { headerName: 'AP', hide: true },
 		greScore: { headerName: 'GRE', hide: true },
 		gmatScore: { headerName: 'GMAT', hide: true },
 		toeflScore: { headerName: 'TOEFL', hide: true },
@@ -69,13 +78,14 @@
 		{ ...columnControls.deadline, field: 'subtarget.deadline' },
 		{ ...columnControls.decisionDate, field: 'subtarget.decision_date' },
 
-		{ ...columnControls.satScore, field: 'submitting_sat', cellDataType: 'boolean' },
-		{ ...columnControls.actScore, field: 'submitting_act', cellDataType: 'boolean' },
-		{ ...columnControls.greScore, field: 'submitting_gre', cellDataType: 'boolean' },
-		{ ...columnControls.gmatScore, field: 'submitting_gmat', cellDataType: 'boolean' },
-		{ ...columnControls.toeflScore, field: 'submitting_toefl', cellDataType: 'boolean' },
-		{ ...columnControls.ieltsScore, field: 'submitting_ielts', cellDataType: 'boolean' },
-		{ ...columnControls.detScore, field: 'submitting_det', cellDataType: 'boolean' },
+		{ ...columnControls.satScore, type: ['numberColumn'], valueGetter: satBestScoreGetter },
+		{ ...columnControls.actScore, type: ['numberColumn'], valueGetter: actBestScoreGetter },
+		{ ...columnControls.apScore, valueGetter: apValueGetter },
+		{ ...columnControls.greScore, type: ['numberColumn'], valueGetter: greBestScoreGetter },
+		{ ...columnControls.gmatScore, type: ['numberColumn'], valueGetter: gmatBestScoreGetter },
+		{ ...columnControls.toeflScore, type: ['numberColumn'], valueGetter: toeflBestScoreGetter },
+		{ ...columnControls.ieltsScore, type: ['numberColumn'], valueGetter: ieltsBestScoreGetter },
+		{ ...columnControls.detScore, type: ['numberColumn'], valueGetter: detBestScoreGetter },
 
 		{ ...columnControls.latestStatus, field: 'latest_log.status', cellRenderer: StatusRenderer },
 		{ ...columnControls.statusUpdated, field: 'latest_log.updated' }

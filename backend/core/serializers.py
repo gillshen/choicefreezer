@@ -12,6 +12,7 @@ from core.models import (
 )
 
 from target.models import School, Program, Target, SubTarget
+from student.models import TOEFL, IELTS, DET, SAT, ACT, AP, GRE, GMAT
 
 
 class CfProductSerializer(serializers.ModelSerializer):
@@ -142,6 +143,68 @@ class ContractPageDataSerializer(serializers.ModelSerializer):
     services = ServiceListItemSerializer(many=True)
 
 
+class _TOEFL_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = TOEFL
+        exclude = ["used_for"]
+
+    result = serializers.IntegerField()
+
+
+class _IELTS_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = IELTS
+        exclude = ["used_for"]
+
+    result = serializers.IntegerField()
+
+
+class _DET_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = DET
+        exclude = ["used_for"]
+
+    result = serializers.IntegerField()
+
+
+class _SAT_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = SAT
+        exclude = ["used_for"]
+
+    result = serializers.IntegerField()
+
+
+class _ACT_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = ACT
+        exclude = ["used_for"]
+
+    result = serializers.IntegerField()
+
+
+class _AP_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = AP
+        exclude = ["used_for"]
+
+
+class _GRE_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = GRE
+        exclude = ["used_for"]
+
+    result = serializers.IntegerField()
+
+
+class _GMAT_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = GMAT
+        exclude = ["used_for"]
+
+    result = serializers.IntegerField()
+
+
 class ApplicationListItemSerializer(serializers.ModelSerializer):
     """
     Fields:
@@ -195,22 +258,25 @@ class ApplicationListItemSerializer(serializers.ModelSerializer):
             updated: string; // datetime
         };
 
-        submitting_toefl: boolean;
-        submitting_ielts: boolean;
-        submitting_det: boolean;
-        submitting_sat: boolean;
-        submitting_act: boolean;
-        submitting_gre: boolean;
-        submitting_gmat: boolean;
+        toefl_submitted: ...[];
+        ielts_submitted: ...[];
+        det_submitted: ...[];
+        sat_submitted: ...[];
+        act_submitted: ...[];
+        ap_submitted: ...[];
+        gre_submitted: ...[];
+        gmat_submitted: ...[];
 
         scholarship_amount: number;
         scholarship_currency: string;
         alt_admitted_into: number;
+
+        cf_exclude: number[];
     """
 
     class Meta:
         model = Application
-        exclude = ["cf_exclude"]
+        fields = "__all__"
 
     # TODO enrich student serializer with GPA, tests, etc.
     class _StudentSerializer(serializers.ModelSerializer):
@@ -269,6 +335,15 @@ class ApplicationListItemSerializer(serializers.ModelSerializer):
 
     latest_log = _ApplicationLogSerializer()
 
+    toefl_submitted = _TOEFL_Serializer(many=True)
+    ielts_submitted = _IELTS_Serializer(many=True)
+    det_submitted = _DET_Serializer(many=True)
+    sat_submitted = _SAT_Serializer(many=True)
+    act_submitted = _ACT_Serializer(many=True)
+    ap_submitted = _AP_Serializer(many=True)
+    gre_submitted = _GRE_Serializer(many=True)
+    gmat_submitted = _GMAT_Serializer(many=True)
+
 
 class ApplicationPageDataSerializer(serializers.ModelSerializer):
     """
@@ -325,18 +400,21 @@ class ApplicationPageDataSerializer(serializers.ModelSerializer):
             updated: string; // datetime
         };
 
-        submitting_toefl: boolean;
-        submitting_ielts: boolean;
-        submitting_det: boolean;
-        submitting_sat: boolean;
-        submitting_act: boolean;
-        submitting_gre: boolean;
-        submitting_gmat: boolean;
+        toefl_submitted: ...[];
+        ielts_submitted: ...[];
+        det_submitted: ...[];
+        sat_submitted: ...[];
+        act_submitted: ...[];
+        ap_submitted: ...[];
+        gre_submitted: ...[];
+        gmat_submitted: ...[];
 
         scholarship_amount: number;
         scholarship_currency: string;
         alt_admitted_into: number;
         latest_status: string;
+
+        cf_exclude: number[];
     """
 
     class Meta:
@@ -390,3 +468,12 @@ class ApplicationPageDataSerializer(serializers.ModelSerializer):
     major_choices = MajorChoiceSerializer(many=True)
     logs = ApplicationLogSerializer(many=True)
     latest_status = serializers.CharField()
+
+    toefl_submitted = _TOEFL_Serializer(many=True)
+    ielts_submitted = _IELTS_Serializer(many=True)
+    det_submitted = _DET_Serializer(many=True)
+    sat_submitted = _SAT_Serializer(many=True)
+    act_submitted = _ACT_Serializer(many=True)
+    ap_submitted = _AP_Serializer(many=True)
+    gre_submitted = _GRE_Serializer(many=True)
+    gmat_submitted = _GMAT_Serializer(many=True)

@@ -6,7 +6,7 @@ from django.db import models
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 from user.models import CfUser
-from core.models import Student, Progression
+from core.models import Student, Progression, Application
 from target.models import School, Program, Target
 
 
@@ -262,6 +262,12 @@ class TOEFL(BaseTest):
     speaking = models.PositiveSmallIntegerField(blank=True, null=True)
     writing = models.PositiveSmallIntegerField(blank=True, null=True)
 
+    used_for = models.ManyToManyField(
+        Application,
+        related_name="toefl_submitted",
+        blank=True,
+    )
+
     class Meta:
         verbose_name_plural = "TOEFL scores"
 
@@ -300,6 +306,12 @@ class IELTS(BaseTest):
         null=True,
     )
 
+    used_for = models.ManyToManyField(
+        Application,
+        related_name="ielts_submitted",
+        blank=True,
+    )
+
     class Meta:
         verbose_name_plural = "IELTS scores"
 
@@ -334,6 +346,12 @@ class DET(BaseTest):
     conversation = models.PositiveSmallIntegerField(blank=True, null=True)
     production = models.PositiveSmallIntegerField(blank=True, null=True)
 
+    used_for = models.ManyToManyField(
+        Application,
+        related_name="det_submitted",
+        blank=True,
+    )
+
     class Meta:
         verbose_name_plural = "DET scores"
 
@@ -359,6 +377,12 @@ class SAT(BaseTest):
 
     ebrw = models.PositiveSmallIntegerField(blank=True, null=True)
     math = models.PositiveSmallIntegerField(blank=True, null=True)
+
+    used_for = models.ManyToManyField(
+        Application,
+        related_name="sat_submitted",
+        blank=True,
+    )
 
     class Meta:
         verbose_name_plural = "SAT scores"
@@ -393,6 +417,12 @@ class ACT(BaseTest):
     science = models.PositiveSmallIntegerField(blank=True, null=True)
     writing = models.PositiveSmallIntegerField(blank=True, null=True)
 
+    used_for = models.ManyToManyField(
+        Application,
+        related_name="act_submitted",
+        blank=True,
+    )
+
     class Meta:
         verbose_name_plural = "ACT scores"
 
@@ -421,6 +451,12 @@ class AP(BaseTest):
     subject = models.CharField(max_length=100)
     score = models.PositiveSmallIntegerField(blank=True, null=True)
 
+    used_for = models.ManyToManyField(
+        Application,
+        related_name="ap_submitted",
+        blank=True,
+    )
+
     class Meta:
         verbose_name_plural = "AP scores"
 
@@ -448,6 +484,12 @@ class GRE(BaseTest):
     verbal = models.PositiveSmallIntegerField(blank=True, null=True)
     quant = models.PositiveSmallIntegerField(blank=True, null=True)
     writing = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
+
+    used_for = models.ManyToManyField(
+        Application,
+        related_name="gre_submitted",
+        blank=True,
+    )
 
     class Meta:
         verbose_name_plural = "GRE scores"
@@ -481,6 +523,12 @@ class GMAT(BaseTest):
     quant = models.PositiveSmallIntegerField(blank=True, null=True)
     reasoning = models.PositiveSmallIntegerField(blank=True, null=True)
     writing = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
+
+    used_for = models.ManyToManyField(
+        Application,
+        related_name="gmat_submitted",
+        blank=True,
+    )
 
     class Meta:
         verbose_name_plural = "GMAT scores"

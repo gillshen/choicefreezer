@@ -396,15 +396,6 @@ class Application(models.Model):
         blank=True,
     )
 
-    submitting_toefl = models.BooleanField(default=False)
-    submitting_ielts = models.BooleanField(default=False)
-    submitting_det = models.BooleanField(default=False)
-
-    submitting_sat = models.BooleanField(default=False)
-    submitting_act = models.BooleanField(default=False)
-    submitting_gre = models.BooleanField(default=False)
-    submitting_gmat = models.BooleanField(default=False)
-
     scholarship_amount = models.PositiveIntegerField(default=0)
     scholarship_currency = models.CharField(max_length=50, blank=True)
 
