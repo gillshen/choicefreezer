@@ -17,6 +17,8 @@
 	const { students } = data;
 
 	class NameRenderer extends AgCellRenderer {
+		declare eGui: HTMLAnchorElement;
+
 		init(params: ICellRendererParams<any, any, any>): void {
 			this.eGui = document.createElement('a');
 			this.eGui.href = `../students/${params.data.id}/`;
@@ -95,7 +97,7 @@
 		suppressDragLeaveHidesColumns: true
 	};
 
-	onMount(() => mountGrid('grid', gridOptions));
+	onMount(() => mountGrid('#grid', gridOptions));
 </script>
 
 <div class="grid-page-container">

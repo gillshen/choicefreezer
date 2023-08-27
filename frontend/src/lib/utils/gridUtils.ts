@@ -44,9 +44,12 @@ export class AgCellRenderer implements ICellRendererComp {
 	}
 }
 
-export function mountGrid(elemId: string, gridOptions: GridOptions) {
-	const gridEl = document.getElementById(elemId) as HTMLElement;
-	new Grid(gridEl, gridOptions);
+export function mountGrid(selector: string, gridOptions: GridOptions) {
+	const gridEl = document.querySelector(selector);
+	if (!gridEl) {
+		return;
+	}
+	new Grid(gridEl as HTMLElement, gridOptions);
 	gridOptions.api!.sizeColumnsToFit();
 }
 

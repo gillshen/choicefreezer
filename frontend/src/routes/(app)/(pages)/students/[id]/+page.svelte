@@ -77,7 +77,7 @@
 	$: formattedName = formatStudentName(student);
 	$: formattedRomanizedName = formatStudentRomanizedName(student);
 
-	onMount(() => mountGrid('applications-grid', gridOptions));
+	onMount(() => mountGrid('#applications-grid', gridOptions));
 </script>
 
 <h1>{formattedName}</h1>

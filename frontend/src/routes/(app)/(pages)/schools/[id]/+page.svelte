@@ -47,7 +47,7 @@
 
 	$: school = data.school;
 
-	onMount(() => mountGrid('applications-grid', gridOptions));
+	onMount(() => mountGrid('#applications-grid', gridOptions));
 </script>
 
 <h1>{school.name}</h1>

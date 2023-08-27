@@ -44,7 +44,7 @@
 
 	$: target = data.target;
 
-	onMount(() => mountGrid('applications-grid', gridOptions));
+	onMount(() => mountGrid('#applications-grid', gridOptions));
 </script>
 
 <h1>Target {target.id}</h1>

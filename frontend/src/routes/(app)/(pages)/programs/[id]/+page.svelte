@@ -46,7 +46,7 @@
 
 	$: program = data.program;
 
-	onMount(() => mountGrid('applications-grid', gridOptions));
+	onMount(() => mountGrid('#applications-grid', gridOptions));
 </script>
 
 <h1>Program {program.id}</h1>

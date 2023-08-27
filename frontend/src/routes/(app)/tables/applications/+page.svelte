@@ -99,7 +99,7 @@
 		suppressDragLeaveHidesColumns: true
 	};
 
-	onMount(() => mountGrid('grid', gridOptions));
+	onMount(() => mountGrid('#grid', gridOptions));
 </script>
 
 <div class="grid-page-container">
