@@ -31,7 +31,8 @@
 		ProgramRenderer,
 		StatusRenderer,
 		targetValueGetter,
-		schoolAbbreviationsValueGetter
+		schoolAbbreviationsValueGetter,
+		deadlineValueGetter
 	} from '$lib/utils/applicationGridUtils.js';
 	import { NO_ROWS_TO_SHOW } from '$lib/constants/messages.js';
 
@@ -54,7 +55,7 @@
 		{ headerName: 'School', valueGetter: schoolAbbreviationsValueGetter },
 		{ headerName: 'Program', field: 'program.display_name', cellRenderer: ProgramRenderer },
 		{ headerName: 'Admission Plan', field: 'subtarget.admission_plan' },
-		{ headerName: 'Deadline', field: 'subtarget.deadline' },
+		{ headerName: 'Deadline', valueGetter: deadlineValueGetter },
 		{ headerName: 'Status', field: 'latest_log.status', cellRenderer: StatusRenderer }
 	];
 

@@ -98,8 +98,19 @@
 	<svelte:fragment slot="h2">Timeline</svelte:fragment>
 
 	{#if application.logs.length}
-		<div class="pl-2">
-			<Timeline logs={application.logs} />
+		<div class="pl-2 max-w-prose">
+			<Timeline logs={application.logs}>
+				{#if userCanEdit}
+					<div class="flex">
+						<button class="icon-button text-surface-300" on:click={() => alert('todo')}>
+							<i class="fa-solid fa-pen" />
+						</button>
+						<button class="icon-button delete text-surface-300" on:click={() => alert('todo')}>
+							<i class="fa-solid fa-trash" />
+						</button>
+					</div>
+				{/if}
+			</Timeline>
 		</div>
 	{:else}
 		<p class="section-placeholder">No data</p>

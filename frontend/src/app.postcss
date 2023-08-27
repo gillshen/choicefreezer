@@ -119,6 +119,15 @@ button.grid-page-export {
 	@apply font-normal;
 	@apply max-w-fit m-0 flex gap-2;
 }
+button.icon-button {
+	@apply w-[30px] h-[30px] rounded-full;
+	@apply flex justify-center items-center;
+	@apply text-sm;
+	@apply hover:bg-surface-700;
+}
+button.icon-button.delete {
+	@apply hover:text-error-500;
+}
 
 /* Form */
 form {

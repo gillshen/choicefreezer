@@ -4,7 +4,7 @@ export type ApplicationLog = {
 	id: number;
 	application: number;
 	status: ApplicationStatus;
-	date: string | null; // date
+	date: string; // date
 	comments: string;
 	updated: string; // datetime
 };

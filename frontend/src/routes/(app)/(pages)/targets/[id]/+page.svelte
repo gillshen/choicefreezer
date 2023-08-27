@@ -8,6 +8,7 @@
 		ApplicantRenderer,
 		ApplicationIdRenderer,
 		StatusRenderer,
+		deadlineValueGetter,
 		majorsValueGetter
 	} from '$lib/utils/applicationGridUtils.js';
 	import { NO_ROWS_TO_SHOW } from '$lib/constants/messages.js';
@@ -28,7 +29,7 @@
 		{ headerName: 'Student', field: 'student.name', cellRenderer: ApplicantRenderer },
 		{ headerName: 'Major', valueGetter: majorsValueGetter },
 		{ headerName: 'Admission Plan', field: 'subtarget.admission_plan' },
-		{ headerName: 'Deadline', field: 'subtarget.deadline' },
+		{ headerName: 'Deadline', valueGetter: deadlineValueGetter },
 		{ headerName: 'Decision Date', field: 'subtarget.decision_date' },
 		{ headerName: 'Status', field: 'latest_log.status', cellRenderer: StatusRenderer }
 	];
@@ -51,7 +52,6 @@
 
 <PageSection>
 	<pre class="text-surface-400">{JSON.stringify(target, null, 2)}</pre>
-	<button class="section-cta">Edit</button>
 
 	<h2 class="mt-12">Deadlines</h2>
 	<pre class="text-surface-400">{JSON.stringify(data.subTargets, null, 2)}</pre>

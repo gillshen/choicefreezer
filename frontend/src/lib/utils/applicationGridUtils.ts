@@ -1,4 +1,5 @@
 import type { ICellRendererParams, ValueGetterParams } from 'ag-grid-community';
+
 import type {
 	ApplicationListItem,
 	TOEFLScore,
@@ -12,6 +13,7 @@ import type {
 } from '$lib/types/applicationTypes';
 import { AgCellRenderer } from '$lib/utils/gridUtils';
 import { statusToClass } from '$lib/utils/applicationUtils';
+import { toISODateTime } from '$lib/utils/dateUtils';
 
 export class ApplicationIdRenderer extends AgCellRenderer {
 	declare eGui: HTMLAnchorElement;
@@ -153,4 +155,14 @@ export function apValueGetter(params: ValueGetterParams): string {
 		.map((ap) => `${ap.subject} (${ap.score})`)
 		.sort()
 		.join('; ');
+}
+
+export function deadlineValueGetter(params: ValueGetterParams): string {
+	const deadline: string | null = params.data.subtarget.deadline;
+	if (!deadline) {
+		return '';
+	}
+	const naiveDeadline = toISODateTime(deadline);
+	const timezone: string = params.data.subtarget.deadline_timezone;
+	return `${naiveDeadline} (${timezone})`;
 }

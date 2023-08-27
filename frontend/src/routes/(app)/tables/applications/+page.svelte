@@ -15,6 +15,7 @@
 		schoolAbbreviationsValueGetter,
 		targetValueGetter,
 		majorsValueGetter,
+		deadlineValueGetter,
 		actBestScoreGetter,
 		satBestScoreGetter,
 		apValueGetter,
@@ -75,7 +76,7 @@
 
 		{ ...columnControls.admissionPlan, field: 'subtarget.admission_plan' },
 		// TODO include timezone
-		{ ...columnControls.deadline, field: 'subtarget.deadline' },
+		{ ...columnControls.deadline, valueGetter: deadlineValueGetter },
 		{ ...columnControls.decisionDate, field: 'subtarget.decision_date' },
 
 		{ ...columnControls.satScore, type: ['numberColumn'], valueGetter: satBestScoreGetter },
@@ -88,7 +89,7 @@
 		{ ...columnControls.detScore, type: ['numberColumn'], valueGetter: detBestScoreGetter },
 
 		{ ...columnControls.latestStatus, field: 'latest_log.status', cellRenderer: StatusRenderer },
-		{ ...columnControls.statusUpdated, field: 'latest_log.updated' }
+		{ ...columnControls.statusUpdated, field: 'latest_log.date' }
 	];
 
 	const gridOptions: GridOptions = {
