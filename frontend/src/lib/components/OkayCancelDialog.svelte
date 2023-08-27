@@ -10,12 +10,12 @@
 <dialog
 	bind:this={dialog}
 	on:close
-	class="w-full max-w-xl max-h-[50rem] px-12 py-8 text-surface-50 bg-surface-900"
+	class="w-fit max-w-prose max-h-[50rem] px-12 py-8 text-surface-50 bg-surface-900"
 >
 	{#if title || dangerous}
-		<h3 class="m-0 p-0 mb-4 font-bold">
+		<h3 class="m-0 p-0 mb-4 text-xl font-bold flex gap-4 items-center">
 			{#if dangerous}
-				<i class="fa-solid fa-triangle-exclamation mr-2" />
+				<i class="fa-solid fa-triangle-exclamation" />
 			{/if}
 			{title}
 		</h3>
@@ -23,16 +23,10 @@
 
 	<slot />
 
-	<div class="mt-12 grid grid-cols-3 gap-4">
+	<div class="mt-12 flex gap-4 justify-center">
 		<button class="cf-primary" on:click={onOkay}>{okayButtonText}</button>
-		<button class="btn bg-surface-800 hover:bg-surface-700" on:click={() => dialog.close()}
+		<button class="cf-secondary bg-surface-800 hover:bg-surface-700" on:click={() => dialog.close()}
 			>{cancelButtonText}</button
 		>
 	</div>
 </dialog>
-
-<style lang="postcss">
-	button {
-		@apply rounded-md;
-	}
-</style>

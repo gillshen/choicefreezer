@@ -111,7 +111,7 @@
 			</div>
 
 			{#if userCanEdit}
-				<div class="grid grid-cols-3 gap-4">
+				<div class="flex gap-4">
 					<button class="section-cta" on:click={() => studentUpdateDialog.showModal()}>Edit</button>
 					<button class="section-cta delete" on:click={() => alert('todo')}>Delete</button>
 				</div>

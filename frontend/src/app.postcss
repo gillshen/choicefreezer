@@ -84,11 +84,17 @@ button.cf-primary,
 button.cf-secondary,
 button.section-cta,
 button.grid-page-export {
-	@apply hover:scale-[101%] duration-300;
+	@apply btn;
+	@apply min-w-[8rem] m-0;
+	@apply rounded-md;
+	@apply font-normal;
+	@apply flex gap-2;
 }
 button.cf-primary,
 button.section-cta,
 button.grid-page-export {
+	@apply variant-filled-primary;
+	@apply hover:scale-[101%] duration-300;
 	box-shadow: 6px 6px 24px rgb(25, 25, 25), -6px -6px 20px rgb(55, 55, 55);
 }
 button.cf-primary:hover,
@@ -96,28 +102,13 @@ button.section-cta:hover,
 button.grid-page-export:hover {
 	box-shadow: 8px 8px 24px rgb(25, 25, 25), -8px -8px 20px rgb(55, 55, 55);
 }
-button.cf-primary,
-button.grid-page-export {
-	@apply btn variant-filled-primary;
-	@apply rounded-md;
-}
-button.cf-secondary {
-	@apply btn variant-outline-primary hover:variant-filled-primary;
-	@apply rounded-md;
-}
 button.section-cta {
-	@apply btn variant-filled-primary;
-	@apply rounded-md;
 	@apply mt-8;
 }
 button.section-cta.delete {
 	@apply bg-surface-700 text-surface-50;
 	@apply hover:bg-error-500 hover:text-surface-900;
 	box-shadow: 0 0 0;
-}
-button.grid-page-export {
-	@apply font-normal;
-	@apply max-w-fit m-0 flex gap-2;
 }
 button.icon-button {
 	@apply w-[30px] h-[30px] rounded-full;
@@ -672,4 +663,76 @@ h1.grid-page-title {
 /* Override the default 0.5 */
 .ag-checkbox-input-wrapper.ag-disabled {
 	opacity: 0.8 !important;
+}
+
+/* Snack bar */
+.toast {
+	@apply invisible;
+	@apply fixed z-10;
+	@apply left-1/2 bottom-8;
+	@apply bg-surface-700 text-surface-50;
+	@apply rounded-md;
+	@apply py-4 px-12;
+	@apply flex gap-2 justify-center items-center;
+	@apply min-w-[16rem] -ml-[8rem];
+}
+
+.toast.show {
+	@apply visible;
+	/* Take 0.5s to fade in and out; delay the fade out by 2s */
+	-webkit-animation: fadein 0.5s, fadeout 0.5s 2s;
+	animation: fadein 0.5s, fadeout 0.5s 2s;
+}
+
+/* Animations to fade in and out */
+@-webkit-keyframes fadein {
+	from {
+		bottom: 0;
+		opacity: 0;
+	}
+	to {
+		bottom: 32px;
+		opacity: 1;
+	}
+}
+
+@keyframes fadein {
+	from {
+		bottom: 0;
+		opacity: 0;
+	}
+	to {
+		bottom: 32px;
+		opacity: 1;
+	}
+}
+
+@-webkit-keyframes fadeout {
+	from {
+		bottom: 32px;
+		opacity: 1;
+	}
+	to {
+		bottom: 0;
+		opacity: 0;
+	}
+}
+
+@keyframes fadeout {
+	from {
+		bottom: 32px;
+		opacity: 1;
+	}
+	to {
+		bottom: 0;
+		opacity: 0;
+	}
+}
+
+/* icon in the toast */
+.toast.success i {
+	@apply text-primary-500;
+}
+.toast.error i {
+	@apply text-error-500;
 }

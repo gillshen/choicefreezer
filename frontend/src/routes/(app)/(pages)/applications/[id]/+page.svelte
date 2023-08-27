@@ -4,6 +4,7 @@
 	import Dialog from '$lib/components/Dialog.svelte';
 	import ApplicationLogForm from '$lib/forms/ApplicationLogForm.svelte';
 	import Timeline from '$lib/components/Timeline.svelte';
+	import { toast } from '$lib/utils/interactiveUtils.js';
 
 	export let data;
 
@@ -75,9 +76,9 @@
 			</div>
 
 			{#if userCanEdit}
-				<div class="grid grid-cols-3 gap-4">
-					<button class="section-cta" on:click={() => alert('todo')}>Edit</button>
-					<button class="section-cta delete" on:click={() => alert('todo')}>Delete</button>
+				<div class="flex gap-4">
+					<button class="section-cta" on:click={() => toast('TODO', 'error')}>Edit</button>
+					<button class="section-cta delete" on:click={() => toast('TODO', 'error')}>Delete</button>
 				</div>
 			{/if}
 		</div>
@@ -102,10 +103,13 @@
 			<Timeline logs={application.logs}>
 				{#if userCanEdit}
 					<div class="flex">
-						<button class="icon-button text-surface-300" on:click={() => alert('todo')}>
+						<button class="icon-button text-surface-300" on:click={() => toast('Todo', 'error')}>
 							<i class="fa-solid fa-pen" />
 						</button>
-						<button class="icon-button delete text-surface-300" on:click={() => alert('todo')}>
+						<button
+							class="icon-button delete text-surface-300"
+							on:click={() => toast('Entry deleted', 'success')}
+						>
 							<i class="fa-solid fa-trash" />
 						</button>
 					</div>

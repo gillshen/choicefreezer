@@ -1,31 +1,34 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+
 	import PageSection from '$lib/components/PageSection.svelte';
 	import ContractStatusChip from '$lib/components/ContractStatusChip.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
 	import OkayCancelDialog from '$lib/components/OkayCancelDialog.svelte';
-	import { formatEndDate } from '$lib/utils/serviceUtils.js';
+	import ContractUpdateForm from '$lib/forms/ContractUpdateForm.svelte';
+	import { toast } from '$lib/utils/interactiveUtils.js';
 
 	import { deleteContract } from '$lib/api.js';
-	import { goto } from '$app/navigation';
-	import { UNKNOWN_ERROR } from '$lib/constants/messages.js';
+	import { formatEndDate } from '$lib/utils/serviceUtils.js';
 	import { byServiceRoleThenUsername } from '$lib/utils/sortUtils.js';
-	import ContractUpdateForm from '$lib/forms/ContractUpdateForm.svelte';
+	import { UNKNOWN_ERROR } from '$lib/constants/messages.js';
 
 	export let data;
+
 	const userCanEdit = 1;
 
 	let contractUpdateDialog: HTMLDialogElement;
 	let contractDeleteDialog: HTMLDialogElement;
 
 	// TODO move to server side?
-	// TODO proper notification
 	async function handleDeleteContract() {
 		const response = await deleteContract(contract.id);
 		if (response.ok) {
-			goto(`../students/${contract.student.id}/`);
-			alert('Contract deleted');
+			contractDeleteDialog.close();
+			toast('Contract deleted. Redirecting...', 'success');
+			setTimeout(() => goto(`../students/${contract.student.id}/`), 3000);
 		} else {
-			alert(UNKNOWN_ERROR);
+			toast(UNKNOWN_ERROR, 'error');
 		}
 	}
 
@@ -72,7 +75,7 @@
 			</div>
 
 			{#if userCanEdit}
-				<div class="grid grid-cols-3 gap-4">
+				<div class="flex gap-4">
 					<button class="section-cta" on:click={() => contractUpdateDialog.showModal()}>Edit</button
 					>
 					<button class="section-cta delete" on:click={() => contractDeleteDialog.showModal()}
