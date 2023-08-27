@@ -11,6 +11,5 @@ export const APPLICATION_STATUSES = [
 	'Withdrawn',
 	'Disqualified',
 	'Application Closed',
-	'Offer Declined',
 	'Enrolled'
 ] as const;

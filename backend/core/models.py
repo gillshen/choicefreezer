@@ -579,7 +579,6 @@ class ApplicationLog(models.Model):
         WITHDRAWN = "Withdrawn", _("Withdrawn")
         DISQUALIFIED = "Disqualified", _("Disqualified")
         CLOSED = "Application Closed", _("Application Closed")
-        DECLINED = "Offer Declined", _("Offer Declined")
         ENROLLED = "Enrolled", _("Enrolled")
 
     application = models.ForeignKey(

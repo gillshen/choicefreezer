@@ -31,7 +31,13 @@
 		<legend class="empty" />
 		<HiddenIdField id="application-id" name="application" value={applicationId} />
 
-		<FormSelect id="status-select" name="status" label="Status" form={$form} errors={$errors}>
+		<FormSelect
+			id="status-select"
+			name="status"
+			label="Application status"
+			form={$form}
+			errors={$errors}
+		>
 			<OptionList options={Array.from(APPLICATION_STATUSES)} />
 		</FormSelect>
 
@@ -49,6 +55,7 @@
 			label="Comments"
 			form={$form}
 			errors={$errors}
+			maxlength={1000}
 			optional
 		/>
 	</fieldset>

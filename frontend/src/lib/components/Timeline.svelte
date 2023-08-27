@@ -10,15 +10,15 @@
 		<li class="mb-10 ml-4">
 			<div class={`absolute app-status-dot w-4 h-4 mt-[38px] -left-2 ${statusToClass(status)}`} />
 
-			<time class="mb-1 text-sm font-normal leading-none text-surface-400">{date}</time>
+			<time class="mb-1 text-sm font-normal leading-none text-surface-300">{date}</time>
 
-			<h3 class="py-2 text-lg text-surface-50 flex gap-2 items-center">
+			<h3 class="py-2 text-lg text-surface-50 flex gap-4 items-baseline">
 				{status}
-				<small class="text-surface-500 ml-2">Updated {updated}</small>
+				<small class="text-surface-500">Updated {updated}</small>
 			</h3>
 
 			{#each comments.split(/\n+/g) as paragraph}
-				<p class="mb-4 max-w-prose text-base font-normal text-surface-400">
+				<p class="mb-4 max-w-prose text-base font-normal text-surface-300">
 					{paragraph}
 				</p>
 			{/each}
