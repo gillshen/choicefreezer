@@ -1,16 +1,37 @@
 <script lang="ts">
+	import { deleteApplicationLog } from '$lib/api.js';
+
 	import PageSection from '$lib/components/PageSection.svelte';
 	import ApplicationStatusChip from '$lib/components/ApplicationStatusChip.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
 	import ApplicationLogForm from '$lib/forms/ApplicationLogForm.svelte';
-	import Timeline from '$lib/components/Timeline.svelte';
 	import { toast } from '$lib/utils/interactiveUtils.js';
+	import { UNKNOWN_ERROR } from '$lib/constants/messages.js';
+	import { invalidateAll } from '$app/navigation';
+	import OkayCancelDialog from '$lib/components/OkayCancelDialog.svelte';
+	import type { ApplicationLog } from '$lib/types/applicationLogTypes.js';
+	import { toShortDate } from '$lib/utils/dateUtils';
+	import { statusToClass } from '$lib/utils/applicationUtils.js';
 
 	export let data;
 
 	const userCanEdit = true;
 
 	let logCreationDialog: HTMLDialogElement;
+	let logDeletionDialog: HTMLDialogElement;
+	let activeLog: ApplicationLog;
+
+	// TODO move to server side?
+	async function handleDeleteLog() {
+		const response = await deleteApplicationLog(activeLog.id);
+		if (response.ok) {
+			invalidateAll();
+			logDeletionDialog.close();
+			toast('Entry deleted', 'success');
+		} else {
+			toast(UNKNOWN_ERROR, 'error');
+		}
+	}
 
 	$: application = data.application;
 </script>
@@ -100,21 +121,49 @@
 
 	{#if application.logs.length}
 		<div class="pl-2 max-w-prose">
-			<Timeline logs={application.logs}>
-				{#if userCanEdit}
-					<div class="flex">
-						<button class="icon-button text-surface-300" on:click={() => toast('Todo', 'error')}>
-							<i class="fa-solid fa-pen" />
-						</button>
-						<button
-							class="icon-button delete text-surface-300"
-							on:click={() => toast('Entry deleted', 'success')}
-						>
-							<i class="fa-solid fa-trash" />
-						</button>
-					</div>
-				{/if}
-			</Timeline>
+			<ol class="relative border-l border-surface-400">
+				{#each data.application.logs as log}
+					<li class="mb-10 ml-4">
+						<div
+							class={`absolute app-status-dot w-4 h-4 mt-[38px] -left-2 ${statusToClass(
+								log.status
+							)}`}
+						/>
+						<time class="mb-1 text-sm leading-none text-surface-300">{toShortDate(log.date)}</time>
+
+						<h3 class="py-2 text-lg text-surface-50 flex gap-4 items-baseline">
+							{log.status}
+							<small class="text-surface-500">Updated {toShortDate(log.updated)}</small>
+
+							{#if userCanEdit}
+								<div class="flex">
+									<button
+										class="icon-button text-surface-300"
+										on:click={() => toast('todo', 'error')}
+									>
+										<i class="fa-solid fa-pen" />
+									</button>
+									<button
+										class="icon-button delete text-surface-300"
+										on:click={() => {
+											activeLog = log;
+											logDeletionDialog.showModal();
+										}}
+									>
+										<i class="fa-solid fa-trash" />
+									</button>
+								</div>
+							{/if}
+						</h3>
+
+						{#each log.comments.split(/\n+/g) as paragraph}
+							<p class="mb-4 max-w-prose text-surface-300">
+								{paragraph}
+							</p>
+						{/each}
+					</li>
+				{/each}
+			</ol>
 		</div>
 	{:else}
 		<p class="section-placeholder">No data</p>
@@ -131,3 +180,16 @@
 		applicationId={application.id}
 	/>
 </Dialog>
+
+<OkayCancelDialog
+	title="Delete this entry?"
+	bind:dialog={logDeletionDialog}
+	onOkay={handleDeleteLog}
+	okayButtonText="Yes"
+	cancelButtonText="No"
+	dangerous
+>
+	{#if activeLog}
+		<p>{activeLog.status} - {toShortDate(activeLog.date)}</p>
+	{/if}
+</OkayCancelDialog>

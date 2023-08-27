@@ -185,6 +185,10 @@ export async function fetchLogsOfStudents(studentId: number) {
 	return await get(`s.logs/?student=${studentId}`);
 }
 
+export async function deleteApplicationLog(logId: number) {
+	return await destroy(`application_logs/${logId}/delete/`);
+}
+
 export async function fetchEnrollments(studentId: number) {
 	return await get(`s.enrollments/?student=${studentId}`);
 }
