@@ -58,9 +58,6 @@ from target.views import (
 )
 
 from student.views import (
-    StudentLogCreateView,
-    StudentLogUpdateDeleteView,
-    StudentLogListView,
     EnrollmentCreateView,
     EnrollmentUpdateDeleteView,
     EnrollmentListView,
@@ -96,7 +93,10 @@ from student.views import (
     GMAT_ListView,
 )
 
+from writing.views import UserLogCreateView, UserLogUpdateDeleteView, UserLogListView
+
 # user.views
+
 urlpatterns = [
     path("cf/__register/", CfUserCreateView.as_view()),
     path("cf/<str:username>/", CfUserRetrieveView.as_view()),
@@ -219,14 +219,6 @@ urlpatterns += [
 
 # student.views
 
-# StudentLog views
-urlpatterns += [
-    path("s.logs/new/", StudentLogCreateView.as_view()),
-    path("s.logs/<int:pk>/update/", StudentLogUpdateDeleteView.as_view()),
-    path("s.logs/<int:pk>/delete/", StudentLogUpdateDeleteView.as_view()),
-    path("s.logs/", StudentLogListView.as_view()),
-]
-
 # Enrollment views
 urlpatterns += [
     path("s.enrollments/new/", EnrollmentCreateView.as_view()),
@@ -313,4 +305,14 @@ urlpatterns += [
     path("s.gmat/<int:pk>/update/", GMAT_UpdateDeleteView.as_view()),
     path("s.gmat/<int:pk>/delete/", GMAT_UpdateDeleteView.as_view()),
     path("s.gmat/", GMAT_ListView.as_view()),
+]
+
+# writing.views
+
+# UserLog views
+urlpatterns += [
+    path("user_logs/new/", UserLogCreateView.as_view()),
+    path("user_logs/<int:pk>/update/", UserLogUpdateDeleteView.as_view()),
+    path("user_logs/<int:pk>/delete/", UserLogUpdateDeleteView.as_view()),
+    path("user_logs/", UserLogListView.as_view()),
 ]

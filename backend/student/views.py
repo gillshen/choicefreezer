@@ -5,7 +5,6 @@ from rest_framework.generics import (
 )
 
 from student.models import (
-    StudentLog,
     Enrollment,
     GPA,
     ClassRank,
@@ -20,7 +19,6 @@ from student.models import (
 )
 
 from student.serializers import (
-    StudentLogSerializer,
     EnrollmentSerializer,
     GPA_Serializer,
     ClassRankSerializer,
@@ -44,21 +42,6 @@ class StudentQueryMixin:
         if student_id is not None:
             queryset = queryset.filter(student=student_id)
         return queryset
-
-
-class StudentLogCreateView(CreateAPIView):
-    queryset = StudentLog.objects.all()
-    serializer_class = StudentLogSerializer
-
-
-class StudentLogUpdateDeleteView(RetrieveUpdateDestroyAPIView):
-    queryset = StudentLog.objects.all()
-    serializer_class = StudentLogSerializer
-
-
-class StudentLogListView(StudentQueryMixin, ListAPIView):
-    _model = StudentLog
-    serializer_class = StudentLogSerializer
 
 
 class EnrollmentCreateView(CreateAPIView):

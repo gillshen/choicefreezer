@@ -10,51 +10,6 @@ from core.models import Student, Progression, Application
 from target.models import School, Program, Target
 
 
-class StudentLog(models.Model):
-    """
-    Fields:
-        id: number;
-        student: number;
-        title: string;
-        text?: string;
-        pinned: boolean;
-        private: boolean;
-        author: number; // CfUser
-        updated: string; // datetime
-    """
-
-    student = models.ForeignKey(
-        Student,
-        related_name="logs",
-        on_delete=models.CASCADE,
-    )
-
-    title = models.CharField(max_length=50)
-    text = models.TextField(max_length=1000, blank=True)
-    pinned = models.BooleanField(default=False)
-    private = models.BooleanField(default=False)
-
-    author = models.ForeignKey(
-        CfUser,
-        related_name="student_logs",
-        on_delete=models.CASCADE,
-    )
-
-    updated = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        # Pinned logs before non-pinned ones, then order by recency
-        ordering = ["-pinned", "-updated"]
-        get_latest_by = ["pinned", "updated"]
-
-        indexes = [
-            models.Index(fields=["-pinned", "-updated"]),
-        ]
-
-    def __str__(self) -> str:
-        return f"{self.student}: {self.title}"
-
-
 class Enrollment(models.Model):
     """
     Fields:

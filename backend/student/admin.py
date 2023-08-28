@@ -2,11 +2,6 @@ from django.contrib import admin
 from . import models
 
 
-@admin.register(models.StudentLog)
-class StudentLogAdmin(admin.ModelAdmin):
-    list_display = "id", "student", "title", "pinned"
-
-
 @admin.register(models.Enrollment)
 class EnrollmentAdmin(admin.ModelAdmin):
     list_display = "id", "student", "school", "program_type", "starting_progression"

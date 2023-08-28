@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "target",
     "core",
     "student",
+    "writing",
 ]
 
 AUTH_USER_MODEL = "user.CfUser"

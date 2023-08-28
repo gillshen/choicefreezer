@@ -13,9 +13,9 @@ import {
 	fetchIELTS,
 	fetchSAT,
 	fetchStudent,
-	fetchLogsOfStudents,
 	fetchTOEFL,
 	fetchApplicationsOfStudent,
+	fetchPublicLogsOfStudents,
 	patchStudent,
 	performCreateContract,
 	fetchSchools,
@@ -64,8 +64,6 @@ export async function load(event: PageServerLoadEvent) {
 		contracts: fetchContractsOfStudent(id),
 		contractCreateForm,
 		applicationCreateForm,
-		// logs
-		logs: fetchLogsOfStudents(id),
 		// enrollments
 		enrollments: fetchEnrollments(id),
 		// test scores
@@ -76,7 +74,12 @@ export async function load(event: PageServerLoadEvent) {
 		actScores: fetchACT(id),
 		apScores: fetchAP(id),
 		greScores: fetchGRE(id),
+		// applications & public user logs
+		/*
+		 * TODO: return logs based on user: all public logs | all user-authored logs
+		 */
 		applications: fetchApplicationsOfStudent(id),
+		logs: fetchPublicLogsOfStudents(id),
 		// application form data:
 		schools,
 		programs

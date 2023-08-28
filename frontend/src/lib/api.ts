@@ -200,10 +200,6 @@ export async function fetchLogsOfApplication(applicationId: number) {
 	return await get(`application_logs/?application=${applicationId}`);
 }
 
-export async function fetchLogsOfStudents(studentId: number) {
-	return await get(`s.logs/?student=${studentId}`);
-}
-
 export async function deleteApplicationLog(logId: number) {
 	return await destroy(`application_logs/${logId}/delete/`);
 }
@@ -238,6 +234,10 @@ export async function fetchAP(studentId: number) {
 
 export async function fetchGRE(studentId: number) {
 	return await get(`s.gre/?student=${studentId}`);
+}
+
+export async function fetchPublicLogsOfStudents(studentId: number) {
+	return await get(`user_logs/?student=${studentId}&public=true`);
 }
 
 export async function performCreateContract(params: {

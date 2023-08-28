@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from student.models import (
-    StudentLog,
     Enrollment,
     GPA,
     ClassRank,
@@ -13,12 +12,6 @@ from student.models import (
     GRE,
     GMAT,
 )
-
-
-class StudentLogSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = StudentLog
-        fields = "__all__"
 
 
 class EnrollmentSerializer(serializers.ModelSerializer):
