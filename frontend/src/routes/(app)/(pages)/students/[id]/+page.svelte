@@ -1,7 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+
+	import { deleteStudent } from '$lib/api.js';
+	import { toast } from '$lib/utils/interactiveUtils.js';
+	import { NO_ROWS_TO_SHOW, UNKNOWN_ERROR } from '$lib/constants/messages.js';
 
 	import PageSection from '$lib/components/PageSection.svelte';
+	import ContractCard from '$lib/components/ContractCard.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
 	import StudentUpdateForm from '$lib/forms/StudentUpdateForm.svelte';
 	import ContractServiceForm from '$lib/forms/ContractServiceForm.svelte';
@@ -20,7 +26,6 @@
 		sortByUsername
 	} from '$lib/utils/userUtils.js';
 
-	import ContractCard from '$lib/components/ContractCard.svelte';
 	import { byStatusThenTargetYearDesc } from '$lib/utils/sortUtils.js';
 
 	import type { DomLayoutType } from 'ag-grid-community';
@@ -34,7 +39,7 @@
 		schoolAbbreviationsValueGetter,
 		deadlineValueGetter
 	} from '$lib/utils/applicationGridUtils.js';
-	import { NO_ROWS_TO_SHOW } from '$lib/constants/messages.js';
+	import BinaryDialog from '$lib/components/BinaryDialog.svelte';
 
 	export let data;
 
@@ -70,8 +75,21 @@
 
 	// Modals
 	let studentUpdateDialog: HTMLDialogElement;
+	let studentDeleteDialog: HTMLDialogElement;
 	let contractCreateDialog: HTMLDialogElement;
 	let applicationCreateDialog: HTMLDialogElement;
+
+	// TODO move to server side?
+	async function handleDeleteStudent() {
+		const response = await deleteStudent(student.id);
+		if (response.ok) {
+			studentDeleteDialog.close();
+			toast('Student deleted. Redirecting...', 'success');
+			setTimeout(() => goto('../home/'), 2000);
+		} else {
+			toast(UNKNOWN_ERROR, 'error');
+		}
+	}
 
 	$: student = data.student;
 
@@ -113,7 +131,9 @@
 			{#if userCanEdit}
 				<div class="flex gap-4">
 					<button class="section-cta" on:click={() => studentUpdateDialog.showModal()}>Edit</button>
-					<button class="section-cta delete" on:click={() => alert('todo')}>Delete</button>
+					<button class="section-cta delete" on:click={() => studentDeleteDialog.showModal()}
+						>Delete</button
+					>
 				</div>
 			{/if}
 		</div>
@@ -246,6 +266,18 @@
 		data={data.studentUpdateForm}
 	/>
 </Dialog>
+
+<BinaryDialog
+	title="Be careful!"
+	bind:dialog={studentDeleteDialog}
+	onYes={handleDeleteStudent}
+	dangerous
+>
+	<p>
+		You are about to delete all data pertaining to this student, including contracts, educational
+		histories, test scores, and applications. Are you sure you want to proceed?
+	</p>
+</BinaryDialog>
 
 <Dialog title="Add a contract" exitHelper bind:dialog={contractCreateDialog}>
 	<ContractServiceForm

@@ -60,6 +60,9 @@ export async function fetchStudent(id: number) {
 export async function patchStudent(id: number, data: any) {
 	return await patch(`students/${id}/update/`, data);
 }
+export async function deleteStudent(id: number) {
+	return await destroy(`students/${id}/delete/`);
+}
 
 export async function fetchStudents(): Promise<StudentListItemType[]> {
 	return await get('students/');
