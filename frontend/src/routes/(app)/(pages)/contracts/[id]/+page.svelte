@@ -4,7 +4,7 @@
 	import PageSection from '$lib/components/PageSection.svelte';
 	import ContractStatusChip from '$lib/components/ContractStatusChip.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
-	import OkayCancelDialog from '$lib/components/OkayCancelDialog.svelte';
+	import BinaryDialog from '$lib/components/BinaryDialog.svelte';
 	import ContractUpdateForm from '$lib/forms/ContractUpdateForm.svelte';
 	import { toast } from '$lib/utils/interactiveUtils.js';
 
@@ -26,7 +26,7 @@
 		if (response.ok) {
 			contractDeleteDialog.close();
 			toast('Contract deleted. Redirecting...', 'success');
-			setTimeout(() => goto(`../students/${contract.student.id}/`), 3000);
+			setTimeout(() => goto(`../students/${contract.student.id}/`), 2000);
 		} else {
 			toast(UNKNOWN_ERROR, 'error');
 		}
@@ -112,12 +112,10 @@
 	/>
 </Dialog>
 
-<OkayCancelDialog
+<BinaryDialog
 	title="Delete this contract?"
 	bind:dialog={contractDeleteDialog}
-	onOkay={handleDeleteContract}
-	okayButtonText="Yes"
-	cancelButtonText="No"
+	onYes={handleDeleteContract}
 	dangerous
 />
 

@@ -145,6 +145,10 @@ export async function fetchApplication(id: number): Promise<ApplicationPageData>
 	return await get(`applications/${id}/`);
 }
 
+export async function deleteApplication(id: number) {
+	return await destroy(`applications/${id}/delete/`);
+}
+
 export async function fetchApplications(): Promise<ApplicationListItem[]> {
 	return await get('applications/');
 }

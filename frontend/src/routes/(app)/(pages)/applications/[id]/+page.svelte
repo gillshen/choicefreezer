@@ -1,15 +1,17 @@
 <script lang="ts">
-	import { deleteApplicationLog } from '$lib/api.js';
+	import { goto, invalidateAll } from '$app/navigation';
+
+	import { deleteApplication, deleteApplicationLog } from '$lib/api.js';
+	import type { ApplicationLog } from '$lib/types/applicationLogTypes.js';
 
 	import PageSection from '$lib/components/PageSection.svelte';
 	import ApplicationStatusChip from '$lib/components/ApplicationStatusChip.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
 	import ApplicationLogForm from '$lib/forms/ApplicationLogForm.svelte';
+	import BinaryDialog from '$lib/components/BinaryDialog.svelte';
+
 	import { toast } from '$lib/utils/interactiveUtils.js';
 	import { UNKNOWN_ERROR } from '$lib/constants/messages.js';
-	import { invalidateAll } from '$app/navigation';
-	import OkayCancelDialog from '$lib/components/OkayCancelDialog.svelte';
-	import type { ApplicationLog } from '$lib/types/applicationLogTypes.js';
 	import { toShortDate } from '$lib/utils/dateUtils';
 	import { statusToClass } from '$lib/utils/applicationUtils.js';
 
@@ -17,8 +19,22 @@
 
 	const userCanEdit = true;
 
-	let logCreationDialog: HTMLDialogElement;
-	let logDeletionDialog: HTMLDialogElement;
+	let applicationDeleteDialog: HTMLDialogElement;
+
+	// TODO move to server side?
+	async function handleDeleteApplication() {
+		const response = await deleteApplication(application.id);
+		if (response.ok) {
+			applicationDeleteDialog.close();
+			toast('Application deleted. Redirecting...', 'success');
+			setTimeout(() => goto(`../students/${application.student.id}/`), 2000);
+		} else {
+			toast(UNKNOWN_ERROR, 'error');
+		}
+	}
+
+	let logCreateDialog: HTMLDialogElement;
+	let logDeleteDialog: HTMLDialogElement;
 	let activeLog: ApplicationLog;
 
 	// TODO move to server side?
@@ -26,7 +42,7 @@
 		const response = await deleteApplicationLog(activeLog.id);
 		if (response.ok) {
 			invalidateAll();
-			logDeletionDialog.close();
+			logDeleteDialog.close();
 			toast('Entry deleted', 'success');
 		} else {
 			toast(UNKNOWN_ERROR, 'error');
@@ -99,7 +115,9 @@
 			{#if userCanEdit}
 				<div class="flex gap-4">
 					<button class="section-cta" on:click={() => toast('TODO', 'error')}>Edit</button>
-					<button class="section-cta delete" on:click={() => toast('TODO', 'error')}>Delete</button>
+					<button class="section-cta delete" on:click={() => applicationDeleteDialog.showModal()}
+						>Delete</button
+					>
 				</div>
 			{/if}
 		</div>
@@ -149,7 +167,7 @@
 										class="icon-button delete text-surface-300"
 										on:click={() => {
 											activeLog = log;
-											logDeletionDialog.showModal();
+											logDeleteDialog.showModal();
 										}}
 									>
 										<i class="fa-solid fa-trash" />
@@ -171,27 +189,32 @@
 		<p class="section-placeholder">No data</p>
 	{/if}
 
-	<button class="section-cta" on:click={() => logCreationDialog.showModal()}>Add an entry</button>
+	<button class="section-cta" on:click={() => logCreateDialog.showModal()}>Add an entry</button>
 </PageSection>
 
-<Dialog exitHelper bind:dialog={logCreationDialog}>
+<BinaryDialog
+	title="Delete this application?"
+	bind:dialog={applicationDeleteDialog}
+	onYes={handleDeleteApplication}
+	dangerous
+/>
+
+<Dialog exitHelper bind:dialog={logCreateDialog}>
 	<ApplicationLogForm
-		dialog={logCreationDialog}
+		dialog={logCreateDialog}
 		data={data.logCreationForm}
 		action="?/createLog"
 		applicationId={application.id}
 	/>
 </Dialog>
 
-<OkayCancelDialog
+<BinaryDialog
 	title="Delete this entry?"
-	bind:dialog={logDeletionDialog}
-	onOkay={handleDeleteLog}
-	okayButtonText="Yes"
-	cancelButtonText="No"
+	bind:dialog={logDeleteDialog}
+	onYes={handleDeleteLog}
 	dangerous
 >
 	{#if activeLog}
 		<p>{activeLog.status} - {toShortDate(activeLog.date)}</p>
 	{/if}
-</OkayCancelDialog>
+</BinaryDialog>

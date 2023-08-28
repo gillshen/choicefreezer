@@ -1,9 +1,9 @@
 <script lang="ts">
 	export let dialog: HTMLDialogElement;
 	export let title = '';
-	export let onOkay = () => {};
-	export let okayButtonText = 'OK';
-	export let cancelButtonText = 'Cancel';
+	export let onYes = () => {};
+	export let yesButtonText = 'Yes';
+	export let noButtonText = 'No';
 	export let dangerous = false;
 </script>
 
@@ -24,9 +24,9 @@
 	<slot />
 
 	<div class="mt-12 flex gap-4 justify-center">
-		<button class="cf-primary" on:click={onOkay}>{okayButtonText}</button>
+		<button class="cf-primary" on:click={onYes}>{yesButtonText}</button>
 		<button class="cf-secondary bg-surface-800 hover:bg-surface-700" on:click={() => dialog.close()}
-			>{cancelButtonText}</button
+			>{noButtonText}</button
 		>
 	</div>
 </dialog>
