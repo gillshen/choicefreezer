@@ -5,13 +5,17 @@ import {
 	contractServiceValidators,
 	contractUpdateValidators,
 	idValidator,
-	studentValidators
+	studentValidators,
+	admissionPlanUpdateValidator,
+	majorChoicesUpdateValidator
 } from '$lib/validators';
 
 export const newStudentSchema = z.object({
 	...studentValidators,
 	...contractServiceValidators
 });
+
+export type NewStudentSchema = typeof newStudentSchema;
 
 export const studentUpdateSchema = z.object({
 	...idValidator,
@@ -33,11 +37,19 @@ export const contractServiceSchema = z.object({
 
 export type ContractServiceSchema = typeof contractServiceSchema;
 
-export const applicationSchema = z.object({
+export const newApplicationSchema = z.object({
 	...applicationValidators
 });
 
-export type ApplicationSchema = typeof applicationSchema;
+export type NewApplicationSchema = typeof newApplicationSchema;
+
+export const applicationUpdateSchema = z.object({
+	...idValidator,
+	...admissionPlanUpdateValidator,
+	...majorChoicesUpdateValidator
+});
+
+export type ApplicationUpdateSchema = typeof applicationUpdateSchema;
 
 export const newApplicationLogSchema = z.object({
 	...applicationLogValidators

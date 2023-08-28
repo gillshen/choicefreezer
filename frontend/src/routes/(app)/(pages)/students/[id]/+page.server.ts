@@ -27,7 +27,7 @@ import {
 	createMajorChoice
 } from '$lib/api';
 
-import { studentUpdateSchema, contractServiceSchema, applicationSchema } from '$lib/schemas.js';
+import { studentUpdateSchema, contractServiceSchema, newApplicationSchema } from '$lib/schemas.js';
 
 import type { Program, ProgramType } from '$lib/types/programTypes.js';
 import type { NewTarget, Target, Term } from '$lib/types/targetTypes.js';
@@ -55,7 +55,7 @@ export async function load(event: PageServerLoadEvent) {
 	const studentUpdateForm = await superValidate(student, studentUpdateSchema);
 	const contractCreateForm = await superValidate(event, contractServiceSchema);
 
-	const applicationCreateForm = await superValidate(event, applicationSchema);
+	const applicationCreateForm = await superValidate(event, newApplicationSchema);
 
 	return {
 		student,
@@ -111,7 +111,7 @@ export const actions = {
 	},
 
 	createApplication: async (event) => {
-		const form = await superValidate(event, applicationSchema);
+		const form = await superValidate(event, newApplicationSchema);
 		console.log(form);
 
 		if (!form.valid) {
@@ -120,7 +120,7 @@ export const actions = {
 		const { data } = form;
 
 		// Check if majors are assigned to categories as they should
-		const majorCategoryError = 'Since you have specified a major, assign it to a category';
+		const majorCategoryError = 'Since you have specified a major, you need to assign it a category';
 
 		if (data.firstMajor && !data.firstMajorCategory) {
 			form.errors.firstMajorCategory = [majorCategoryError];

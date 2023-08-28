@@ -7,6 +7,7 @@
 	import PageSection from '$lib/components/PageSection.svelte';
 	import ApplicationStatusChip from '$lib/components/ApplicationStatusChip.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
+	import ApplicationUpdateForm from '$lib/forms/ApplicationUpdateForm.svelte';
 	import ApplicationLogForm from '$lib/forms/ApplicationLogForm.svelte';
 	import BinaryDialog from '$lib/components/BinaryDialog.svelte';
 
@@ -19,6 +20,7 @@
 
 	const userCanEdit = true;
 
+	let applicationUpdateDialog: HTMLDialogElement;
 	let applicationDeleteDialog: HTMLDialogElement;
 
 	// TODO move to server side?
@@ -114,7 +116,9 @@
 
 			{#if userCanEdit}
 				<div class="flex gap-4">
-					<button class="section-cta" on:click={() => toast('TODO', 'error')}>Edit</button>
+					<button class="section-cta" on:click={() => applicationUpdateDialog.showModal()}
+						>Edit</button
+					>
 					<button class="section-cta delete" on:click={() => applicationDeleteDialog.showModal()}
 						>Delete</button
 					>
@@ -191,6 +195,16 @@
 
 	<button class="section-cta" on:click={() => logCreateDialog.showModal()}>Add an entry</button>
 </PageSection>
+
+<Dialog exitHelper bind:dialog={applicationUpdateDialog}>
+	<!-- TODO form data sent to the dialog not updated after successful submission -->
+	<ApplicationUpdateForm
+		dialog={applicationUpdateDialog}
+		action="?/updateApplication"
+		data={data.applicationUpdateForm}
+		programType={application.program.type}
+	/>
+</Dialog>
 
 <BinaryDialog
 	title="Delete this application?"

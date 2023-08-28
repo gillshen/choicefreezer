@@ -2,7 +2,7 @@
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import { superForm } from 'sveltekit-superforms/client';
 
-	import type { ApplicationSchema } from '$lib/schemas';
+	import type { NewApplicationSchema } from '$lib/schemas';
 	import type { School } from '$lib/types/schoolTypes';
 	import type { ProgramSelectItem } from '$lib/types/programTypes';
 	import { PROGRAM_TYPES } from '$lib/constants/programTypes';
@@ -23,7 +23,7 @@
 	export let dialog: HTMLDialogElement | undefined;
 	export let action: string;
 	export let studentId: number;
-	export let data: SuperValidated<ApplicationSchema>;
+	export let data: SuperValidated<NewApplicationSchema>;
 	export let schools: School[];
 	export let programs: ProgramSelectItem[];
 
@@ -297,6 +297,7 @@
 
 			{#if showSecondMajor}
 				<div class="my-2" />
+
 				<MajorFormFields
 					rank="Second"
 					majorFieldName="secondMajor"

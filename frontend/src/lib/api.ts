@@ -145,6 +145,10 @@ export async function fetchApplication(id: number): Promise<ApplicationPageData>
 	return await get(`applications/${id}/`);
 }
 
+export async function patchApplication(id: number, data: any) {
+	return await patch(`applications/${id}/update/`, data);
+}
+
 export async function deleteApplication(id: number) {
 	return await destroy(`applications/${id}/delete/`);
 }
@@ -175,6 +179,14 @@ export async function fetchApplicationsOfTarget(targetId: number) {
 
 export async function createMajorChoice(data: NewMajorChoice) {
 	return await post(`major_choices/new/`, data);
+}
+
+export async function patchMajorChoice(choiceId: number, data: any) {
+	return await patch(`major_choices/${choiceId}/update/`, data);
+}
+
+export async function deleteMajorChoice(choiceId: number) {
+	return await destroy(`major_choices/${choiceId}/delete/`);
 }
 
 export async function createApplicationLog(data: NewApplicationLog) {

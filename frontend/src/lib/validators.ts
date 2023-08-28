@@ -7,7 +7,8 @@ const beSafeForHtml = { message: 'Characters <, >, &, and " are not allowed' };
 const fieldRequired = { message: 'This field is required' };
 const selectionRequired = { message: 'Select an option' };
 
-export const idValidator = { id: z.number().positive() };
+export const idValidator = { id: z.number().min(1) };
+export const optionalIdValidator = { id: z.number().min(1).optional().nullable() };
 
 // Student & contract creation form
 export const studentLegalNameValidators = {
@@ -101,12 +102,32 @@ export const applicationValidators = {
 	term: z.string().min(1, selectionRequired),
 	admissionPlan: z.string().min(1, selectionRequired),
 
+	firstMajor: z.string().trim().optional().nullable(),
 	firstMajorCategory: z.string().trim().optional().default(''),
-	firstMajor: z.string().trim().nullable(),
+	secondMajor: z.string().trim().optional().nullable(),
 	secondMajorCategory: z.string().trim().optional().default(''),
-	secondMajor: z.string().trim().nullable(),
-	thirdMajorCategory: z.string().trim().optional().default(''),
-	thirdMajor: z.string().trim().nullable()
+	thirdMajor: z.string().trim().optional().nullable(),
+	thirdMajorCategory: z.string().trim().optional().default('')
+};
+
+// Application update form
+export const admissionPlanUpdateValidator = {
+	targetId: idValidator.id,
+	admissionPlan: z.string().min(1, selectionRequired)
+};
+
+export const majorChoicesUpdateValidator = {
+	firstMajorId: optionalIdValidator.id,
+	firstMajor: z.string().trim().optional().nullable(),
+	firstMajorCategory: z.string().trim().optional().default(''),
+
+	secondMajorId: optionalIdValidator.id,
+	secondMajor: z.string().trim().optional().nullable(),
+	secondMajorCategory: z.string().trim().optional().default(''),
+
+	thirdMajorId: optionalIdValidator.id,
+	thirdMajor: z.string().trim().optional().nullable(),
+	thirdMajorCategory: z.string().trim().optional().default('')
 };
 
 // Application log creation form
