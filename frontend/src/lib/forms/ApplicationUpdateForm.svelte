@@ -5,8 +5,8 @@
 	import type { ApplicationUpdateSchema } from '$lib/schemas';
 	import type { ProgramType } from '$lib/types/programTypes';
 	import { UG_PLANS, NONUG_PLANS } from '$lib/constants/admissionPlans';
-
 	import { closeDialogOnSuccess } from '$lib/utils/formUtils';
+
 	import HiddenIdField from '$lib/components/HiddenIdField.svelte';
 	import FormSelect from '$lib/components/FormSelect.svelte';
 	import MajorFormFields from '$lib/components/MajorFormFields.svelte';
@@ -19,13 +19,10 @@
 
 	const { form, errors, message, enhance } = superForm(data, {
 		id: action,
-		resetForm: true,
 		scrollToError: 'auto',
 		taintedMessage: null,
 		onResult: ({ result }) => closeDialogOnSuccess(result, dialog!)
 	});
-
-	console.log(data);
 
 	$: isUndergraduate = ['UG Freshman', 'UG Transfer'].includes(programType);
 	$: admissionPlans = isUndergraduate ? UG_PLANS : NONUG_PLANS;

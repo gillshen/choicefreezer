@@ -12,9 +12,8 @@
 	import StudentCitizenshipField from '$lib/components/StudentCitizenshipField.svelte';
 	import StudentDobField from '$lib/components/StudentDobField.svelte';
 	import StudentResidenceFields from '$lib/components/StudentResidenceFields.svelte';
-
-	import FormSubmit from '$lib/components/FormSubmit.svelte';
 	import StudentCommentsField from '$lib/components/StudentCommentsField.svelte';
+	import FormSubmit from '$lib/components/FormSubmit.svelte';
 
 	export let dialog: HTMLDialogElement | undefined;
 	export let action: string;

@@ -199,7 +199,7 @@
 <Dialog exitHelper bind:dialog={applicationUpdateDialog}>
 	<!-- TODO form data sent to the dialog not updated after successful submission -->
 	<ApplicationUpdateForm
-		dialog={applicationUpdateDialog}
+		bind:dialog={applicationUpdateDialog}
 		action="?/updateApplication"
 		data={data.applicationUpdateForm}
 		programType={application.program.type}
