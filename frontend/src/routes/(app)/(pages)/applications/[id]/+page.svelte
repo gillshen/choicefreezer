@@ -105,13 +105,15 @@
 		</div>
 
 		<div class="grid grid-cols-2 gap-8 auto-rows-min">
-			<div class="cf-card-shadow p-4 rounded-lg">Deadline</div>
-			<div class="cf-card-shadow p-4 rounded-lg">Decision date</div>
-			<div class="cf-card-shadow p-4 rounded-lg">SAT / ACT / GRE / GMAT 1</div>
-			<div class="cf-card-shadow p-4 rounded-lg">SAT / ACT / GRE / GMAT 2</div>
-			<div class="cf-card-shadow p-4 rounded-lg">TOEFL / IELTS</div>
-			<div class="cf-card-shadow p-4 rounded-lg">Scholarship</div>
-			<div class="cf-card-shadow p-4 rounded-lg col-span-2 font-mono">#if alt_admitted_into</div>
+			<div class="cf-card-shadow-concave p-4 rounded-lg">Deadline</div>
+			<div class="cf-card-shadow-concave p-4 rounded-lg">Decision date</div>
+			<div class="cf-card-shadow-concave p-4 rounded-lg">SAT / ACT / GRE / GMAT 1</div>
+			<div class="cf-card-shadow-concave p-4 rounded-lg">SAT / ACT / GRE / GMAT 2</div>
+			<div class="cf-card-shadow-concave p-4 rounded-lg">TOEFL / IELTS</div>
+			<div class="cf-card-shadow-concave p-4 rounded-lg">Scholarship</div>
+			<div class="cf-card-shadow-concave p-4 rounded-lg col-span-2 font-mono">
+				#if alt_admitted_into
+			</div>
 		</div>
 	</div>
 </PageSection>
@@ -121,7 +123,7 @@
 
 	{#if application.logs.length}
 		<div class="pl-2 max-w-prose">
-			<ol class="relative border-l border-surface-400">
+			<ol class="relative border-l border-tertiary-500">
 				{#each data.application.logs as log}
 					<li class="mb-10 ml-4">
 						<div
@@ -129,11 +131,11 @@
 								log.status
 							)}`}
 						/>
-						<time class="mb-1 text-sm leading-none text-surface-300">{toShortDate(log.date)}</time>
+						<time class="mb-1 text-sm leading-none text-tertiary-500">{toShortDate(log.date)}</time>
 
 						<h3 class="py-2 text-lg text-surface-50 flex gap-4 items-baseline">
 							{log.status}
-							<small class="text-surface-500">Updated {toShortDate(log.updated)}</small>
+							<small class="text-surface-400">Updated {toShortDate(log.updated)}</small>
 
 							{#if userCanEdit}
 								<div class="flex">

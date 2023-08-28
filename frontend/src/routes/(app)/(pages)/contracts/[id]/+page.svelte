@@ -46,7 +46,7 @@
 </h1>
 
 <PageSection>
-	<div class="grid grid-cols-3 gap-x-12 gap-y-8 auto-rows-min items-start">
+	<div class="grid grid-cols-2 gap-x-12 gap-y-8 auto-rows-min items-start">
 		<div class="px-0 py-6 rounded-xl auto-rows-min flex flex-col justify-between">
 			<div class="profile-grid pb-6">
 				<div class="cf-key">Student</div>
@@ -85,10 +85,10 @@
 			{/if}
 		</div>
 
-		<div class="col-span-2 grid grid-cols-3 gap-8 auto-rows-min">
+		<div class="grid grid-cols-2 gap-8 auto-rows-min">
 			{#each contract.services.sort(byServiceRoleThenUsername) as service}
 				<div class="service-card cf-card-shadow rounded-xl px-6 py-4 flex flex-col">
-					<div class="text-surface-400">{service.role}</div>
+					<div class="cf-key">{service.role}</div>
 					<h2 class="h3 font-bold mt-0 pt-2">{service.cf_username}</h2>
 
 					<div class="profile-grid py-4">

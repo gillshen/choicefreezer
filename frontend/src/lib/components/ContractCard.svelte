@@ -41,7 +41,7 @@
 		transition: all 0.3s ease-in-out;
 	}
 	.contract-card:hover {
-		@apply scale-[102%];
+		@apply scale-[101%];
 	}
 
 	.card-header {

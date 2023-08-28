@@ -2,28 +2,23 @@
 	import type { StudentOfUser } from '$lib/types/userTypes';
 	import { typeToClass, typeToInitial } from '$lib/utils/contractUtils';
 
-	export let student: StudentOfUser | null = null;
+	export let student: StudentOfUser;
+	export let lighter: boolean = false;
+
+	$: shadowClass = lighter
+		? 'cf-card-shadow-2 cf-card-shadow-2-hover'
+		: 'cf-card-shadow cf-card-shadow-hover';
 </script>
 
-{#if student}
-	<a href={`../students/${student.id}/`} class="student-anchor cf-card-shadow cf-card-shadow-hover">
-		<header class={`contract-chip bg-${typeToClass(student.latest_contract_type)}`}>
-			<p>{typeToInitial(student.latest_contract_type)}</p>
-		</header>
-		<section>{student.name}</section>
-	</a>
-{:else}
-	<a href="../students/new/" class="student-anchor card">
-		<div class="flex-grow flex justify-center items-center bg-primary-500 text-surface-900">
-			Add a student
-		</div>
-	</a>
-{/if}
+<a href={`../students/${student.id}/`} class={`student-anchor ${shadowClass}`}>
+	<header class={`contract-chip bg-${typeToClass(student.latest_contract_type)}`}>
+		<p>{typeToInitial(student.latest_contract_type)}</p>
+	</header>
+	<section>{student.name}</section>
+</a>
 
 <style lang="postcss">
-	.student-anchor,
-	.student-anchor div {
-		/* @apply w-[9rem] h-[9rem] max-w-[9rem]; */
+	.student-anchor {
 		@apply w-full h-full aspect-square;
 		@apply flex flex-col;
 		@apply rounded-2xl;
@@ -32,7 +27,7 @@
 		transition: all 0.3s ease-in-out;
 	}
 	.student-anchor:hover {
-		@apply scale-105;
+		@apply scale-[103%];
 	}
 	.student-anchor section {
 		@apply text-lg;

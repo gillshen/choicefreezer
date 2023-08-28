@@ -49,7 +49,7 @@ p + p {
 	@apply mt-4;
 }
 p.section-placeholder {
-	@apply text-surface-400;
+	@apply text-surface-300;
 }
 
 dialog {
@@ -59,22 +59,22 @@ dialog {
 }
 
 .cf-card-shadow {
-	box-shadow: 12px 12px 24px rgb(35, 35, 35), 2px 2px 12px rgb(30, 30, 30),
-		-6px -6px 20px rgb(52, 52, 52), -2px -2px 8px rgb(60, 60, 60);
+	box-shadow: 8px 8px 16px #222222, -8px -8px 16px #383838;
 }
 .cf-card-shadow-hover:hover {
-	box-shadow: 12px 12px 24px rgb(35, 35, 35), 4px 4px 16px rgb(30, 30, 30),
-		-6px -6px 20px rgb(52, 52, 52), -4px -4px 12px rgb(60, 60, 60);
+	box-shadow: 12px 12px 24px #222222, -12px -12px 24px #383838;
 }
 
 /* on surface-800 */
 .cf-card-shadow-2 {
-	box-shadow: 12px 12px 24px rgb(45, 45, 45), 2px 2px 12px rgb(40, 40, 40),
-		-6px -6px 20px rgb(62, 62, 62), -2px -2px 8px rgb(70, 70, 70);
+	box-shadow: 8px 8px 16px #2a2a2a, -8px -8px 16px #444444;
 }
 .cf-card-shadow-2-hover:hover {
-	box-shadow: 12px 12px 24px rgb(45, 45, 45), 4px 4px 16px rgb(40, 40, 40),
-		-6px -6px 20px rgb(62, 62, 62), -4px -4px 12px rgb(70, 70, 70);
+	box-shadow: 12px 12px 24px #2a2a2a, -12px -12px 24px #444444;
+}
+/* concave */
+.cf-card-shadow-concave {
+	box-shadow: inset 5px 5px 10px #222222, inset -5px -5px 10px #383838;
 }
 
 button {
@@ -107,7 +107,7 @@ button.section-cta {
 }
 button.section-cta.delete {
 	@apply bg-surface-700 text-surface-50;
-	@apply hover:bg-error-500 hover:text-surface-900;
+	@apply hover:bg-red-400 hover:text-black;
 	box-shadow: 0 0 0;
 }
 button.icon-button {
@@ -117,7 +117,7 @@ button.icon-button {
 	@apply hover:bg-surface-700;
 }
 button.icon-button.delete {
-	@apply hover:text-error-500;
+	@apply hover:bg-red-400 hover:text-black;
 }
 
 /* Form */
@@ -136,16 +136,16 @@ fieldset > legend {
 fieldset > legend.empty {
 	@apply px-0 mb-4;
 }
-label {
-	@apply pb-2;
+label:not(.radio-items-container > label) {
+	@apply pb-2 pt-1;
 }
 label .optional {
-	@apply text-surface-400;
+	@apply text-tertiary-500;
 }
 input.input,
 input.date,
 select.select {
-	@apply w-[20rem] h-10 px-2;
+	@apply w-[20rem] h-12 px-2;
 	@apply rounded-md;
 }
 input.input.wider,
@@ -162,7 +162,7 @@ form div.form-actions {
 	@apply mt-12;
 }
 form small.char-count {
-	@apply my-1 text-surface-400 text-sm;
+	@apply my-1 text-tertiary-500 text-sm;
 }
 form small.error-message {
 	@apply my-1 text-error-500 text-sm;
@@ -191,8 +191,9 @@ form small.error-message {
 	@apply rounded-xl;
 	grid-template-columns: max-content 1fr;
 }
+.cf-key,
 .profile-grid .cf-key {
-	@apply text-surface-400;
+	@apply text-tertiary-500;
 }
 .profile-grid .cf-value {
 	@apply flex flex-wrap gap-3 w-full;
@@ -218,21 +219,21 @@ form small.error-message {
 .bg-ug-freshman {
 	@apply bg-yellow-400;
 }
-.border-ug-freshman {
+/* .border-ug-freshman {
 	@apply border-b-yellow-400;
-}
+} */
 .bg-ug-transfer {
 	@apply bg-rose-400;
 }
-.border-ug-transfer {
+/* .border-ug-transfer {
 	@apply border-b-rose-400;
-}
+} */
 .bg-graduate {
 	@apply bg-blue-400;
 }
-.border-graduate {
+/* .border-graduate {
 	@apply border-b-blue-400;
-}
+} */
 
 /* status chips */
 .contract-status-chip,
@@ -252,7 +253,7 @@ form small.error-message {
 }
 .contract-status-chip.bg-fulfilled {
 	@apply text-surface-50;
-	@apply bg-zinc-600;
+	@apply bg-zinc-700;
 }
 .contract-status-chip.bg-terminated {
 	@apply text-surface-50;
@@ -316,6 +317,9 @@ form small.error-message {
 /* Data grid styles */
 .data-grid {
 	@apply w-full h-full overflow-scroll;
+	/* Border works well for Firefox, but will reveal the ugly scrollbar shift 
+	 * of Chrome and Edge */
+	/* @apply border border-surface-700 rounded-xl; */
 }
 .data-grid a {
 	@apply text-indigo-200 hover:text-primary-500;
@@ -734,5 +738,5 @@ h1.grid-page-title {
 	@apply text-primary-500;
 }
 .toast.error i {
-	@apply text-error-500;
+	@apply text-red-400;
 }

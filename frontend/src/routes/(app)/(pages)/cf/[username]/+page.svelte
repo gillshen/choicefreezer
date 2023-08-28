@@ -14,8 +14,10 @@
 		ApplicationIdRenderer,
 		ProgramRenderer,
 		TargetRenderer,
+		StatusRenderer,
 		schoolAbbreviationsValueGetter,
-		targetValueGetter
+		targetValueGetter,
+		deadlineValueGetter
 	} from '$lib/utils/applicationGridUtils.js';
 	import { NO_ROWS_TO_SHOW } from '$lib/constants/messages.js';
 
@@ -37,8 +39,8 @@
 		{ headerName: 'School', valueGetter: schoolAbbreviationsValueGetter },
 		{ headerName: 'Program', field: 'program.display_name', cellRenderer: ProgramRenderer },
 		{ headerName: 'Admission Plan', field: 'subtarget.admission_plan' },
-		{ headerName: 'Deadline', field: 'subtarget.deadline' },
-		{ headerName: 'Status', field: 'latest_log.status' }
+		{ headerName: 'Deadline', valueGetter: deadlineValueGetter },
+		{ headerName: 'Status', field: 'latest_log.status', cellRenderer: StatusRenderer }
 	];
 
 	const gridOptions = {
@@ -80,7 +82,7 @@
 			? user.past_students
 			: user.past_students.filter((s) => s.latest_target_year === filterYearPast);
 
-	onMount(() => mountGrid('applications-grid', gridOptions));
+	onMount(() => mountGrid('#applications-grid', gridOptions));
 </script>
 
 <h1>{banner}</h1>
@@ -128,7 +130,7 @@
 					.sort(byRomanizedName)
 					.sort(byTargetYearDesc)
 					.sort(byContractType) as student}
-					<StudentAnchorCard {student} />
+					<StudentAnchorCard {student} lighter />
 				{/each}
 			</div>
 		</div>

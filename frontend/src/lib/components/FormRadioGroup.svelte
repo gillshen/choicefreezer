@@ -18,7 +18,7 @@
 	<label class="label radio-group-label" for={id}>{label}</label>
 	<div
 		{id}
-		class="flex flex-col space-y-2"
+		class="radio-items-container flex flex-col space-y-2"
 		aria-invalid={errors[name] ? 'true' : undefined}
 		on:change={() => (errors[name] = false)}
 	>
