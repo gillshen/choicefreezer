@@ -17,6 +17,7 @@
 	import { UNKNOWN_ERROR } from '$lib/constants/messages.js';
 	import { toShortDate } from '$lib/utils/dateUtils';
 	import { statusToClass } from '$lib/utils/applicationUtils.js';
+	import DecisionDateUpdateForm from '$lib/forms/DecisionDateUpdateForm.svelte';
 
 	export let data;
 
@@ -152,7 +153,10 @@
 			<div class="application-card cf-card-shadow-concave">
 				<header>
 					<div class="cf-key text-sm">Decision date</div>
-					<button class="icon-button" on:click={() => decisionDateUpdateDialog.showModal()}>
+					<button
+						class="icon-button text-surface-300"
+						on:click={() => decisionDateUpdateDialog.showModal()}
+					>
 						<i class="fa-solid fa-pen" />
 					</button>
 				</header>
@@ -226,7 +230,6 @@
 </PageSection>
 
 <Dialog exitHelper bind:dialog={applicationUpdateDialog}>
-	<!-- TODO form data sent to the dialog not updated after successful submission -->
 	<ApplicationUpdateForm
 		bind:dialog={applicationUpdateDialog}
 		action="?/updateApplication"
@@ -250,7 +253,13 @@
 	/>
 </Dialog>
 
-<Dialog exitHelper bind:dialog={decisionDateUpdateDialog}>decision date update form</Dialog>
+<Dialog exitHelper bind:dialog={decisionDateUpdateDialog}>
+	<DecisionDateUpdateForm
+		bind:dialog={decisionDateUpdateDialog}
+		action="?/updateDecisionDate"
+		data={data.decisionDateUpdateForm}
+	/>
+</Dialog>
 
 <Dialog exitHelper bind:dialog={logCreateDialog}>
 	<ApplicationLogForm

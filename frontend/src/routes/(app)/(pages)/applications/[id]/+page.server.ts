@@ -14,6 +14,7 @@ import {
 import {
 	applicationUpdateSchema,
 	deadlineUpdateSchema,
+	decisionDateUpdateSchema,
 	newApplicationLogSchema
 } from '$lib/schemas.js';
 import type { NewApplicationLog } from '$lib/types/applicationLogTypes.js';
@@ -60,12 +61,18 @@ export async function load(event) {
 		deadlineUpdateSchema
 	);
 
+	const decisionDateUpdateForm = await superValidate(
+		{ ...application.subtarget },
+		decisionDateUpdateSchema
+	);
+
 	const logCreationForm = await superValidate(event, newApplicationLogSchema);
 
 	return {
 		application,
 		applicationUpdateForm,
 		deadlineUpdateForm,
+		decisionDateUpdateForm,
 		logCreationForm
 	};
 }
@@ -159,6 +166,22 @@ export const actions = {
 
 	updateDeadline: async (event) => {
 		const form = await superValidate(event, deadlineUpdateSchema);
+		console.log(form);
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		const response = await patchSubTarget(form.data.id, form.data);
+		if (!response.ok) {
+			return message(form, UNKNOWN_ERROR, { status: 400 });
+		}
+
+		return { form };
+	},
+
+	updateDecisionDate: async (event) => {
+		const form = await superValidate(event, decisionDateUpdateSchema);
 		console.log(form);
 
 		if (!form.valid) {

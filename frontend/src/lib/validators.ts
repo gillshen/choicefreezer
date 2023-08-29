@@ -145,3 +145,9 @@ export const deadlineValidators = {
 	deadline_time: z.string().optional().nullable(),
 	deadline_timezone: z.string().trim().default('')
 };
+
+// Decision date update form
+export const decisionDateValidators = {
+	id: idValidator.id, // subtarget id
+	decision_date: z.string().optional().nullable()
+};
