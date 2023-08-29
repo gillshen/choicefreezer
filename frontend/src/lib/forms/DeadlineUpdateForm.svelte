@@ -15,6 +15,7 @@
 	export let dialog: HTMLDialogElement | undefined;
 	export let data: SuperValidated<DeadlineUpdateSchema>;
 	export let action: string;
+	export let admissionPlan: string;
 
 	const { form, errors, message, enhance } = superForm(data, {
 		id: action,
@@ -32,7 +33,7 @@
 		<FormDateInput
 			id="deadline-date-input"
 			name="deadline_date"
-			label="Deadline"
+			label={`${admissionPlan} deadline`}
 			form={$form}
 			errors={$errors}
 		/>

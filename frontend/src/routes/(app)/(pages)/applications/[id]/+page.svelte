@@ -118,7 +118,7 @@
 					{application.major_choices.map((mc) => mc.major).join(', ') || 'n/a'}
 				</div>
 
-				<div class="cf-key">CF people</div>
+				<div class="cf-key">CF team</div>
 				<div class="cf-value text-yellow-300">TODO</div>
 			</div>
 
@@ -289,6 +289,7 @@
 		bind:dialog={deadlineUpdateDialog}
 		action="?/updateDeadline"
 		data={data.deadlineUpdateForm}
+		admissionPlan={application.subtarget.admission_plan}
 	/>
 </Dialog>
 
@@ -297,6 +298,7 @@
 		bind:dialog={decisionDateUpdateDialog}
 		action="?/updateDecisionDate"
 		data={data.decisionDateUpdateForm}
+		admissionPlan={application.subtarget.admission_plan}
 	/>
 </Dialog>
 

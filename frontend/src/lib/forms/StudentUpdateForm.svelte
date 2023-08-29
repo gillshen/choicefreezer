@@ -36,7 +36,7 @@
 	</fieldset>
 
 	<fieldset>
-		<legend>Name in English/Pinyin</legend>
+		<legend>English name</legend>
 		<StudentRomanizedNameFields form={$form} errors={$errors} />
 	</fieldset>
 

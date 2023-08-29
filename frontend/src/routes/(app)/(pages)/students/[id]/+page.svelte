@@ -139,8 +139,11 @@
 		</div>
 
 		<div class="grid grid-cols-2 gap-8">
-			<div class="cf-card-shadow-concave p-4 rounded-xl col-span-2 grid grid-cols-2 gap-16">
+			<div class="cf-card-shadow-concave p-4 rounded-xl">
 				<div class="inner-card">GPA</div>
+			</div>
+
+			<div class="cf-card-shadow-concave p-4 rounded-xl">
 				<div class="inner-card">Class rank</div>
 			</div>
 
@@ -193,13 +196,13 @@
 </PageSection>
 
 <PageSection>
-	<svelte:fragment slot="h2">Updates</svelte:fragment>
+	<svelte:fragment slot="h2">Logs</svelte:fragment>
 	{#if data.logs.length}
 		<pre class="text-surface-400">{JSON.stringify(data.logs, null, 2)}</pre>
 	{/if}
 
 	{#if userCanEdit}
-		<button class="section-cta">Add an update</button>
+		<button class="section-cta">Add an entry</button>
 	{/if}
 </PageSection>
 
