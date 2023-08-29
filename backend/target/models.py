@@ -308,7 +308,8 @@ class SubTarget(models.Model):
         target: number;
         admission_plan: <SubTarget.AdmissionPlan>;
 
-        deadline?: string | null; // datetime
+        deadline_date?: string | null; // date
+        deadline_time?: string | null; // time
         deadline_timezone?: string;
 
         decision_date?: string | null; // date
@@ -344,7 +345,8 @@ class SubTarget(models.Model):
     )
     admission_plan = models.CharField(max_length=100, choices=AdmissionPlan.choices)
 
-    deadline = models.DateTimeField(blank=True, null=True)
+    deadline_date = models.DateField(blank=True, null=True)
+    deadline_time = models.TimeField(blank=True, null=True)
     deadline_timezone = models.CharField(max_length=50, blank=True)
 
     decision_date = models.DateField(blank=True, null=True)

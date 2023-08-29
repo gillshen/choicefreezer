@@ -143,7 +143,8 @@ export type ApplicationListItem = {
 	subtarget: {
 		id: number;
 		admission_plan: AdmissionPlan;
-		deadline: string | null; // datetime
+		deadline_date: string | null; // date
+		deadline_time: string | null; // date
 		deadline_timezone: string;
 		decision_date: string | null; // datetime
 	};
@@ -202,7 +203,8 @@ export type ApplicationPageData = {
 	subtarget: {
 		id: number;
 		admission_plan: AdmissionPlan;
-		deadline: string | null; // datetime
+		deadline_date: string | null; // date
+		deadline_time: string | null; // date
 		deadline_timezone: string;
 		decision_date: string | null; // datetime
 	};

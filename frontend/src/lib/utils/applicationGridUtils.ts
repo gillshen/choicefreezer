@@ -13,7 +13,7 @@ import type {
 } from '$lib/types/applicationTypes';
 import { AgCellRenderer } from '$lib/utils/gridUtils';
 import { statusToClass } from '$lib/utils/applicationUtils';
-import { toISODateTime } from '$lib/utils/dateUtils';
+import { toISODate } from '$lib/utils/dateUtils';
 
 export class ApplicationIdRenderer extends AgCellRenderer {
 	declare eGui: HTMLAnchorElement;
@@ -158,11 +158,9 @@ export function apValueGetter(params: ValueGetterParams): string {
 }
 
 export function deadlineValueGetter(params: ValueGetterParams): string {
-	const deadline: string | null = params.data.subtarget.deadline;
-	if (!deadline) {
+	const deadlineDate: string | null = params.data.subtarget.deadline_date;
+	if (!deadlineDate) {
 		return '';
 	}
-	const naiveDeadline = toISODateTime(deadline);
-	const timezone: string = params.data.subtarget.deadline_timezone;
-	return `${naiveDeadline} (${timezone})`;
+	return toISODate(deadlineDate);
 }

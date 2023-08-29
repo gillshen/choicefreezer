@@ -46,4 +46,11 @@ class TargetRequirementsAdmin(admin.ModelAdmin):
 
 @admin.register(models.SubTarget)
 class SubTargetAdmin(admin.ModelAdmin):
-    list_display = "id", "target", "admission_plan", "deadline", "deadline_timezone"
+    list_display = (
+        "id",
+        "target",
+        "admission_plan",
+        "deadline_date",
+        "deadline_time",
+        "deadline_timezone",
+    )

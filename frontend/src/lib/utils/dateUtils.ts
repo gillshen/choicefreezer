@@ -15,6 +15,14 @@ export function toShortDate(dateString: string): string {
 	return format(new Date(dateString), 'MMM d, y');
 }
 
+export function toTime(timeString: string): string {
+	return format(new Date(`2022-01-06T${timeString}`), 'hh:mm bbbb');
+}
+
+export function toISODate(dateString: string): string {
+	return format(new Date(dateString), 'y-LL-dd');
+}
+
 export function toISODateTime(dateString: string): string {
 	return format(new Date(dateString), 'y-LL-dd HH:mm');
 }
