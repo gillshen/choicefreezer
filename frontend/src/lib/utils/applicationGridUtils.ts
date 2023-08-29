@@ -12,7 +12,7 @@ import type {
 	APScore
 } from '$lib/types/applicationTypes';
 import { AgCellRenderer } from '$lib/utils/gridUtils';
-import { statusToClass } from '$lib/utils/applicationUtils';
+import { statusToClass, getBestScore } from '$lib/utils/applicationUtils';
 import { toISODate } from '$lib/utils/dateUtils';
 
 export class ApplicationIdRenderer extends AgCellRenderer {
@@ -99,19 +99,6 @@ export function targetValueGetter(params: ValueGetterParams): string {
 export function majorsValueGetter(params: ValueGetterParams): string {
 	const application: ApplicationListItem = params.data;
 	return application.majors_list.join('; ');
-}
-
-function getBestScore(
-	scores: Array<SATScore | ACTScore | GREScore | GMATScore | TOEFLScore | IELTSScore | DETScore>
-): number | null {
-	const results = scores
-		.map((score) => score.result)
-		.filter((result) => !(result === null)) as number[];
-	if (results.length) {
-		return Math.max(...results);
-	} else {
-		return null;
-	}
 }
 
 export function toeflBestScoreGetter(params: ValueGetterParams): number | null {

@@ -7,17 +7,19 @@
 	import PageSection from '$lib/components/PageSection.svelte';
 	import ApplicationStatusChip from '$lib/components/ApplicationStatusChip.svelte';
 	import DateTimeDisplay from '$lib/components/DateTimeDisplay.svelte';
+	import ScoreCard from '$lib/components/ScoreCard.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
 	import ApplicationUpdateForm from '$lib/forms/ApplicationUpdateForm.svelte';
 	import DeadlineUpdateForm from '$lib/forms/DeadlineUpdateForm.svelte';
+	import DecisionDateUpdateForm from '$lib/forms/DecisionDateUpdateForm.svelte';
 	import ApplicationLogForm from '$lib/forms/ApplicationLogForm.svelte';
 	import BinaryDialog from '$lib/components/BinaryDialog.svelte';
 
 	import { toast } from '$lib/utils/interactiveUtils.js';
 	import { UNKNOWN_ERROR } from '$lib/constants/messages.js';
 	import { toShortDate } from '$lib/utils/dateUtils';
-	import { statusToClass } from '$lib/utils/applicationUtils.js';
-	import DecisionDateUpdateForm from '$lib/forms/DecisionDateUpdateForm.svelte';
+	import { getBestScore, statusToClass } from '$lib/utils/applicationUtils.js';
+	import { isGraduate, isUndergraduate } from '$lib/utils/programUtils.js';
 
 	export let data;
 
@@ -162,13 +164,50 @@
 				</header>
 				<DateTimeDisplay date={application.subtarget.decision_date} />
 			</div>
-			<div class="application-card cf-card-shadow-concave">SAT / ACT / GRE / GMAT 1</div>
-			<div class="application-card cf-card-shadow-concave">SAT / ACT / GRE / GMAT 2</div>
-			<div class="application-card cf-card-shadow-concave">TOEFL / IELTS</div>
-			<div class="application-card cf-card-shadow-concave">Scholarship</div>
-			<div class="application-card cf-card-shadow-concave col-span-2 font-mono">
-				#if alt_admitted_into
-			</div>
+
+			{#if application.sat_submitted.length}
+				<ScoreCard title="SAT" score={getBestScore(application.sat_submitted)} />
+			{/if}
+			{#if application.act_submitted.length}
+				<ScoreCard title="ACT" score={getBestScore(application.act_submitted)} />
+			{/if}
+			<!-- If UG without tests, show an emty SAT/ACT card -->
+			{#if isUndergraduate(application.program.type) && !application.sat_submitted.length && !application.act_submitted.length}
+				<ScoreCard title="SAT / ACT" />
+			{/if}
+
+			{#if application.gre_submitted.length}
+				<ScoreCard title="GRE" score={getBestScore(application.gre_submitted)} />
+			{/if}
+			{#if application.gmat_submitted.length}
+				<ScoreCard title="GMAT" score={getBestScore(application.gmat_submitted)} />
+			{/if}
+			<!-- If grad without tests, show an empty GRE/GMAT card -->
+			{#if isGraduate(application.program.type) && !application.gre_submitted.length && !application.gmat_submitted.length}
+				<ScoreCard title="GRE / GMAT" />
+			{/if}
+
+			{#if application.toefl_submitted.length}
+				<ScoreCard title="TOEFL" score={getBestScore(application.toefl_submitted)} />
+			{/if}
+			{#if application.ielts_submitted.length}
+				<ScoreCard title="IELTS" score={getBestScore(application.ielts_submitted)} />
+			{/if}
+			{#if application.det_submitted.length}
+				<ScoreCard title="DET" score={getBestScore(application.det_submitted)} />
+			{/if}
+			<!-- If without english proficiency results -->
+			{#if !application.toefl_submitted.length && !application.ielts_submitted.length && !application.det_submitted.length}
+				<ScoreCard title="English" />
+			{/if}
+
+			<!-- {#if application.scholarship_amount} -->
+			<ScoreCard title="Scholarship" />
+			<!-- {/if} -->
+
+			<!-- {#if application.alt_admitted_into} -->
+			<ScoreCard title="Alt. admitted" />
+			<!-- {/if} -->
 		</div>
 	</div>
 </PageSection>
