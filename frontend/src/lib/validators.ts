@@ -137,3 +137,11 @@ export const applicationLogValidators = {
 	date: z.string().min(1, fieldRequired),
 	comments: z.string().trim().optional().default('')
 };
+
+// Deadline update form
+export const deadlineValidators = {
+	id: idValidator.id, // subtarget id
+	deadline_date: z.string().optional().nullable(),
+	deadline_time: z.string().optional().nullable(),
+	deadline_timezone: z.string().trim().default('')
+};

@@ -6,8 +6,10 @@
 
 	import PageSection from '$lib/components/PageSection.svelte';
 	import ApplicationStatusChip from '$lib/components/ApplicationStatusChip.svelte';
+	import DateTimeDisplay from '$lib/components/DateTimeDisplay.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
 	import ApplicationUpdateForm from '$lib/forms/ApplicationUpdateForm.svelte';
+	import DeadlineUpdateForm from '$lib/forms/DeadlineUpdateForm.svelte';
 	import ApplicationLogForm from '$lib/forms/ApplicationLogForm.svelte';
 	import BinaryDialog from '$lib/components/BinaryDialog.svelte';
 
@@ -34,6 +36,9 @@
 			toast(UNKNOWN_ERROR, 'error');
 		}
 	}
+
+	let deadlineUpdateDialog: HTMLDialogElement;
+	let decisionDateUpdateDialog: HTMLDialogElement;
 
 	let logCreateDialog: HTMLDialogElement;
 	let logDeleteDialog: HTMLDialogElement;
@@ -127,13 +132,37 @@
 		</div>
 
 		<div class="grid grid-cols-2 gap-8 auto-rows-min">
-			<div class="cf-card-shadow-concave p-4 rounded-lg">Deadline</div>
-			<div class="cf-card-shadow-concave p-4 rounded-lg">Decision date</div>
-			<div class="cf-card-shadow-concave p-4 rounded-lg">SAT / ACT / GRE / GMAT 1</div>
-			<div class="cf-card-shadow-concave p-4 rounded-lg">SAT / ACT / GRE / GMAT 2</div>
-			<div class="cf-card-shadow-concave p-4 rounded-lg">TOEFL / IELTS</div>
-			<div class="cf-card-shadow-concave p-4 rounded-lg">Scholarship</div>
-			<div class="cf-card-shadow-concave p-4 rounded-lg col-span-2 font-mono">
+			<div class="application-card text-surface-900 min-h-[8rem] bg-yellow-400">
+				<header>
+					<div class="cf-key text-sm !text-surface-900">Deadline</div>
+					<button
+						class="icon-button text-surface-700 hover:!bg-yellow-200"
+						on:click={() => deadlineUpdateDialog.showModal()}
+					>
+						<i class="fa-solid fa-pen" />
+					</button>
+				</header>
+				<DateTimeDisplay
+					date={application.subtarget.deadline_date}
+					time={application.subtarget.deadline_time}
+					timezone={application.subtarget.deadline_timezone}
+				/>
+			</div>
+
+			<div class="application-card cf-card-shadow-concave">
+				<header>
+					<div class="cf-key text-sm">Decision date</div>
+					<button class="icon-button" on:click={() => decisionDateUpdateDialog.showModal()}>
+						<i class="fa-solid fa-pen" />
+					</button>
+				</header>
+				<DateTimeDisplay date={application.subtarget.decision_date} />
+			</div>
+			<div class="application-card cf-card-shadow-concave">SAT / ACT / GRE / GMAT 1</div>
+			<div class="application-card cf-card-shadow-concave">SAT / ACT / GRE / GMAT 2</div>
+			<div class="application-card cf-card-shadow-concave">TOEFL / IELTS</div>
+			<div class="application-card cf-card-shadow-concave">Scholarship</div>
+			<div class="application-card cf-card-shadow-concave col-span-2 font-mono">
 				#if alt_admitted_into
 			</div>
 		</div>
@@ -213,6 +242,16 @@
 	dangerous
 />
 
+<Dialog exitHelper bind:dialog={deadlineUpdateDialog}>
+	<DeadlineUpdateForm
+		bind:dialog={deadlineUpdateDialog}
+		action="?/updateDeadline"
+		data={data.deadlineUpdateForm}
+	/>
+</Dialog>
+
+<Dialog exitHelper bind:dialog={decisionDateUpdateDialog}>decision date update form</Dialog>
+
 <Dialog exitHelper bind:dialog={logCreateDialog}>
 	<ApplicationLogForm
 		dialog={logCreateDialog}
@@ -232,3 +271,14 @@
 		<p>{activeLog.status} - {toShortDate(activeLog.date)}</p>
 	{/if}
 </BinaryDialog>
+
+<style lang="postcss">
+	.application-card {
+		@apply pt-2 pb-4 px-6 rounded-lg;
+		@apply flex flex-col;
+	}
+	.application-card header {
+		@apply mb-2;
+		@apply flex justify-between items-center;
+	}
+</style>

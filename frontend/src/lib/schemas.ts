@@ -7,7 +7,8 @@ import {
 	idValidator,
 	studentValidators,
 	admissionPlanUpdateValidator,
-	majorChoicesUpdateValidator
+	majorChoicesUpdateValidator,
+	deadlineValidators
 } from '$lib/validators';
 
 export const newStudentSchema = z.object({
@@ -56,3 +57,9 @@ export const newApplicationLogSchema = z.object({
 });
 
 export type NewApplicationLogSchema = typeof newApplicationLogSchema;
+
+export const deadlineUpdateSchema = z.object({
+	...deadlineValidators
+});
+
+export type DeadlineUpdateSchema = typeof deadlineUpdateSchema;

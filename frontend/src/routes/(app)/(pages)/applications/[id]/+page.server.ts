@@ -8,9 +8,14 @@ import {
 	fetchApplication,
 	fetchOrCreateSubTarget,
 	patchApplication,
-	patchMajorChoice
+	patchMajorChoice,
+	patchSubTarget
 } from '$lib/api.js';
-import { applicationUpdateSchema, newApplicationLogSchema } from '$lib/schemas.js';
+import {
+	applicationUpdateSchema,
+	deadlineUpdateSchema,
+	newApplicationLogSchema
+} from '$lib/schemas.js';
 import type { NewApplicationLog } from '$lib/types/applicationLogTypes.js';
 import type { NewSubTarget, SubTarget } from '$lib/types/subTargetTypes.js';
 import { UNKNOWN_ERROR } from '$lib/constants/messages.js';
@@ -49,13 +54,18 @@ export async function load(event) {
 		},
 		applicationUpdateSchema
 	);
-	const logCreationForm = await superValidate(event, newApplicationLogSchema);
 
-	console.log(JSON.stringify(applicationUpdateForm, null, 2));
+	const deadlineUpdateForm = await superValidate(
+		{ ...application.subtarget },
+		deadlineUpdateSchema
+	);
+
+	const logCreationForm = await superValidate(event, newApplicationLogSchema);
 
 	return {
 		application,
 		applicationUpdateForm,
+		deadlineUpdateForm,
 		logCreationForm
 	};
 }
@@ -142,6 +152,22 @@ export const actions = {
 			if (majorResponse && !majorResponse.ok) {
 				return message(form, UNKNOWN_ERROR, { status: 400 });
 			}
+		}
+
+		return { form };
+	},
+
+	updateDeadline: async (event) => {
+		const form = await superValidate(event, deadlineUpdateSchema);
+		console.log(form);
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		const response = await patchSubTarget(form.data.id, form.data);
+		if (!response.ok) {
+			return message(form, UNKNOWN_ERROR, { status: 400 });
 		}
 
 		return { form };

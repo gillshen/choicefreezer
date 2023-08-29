@@ -136,6 +136,10 @@ export async function fetchOrCreateSubTarget(data: NewSubTarget) {
 	return await post('subtargets/new/', data);
 }
 
+export async function patchSubTarget(subTargetId: number, data: any) {
+	return await patch(`subtargets/${subTargetId}/update/`, data);
+}
+
 export async function fetchSubTargetsOfTarget(targetId: number) {
 	return await get(`subtargets/?target=${targetId}`);
 }

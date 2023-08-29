@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { TIMEZONES_MAP } from '$lib/constants/timezones';
 
 export const THIS_YEAR = new Date().getFullYear();
 
@@ -25,4 +26,8 @@ export function toISODate(dateString: string): string {
 
 export function toISODateTime(dateString: string): string {
 	return format(new Date(dateString), 'y-LL-dd HH:mm');
+}
+
+export function formatTimezone(tz: string): string {
+	return TIMEZONES_MAP.get(tz)?.replace(/UTC-/g, 'UTC\u2212') ?? '';
 }
