@@ -1,10 +1,16 @@
 <script lang="ts">
 	import { AppBar } from '@skeletonlabs/skeleton';
 
-	import { filterForActive } from '$lib/utils/userUtils.js';
+	import {
+		filterForActive,
+		filterForEssayAdvisors,
+		filterForPlanners,
+		sortByUsername
+	} from '$lib/utils/userUtils.js';
 	import CfPeopleNav from '$lib/components/CfPeopleNav.svelte';
 
 	import { clickOutside } from '$lib/utils/clickOutside.js';
+	import CfPeopleNavUnit from '$lib/components/CfPeopleNavUnit.svelte';
 
 	export let data;
 	const { cfPeople } = data;
@@ -68,7 +74,65 @@
 </main>
 
 <footer>
-	<div class="p-0 m-0 w-fit mx-auto">(footer)</div>
+	<div class="p-0 m-0 mx-auto grid grid-cols-4 gap-8 max-w-5xl w-full">
+		<!-- site map -->
+		<section>
+			<div class="section-title">The Freezer</div>
+			<nav>
+				<ul>
+					<li><a href="../home">Home</a></li>
+					<li><a href="../tables/students/">Students</a></li>
+					<li><a href="../tables/applications/">Applications</a></li>
+					<li><a href="../tables/schools/">Schools</a></li>
+					<li><a href="../tables/programs/">Programs</a></li>
+					<li><a href="../about/">About</a></li>
+				</ul>
+			</nav>
+		</section>
+
+		<section class="col-span-2">
+			<div class="section-title">People</div>
+			<div class="grid grid-cols-2 gap-4">
+				<nav>
+					<ul class="grid grid-cols-2">
+						<CfPeopleNavUnit cfPeople={filterForPlanners(cfPeople)} classNames="text-sm gap-1" />
+					</ul>
+				</nav>
+
+				<nav>
+					<ul class="grid grid-cols-2">
+						<CfPeopleNavUnit
+							cfPeople={filterForEssayAdvisors(cfPeople)}
+							classNames="text-sm gap-1"
+						/>
+					</ul>
+				</nav>
+			</div>
+		</section>
+
+		<section>
+			<div class="section-title">Links</div>
+			<nav>
+				<ul class="flex flex-col">
+					<li>
+						<a href="https://github.com/gillshen/choicefreezer" target="_blank">This project</a>
+					</li>
+					<li>
+						<a href="https://www.reddit.com/r/ApplyingToCollege/" target="_blank">A2C</a>
+					</li>
+					<li>
+						<a href="https://www.usnews.com/best-colleges" target="_blank">The Evil</a>
+					</li>
+					<li>
+						<a href="https://www.google.com/search?q=squirrel&tbm=isch" target="_blank">The Good</a>
+					</li>
+					<li>
+						<a href="http://www.choicefree.com.cn/" target="_blank">Have you ever been there?</a>
+					</li>
+				</ul>
+			</nav>
+		</section>
+	</div>
 </footer>
 
 <style lang="postcss">
@@ -113,6 +177,21 @@
 	footer {
 		@apply bg-surface-50 text-surface-900;
 		@apply w-full;
-		@apply p-4;
+		@apply p-4 pb-8;
+	}
+	footer section {
+		@apply min-w-[10rem];
+		@apply py-2 px-4;
+		@apply flex flex-col gap-1;
+	}
+	footer section > .section-title {
+		@apply text-lg font-bold;
+		@apply pb-1 mb-1;
+		@apply w-full;
+		@apply border-b border-surface-300;
+	}
+	footer section ul {
+		@apply text-sm;
+		@apply flex flex-col gap-1;
 	}
 </style>
