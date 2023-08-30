@@ -8,8 +8,11 @@
 		ApplicantRenderer,
 		ApplicationIdRenderer,
 		StatusRenderer,
+		deadlineValueFormatter,
 		deadlineValueGetter,
-		majorsValueGetter
+		decisionDateValueGetter,
+		majorsValueGetter,
+		shortDateFormatter
 	} from '$lib/utils/applicationGridUtils.js';
 	import { NO_ROWS_TO_SHOW } from '$lib/constants/messages.js';
 
@@ -29,8 +32,19 @@
 		{ headerName: 'Student', field: 'student.name', cellRenderer: ApplicantRenderer },
 		{ headerName: 'Major', valueGetter: majorsValueGetter },
 		{ headerName: 'Admission Plan', field: 'subtarget.admission_plan' },
-		{ headerName: 'Deadline', valueGetter: deadlineValueGetter },
-		{ headerName: 'Decision Date', field: 'subtarget.decision_date' },
+		{
+			headerName: 'Deadline',
+			type: ['dateStringColumn'],
+			valueGetter: deadlineValueGetter,
+			valueFormatter: deadlineValueFormatter
+		},
+		{
+			headerName: 'Decision Date',
+			field: 'subtarget.decision_date',
+			type: ['dateStringColumn'],
+			valueGetter: decisionDateValueGetter,
+			valueFormatter: shortDateFormatter
+		},
 		{ headerName: 'Status', field: 'latest_log.status', cellRenderer: StatusRenderer }
 	];
 

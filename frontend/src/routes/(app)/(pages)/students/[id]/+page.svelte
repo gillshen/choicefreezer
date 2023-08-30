@@ -37,7 +37,8 @@
 		StatusRenderer,
 		targetValueGetter,
 		schoolAbbreviationsValueGetter,
-		deadlineValueGetter
+		deadlineValueGetter,
+		deadlineValueFormatter
 	} from '$lib/utils/applicationGridUtils.js';
 	import BinaryDialog from '$lib/components/BinaryDialog.svelte';
 	import { toLongDate } from '$lib/utils/dateUtils';
@@ -61,7 +62,12 @@
 		{ headerName: 'School', valueGetter: schoolAbbreviationsValueGetter },
 		{ headerName: 'Program', field: 'program.display_name', cellRenderer: ProgramRenderer },
 		{ headerName: 'Admission Plan', field: 'subtarget.admission_plan' },
-		{ headerName: 'Deadline', valueGetter: deadlineValueGetter },
+		{
+			headerName: 'Deadline',
+			type: ['dateStringColumn'],
+			valueGetter: deadlineValueGetter,
+			valueFormatter: deadlineValueFormatter
+		},
 		{ headerName: 'Status', field: 'latest_log.status', cellRenderer: StatusRenderer }
 	];
 

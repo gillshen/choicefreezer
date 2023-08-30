@@ -79,7 +79,6 @@
 		{ ...columnControls.major, valueGetter: majorsValueGetter },
 
 		{ ...columnControls.admissionPlan, field: 'subtarget.admission_plan' },
-		// TODO include timezone
 		{
 			...columnControls.deadline,
 			type: ['dateStringColumn'],

@@ -11,7 +11,8 @@
 		StatusRenderer,
 		targetValueGetter,
 		majorsValueGetter,
-		deadlineValueGetter
+		deadlineValueGetter,
+		deadlineValueFormatter
 	} from '$lib/utils/applicationGridUtils.js';
 	import { NO_ROWS_TO_SHOW } from '$lib/constants/messages.js';
 
@@ -32,7 +33,12 @@
 		{ headerName: 'Target', valueGetter: targetValueGetter, cellRenderer: TargetRenderer },
 		{ headerName: 'Major', valueGetter: majorsValueGetter },
 		{ headerName: 'Admission Plan', field: 'subtarget.admission_plan' },
-		{ headerName: 'Deadline', valueGetter: deadlineValueGetter },
+		{
+			headerName: 'Deadline',
+			type: ['dateStringColumn'],
+			valueGetter: deadlineValueGetter,
+			valueFormatter: deadlineValueFormatter
+		},
 		{ headerName: 'Status', field: 'latest_log.status', cellRenderer: StatusRenderer }
 	];
 
