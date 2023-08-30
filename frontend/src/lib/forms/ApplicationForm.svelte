@@ -120,7 +120,7 @@
 	<fieldset>
 		<legend>Choose a program</legend>
 
-		<div class="flex gap-4">
+		<div class="flex gap-4 items-center">
 			<input
 				id="joint-program-check"
 				type="checkbox"
