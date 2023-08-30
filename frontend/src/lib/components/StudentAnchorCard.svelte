@@ -19,11 +19,10 @@
 
 <style lang="postcss">
 	.student-anchor {
-		@apply w-full h-full aspect-square;
-		@apply flex flex-col;
-		@apply rounded-2xl;
-	}
-	.student-anchor {
+		@apply w-full h-[4rem];
+		@apply flex gap-4 items-center;
+		@apply rounded-full;
+		@apply p-4;
 		transition: all 0.3s ease-in-out;
 	}
 	.student-anchor:hover {
@@ -31,13 +30,10 @@
 	}
 	.student-anchor section {
 		@apply text-lg;
-		@apply max-w-full overflow-hidden text-ellipsis;
-		@apply p-6;
+		@apply max-w-full whitespace-nowrap overflow-hidden text-ellipsis;
 	}
 	header.contract-chip {
-		@apply p-0 mx-6 mt-4;
-		@apply rounded-full;
-		@apply w-6 h-6;
+		@apply rounded-full h-full aspect-square;
 		@apply flex items-center justify-center;
 		@apply text-sm text-surface-900 font-bold text-center;
 	}
