@@ -76,8 +76,12 @@
 
 		{ ...columnControls.admissionPlan, field: 'subtarget.admission_plan' },
 		// TODO include timezone
-		{ ...columnControls.deadline, valueGetter: deadlineValueGetter },
-		{ ...columnControls.decisionDate, field: 'subtarget.decision_date' },
+		{ ...columnControls.deadline, valueGetter: deadlineValueGetter, type: ['dateStringColumn'] },
+		{
+			...columnControls.decisionDate,
+			field: 'subtarget.decision_date',
+			type: ['dateStringColumn']
+		},
 
 		{ ...columnControls.satScore, type: ['numberColumn'], valueGetter: satBestScoreGetter },
 		{ ...columnControls.actScore, type: ['numberColumn'], valueGetter: actBestScoreGetter },
@@ -89,7 +93,7 @@
 		{ ...columnControls.detScore, type: ['numberColumn'], valueGetter: detBestScoreGetter },
 
 		{ ...columnControls.latestStatus, field: 'latest_log.status', cellRenderer: StatusRenderer },
-		{ ...columnControls.statusUpdated, field: 'latest_log.date' }
+		{ ...columnControls.statusUpdated, field: 'latest_log.date', type: ['dateStringColumn'] }
 	];
 
 	const gridOptions: GridOptions = {

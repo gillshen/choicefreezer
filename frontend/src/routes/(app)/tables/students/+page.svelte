@@ -72,7 +72,7 @@
 		{ ...columnControls.romanizedName, valueGetter: romanizedNameValueGetter },
 		{ ...columnControls.current, field: 'is_current', cellDataType: 'boolean' },
 		{ ...columnControls.contractType, field: 'latest_contract_type' },
-		{ ...columnControls.target, field: 'latest_target_year', type: ['numberColumn'] },
+		{ ...columnControls.target, field: 'latest_target_year', type: ['leftAlignedNumberColumn'] },
 		{ ...columnControls.gender, field: 'gender' },
 		{ ...columnControls.citizenship, field: 'citizenship' },
 		{ ...columnControls.stratPlanner, valueGetter: usernameGetterByRole(STRAT_PLANNER) },

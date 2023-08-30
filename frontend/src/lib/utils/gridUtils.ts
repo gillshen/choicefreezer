@@ -19,6 +19,13 @@ export const defaultColDef = {
 export const columnTypes = {
 	numberColumn: {
 		cellDataType: 'number',
+		filter: 'agNumberColumnFilter',
+		headerClass: 'ag-right-aligned-header',
+		cellClass: 'ag-right-aligned-cell'
+	},
+
+	leftAlignedNumberColumn: {
+		cellDataType: 'number',
 		filter: 'agNumberColumnFilter'
 	},
 
