@@ -165,11 +165,9 @@ export function deadlineValueFormatter(params: ValueFormatterParams): string {
 		return '';
 	}
 	const dateString = toShortDate(subTarget.deadline_date);
-	const timeString = subTarget.deadline_time ? toTime(subTarget.deadline_time) : '';
-	const datetimeString = `${dateString} ${timeString}`.trim();
-
+	const timeString = subTarget.deadline_time ? `. ${toTime(subTarget.deadline_time)}` : '';
 	const timezone = TIMEZONES_MAP.get(subTarget.deadline_timezone) ?? '';
-	return `${datetimeString} ${timezone}`.trim();
+	return `${dateString}${timeString} ${timezone}`.trim();
 }
 
 export function decisionDateValueGetter(params: ValueGetterParams): Date | null {
