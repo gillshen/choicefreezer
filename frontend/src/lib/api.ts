@@ -1,7 +1,7 @@
 import type { StudentListItemType } from './types/studentTypes';
 import type { ContractListItem, ContractPageData } from './types/contractTypes';
-import type { School } from './types/schoolTypes';
-import type { NewProgram, ProgramSelectItem } from './types/programTypes';
+import type { SchoolListItem } from './types/schoolTypes';
+import type { NewProgram, ProgramListItem, ProgramSelectItem } from './types/programTypes';
 import type { NewTarget } from './types/targetTypes';
 import type { NewSubTarget } from './types/subTargetTypes';
 import type {
@@ -100,7 +100,7 @@ export async function fetchSchool(id: number) {
 	return await get(`schools/${id}/`);
 }
 
-export async function fetchSchools(): Promise<School[]> {
+export async function fetchSchools(): Promise<SchoolListItem[]> {
 	return await get('schools/');
 }
 
@@ -112,7 +112,7 @@ export async function fetchProgram(id: number) {
 	return await get(`programs/${id}/`);
 }
 
-export async function fetchPrograms() {
+export async function fetchPrograms(): Promise<ProgramListItem[]> {
 	return await get('programs/');
 }
 

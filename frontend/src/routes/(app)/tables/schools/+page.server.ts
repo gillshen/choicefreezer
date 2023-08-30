@@ -1,5 +1,7 @@
 import { fetchSchools } from '$lib/api';
+import type { SchoolListItem } from '$lib/types/schoolTypes';
 
-export function load() {
-	return { schools: fetchSchools() };
+export async function load() {
+	const schools: SchoolListItem[] = await fetchSchools();
+	return { schools };
 }

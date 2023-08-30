@@ -351,21 +351,23 @@ form small.error-message {
 	max-height: calc(100vh - 74px);
 }
 .grid-page-sidebar {
-	@apply w-[22rem] min-w-[22rem] max-w-[22rem];
+	@apply w-[20rem] min-w-[20rem] max-w-[20rem];
+	/* background-color: #1d1d1d; */
 }
 .grid-page-sidebar-content {
-	@apply m-8;
-	@apply pl-8 pr-6 py-6;
+	@apply mx-6 my-0;
+	@apply px-6 py-8;
 	@apply w-full overflow-auto;
 	@apply rounded-xl;
 }
 .grid-page-content {
 	@apply flex-col flex-grow gap-6;
-	@apply pl-6 pr-12 pt-8 pb-6;
+	@apply pl-12 pr-12 pt-8 pb-6;
 }
 h1.grid-page-title {
 	@apply p-0 m-0;
 	@apply max-w-none;
+	font-size: 28pt;
 }
 
 /* Overriding Ag-Grid defaults */

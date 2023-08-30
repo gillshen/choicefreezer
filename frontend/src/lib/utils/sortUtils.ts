@@ -5,6 +5,14 @@ export function byName(a: { name: string }, b: { name: string }) {
 	return a.name.localeCompare(b.name);
 }
 
+export function byType(a: { type: string }, b: { type: string }) {
+	return a.type.localeCompare(b.type);
+}
+
+export function byYearDesc(a: { year: number }, b: { year: number }) {
+	return b.year - a.year;
+}
+
 export function byCountryName(a: string, b: string) {
 	// Put China and the US at the top
 	if (a === 'China' || (a === 'United States' && b !== 'China')) {
