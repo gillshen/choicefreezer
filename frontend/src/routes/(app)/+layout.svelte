@@ -5,7 +5,7 @@
 	import {
 		filterForActive,
 		filterForEssayAdvisors,
-		filterForNonEssayAdvisors
+		filterForPlannersExcludingEssayAdvisors
 	} from '$lib/utils/userUtils.js';
 
 	import CfPeopleNav from '$lib/components/CfPeopleNav.svelte';
@@ -95,7 +95,7 @@
 				<nav>
 					<ul class="grid grid-cols-2">
 						<CfPeopleNavUnit
-							cfPeople={filterForNonEssayAdvisors(activePeople)}
+							cfPeople={filterForPlannersExcludingEssayAdvisors(activePeople)}
 							classNames="text-sm gap-1"
 						/>
 					</ul>

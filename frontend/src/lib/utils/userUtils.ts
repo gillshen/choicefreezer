@@ -21,6 +21,8 @@ export function filterForActive(users: UserListItem[]) {
 	return users.filter((user) => user.is_active);
 }
 
-export function filterForNonEssayAdvisors(users: UserListItem[]) {
-	return users.filter((user) => !user.department.includes(ESSAY_ADVISOR));
+export function filterForPlannersExcludingEssayAdvisors(users: UserListItem[]) {
+	return users.filter(
+		(user) => user.department.includes(PLANNER) && !user.department.includes(ESSAY_ADVISOR)
+	);
 }
