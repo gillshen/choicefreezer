@@ -1,11 +1,11 @@
 <script lang="ts">
 	import type { UserListItem } from '$lib/types/userTypes';
-	import { filterForEssayAdvisors, filterForPlanners } from '$lib/utils/userUtils';
+	import { filterForEssayAdvisors, filterForNonEssayAdvisors } from '$lib/utils/userUtils';
 	import CfPeopleNavUnit from './CfPeopleNavUnit.svelte';
 
 	export let cfPeople: UserListItem[];
 
-	const planners = filterForPlanners(cfPeople);
+	const planners = filterForNonEssayAdvisors(cfPeople);
 	const essayAdvisors = filterForEssayAdvisors(cfPeople);
 </script>
 

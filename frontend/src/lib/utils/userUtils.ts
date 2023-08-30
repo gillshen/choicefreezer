@@ -20,3 +20,7 @@ export function filterForSpecial(users: UserListItem[]) {
 export function filterForActive(users: UserListItem[]) {
 	return users.filter((user) => user.is_active);
 }
+
+export function filterForNonEssayAdvisors(users: UserListItem[]) {
+	return users.filter((user) => !user.department.includes(ESSAY_ADVISOR));
+}

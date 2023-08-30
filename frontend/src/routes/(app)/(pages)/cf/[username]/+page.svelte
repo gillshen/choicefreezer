@@ -153,11 +153,11 @@
 
 <style lang="postcss">
 	.student-grid {
-		@apply grid grid-cols-[1fr,_4fr] gap-x-16;
+		@apply grid grid-cols-[1fr,_5fr] gap-x-20;
 	}
 	.student-cards-container {
 		@apply grid grid-cols-4;
-		@apply gap-8;
+		@apply gap-7;
 		@apply h-fit;
 	}
 	#past-students-wrapper {

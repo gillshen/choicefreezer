@@ -1,15 +1,14 @@
 <script lang="ts">
 	import { AppBar } from '@skeletonlabs/skeleton';
+	import { clickOutside } from '$lib/utils/clickOutside.js';
 
 	import {
 		filterForActive,
 		filterForEssayAdvisors,
-		filterForPlanners,
-		sortByUsername
+		filterForNonEssayAdvisors
 	} from '$lib/utils/userUtils.js';
-	import CfPeopleNav from '$lib/components/CfPeopleNav.svelte';
 
-	import { clickOutside } from '$lib/utils/clickOutside.js';
+	import CfPeopleNav from '$lib/components/CfPeopleNav.svelte';
 	import CfPeopleNavUnit from '$lib/components/CfPeopleNavUnit.svelte';
 
 	export let data;
@@ -95,14 +94,17 @@
 			<div class="grid grid-cols-2 gap-4">
 				<nav>
 					<ul class="grid grid-cols-2">
-						<CfPeopleNavUnit cfPeople={filterForPlanners(cfPeople)} classNames="text-sm gap-1" />
+						<CfPeopleNavUnit
+							cfPeople={filterForNonEssayAdvisors(activePeople)}
+							classNames="text-sm gap-1"
+						/>
 					</ul>
 				</nav>
 
 				<nav>
 					<ul class="grid grid-cols-2">
 						<CfPeopleNavUnit
-							cfPeople={filterForEssayAdvisors(cfPeople)}
+							cfPeople={filterForEssayAdvisors(activePeople)}
 							classNames="text-sm gap-1"
 						/>
 					</ul>
