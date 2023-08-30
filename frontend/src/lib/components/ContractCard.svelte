@@ -1,74 +1,70 @@
 <script lang="ts">
 	import type { ContractListItem } from '$lib/types/contractTypes';
-	import { typeToClass, typeToInitial, statusToClass } from '$lib/utils/contractUtils';
-	import { byServiceRoleThenUsername } from '$lib/utils/sortUtils';
+	import { ESSAY_ADVISOR } from '$lib/constants/cfRoles';
+	import { statusToClass } from '$lib/utils/contractUtils';
 
 	export let contract: ContractListItem;
 
 	const { type, target_year, services, status } = contract;
+
+	const essayServices = services.filter((s) => s.role === ESSAY_ADVISOR);
+	const planningServices = services.filter((s) => s.role !== ESSAY_ADVISOR);
 </script>
 
 <a
 	href={`../contracts/${contract.id}/`}
 	class="contract-card cf-card-shadow-2 cf-card-shadow-2-hover"
 >
-	<section class="card-header">
-		<div class="flex gap-4">
-			<div class={`type-mark bg-${typeToClass(type)}`}>
-				{typeToInitial(type)}
-			</div>
-			<div class="text-4xl font-bold">{target_year}</div>
-		</div>
+	<header>
+		<div class="text-2xl font-bold my-2">{type} {target_year}</div>
 
-		<div class={`contract-status-chip bg-${statusToClass(status)}`}>
+		<div class={`contract-status-chip !min-w-0 !py-1 bg-${statusToClass(status)}`}>
 			{status === 'Effective' ? 'In effect' : status}
 		</div>
-	</section>
+	</header>
 
-	<section class="card-body profile-grid">
-		{#each services.sort(byServiceRoleThenUsername) as service}
-			<div class="cf-key">{service.role}</div>
-			<div class="cf-value">{service.cf_username}</div>
-		{/each}
-	</section>
+	<div class="my-4 flex flex-wrap gap-x-8 gap-y-4">
+		<section class="profile-grid">
+			{#each planningServices as service}
+				<i class="cf-key fa-solid fa-compass self-center" />
+				<div class="cf-value">{service.cf_username}</div>
+			{/each}
+		</section>
+
+		<section class="profile-grid">
+			{#each essayServices as service}
+				<i class="cf-key fa-solid fa-feather self-center" />
+				<div class="cf-value">{service.cf_username}</div>
+			{/each}
+		</section>
+	</div>
 </a>
 
 <style lang="postcss">
 	.contract-card {
-		@apply p-4 rounded-xl;
-		@apply min-h-[10rem];
-		@apply grid grid-cols-2;
+		@apply py-4 px-6 rounded-xl;
+		@apply flex flex-col;
+		@apply min-h-[12rem];
 		transition: all 0.3s ease-in-out;
 	}
 	.contract-card:hover {
 		@apply scale-[101%];
 	}
 
-	.card-header {
-		@apply mx-0 pt-3;
-		@apply flex flex-col gap-4;
+	header {
+		@apply p-0 mb-2;
+		@apply flex flex-col gap-2;
 	}
-	.card-body {
-		@apply m-2 px-0 py-2;
-		@apply grid grid-cols-[max-content_2fr] gap-x-8 gap-y-4;
-	}
-
 	.contract-status-chip {
-		@apply font-normal;
-		@apply mt-2 origin-left scale-90;
-		min-width: none !important;
+		@apply font-normal text-sm;
+		@apply origin-left scale-90 opacity-80;
 		width: fit-content !important;
 	}
-	.type-mark {
-		/* CSS aspect-ratio doesn't work for Chome */
-		@apply w-[40px] min-w-[40px] max-w-[40px] h-[40px] min-h-[40px] max-h-[40px];
-		@apply text-lg;
-		@apply font-bold text-surface-900;
-		@apply rounded-full;
-		@apply flex justify-center items-center;
-	}
-
 	.profile-grid {
-		@apply gap-y-3;
+		@apply gap-3;
+		@apply min-w-fit;
+	}
+	.cf-value {
+		@apply whitespace-nowrap overflow-hidden text-ellipsis;
 	}
 </style>
