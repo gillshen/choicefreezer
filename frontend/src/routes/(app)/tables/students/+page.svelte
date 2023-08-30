@@ -22,7 +22,6 @@
 		init(params: ICellRendererParams<any, any, any>): void {
 			this.eGui = document.createElement('a');
 			this.eGui.href = `../students/${params.data.id}/`;
-			this.eGui.title = 'Go to the student page';
 			this.eGui.innerHTML = params.data.name;
 		}
 	}

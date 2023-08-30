@@ -462,11 +462,13 @@ class Application(models.Model):
             - "result pending"
             - "final"
         """
-        if self.latest_log is None:
-            # log-less applications presumably have just started
+        status = self.latest_status
+
+        # log-less applications presumably have just started
+        if status is None:
             return "in progress"
 
-        if (status := self.latest_log.status) in [
+        if status in [
             ApplicationLog.Status.STARTED,
             ApplicationLog.Status.READY,
         ]:
@@ -500,18 +502,28 @@ class Application(models.Model):
 
     @property
     def was_submitted(self) -> bool:
-        return self.logs.filter(status=ApplicationLog.Status.SUBMITTED).exists()
+        return self.latest_status in {
+            ApplicationLog.Status.SUBMITTED,
+            ApplicationLog.Status.REVIEW,
+            ApplicationLog.Status.DEFERRED,
+            ApplicationLog.Status.WAITLISTED,
+            ApplicationLog.Status.ADMITTED,
+            ApplicationLog.Status.REJECTED,
+            ApplicationLog.Status.WITHDRAWN,
+            ApplicationLog.Status.ENROLLED,
+        }
 
     @property
     def was_admitted(self) -> bool:
         return (
-            self.logs.filter(status=ApplicationLog.Status.ADMITTED).exists()
+            (self.latest_status == ApplicationLog.Status.ADMITTED)
+            or (self.latest_status == ApplicationLog.Status.ENROLLED)
             or self.alt_admitted_into is not None
         )
 
     @property
     def was_rejected(self) -> bool:
-        return self.logs.filter(status=ApplicationLog.Status.REJECTED).exists()
+        return self.latest_status == ApplicationLog.Status.REJECTED
 
     @property
     def was_deferred(self) -> bool:
