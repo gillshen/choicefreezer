@@ -16,6 +16,8 @@
 		targetValueGetter,
 		majorsValueGetter,
 		deadlineValueGetter,
+		deadlineValueFormatter,
+		decisionDateValueGetter,
 		actBestScoreGetter,
 		satBestScoreGetter,
 		apValueGetter,
@@ -23,7 +25,9 @@
 		gmatBestScoreGetter,
 		toeflBestScoreGetter,
 		ieltsBestScoreGetter,
-		detBestScoreGetter
+		detBestScoreGetter,
+		statusUpdatedValueGetter,
+		shortDateFormatter
 	} from '$lib/utils/applicationGridUtils.js';
 
 	import GridDownloadButton from '$lib/components/GridDownloadButton.svelte';
@@ -76,11 +80,18 @@
 
 		{ ...columnControls.admissionPlan, field: 'subtarget.admission_plan' },
 		// TODO include timezone
-		{ ...columnControls.deadline, valueGetter: deadlineValueGetter, type: ['dateStringColumn'] },
+		{
+			...columnControls.deadline,
+			type: ['dateStringColumn'],
+			valueGetter: deadlineValueGetter,
+			valueFormatter: deadlineValueFormatter
+		},
 		{
 			...columnControls.decisionDate,
 			field: 'subtarget.decision_date',
-			type: ['dateStringColumn']
+			type: ['dateStringColumn'],
+			valueGetter: decisionDateValueGetter,
+			valueFormatter: shortDateFormatter
 		},
 
 		{ ...columnControls.satScore, type: ['numberColumn'], valueGetter: satBestScoreGetter },
@@ -93,7 +104,13 @@
 		{ ...columnControls.detScore, type: ['numberColumn'], valueGetter: detBestScoreGetter },
 
 		{ ...columnControls.latestStatus, field: 'latest_log.status', cellRenderer: StatusRenderer },
-		{ ...columnControls.statusUpdated, field: 'latest_log.date', type: ['dateStringColumn'] }
+		{
+			...columnControls.statusUpdated,
+			field: 'latest_log.date',
+			type: ['dateStringColumn'],
+			valueGetter: statusUpdatedValueGetter,
+			valueFormatter: shortDateFormatter
+		}
 	];
 
 	const gridOptions: GridOptions = {

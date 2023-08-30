@@ -1,5 +1,10 @@
-import type { ICellRendererParams, ValueGetterParams } from 'ag-grid-community';
+import type {
+	ICellRendererParams,
+	ValueFormatterParams,
+	ValueGetterParams
+} from 'ag-grid-community';
 
+import type { SubTarget } from '$lib/types/subTargetTypes';
 import type {
 	ApplicationListItem,
 	TOEFLScore,
@@ -11,9 +16,11 @@ import type {
 	GREScore,
 	APScore
 } from '$lib/types/applicationTypes';
+
 import { AgCellRenderer } from '$lib/utils/gridUtils';
 import { statusToClass, getBestScore } from '$lib/utils/applicationUtils';
-import { toISODate } from '$lib/utils/dateUtils';
+import { toShortDate, toTime } from '$lib/utils/dateUtils';
+import { TIMEZONES_MAP } from '$lib/constants/timezones';
 
 export class ApplicationIdRenderer extends AgCellRenderer {
 	declare eGui: HTMLAnchorElement;
@@ -144,10 +151,55 @@ export function apValueGetter(params: ValueGetterParams): string {
 		.join('; ');
 }
 
-export function deadlineValueGetter(params: ValueGetterParams): string {
-	const deadlineDate: string | null = params.data.subtarget.deadline_date;
-	if (!deadlineDate) {
+export function deadlineValueGetter(params: ValueGetterParams): Date | null {
+	const subTarget: SubTarget = params.data.subtarget;
+	if (!subTarget.deadline_date) {
+		return null;
+	}
+	return makeDate(subTarget.deadline_date);
+}
+
+export function deadlineValueFormatter(params: ValueFormatterParams): string {
+	const subTarget: SubTarget = params.data.subtarget;
+	if (!subTarget.deadline_date) {
 		return '';
 	}
-	return toISODate(deadlineDate);
+	const dateString = toShortDate(subTarget.deadline_date);
+	const timeString = subTarget.deadline_time ? toTime(subTarget.deadline_time) : '';
+	const datetimeString = `${dateString} ${timeString}`.trim();
+
+	const timezone = TIMEZONES_MAP.get(subTarget.deadline_timezone) ?? '';
+	return `${datetimeString} ${timezone}`.trim();
+}
+
+export function decisionDateValueGetter(params: ValueGetterParams): Date | null {
+	const subTarget: SubTarget = params.data.subtarget;
+	if (!subTarget.decision_date) {
+		return null;
+	}
+	return makeDate(subTarget.decision_date);
+}
+
+export function statusUpdatedValueGetter(params: ValueGetterParams): Date | null {
+	const latestLog = params.data.latest_log;
+	if (!latestLog) {
+		return null;
+	}
+	return makeDate(params.data.latest_log.updated);
+}
+
+export function shortDateFormatter(params: ValueFormatterParams): string {
+	if (!params.value) {
+		return '';
+	}
+	return toShortDate(params.value);
+}
+
+function makeDate(date: Date | string): Date {
+	const newDate = new Date(date);
+	newDate.setHours(0);
+	newDate.setMinutes(0);
+	newDate.setSeconds(0);
+	newDate.setMilliseconds(0);
+	return newDate;
 }

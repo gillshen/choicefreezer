@@ -6,7 +6,8 @@ export type SubTarget = {
 	id: number;
 	target: number;
 	admission_plan: AdmissionPlan;
-	deadline: string | null;
+	deadline_date: string | null;
+	deadline_time: string | null;
 	deadline_timezone: string;
 	decision_date: string | null;
 	comments: string;
