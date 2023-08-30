@@ -9,6 +9,8 @@ from target.models import (
     SubTarget,
 )
 
+from core.models import Application
+
 
 class SchoolSerializer(serializers.ModelSerializer):
     class Meta:
@@ -76,18 +78,118 @@ class SubTargetSerializer(serializers.ModelSerializer):
         return subtarget
 
 
-# TODO
+class _NestedApplicationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Application
+        fields = [
+            "id",
+            "program_type",
+            "year",
+            "term",
+            "admission_plan",
+            "general_status",
+            "was_submitted",
+            "was_admitted",
+            "was_rejected",
+            "was_deferred",
+            "was_waitlisted",
+        ]
+
+    program_type = serializers.CharField()
+    year = serializers.IntegerField()
+    term = serializers.CharField()
+    admission_plan = serializers.CharField()
+    general_status = serializers.CharField()
+    was_submitted = serializers.BooleanField()
+    was_admitted = serializers.BooleanField()
+    was_rejected = serializers.BooleanField()
+    was_deferred = serializers.BooleanField()
+    was_waitlisted = serializers.BooleanField()
+
+
 class SchoolListItemSerializer(serializers.ModelSerializer):
+    """
+    Fields:
+        id: number;
+        name: string;
+        abbreviation: string;
+        type: School.Type
+        country: string;
+
+        applications: {
+            id: number;
+            program_type: ProgramType;
+            year: number;
+            term: Target.Term;
+            admission_plan: SubTarget.AdmissionPlan;
+            general_status: 'in progress' | 'result pending' | 'final';
+            was_submitted: boolean;
+            was_admitted: boolean;
+            was_rejected: boolean;
+            was_deferred: boolean;
+            was_waitlisted: boolean;
+        }[];
+    """
+
     class Meta:
         model = School
         fields = "__all__"
 
+    applications = _NestedApplicationSerializer(many=True)
 
-# TODO
+
 class ProgramListItemSerializer(serializers.ModelSerializer):
+    """
+    Fields:
+        id: number;
+        type: <Program.Type>;
+        display_name: string;
+
+        schools: {
+            id: number;
+            name: string;
+            abbreviation: string;
+        }[];
+
+        targets: {
+            id: number;
+            year: number;
+            term: Target.Term;
+        }[];
+
+        applications: {
+            id: number;
+            program_type: ProgramType;
+            year: number;
+            term: Target.Term;
+            admission_plan: SubTarget.AdmissionPlan;
+            general_status: 'in progress' | 'result pending' | 'final';
+            was_submitted: boolean;
+            was_admitted: boolean;
+            was_rejected: boolean;
+            was_deferred: boolean;
+            was_waitlisted: boolean;
+        }[];
+    """
+
     class Meta:
         model = Program
-        fields = "__all__"
+        exclude = ["name", "degree"]
+
+    class _SchoolSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = School
+            fields = ["id", "name", "abbreviation"]
+
+    class _TargetSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Target
+            fields = ["id", "year", "term"]
+
+    display_name = serializers.CharField()
+    schools = _SchoolSerializer(many=True)
+    targets = _TargetSerializer(many=True)
+    applications = _NestedApplicationSerializer(many=True)
 
 
 class ProgramSelectItemSerializer(serializers.ModelSerializer):
@@ -96,7 +198,7 @@ class ProgramSelectItemSerializer(serializers.ModelSerializer):
         fields = ["id", "type", "display_name", "schools"]
 
 
-# TODO
+# TODO?
 class TargetListItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Target

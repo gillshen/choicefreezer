@@ -482,6 +482,45 @@ class Application(models.Model):
 
         return "final"
 
+    @property
+    def program_type(self):
+        return self.program.type
+
+    @property
+    def year(self):
+        return self.target.year
+
+    @property
+    def term(self):
+        return self.target.term
+
+    @property
+    def admission_plan(self):
+        return self.subtarget.admission_plan
+
+    @property
+    def was_submitted(self) -> bool:
+        return self.logs.filter(status=ApplicationLog.Status.SUBMITTED).exists()
+
+    @property
+    def was_admitted(self) -> bool:
+        return (
+            self.logs.filter(status=ApplicationLog.Status.ADMITTED).exists()
+            or self.alt_admitted_into is not None
+        )
+
+    @property
+    def was_rejected(self) -> bool:
+        return self.logs.filter(status=ApplicationLog.Status.REJECTED).exists()
+
+    @property
+    def was_deferred(self) -> bool:
+        return self.logs.filter(status=ApplicationLog.Status.DEFERRED).exists()
+
+    @property
+    def was_waitlisted(self) -> bool:
+        return self.logs.filter(status=ApplicationLog.Status.WAITLISTED).exists()
+
     @classmethod
     def filter(
         cls,

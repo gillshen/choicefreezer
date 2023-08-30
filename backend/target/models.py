@@ -16,6 +16,9 @@ class School(models.Model):
         programs: [Program];
         rankings: [Ranking];
         enrollments: [student.Enrollment];
+
+    Computed fields:
+        applications: Application[];
     """
 
     class Type(models.TextChoices):
@@ -42,6 +45,12 @@ class School(models.Model):
     @staticmethod
     def format_names(schools):
         return " | ".join(school.name for school in schools)
+
+    @property
+    def applications(self):
+        from core.models import Application
+
+        return Application.filter(school_id=self.id)
 
 
 class SchoolRanking(models.Model):
@@ -102,6 +111,7 @@ class Program(models.Model):
 
     Computed fields:
         display_name: string;
+        applications: Application[];
     """
 
     class Type(models.TextChoices):
@@ -134,6 +144,12 @@ class Program(models.Model):
         else:
             degree = ""
         return f"{self.name or self.type}{degree}"
+
+    @property
+    def applications(self):
+        from core.models import Application
+
+        return Application.filter(program_id=self.id)
 
     @classmethod
     def of_exact_schools(cls, *schools):
