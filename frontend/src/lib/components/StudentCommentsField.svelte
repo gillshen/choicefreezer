@@ -3,12 +3,13 @@
 	export let form: any;
 	export let errors: any;
 	export let placeholder = '';
+	export let showLabel = true;
 </script>
 
 <FormTextArea
 	id="comments-area"
 	name="comments"
-	label="Comments"
+	label={showLabel ? 'Comments' : ''}
 	{form}
 	{errors}
 	{placeholder}

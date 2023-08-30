@@ -12,14 +12,12 @@
 			{toShortDate(date)}
 		</div>
 		{#if time}
-			<div class="flex gap-1">
-				<div>{toTime(time)}</div>
-				{#if timezone}
-					<div>{formatTimezone(timezone)}</div>
-				{/if}
+			<div>
+				{toTime(time)}
+				{#if timezone}{formatTimezone(timezone)}{/if}
 			</div>
 		{/if}
 	</div>
 {:else}
-	<div class="text-5xl font-bold flex justify-center items-center">{placeholder}</div>
+	<div class="text-5xl font-bold text-center mt-1">{placeholder}</div>
 {/if}

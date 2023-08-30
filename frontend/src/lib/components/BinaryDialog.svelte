@@ -24,7 +24,9 @@
 	<slot />
 
 	<div class="mt-12 flex gap-4 justify-center">
-		<button class="cf-primary" on:click={onYes}>{yesButtonText}</button>
+		<button class={dangerous ? 'cf-dangerous-primary' : 'cf-primary'} on:click={onYes}
+			>{yesButtonText}</button
+		>
 		<button class="cf-secondary bg-surface-800 hover:bg-surface-700" on:click={() => dialog.close()}
 			>{noButtonText}</button
 		>

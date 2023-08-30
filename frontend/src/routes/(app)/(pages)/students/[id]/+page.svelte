@@ -40,6 +40,7 @@
 		deadlineValueGetter
 	} from '$lib/utils/applicationGridUtils.js';
 	import BinaryDialog from '$lib/components/BinaryDialog.svelte';
+	import { toLongDate } from '$lib/utils/dateUtils';
 
 	export let data;
 
@@ -119,13 +120,17 @@
 				<div class="cf-value">{student.citizenship}</div>
 
 				<div class="cf-key">Born</div>
-				<div class="cf-value">{student.date_of_birth ?? 'n/a'}</div>
+				<div class="cf-value">
+					{student.date_of_birth ? toLongDate(student.date_of_birth) : 'n/a'}
+				</div>
 
 				<div class="cf-key">Based in</div>
 				<div class="cf-value">{formatResidence(student) || 'n/a'}</div>
 
-				<div class="cf-key">Comments</div>
-				<div class="cf-value">{student.comments || 'n/a'}</div>
+				{#if student.comments}
+					<div class="cf-key">Comments</div>
+					<div class="cf-value">{student.comments}</div>
+				{/if}
 			</div>
 
 			{#if userCanEdit}
@@ -164,7 +169,7 @@
 <PageSection>
 	<svelte:fragment slot="h2">Contracts</svelte:fragment>
 
-	<div class="grid grid-cols-2 gap-x-12 gap-y-8">
+	<div class="grid grid-cols-3 gap-x-8 gap-y-8">
 		{#each data.contracts.sort(byStatusThenTargetYearDesc) as contract}
 			<ContractCard {contract} />
 		{/each}
@@ -271,7 +276,7 @@
 </Dialog>
 
 <BinaryDialog
-	title="Be careful!"
+	title="Proceed with caution"
 	bind:dialog={studentDeleteDialog}
 	onYes={handleDeleteStudent}
 	dangerous
@@ -307,6 +312,6 @@
 
 <style lang="postcss">
 	.inner-card {
-		@apply w-full aspect-video rounded-md flex items-center justify-center;
+		@apply w-full min-h-[5rem] rounded-md flex items-center justify-center;
 	}
 </style>

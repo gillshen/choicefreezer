@@ -137,7 +137,7 @@
 		<div class="grid grid-cols-2 gap-8 auto-rows-min">
 			<div class="application-card text-surface-900 min-h-[8rem] bg-yellow-400">
 				<header>
-					<div class="cf-key text-sm !text-surface-900">Deadline</div>
+					<div class="cf-key text-sm !text-surface-900">Due</div>
 					<button
 						class="icon-button text-surface-700 hover:!bg-yellow-200"
 						on:click={() => deadlineUpdateDialog.showModal()}
@@ -201,13 +201,13 @@
 				<ScoreCard title="English" />
 			{/if}
 
-			<!-- {#if application.scholarship_amount} -->
-			<ScoreCard title="Scholarship" />
-			<!-- {/if} -->
+			{#if application.scholarship_amount}
+				<ScoreCard title="Scholarship" />
+			{/if}
 
-			<!-- {#if application.alt_admitted_into} -->
-			<ScoreCard title="Alt. admitted" />
-			<!-- {/if} -->
+			{#if application.alt_admitted_into}
+				<ScoreCard title="Alt. admitted" />
+			{/if}
 		</div>
 	</div>
 </PageSection>
@@ -233,12 +233,6 @@
 
 							{#if userCanEdit}
 								<div class="flex">
-									<button
-										class="icon-button text-surface-300"
-										on:click={() => toast('todo', 'error')}
-									>
-										<i class="fa-solid fa-pen" />
-									</button>
 									<button
 										class="icon-button delete text-surface-300"
 										on:click={() => {

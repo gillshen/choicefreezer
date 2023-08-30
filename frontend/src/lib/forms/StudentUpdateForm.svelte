@@ -54,7 +54,7 @@
 
 	<fieldset class="fullwidth">
 		<legend>Comments</legend>
-		<StudentCommentsField form={$form} errors={$errors} />
+		<StudentCommentsField form={$form} errors={$errors} showLabel={false} />
 	</fieldset>
 
 	<FormSubmit message={$message} />

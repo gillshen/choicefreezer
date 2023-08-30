@@ -13,10 +13,13 @@
 </script>
 
 <div class="flex flex-col">
-	<label class="optional" for={id}>
-		{label}
-		{#if optional}<span class="optional">({optionalText})</span>{/if}
-	</label>
+	{#if label}
+		<label class="optional" for={id}>
+			{label}
+			{#if optional}<span class="optional">({optionalText})</span>{/if}
+		</label>
+	{/if}
+
 	<textarea
 		{id}
 		{name}

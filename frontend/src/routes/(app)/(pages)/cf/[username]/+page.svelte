@@ -23,6 +23,8 @@
 
 	export let data;
 
+	const MAX_ROWS = 15; // A grid with more rows have will have its height restricted
+
 	const applicationColumnDefs = [
 		{
 			headerName: 'Link',
@@ -42,15 +44,6 @@
 		{ headerName: 'Deadline', valueGetter: deadlineValueGetter },
 		{ headerName: 'Status', field: 'latest_log.status', cellRenderer: StatusRenderer }
 	];
-
-	const gridOptions = {
-		defaultColDef,
-		columnTypes,
-		columnDefs: applicationColumnDefs,
-		rowData: data.applications,
-		suppressDragLeaveHidesColumns: true,
-		domLayout: data.applications.length > 15 ? undefined : ('autoHeight' as DomLayoutType)
-	};
 
 	let filterYearCurrent: number | string = 'All';
 	let filterYearPast: number | string = 'All';
@@ -81,6 +74,15 @@
 		filterYearPast === 'All'
 			? user.past_students
 			: user.past_students.filter((s) => s.latest_target_year === filterYearPast);
+
+	$: gridOptions = {
+		defaultColDef,
+		columnTypes,
+		columnDefs: applicationColumnDefs,
+		rowData: data.applications,
+		suppressDragLeaveHidesColumns: true,
+		domLayout: data.applications.length > MAX_ROWS ? undefined : ('autoHeight' as DomLayoutType)
+	};
 
 	onMount(() => mountGrid('#applications-grid', gridOptions));
 </script>
@@ -141,7 +143,7 @@
 	<svelte:fragment slot="h2">Applications</svelte:fragment>
 
 	{#if data.applications.length}
-		<div class={`w-full ${data.applications.length > 15 ? 'h-[calc(100vh-12rem)]' : ''}`}>
+		<div class={`w-full ${data.applications.length > MAX_ROWS ? 'h-[calc(100vh-12rem)]' : ''}`}>
 			<div id="applications-grid" class="data-grid ag-theme-alpine-dark" />
 		</div>
 	{:else}

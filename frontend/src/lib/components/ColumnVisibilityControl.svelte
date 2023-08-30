@@ -13,12 +13,12 @@
 	}
 </script>
 
-<div class="flex flex-col gap-2 text-surface-50">
+<div class="flex flex-col gap-2 text-surface-300">
 	{#each initialStates as { headerName, hide }}
 		<SlideToggle
 			name={headerName}
 			checked={!hide}
-			active="bg-primary-500"
+			active="bg-primary-400"
 			size="sm"
 			on:change={(e) => toggleVisible(headerName, e)}
 		>
