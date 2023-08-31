@@ -18,6 +18,7 @@ export const actions = {
 	login: async (event) => {
 		const form = await superValidate(event, authenticationSchema);
 		if (!form.valid) {
+			form.data.password = '';
 			return fail(400, { form });
 		}
 
@@ -25,7 +26,8 @@ export const actions = {
 
 		// Authentication failed
 		if (!response.ok) {
-			return message(form, 'Incorrect username or password', { status: 401 });
+			form.data.password = '';
+			return message(form, 'Incorrect username or password', { status: 403 });
 		}
 
 		// Authentication successful

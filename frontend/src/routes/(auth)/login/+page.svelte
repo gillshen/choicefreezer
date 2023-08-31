@@ -3,7 +3,7 @@
 
 	export let data;
 
-	const { message, enhance } = superForm(data.authenticationForm, {});
+	const { form, message, enhance } = superForm(data.authenticationForm, {});
 </script>
 
 <div class="flex justify-center items-center w-full h-full">
@@ -13,7 +13,14 @@
 		<form method="post" class="flex flex-col gap-2" action="?/login" use:enhance>
 			<div>
 				<label class="label" for="username-input">Username</label>
-				<input id="username-input" name="username" class="input max-w-full" type="text" required />
+				<input
+					id="username-input"
+					name="username"
+					type="text"
+					class="input max-w-full"
+					bind:value={$form.username}
+					required
+				/>
 			</div>
 
 			<div>
@@ -21,8 +28,9 @@
 				<input
 					id="username-input"
 					name="password"
-					class="input max-w-full"
 					type="password"
+					class="input max-w-full"
+					bind:value={$form.password}
 					required
 				/>
 			</div>

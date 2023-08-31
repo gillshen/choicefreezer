@@ -12,7 +12,7 @@
 	const essayAdvisors = filterForEssayAdvisors(cfPeople);
 </script>
 
-<div class="grid grid-cols-[auto_auto_auto] gap-8">
+<div class="grid grid-cols-[auto_auto_auto] gap-8 min-w-[480px]">
 	<CfPeopleNavUnit cfPeople={planners} />
 	<div class="divider h-full w-[1px]" />
 	<CfPeopleNavUnit cfPeople={essayAdvisors} />
