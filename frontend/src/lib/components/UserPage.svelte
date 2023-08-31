@@ -61,6 +61,9 @@
 
 	$: owner = data.owner;
 	$: userCanEdit = data.username === owner.username;
+	$: banner =
+		(data.username === owner.username ? owner.private_banner : owner.public_banner) ||
+		`${owner.username}${BANNER}`;
 
 	// Filtering by latest_target_year values
 
@@ -96,7 +99,7 @@
 	onMount(() => mountGrid('#applications-grid', gridOptions));
 </script>
 
-<h1>{owner.public_banner || `${owner.username}${BANNER}`}</h1>
+<h1>{banner}</h1>
 
 <PageSection>
 	<!-- Using custom h2 for the additional top margin -->

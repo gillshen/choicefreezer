@@ -7,6 +7,7 @@
 	import HiddenIdField from '$lib/components/HiddenIdField.svelte';
 	import PageSection from '$lib/components/PageSection.svelte';
 	import { toast } from '$lib/utils/interactiveUtils.js';
+	import { BANNER } from '$lib/constants/messages.js';
 
 	export let data;
 
@@ -56,7 +57,7 @@
 				label="Public banner (100 characters max)"
 				form={$bannerForm}
 				errors={$bannerErrors}
-				placeholder={`${data.username}\u2019s Dojo Mojo Casa House`}
+				placeholder={`${data.username}${BANNER}`}
 				width="wider"
 			/>
 
@@ -66,7 +67,7 @@
 				label="Private banner (100 characters max)"
 				form={$bannerForm}
 				errors={$bannerErrors}
-				placeholder={`${data.username}\u2019s Dojo Mojo Casa House`}
+				placeholder={`${data.username}${BANNER}`}
 				width="wider"
 			/>
 		</fieldset>

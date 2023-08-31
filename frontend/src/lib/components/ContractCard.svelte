@@ -42,7 +42,7 @@
 
 <style lang="postcss">
 	.contract-card {
-		@apply py-4 px-6 rounded-xl;
+		@apply py-4 px-8 rounded-xl;
 		@apply flex flex-col;
 		@apply min-h-[12rem];
 		transition: all 0.3s ease-in-out;
