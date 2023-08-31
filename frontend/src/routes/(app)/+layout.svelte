@@ -180,14 +180,17 @@
 		min-height: 0;
 	}
 	.dropdown-nav > * {
-		@apply pl-6;
+		@apply px-6;
 		transform: scaleY(0);
 		transform-origin: top;
-		transition: all 0.2s ease-in-out;
+		transition: all 0.3s ease-in-out;
 	}
 	.dropdown-nav.open > * {
 		@apply py-4 px-6;
 		transform: scaleY(1);
+	}
+	.dropdown-nav.people {
+		@apply pl-6;
 	}
 	.dropdown-nav.people.open > * {
 		@apply pb-6;
