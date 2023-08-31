@@ -3,11 +3,16 @@
 	import { onMount } from 'svelte';
 
 	import type { User } from '$lib/types/userTypes';
+	import type { UserLog } from '$lib/types/userLogTypes';
 	import type { ApplicationListItem } from '$lib/types/applicationTypes';
+	import type { SuperValidated } from 'sveltekit-superforms';
+	import type { NewUserLogSchema } from '$lib/schemas';
 
 	import PageSection from '$lib/components/PageSection.svelte';
 	import MinimalRadioGroup from '$lib/components/MinimalRadioGroup.svelte';
 	import StudentAnchorCard from '$lib/components/StudentAnchorCard.svelte';
+	import Dialog from './Dialog.svelte';
+	import UserLogForm from '$lib/forms/UserLogForm.svelte';
 	import { byContractType, byRomanizedName, byTargetYearDesc } from '$lib/utils/studentUtils.js';
 
 	import type { DomLayoutType } from 'ag-grid-community';
@@ -26,7 +31,16 @@
 
 	import { BANNER, NO_ROWS_TO_SHOW } from '$lib/constants/messages.js';
 
-	export let data: { username: string; owner: User; applications: ApplicationListItem[] };
+	export let data: {
+		userId: number;
+		username: string;
+		owner: User;
+		logs: UserLog[];
+		userLogForm: SuperValidated<NewUserLogSchema>;
+		applications: ApplicationListItem[];
+	};
+
+	let logCreateDialog: HTMLDialogElement;
 
 	const MAX_ROWS = 15; // A grid with more rows have will have its height restricted
 
@@ -102,17 +116,9 @@
 <h1>{banner}</h1>
 
 <PageSection>
-	<!-- Using custom h2 for the additional top margin -->
-	<h2 class="mb-4">Current students</h2>
-
 	<div class="student-grid">
 		<div>
 			<MinimalRadioGroup bind:target={filterYearCurrent} options={['All', ...yearOptionsCurrent]} />
-			{#if userCanEdit}
-				<button class="cf-primary mt-4 w-full" on:click={() => goto('../students/new/')}
-					>Add a student</button
-				>
-			{/if}
 		</div>
 
 		<div class="student-cards-container">
@@ -122,19 +128,24 @@
 				.sort(byContractType) as student}
 				<StudentAnchorCard {student} />
 			{/each}
+			{#if userCanEdit}
+				<button
+					class="btn bg-surface-900 cf-card-shadow-concave rounded-full hover:text-primary-500 flex gap-1 items-center"
+					on:click={() => goto('../students/new/')}
+				>
+					<i class="fa-solid fa-plus" />
+					Student</button
+				>
+			{/if}
 		</div>
 	</div>
-</PageSection>
-
-<PageSection>
-	<svelte:fragment slot="h2">Past students</svelte:fragment>
 
 	<button
-		class="text-primary-500 hover:text-primary-400"
+		class="flex gap-2 items-center text-surface-50 hover:text-primary-500 mt-12"
 		on:click={() => (showPastStudents = !showPastStudents)}
 	>
-		{showPastStudents ? 'Hide' : 'Show'}
 		<i class={`toggle-icon fa-solid fa-chevron-down ${showPastStudents ? 'open' : ''}`} />
+		Past students
 	</button>
 
 	<div id="past-students-wrapper" class={showPastStudents ? 'open' : ''}>
@@ -146,11 +157,27 @@
 					.sort(byRomanizedName)
 					.sort(byTargetYearDesc)
 					.sort(byContractType) as student}
-					<StudentAnchorCard {student} lighter />
+					<StudentAnchorCard {student} />
 				{/each}
 			</div>
 		</div>
 	</div>
+</PageSection>
+
+<PageSection>
+	<svelte:fragment slot="h2">Logs</svelte:fragment>
+
+	{#if data.logs.length}
+		<pre class="text-surface-400 overflow-x-hidden text-ellipsis">{JSON.stringify(
+				data.logs,
+				null,
+				2
+			)}</pre>
+	{/if}
+
+	{#if userCanEdit}
+		<button class="section-cta" on:click={() => logCreateDialog.showModal()}>Add an entry</button>
+	{/if}
 </PageSection>
 
 <PageSection>
@@ -164,6 +191,16 @@
 		<p class="section-placeholder">{NO_ROWS_TO_SHOW}</p>
 	{/if}
 </PageSection>
+
+<Dialog title="Add a log entry" exitHelper bind:dialog={logCreateDialog}>
+	<UserLogForm
+		bind:dialog={logCreateDialog}
+		data={data.userLogForm}
+		action="../home?/createLog"
+		userId={data.userId}
+		students={[...owner.current_students, ...owner.past_students]}
+	/>
+</Dialog>
 
 <style lang="postcss">
 	.student-grid {

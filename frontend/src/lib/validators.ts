@@ -163,3 +163,15 @@ export const decisionDateValidators = {
 	id: idValidator.id, // subtarget id
 	decision_date: z.string().optional().nullable()
 };
+
+// User log creation/update form
+export const userLogValidators = {
+	author: z.number().min(1), // user id
+	date: z.string().min(1, fieldRequired),
+	title: z.string().trim().max(100).optional().default(''),
+	text: z.string().trim().min(1, fieldRequired).max(1000),
+	public: z.boolean().default(false),
+	pinned: z.boolean().default(false),
+	shared: z.boolean().default(false),
+	relevant_student: z.number().min(1).nullable()
+};

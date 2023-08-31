@@ -2,6 +2,7 @@ import { redirect } from '@sveltejs/kit';
 import { fetchUsers } from '$lib/api';
 
 export function load(event) {
+	const userId = event.cookies.get('user_id');
 	const username = event.cookies.get('username');
 
 	// Redirect if not authenticated
@@ -10,6 +11,7 @@ export function load(event) {
 	}
 
 	return {
+		userId,
 		username,
 		cfPeople: fetchUsers()
 	};

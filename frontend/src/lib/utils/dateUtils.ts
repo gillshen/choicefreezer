@@ -12,6 +12,10 @@ export function getYearOptions() {
 	return Array.from(Array(span + 1).keys()).map((i) => MAX_YEAR - i);
 }
 
+export function currentDateString() {
+	return format(new Date(), 'y-LL-dd');
+}
+
 export function toLongDate(dateString: string): string {
 	return format(new Date(dateString), 'MMMM d, y');
 }

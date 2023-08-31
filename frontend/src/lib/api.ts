@@ -11,6 +11,7 @@ import type {
 } from './types/applicationTypes';
 import type { NewMajorChoice } from './types/majorChoiceTypes';
 import type { NewApplicationLog } from './types/applicationLogTypes';
+import type { NewUserLog, UserLog } from './types/userLogTypes';
 
 import { PLANNER, ASST_PLANNER, STRAT_PLANNER, ESSAY_ADVISOR } from './constants/cfRoles';
 
@@ -260,8 +261,16 @@ export async function fetchGRE(studentId: number) {
 	return await get(`s.gre/?student=${studentId}`);
 }
 
-export async function fetchPublicLogsOfStudents(studentId: number) {
-	return await get(`user_logs/?student=${studentId}&public=true`);
+export async function createUserLog(data: NewUserLog) {
+	return await post(`user_logs/new/`, data);
+}
+
+export async function fetchLogsOfUser(username: string): Promise<UserLog[]> {
+	return await get(`user_logs/?username=${username}`);
+}
+
+export async function fetchLogsOfStudents(studentId: number): Promise<UserLog[]> {
+	return await get(`user_logs/?student=${studentId}`);
 }
 
 export async function performCreateContract(params: {

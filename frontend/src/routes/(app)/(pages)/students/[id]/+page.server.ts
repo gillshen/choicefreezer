@@ -15,7 +15,7 @@ import {
 	fetchStudent,
 	fetchTOEFL,
 	fetchApplicationsOfStudent,
-	fetchPublicLogsOfStudents,
+	fetchLogsOfStudents,
 	patchStudent,
 	performCreateContract,
 	fetchSchools,
@@ -79,7 +79,7 @@ export async function load(event: PageServerLoadEvent) {
 		 * TODO: return logs based on user: all public logs | all user-authored logs
 		 */
 		applications: fetchApplicationsOfStudent(id),
-		logs: fetchPublicLogsOfStudents(id),
+		logs: fetchLogsOfStudents(id),
 		// application form data:
 		schools,
 		programs
