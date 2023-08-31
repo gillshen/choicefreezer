@@ -175,8 +175,15 @@ form div.form-actions {
 form small.char-count {
 	@apply my-1 text-tertiary-500 text-sm;
 }
+form small.error-message,
+form small.success-message {
+	@apply text-sm;
+}
 form small.error-message {
-	@apply my-1 text-error-500 text-sm;
+	@apply text-rose-400;
+}
+form small.success-message {
+	@apply text-lime-400;
 }
 
 /* navigation */
@@ -346,9 +353,9 @@ form small.error-message {
 }
 .grid-page-sidebar,
 .grid-page-content {
-	/* 74px is the height of the topbar */
-	height: calc(100vh - 74px);
-	max-height: calc(100vh - 74px);
+	/* 72px is the height of the topbar */
+	height: calc(100vh - 72px);
+	max-height: calc(100vh - 72px);
 }
 .grid-page-sidebar {
 	@apply w-[20rem] min-w-[20rem] max-w-[20rem];

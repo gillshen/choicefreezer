@@ -12,16 +12,17 @@
 	import CfPeopleNavUnit from '$lib/components/CfPeopleNavUnit.svelte';
 
 	export let data;
-	const { cfPeople } = data;
+	const { username, cfPeople } = data;
 
 	const activePeople = filterForActive(cfPeople);
 
 	let showPeople = false;
 	let showMore = false;
+	let showUserMenu = false;
 </script>
 
 <AppBar slotDefault="place-self-center" slotTrail="place-content-end">
-	<svelte:fragment slot="lead">(icon) ChoiceFreezer</svelte:fragment>
+	<svelte:fragment slot="lead"><div class="w-[100px]">(icon)</div></svelte:fragment>
 	<nav class="flex gap-8 flex-wrap">
 		<a href="../home">Home</a>
 
@@ -31,7 +32,7 @@
 			use:clickOutside={() => showPeople && (showPeople = false)}
 		>
 			People <i class={`toggle-icon fa-solid fa-chevron-down ${showPeople ? 'open' : ''}`} />
-			<div class={`dropdown-nav ${showPeople ? 'open' : ''}`}>
+			<div class={`dropdown-nav people ${showPeople ? 'open' : ''}`}>
 				<div>
 					<CfPeopleNav cfPeople={activePeople} />
 				</div>
@@ -61,10 +62,28 @@
 		<a href="../about">About</a>
 	</nav>
 	<svelte:fragment slot="trail">
-		<div class="flex flex-wrap flex-shrink gap-4 items-center">
-			<a class="nav-link" href="../home">Settings</a>
-			<button class="cf-secondary">Log Out</button>
-		</div>
+		<button
+			class="dropdown-trigger flex gap-2 items-center py-2 px-8 max-w-fit hover:text-primary-500"
+			on:click={() => (showUserMenu = !showUserMenu)}
+			use:clickOutside={() => showUserMenu && (showUserMenu = false)}
+		>
+			<i class="fa-solid fa-circle-user" />
+			{username}
+			<div class={`dropdown-nav -translate-x-1/2 w-40 z-50 ${showUserMenu ? 'open' : ''}`}>
+				<ul class="flex flex-col pr-4">
+					<li>
+						<a href="../user" class="nav-link flex gap-2 justify-between items-center"
+							><i class="fa-solid fa-gear" />Settings</a
+						>
+					</li>
+					<li>
+						<a href="../logout" class="nav-link flex gap-2 justify-between items-center"
+							><i class="fa-solid fa-arrow-right-from-bracket" />Log Out</a
+						>
+					</li>
+				</ul>
+			</div>
+		</button>
 	</svelte:fragment>
 </AppBar>
 
@@ -129,7 +148,7 @@
 						<a href="https://www.google.com/search?q=squirrel&tbm=isch" target="_blank">The Good</a>
 					</li>
 					<li>
-						<a href="http://www.choicefree.com.cn/" target="_blank">Have you ever been there?</a>
+						<a href="http://www.choicefree.com.cn/" target="_blank">A certain company</a>
 					</li>
 				</ul>
 			</nav>
@@ -167,8 +186,11 @@
 		transition: all 0.2s ease-in-out;
 	}
 	.dropdown-nav.open > * {
-		@apply p-4 pl-6 pb-6;
+		@apply py-4 px-6;
 		transform: scaleY(1);
+	}
+	.dropdown-nav.people.open > * {
+		@apply pb-6;
 	}
 	.toggle-icon {
 		transition: all 0.4s ease-in-out;

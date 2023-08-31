@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let value: number | null | undefined;
+	export let value: number | string | null | undefined;
 	export let name = 'id';
 	export let id = 'hidden-id';
 </script>

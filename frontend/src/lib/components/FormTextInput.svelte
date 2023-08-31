@@ -5,9 +5,10 @@
 	export let form: any;
 	export let errors: any;
 	export let optional = false;
+	export let optionalText = 'optional';
 	export let maxlength = 1000;
 	export let showCharCount = false;
-	export let optionalText = 'optional';
+	export let placeholder = '';
 	export let width: undefined | 'wider' = undefined;
 </script>
 
@@ -24,6 +25,7 @@
 		bind:value={form[name]}
 		aria-invalid={errors[name] ? 'true' : undefined}
 		required={!optional}
+		{placeholder}
 		{maxlength}
 		on:input={() => (errors[name] = false)}
 	/>
