@@ -11,6 +11,8 @@ export type School = {
 	country: string;
 };
 
+export type NewSchool = Omit<School, 'id'>;
+
 export type SchoolListItem = {
 	id: number;
 	name: string;

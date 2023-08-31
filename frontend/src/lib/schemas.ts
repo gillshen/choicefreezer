@@ -5,6 +5,7 @@ import {
 	contractServiceValidators,
 	contractUpdateValidators,
 	idValidator,
+	newSchoolValidators,
 	studentValidators,
 	admissionPlanUpdateValidator,
 	majorChoicesUpdateValidator,
@@ -34,6 +35,17 @@ export const userPasswordResetSchema = z.object({
 
 export type UserPasswordResetSchema = typeof userPasswordResetSchema;
 
+export const newSchoolSchema = z.object({ ...newSchoolValidators });
+
+export type NewSchoolSchema = typeof newSchoolSchema;
+
+export const schoolUpdateSchema = z.object({
+	...idValidator,
+	...newSchoolValidators
+});
+
+export type SchoolUpdateSchema = typeof schoolUpdateSchema;
+
 export const newStudentSchema = z.object({
 	...studentValidators,
 	...contractServiceValidators
@@ -48,9 +60,7 @@ export const studentUpdateSchema = z.object({
 
 export type StudentUpdateSchema = typeof studentUpdateSchema;
 
-export const contractUpdateSchema = z.object({
-	...contractUpdateValidators
-});
+export const contractUpdateSchema = z.object({ ...contractUpdateValidators });
 
 export type ContractUpdateSchema = typeof contractUpdateSchema;
 
@@ -61,9 +71,7 @@ export const contractServiceSchema = z.object({
 
 export type ContractServiceSchema = typeof contractServiceSchema;
 
-export const newApplicationSchema = z.object({
-	...applicationValidators
-});
+export const newApplicationSchema = z.object({ ...applicationValidators });
 
 export type NewApplicationSchema = typeof newApplicationSchema;
 
@@ -75,20 +83,14 @@ export const applicationUpdateSchema = z.object({
 
 export type ApplicationUpdateSchema = typeof applicationUpdateSchema;
 
-export const newApplicationLogSchema = z.object({
-	...applicationLogValidators
-});
+export const newApplicationLogSchema = z.object({ ...applicationLogValidators });
 
 export type NewApplicationLogSchema = typeof newApplicationLogSchema;
 
-export const deadlineUpdateSchema = z.object({
-	...deadlineValidators
-});
+export const deadlineUpdateSchema = z.object({ ...deadlineValidators });
 
 export type DeadlineUpdateSchema = typeof deadlineUpdateSchema;
 
-export const decisionDateUpdateSchema = z.object({
-	...decisionDateValidators
-});
+export const decisionDateUpdateSchema = z.object({ ...decisionDateValidators });
 
 export type DecisionDateUpdateSchema = typeof decisionDateUpdateSchema;

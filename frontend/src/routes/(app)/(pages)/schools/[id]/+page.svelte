@@ -1,6 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { superForm } from 'sveltekit-superforms/client';
+
 	import PageSection from '$lib/components/PageSection.svelte';
+	import Dialog from '$lib/components/Dialog.svelte';
+	import SchoolFormFields from '$lib/components/SchoolFormFields.svelte';
+	import FormSubmit from '$lib/components/FormSubmit.svelte';
+	import HiddenIdField from '$lib/components/HiddenIdField.svelte';
+	import { closeDialogOnSuccess } from '$lib/utils/formUtils.js';
 
 	import type { DomLayoutType } from 'ag-grid-community';
 	import { defaultColDef, columnTypes, mountGrid } from '$lib/utils/gridUtils.js';
@@ -13,9 +20,19 @@
 		targetValueGetter,
 		majorsValueGetter
 	} from '$lib/utils/applicationGridUtils.js';
+
 	import { NO_ROWS_TO_SHOW } from '$lib/constants/messages.js';
 
 	export let data;
+
+	let schoolUpdateDialog: HTMLDialogElement;
+
+	const { form, errors, message, enhance } = superForm(data.form, {
+		id: 'updateSchool',
+		scrollToError: 'auto',
+		taintedMessage: null,
+		onResult: ({ result }) => closeDialogOnSuccess(result, schoolUpdateDialog!)
+	});
 
 	const applicationColumnDefs = [
 		{
@@ -54,7 +71,7 @@
 
 <PageSection>
 	<pre class="text-surface-400">{JSON.stringify(school, null, 2)}</pre>
-	<button class="section-cta">Edit</button>
+	<button class="section-cta" on:click={() => schoolUpdateDialog.showModal()}>Edit</button>
 
 	<!-- <svelte:fragment slot="h2">Applications</svelte:fragment> -->
 	<h2 class="mt-12">Applications</h2>
@@ -67,3 +84,11 @@
 		<p class="section-placeholder">{NO_ROWS_TO_SHOW}</p>
 	{/if}
 </PageSection>
+
+<Dialog exitHelper bind:dialog={schoolUpdateDialog}>
+	<form method="post" action="?/updateSchool" novalidate use:enhance>
+		<HiddenIdField id="school-id" name="id" value={school.id} />
+		<SchoolFormFields form={$form} errors={$errors} />
+		<FormSubmit message={$message} />
+	</form>
+</Dialog>

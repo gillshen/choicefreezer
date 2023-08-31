@@ -17,8 +17,8 @@ export function byTargetYearDesc(a: { target_year: number }, b: { target_year: n
 	return b.target_year - a.target_year;
 }
 
-export function byCountryName(a: string, b: string) {
-	// Put China and the US at the top
+export function byNameChinaFirst(a: string, b: string) {
+	// Put China first, then the US, then the rest
 	if (a === 'China' || (a === 'United States' && b !== 'China')) {
 		return -1;
 	}

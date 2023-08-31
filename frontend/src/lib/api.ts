@@ -1,6 +1,6 @@
 import type { StudentListItemType } from './types/studentTypes';
 import type { ContractListItem, ContractPageData } from './types/contractTypes';
-import type { SchoolListItem } from './types/schoolTypes';
+import type { NewSchool, SchoolListItem } from './types/schoolTypes';
 import type { NewProgram, ProgramListItem, ProgramSelectItem } from './types/programTypes';
 import type { NewTarget } from './types/targetTypes';
 import type { NewSubTarget } from './types/subTargetTypes';
@@ -106,6 +106,14 @@ export async function createService(data: any) {
 
 export async function deleteService(serviceId: number) {
 	return await destroy(`services/${serviceId}/delete/`);
+}
+
+export async function createSchool(data: NewSchool) {
+	return await post('schools/new/', data);
+}
+
+export async function patchSchool(id: number, data: any) {
+	return await patch(`schools/${id}/update/`, data);
 }
 
 export async function fetchSchool(id: number) {

@@ -10,6 +10,18 @@ const selectionRequired = { message: 'Select an option' };
 export const idValidator = { id: z.number().min(1) };
 export const optionalIdValidator = { id: z.number().min(1).optional().nullable() };
 
+// School creation/update form
+export const newSchoolValidators = {
+	name: z.string().trim().min(1, fieldRequired),
+	abbreviation: z.string().trim().optional().default(''),
+	type: z.string().min(1, selectionRequired),
+	country: z.string().min(1, selectionRequired),
+
+	// Creation form only:
+	ugFreshmanRelevant: z.boolean().default(false),
+	ugTransferRelevant: z.boolean().default(false)
+};
+
 // Student & contract creation form
 export const studentLegalNameValidators = {
 	last_name: z.string().trim().min(1, fieldRequired).refine(safeForHtml, beSafeForHtml),
