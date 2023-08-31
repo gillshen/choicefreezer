@@ -17,35 +17,30 @@ export const actions = {
 			return fail(400, { form });
 		}
 
-		// Call backend API to create a student
+		// Create the student
 		const createStudentResponse = await createStudent(form.data);
 		if (!createStudentResponse.ok) {
 			return message(
 				form,
-				'Sorry, an error occurred while creating the student record. ' +
-					'This may be because a student with the same name already exists. ' +
-					"If that's not the case, please contact tech support.",
-				{
-					status: 400
-				}
+				'Sorry, an error occurred while creating the student record, ' +
+					'possibly because a student with the same name already exists. ' +
+					'If this is not the case and the error persists, contact tech support.',
+				{ status: 400 }
 			);
 		}
 
 		const newStudent = await createStudentResponse.json();
 
 		// Create the related contract and services
+
+		// TODO performCreateContract will not throw errors even if operations fail
 		try {
 			await performCreateContract({ studentId: newStudent.id, formData: form.data });
 		} catch (error) {
 			console.error(error);
-			return message(
-				form,
-				'Sorry, an unexpected error occurred while writing contract data. ' +
-					'Please contact tech support.',
-				{
-					status: 400
-				}
-			);
+			return message(form, 'Sorry, something went wrong while writing contract data.', {
+				status: 400
+			});
 		}
 
 		// Redirect to student page

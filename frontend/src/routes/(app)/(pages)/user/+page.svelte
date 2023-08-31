@@ -18,6 +18,8 @@
 		enhance: bannerEnhance
 	} = superForm(data.bannersUpdateForm, {
 		id: 'bannersUpdate',
+		scrollToError: 'auto',
+		taintedMessage: null,
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
 				toast('Banners updated', 'success');
@@ -32,6 +34,8 @@
 		enhance: passwordEnhance
 	} = superForm(data.passwordResetForm, {
 		id: 'passwordUpdate',
+		scrollToError: 'auto',
+		taintedMessage: null,
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
 				toast('Password updated', 'success');

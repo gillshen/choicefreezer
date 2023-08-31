@@ -132,7 +132,12 @@
 		</div>
 
 		<div class="flex flex-col">
-			<label class="label" for="school-select">Host school{isJointProgram ? ' 1' : ''}</label>
+			<label class="label flex flex-col" for="school-select"
+				>Host school{isJointProgram ? ' 1' : ''}
+				<small class="leading-normal my-1">
+					If your desired school is not listed, <a href="../schools/new">click here</a>.
+				</small>
+			</label>
 			<select
 				id="school-select"
 				name="schoolId"
@@ -149,7 +154,12 @@
 
 		{#if isJointProgram}
 			<div class="flex flex-col">
-				<label class="label" for="second-school-select">Host school 2</label>
+				<label class="label flex flex-col" for="second-school-select"
+					>Host school 2
+					<small class="leading-normal my-1">
+						If your desired school is not listed, <a href="../schools/new">click here</a>.
+					</small>
+				</label>
 				<select
 					id="second-school-select"
 					name="secondSchoolId"
@@ -190,9 +200,9 @@
 			<label class="label flex flex-col" for="program-select">
 				Choose a program
 				{#if filteredPrograms.length && !isUndergraduate}
-					<small>
-						If the program you are looking for is not listed, select "Add a program..." at the
-						bottom
+					<small class="leading-normal my-1">
+						If your desired program is not listed, select "Add a program..." at the bottom and fill
+						out the &ldquo;New Program&rdquo; section which will then appear.
 					</small>
 				{/if}
 			</label>
@@ -220,15 +230,17 @@
 
 	{#if addProgramEnabled && isUndergraduate && programNotFound}
 		<p class="instruction">
-			The program you are looking for is not yet in the database, but it will be added to the
-			database automatically when you submit the form.
+			The program you are looking for is not in the database, so you cannot select it. But it will
+			be added automatically when you submit the form. You may proceed to the next section.
 		</p>
 	{:else if addProgramEnabled}
-		<!--  !isUndergraduate or !programNotFound  -->
-		<p class="instruction">
-			{#if programNotFound}We cannot find the program you are looking for.{/if} Please fill out the &ldquo;New
-			Program&rdquo; section below to add it to the database.
-		</p>
+		<!--  not isUndergraduate or not programNotFound  -->
+		{#if programNotFound}
+			<p class="instruction">
+				The program you are looking for is not in the database. Please fill out the &ldquo;New
+				Program&rdquo; section below.
+			</p>
+		{/if}
 
 		<fieldset>
 			<legend>New program</legend>
@@ -358,8 +370,12 @@
 		@apply text-error-500;
 	}
 
+	a {
+		@apply text-primary-500;
+	}
+
 	p.instruction {
-		@apply max-w-prose text-secondary-400;
+		@apply max-w-md text-secondary-400;
 		@apply mt-6;
 	}
 </style>

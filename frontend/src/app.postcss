@@ -38,6 +38,7 @@ h1 {
 	@apply h1;
 	@apply w-full max-w-5xl mx-auto p-4 pt-12;
 	@apply font-bold;
+	font-size: 2.5rem !important;
 }
 h2 {
 	@apply h2;
@@ -146,11 +147,14 @@ fieldset > legend {
 fieldset > legend.empty {
 	@apply px-0 py-2 my-0;
 }
+label {
+	@apply max-w-[20rem];
+}
 label:not(.radio-items-container > label) {
 	@apply pb-2 pt-2;
 }
 label .optional {
-	@apply text-tertiary-500;
+	@apply text-surface-400;
 }
 input.input,
 input.date,
