@@ -34,6 +34,15 @@ class CfUserCreateUpdateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
 
+class CfUserPasswordResetSerializer(serializers.Serializer):
+    password = serializers.CharField(write_only=True, required=True)
+
+    def update(self, instance, validated_data):
+        instance.set_password(validated_data["password"])
+        instance.save()
+        return instance
+
+
 class CfUserRetrieveSerializer(serializers.ModelSerializer):
     """
     Fields:

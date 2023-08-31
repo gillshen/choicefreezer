@@ -53,6 +53,10 @@ export async function patchUser(username: string, data: any) {
 	return await patch(`cf/${username}/update/`, data);
 }
 
+export async function resetUserPassword(username: string, data: { password: string }) {
+	return await patch(`cf/${username}/reset_password/`, data);
+}
+
 export async function fetchUsers() {
 	return await get('cf/');
 }

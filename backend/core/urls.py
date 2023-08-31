@@ -4,6 +4,7 @@ from user.views import (
     CfUserCreateView,
     CfUserRetrieveView,
     CfUserUpdateView,
+    CfUserPasswordResetView,
     CfUserListView,
 )
 
@@ -101,6 +102,7 @@ urlpatterns = [
     path("cf/__register/", CfUserCreateView.as_view()),
     path("cf/<str:username>/", CfUserRetrieveView.as_view()),
     path("cf/<str:username>/update/", CfUserUpdateView.as_view()),
+    path("cf/<str:username>/reset_password/", CfUserPasswordResetView.as_view()),
     path("cf/", CfUserListView.as_view()),
 ]
 

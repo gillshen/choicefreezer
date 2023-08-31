@@ -1,10 +1,11 @@
 <script lang="ts">
 	export let message: any; // superforms error message
+	export let buttonText = 'Save to database';
 	export let successText = '';
 </script>
 
 <div class="form-actions flex gap-4">
-	<button type="submit" class="cf-primary">Save to database</button>
+	<button type="submit" class="cf-primary">{buttonText}</button>
 </div>
 
 <div class="h-8 mt-2">

@@ -27,6 +27,13 @@ export const userBannersUpdateSchema = z.object({
 
 export type UserBannersUpdateSchema = typeof userBannersUpdateSchema;
 
+export const userPasswordResetSchema = z.object({
+	username: z.string().min(1),
+	password: z.string().min(8, 'Need at least 8 characters')
+});
+
+export type UserPasswordResetSchema = typeof userPasswordResetSchema;
+
 export const newStudentSchema = z.object({
 	...studentValidators,
 	...contractServiceValidators

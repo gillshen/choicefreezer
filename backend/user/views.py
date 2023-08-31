@@ -9,6 +9,7 @@ from rest_framework.generics import (
 from user.models import CfUser
 from user.serializers import (
     CfUserCreateUpdateSerializer,
+    CfUserPasswordResetSerializer,
     CfUserRetrieveSerializer,
     CfUserListItemSerializer,
 )
@@ -34,6 +35,12 @@ class CfUserRetrieveView(RetrieveAPIView):
 class CfUserUpdateView(UpdateAPIView):
     queryset = CfUser.objects.all()
     serializer_class = CfUserCreateUpdateSerializer
+    lookup_field = "username"
+
+
+class CfUserPasswordResetView(UpdateAPIView):
+    queryset = CfUser.objects.all()
+    serializer_class = CfUserPasswordResetSerializer
     lookup_field = "username"
 
 
