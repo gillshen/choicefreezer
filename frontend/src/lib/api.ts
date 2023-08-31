@@ -41,8 +41,16 @@ async function destroy(url: string) {
 	return await fetch(`${BASE}${url}`, { method: 'DELETE' });
 }
 
+export async function authenticate(credentials: { username: string; password: string }) {
+	return await post('token/', credentials);
+}
+
 export async function fetchUser(username: string) {
 	return await get(`cf/${username}/`);
+}
+
+export async function patchUser(username: string, data: any) {
+	return await patch(`cf/${username}/update/`, data);
 }
 
 export async function fetchUsers() {

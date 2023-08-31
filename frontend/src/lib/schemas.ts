@@ -12,6 +12,21 @@ import {
 	decisionDateValidators
 } from '$lib/validators';
 
+export const authenticationSchema = z.object({
+	username: z.string().min(1, 'Provide a username'),
+	password: z.string().min(1, 'Provide a password')
+});
+
+export type AuthenticationSchema = typeof authenticationSchema;
+
+export const userBannersUpdateSchema = z.object({
+	username: z.string().min(1),
+	public_banner: z.string().max(100, '100 characters max').optional().default(''),
+	private_banner: z.string().max(100, '100 characters max').optional().default('')
+});
+
+export type UserBannersUpdateSchema = typeof userBannersUpdateSchema;
+
 export const newStudentSchema = z.object({
 	...studentValidators,
 	...contractServiceValidators
