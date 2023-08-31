@@ -1,8 +1,9 @@
-import { fetchContract, patchContract } from '$lib/api.js';
+import type { RequestEvent } from './$types.js';
 import { error, fail } from '@sveltejs/kit';
 
 import { message, superValidate } from 'sveltekit-superforms/server';
 import { contractUpdateSchema } from '$lib/schemas.js';
+import { fetchContract, patchContract } from '$lib/api.js';
 import { UNKNOWN_ERROR } from '$lib/constants/messages.js';
 
 export async function load({ params }) {
@@ -19,7 +20,7 @@ export async function load({ params }) {
 }
 
 export const actions = {
-	updateContract: async (event) => {
+	updateContract: async (event: RequestEvent) => {
 		const form = await superValidate(event, contractUpdateSchema);
 		console.log(form);
 

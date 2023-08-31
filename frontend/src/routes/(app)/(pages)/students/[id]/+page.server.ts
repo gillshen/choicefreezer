@@ -1,4 +1,4 @@
-import type { PageServerLoadEvent } from './$types.js';
+import type { PageServerLoadEvent, RequestEvent } from './$types.js';
 import { error, fail, redirect } from '@sveltejs/kit';
 
 import { message, superValidate } from 'sveltekit-superforms/server';
@@ -87,7 +87,7 @@ export async function load(event: PageServerLoadEvent) {
 }
 
 export const actions = {
-	updateStudent: async (event) => {
+	updateStudent: async (event: RequestEvent) => {
 		const form = await superValidate(event, studentUpdateSchema);
 		if (!form.valid) {
 			return fail(400, { form });
@@ -99,7 +99,7 @@ export const actions = {
 		return { form };
 	},
 
-	createContract: async (event) => {
+	createContract: async (event: RequestEvent) => {
 		const form = await superValidate(event, contractServiceSchema);
 		if (!form.valid) {
 			return fail(400, { form });
@@ -113,7 +113,7 @@ export const actions = {
 		return { form };
 	},
 
-	createApplication: async (event) => {
+	createApplication: async (event: RequestEvent) => {
 		const form = await superValidate(event, newApplicationSchema);
 		console.log(form);
 

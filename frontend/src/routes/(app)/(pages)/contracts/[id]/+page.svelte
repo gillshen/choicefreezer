@@ -15,8 +15,6 @@
 
 	export let data;
 
-	const userCanEdit = 1;
-
 	let contractUpdateDialog: HTMLDialogElement;
 	let contractDeleteDialog: HTMLDialogElement;
 
@@ -33,6 +31,9 @@
 	}
 
 	$: contract = data.contract;
+
+	// Parties to the contract can edit
+	$: userCanEdit = data.contract.services.map((s) => s.cf_username).includes(data.username);
 </script>
 
 <h1>

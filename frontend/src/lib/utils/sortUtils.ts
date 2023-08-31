@@ -13,6 +13,10 @@ export function byYearDesc(a: { year: number }, b: { year: number }) {
 	return b.year - a.year;
 }
 
+export function byTargetYearDesc(a: { target_year: number }, b: { target_year: number }) {
+	return b.target_year - a.target_year;
+}
+
 export function byCountryName(a: string, b: string) {
 	// Put China and the US at the top
 	if (a === 'China' || (a === 'United States' && b !== 'China')) {

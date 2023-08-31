@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 
+	import type { ContractListItem } from '$lib/types/contractTypes.js';
 	import { deleteStudent } from '$lib/api.js';
 	import { toast } from '$lib/utils/interactiveUtils.js';
 	import { NO_ROWS_TO_SHOW, UNKNOWN_ERROR } from '$lib/constants/messages.js';
@@ -9,6 +10,7 @@
 	import PageSection from '$lib/components/PageSection.svelte';
 	import ContractCard from '$lib/components/ContractCard.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
+	import BinaryDialog from '$lib/components/BinaryDialog.svelte';
 	import StudentUpdateForm from '$lib/forms/StudentUpdateForm.svelte';
 	import ContractServiceForm from '$lib/forms/ContractServiceForm.svelte';
 	import ApplicationForm from '$lib/forms/ApplicationForm.svelte';
@@ -26,7 +28,8 @@
 		sortByUsername
 	} from '$lib/utils/userUtils.js';
 
-	import { byStatusThenTargetYearDesc } from '$lib/utils/sortUtils.js';
+	import { byStatusThenTargetYearDesc, byTargetYearDesc } from '$lib/utils/sortUtils.js';
+	import { toLongDate } from '$lib/utils/dateUtils';
 
 	import type { DomLayoutType } from 'ag-grid-community';
 	import { defaultColDef, columnTypes, mountGrid } from '$lib/utils/gridUtils.js';
@@ -40,12 +43,8 @@
 		deadlineValueGetter,
 		deadlineValueFormatter
 	} from '$lib/utils/applicationGridUtils.js';
-	import BinaryDialog from '$lib/components/BinaryDialog.svelte';
-	import { toLongDate } from '$lib/utils/dateUtils';
 
 	export let data;
-
-	const userCanEdit = true;
 
 	const applicationColumnDefs = [
 		{
@@ -102,6 +101,18 @@
 
 	$: formattedName = formatStudentName(student);
 	$: formattedRomanizedName = formatStudentRomanizedName(student);
+
+	function canUserEdit(username: string) {
+		// When there is no contract associated with the student, any one can edit
+		if (!data.contracts.length) {
+			return true;
+		}
+		// Else all the parties to the latest contract (and only these users) can
+		const latestContract: ContractListItem = data.contracts.sort(byTargetYearDesc)[0];
+		return latestContract.services.map((s) => s.cf_username).includes(username);
+	}
+
+	$: userCanEdit = canUserEdit(data.username);
 
 	onMount(() => mountGrid('#applications-grid', gridOptions));
 </script>
