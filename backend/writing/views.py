@@ -42,6 +42,6 @@ class UserLogListView(ListAPIView):
 
         student_id = self.request.query_params.get("student")
         if student_id is not None:
-            queryset = queryset.filter(about_student=student_id)
+            queryset = queryset.filter(relevant_student=student_id)
 
         return queryset

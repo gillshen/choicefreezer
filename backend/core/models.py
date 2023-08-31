@@ -66,17 +66,17 @@ class Student(models.Model):
 
         comments?: string;
 
-        cf_products: number[]; // referencing CfProduct
+        cf_products: number[]; // CfProduct
 
     Related fields:
-        contracts: [Contract];
-        logs: [StudentLog];
-        applications: [app.Application];
+        contracts: Contract[];
+        logs: UserLog[];
+        applications: Application[];
 
     Computed fields:
         name: string;
         is_current: boolean;
-        services: [Service];
+        services: Service[];
         latest_target_year: number;
         latest_contract_type: <Contract.Type>;
     """
@@ -225,7 +225,7 @@ class Contract(models.Model):
         status: <Contract.Status>;
 
     Related fields:
-        services: [Service]
+        services: Service[];
     """
 
     class Type(models.TextChoices):
@@ -347,7 +347,7 @@ class Application(models.Model):
         id: number;
         student: number;
         subtarget: number;
-        cf_exclude: [number];
+        cf_exclude: number[];
 
         submitting_toefl: boolean;
         submitting_ielts: boolean;
@@ -362,15 +362,15 @@ class Application(models.Model):
         alt_admitted_into?: number;
 
     Related fields:
-        major_choices: [MajorChoice];
-        logs: [ApplicationLog];
+        major_choices: MajorChoice[];
+        logs: ApplicationLog[];
 
     Computed fields:
-        cf_people: [CfUser];
-        schools: [target.School];
+        cf_people: CfUser[];
+        schools: target.School[];
         program: target.Program;
         target: target.Target;
-        majors_list: [string];
+        majors_list: string[];
         latest_log: ApplicationLog | null;
         latest_status: string | null;
         general_status: string;

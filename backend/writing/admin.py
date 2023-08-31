@@ -7,10 +7,11 @@ class UserLogAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "author",
-        "title",
+        "date",
+        "text",
         "public",
         "pinned",
         "shared",
-        "about_student",
+        "relevant_student",
         "updated",
     )

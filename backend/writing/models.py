@@ -13,13 +13,15 @@ class UserLog(models.Model):
         public: boolean;
         pinned: boolean;
         shared: boolean;
-        about_student: number | null; // Student
+        relevant_student: number | null; // Student
         updated: string; // datetime
     """
 
     author = models.ForeignKey(CfUser, related_name="logs", on_delete=models.CASCADE)
-    title = models.CharField(max_length=100)
-    text = models.TextField(max_length=1000, blank=True)
+
+    date = models.DateField()
+    title = models.CharField(max_length=100, blank=True)
+    text = models.TextField(max_length=1000)
 
     public = models.BooleanField(default=False)
     pinned = models.BooleanField(default=False)
@@ -28,7 +30,7 @@ class UserLog(models.Model):
     # but the database does not enforce this requirement
     shared = models.BooleanField(default=False)
 
-    about_student = models.ForeignKey(
+    relevant_student = models.ForeignKey(
         Student,
         related_name="logs",
         on_delete=models.CASCADE,
@@ -40,12 +42,16 @@ class UserLog(models.Model):
 
     class Meta:
         # Pinned logs before non-pinned ones, then order by recency
-        ordering = ["-pinned", "-updated"]
-        get_latest_by = ["pinned", "updated"]
+        ordering = ["-pinned", "-date"]
+        get_latest_by = ["pinned", "date"]
 
         indexes = [
-            models.Index(fields=["-pinned", "-updated"]),
+            models.Index(fields=["-pinned", "-date"]),
         ]
 
     def __str__(self) -> str:
-        return f"{self.author.username}: {self.title}"
+        if len(self.text) > 20:
+            display_text = f"{self.text[:17]}..."
+        else:
+            display_text = self.text
+        return f"{self.author.username}: {display_text}"

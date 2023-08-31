@@ -26,7 +26,7 @@ class UserLogListItemSerializer(serializers.ModelSerializer):
         pinned: boolean;
         shared: boolean;
 
-        about_student: {
+        relevant_student: {
             id: number;
             name: string;
         };
@@ -49,4 +49,4 @@ class UserLogListItemSerializer(serializers.ModelSerializer):
             model = Student
             fields = ["id", "name"]
 
-    about_student = _AboutStudentSerializer()
+    relevant_student = _AboutStudentSerializer()
