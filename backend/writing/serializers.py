@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from user.models import CfUser
 from core.models import Student
-from writing.models import UserLog
+from writing.models import UserLog, EssayTag, Essay
 
 
 class UserLogSerializer(serializers.ModelSerializer):
@@ -50,3 +50,23 @@ class UserLogListItemSerializer(serializers.ModelSerializer):
             fields = ["id", "name"]
 
     relevant_student = _AboutStudentSerializer()
+
+
+class EssayTagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EssayTag
+        fields = "__all__"
+
+
+class EssaySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Essay
+        fields = "__all__"
+
+
+class EssayListItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Essay
+        exclude = ["text"]
+
+    preview = serializers.CharField()

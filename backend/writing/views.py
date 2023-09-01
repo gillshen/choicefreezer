@@ -4,8 +4,14 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
 )
 
-from writing.models import UserLog
-from writing.serializers import UserLogSerializer, UserLogListItemSerializer
+from writing.models import UserLog, EssayTag, Essay
+from writing.serializers import (
+    UserLogSerializer,
+    UserLogListItemSerializer,
+    EssayTagSerializer,
+    EssaySerializer,
+    EssayListItemSerializer,
+)
 
 
 class UserLogCreateView(CreateAPIView):
@@ -45,3 +51,33 @@ class UserLogListView(ListAPIView):
             queryset = queryset.filter(relevant_student=student_id)
 
         return queryset
+
+
+class EssayTagCreateView(CreateAPIView):
+    queryset = EssayTag.objects.all()
+    serializer_class = EssayTagSerializer
+
+
+class EssayTagUpdateDeleteView(RetrieveUpdateDestroyAPIView):
+    queryset = EssayTag.objects.all()
+    serializer_class = EssayTagSerializer
+
+
+class EssayTagListView(ListAPIView):
+    queryset = EssayTag.objects.all()
+    serializer_class = EssayTagSerializer
+
+
+class EssayCreateView(CreateAPIView):
+    queryset = Essay.objects.all()
+    serializer_class = EssaySerializer
+
+
+class EssayUpdateDeleteView(RetrieveUpdateDestroyAPIView):
+    queryset = Essay.objects.all()
+    serializer_class = EssaySerializer
+
+
+class EssayListView(ListAPIView):
+    queryset = Essay.objects.all()
+    serializer_class = EssayListItemSerializer

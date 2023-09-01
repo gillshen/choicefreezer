@@ -94,7 +94,17 @@ from student.views import (
     GMAT_ListView,
 )
 
-from writing.views import UserLogCreateView, UserLogUpdateDeleteView, UserLogListView
+from writing.views import (
+    UserLogCreateView,
+    UserLogUpdateDeleteView,
+    UserLogListView,
+    EssayTagCreateView,
+    EssayTagUpdateDeleteView,
+    EssayTagListView,
+    EssayCreateView,
+    EssayUpdateDeleteView,
+    EssayListView,
+)
 
 # user.views
 
@@ -317,4 +327,20 @@ urlpatterns += [
     path("user_logs/<int:pk>/update/", UserLogUpdateDeleteView.as_view()),
     path("user_logs/<int:pk>/delete/", UserLogUpdateDeleteView.as_view()),
     path("user_logs/", UserLogListView.as_view()),
+]
+
+# EssayTag views
+urlpatterns += [
+    path("essay_tags/new/", EssayTagCreateView.as_view()),
+    path("essay_tags/<int:pk>/update/", EssayTagUpdateDeleteView.as_view()),
+    path("essay_tags/<int:pk>/delete/", EssayTagUpdateDeleteView.as_view()),
+    path("essay_tags/", EssayTagListView.as_view()),
+]
+
+# Essay views
+urlpatterns += [
+    path("essays/new/", EssayCreateView.as_view()),
+    path("essays/<int:pk>/update/", EssayUpdateDeleteView.as_view()),
+    path("essays/<int:pk>/delete/", EssayUpdateDeleteView.as_view()),
+    path("essays/", EssayListView.as_view()),
 ]
