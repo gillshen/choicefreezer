@@ -12,6 +12,7 @@ class UserLog(models.Model):
     Fields:
         id: number;
         author: number; // CfUser
+        date: string; // date
         title: string;
         text?: string;
         public: boolean;
@@ -46,11 +47,11 @@ class UserLog(models.Model):
 
     class Meta:
         # Pinned logs before non-pinned ones, then order by recency
-        ordering = ["-pinned", "-date"]
-        get_latest_by = ["pinned", "date"]
+        ordering = ["-pinned", "-date", "-updated"]
+        get_latest_by = ["pinned", "date", "updated"]
 
         indexes = [
-            models.Index(fields=["-pinned", "-date"]),
+            models.Index(fields=["-pinned", "-date", "-updated"]),
         ]
 
     def __str__(self) -> str:
