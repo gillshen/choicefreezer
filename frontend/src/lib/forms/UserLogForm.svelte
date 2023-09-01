@@ -76,14 +76,10 @@
 	<fieldset class="flex flex-col gap-0">
 		<FormCheckInput id="log-pinned-check" name="pinned" label="Pin at the top" form={$form} />
 
-		<FormCheckInput
-			id="log-public-check"
-			name="public"
-			label="Make publicly visible"
-			form={$form}
-		/>
+		<FormCheckInput id="log-public-check" name="public" label="Make public" form={$form} />
 
-		<FormCheckInput id="log-public-check" name="public" label="Freeze this entry" form={$form} />
+		<FormCheckInput id="log-shared-check" name="shared" label="Post to the Commons" form={$form} />
 	</fieldset>
+
 	<FormSubmit message={$message} />
 </form>
