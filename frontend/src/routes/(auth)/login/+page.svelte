@@ -7,7 +7,7 @@
 </script>
 
 <div class="flex justify-center items-center w-full h-full">
-	<div class="max-w-[22rem] px-12 pt-8 py-12 mb-20 bg-surface-900 rounded-xl cf-card-shadow">
+	<div class="max-w-[22rem] px-12 pt-8 py-12 mb-20 bg-surface-900 rounded-xl cf-card-shadow-convex">
 		<h1 class="!h2 font-normal p-0 mb-8">Log In</h1>
 
 		<form method="post" class="flex flex-col gap-2" action="?/login" use:enhance>

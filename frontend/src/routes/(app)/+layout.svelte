@@ -155,6 +155,11 @@
 				</ul>
 			</nav>
 		</section>
+
+		<section class="col-span-4 flex text-sm text-surface-500">
+			<div>&copy; CF People</div>
+			<div>All rights relinquished to capitalism</div>
+		</section>
 	</div>
 </footer>
 
