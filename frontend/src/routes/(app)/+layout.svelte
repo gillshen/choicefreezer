@@ -53,13 +53,12 @@
 				<ul class="flex flex-col pr-4">
 					<li><a href="../tables/schools">Schools</a></li>
 					<li><a href="../tables/programs">Programs</a></li>
-					<li><div class="divider w-[12rem] h-[1px]" /></li>
-					<li>(More)</li>
+					<li>Requirements</li>
+					<li>Essays</li>
+					<li>The Commons</li>
 				</ul>
 			</div>
 		</button>
-
-		<a href="../about">About</a>
 	</nav>
 	<svelte:fragment slot="trail">
 		<button
@@ -103,6 +102,9 @@
 					<li><a href="../tables/applications/">Applications</a></li>
 					<li><a href="../tables/schools/">Schools</a></li>
 					<li><a href="../tables/programs/">Programs</a></li>
+					<li>Requirements</li>
+					<li>Essays</li>
+					<li>The Commons</li>
 					<li><a href="../about/">About</a></li>
 				</ul>
 			</nav>

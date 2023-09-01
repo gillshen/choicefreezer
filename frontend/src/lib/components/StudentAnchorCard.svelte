@@ -5,9 +5,7 @@
 	export let student: StudentOfUser;
 	export let lighter: boolean = false;
 
-	$: shadowClass = lighter
-		? 'cf-card-shadow-2 cf-card-shadow-2-hover'
-		: 'cf-card-shadow cf-card-shadow-hover';
+	$: shadowClass = lighter ? 'cf-card-shadow-convex-2' : 'cf-card-shadow-convex';
 </script>
 
 <a href={`../students/${student.id}/`} class={`student-anchor ${shadowClass}`}>

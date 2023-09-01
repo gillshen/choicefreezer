@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { formatTimezone, toShortDate, toTime } from '$lib/utils/dateUtils';
+	import { formatTimezone, toShortDateWithoutYear, toYear, toTime } from '$lib/utils/dateUtils';
+
 	export let date: string | null;
 	export let time: string | null = null;
 	export let timezone: string = '';
@@ -8,8 +9,9 @@
 
 {#if date}
 	<div class="flex flex-col gap-2">
-		<div class="text-2xl font-bold">
-			{toShortDate(date)}
+		<div class="flex gap-4 items-baseline">
+			<div class="text-3xl font-bold tracking-wide">{toShortDateWithoutYear(date)}</div>
+			<div class="font-bold">{toYear(date)}</div>
 		</div>
 		{#if time}
 			<div>

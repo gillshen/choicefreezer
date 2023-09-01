@@ -88,7 +88,7 @@
 
 		<div class="grid grid-cols-2 gap-8 auto-rows-min">
 			{#each contract.services.sort(byServiceRoleThenUsername) as service}
-				<div class="service-card cf-card-shadow rounded-xl px-6 py-4 flex flex-col">
+				<div class="service-card cf-card-shadow-convex">
 					<div class="cf-key">{service.role}</div>
 					<h2 class="h3 font-bold mt-0 pt-2">{service.cf_username}</h2>
 
@@ -121,6 +121,11 @@
 />
 
 <style lang="postcss">
+	.service-card {
+		@apply rounded-xl;
+		@apply px-6 py-4;
+		@apply flex flex-col;
+	}
 	.service-card .profile-grid {
 		@apply gap-y-1 gap-x-4;
 	}

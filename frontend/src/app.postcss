@@ -63,6 +63,7 @@ dialog {
 	border: none;
 }
 
+/* flat on surface-900 */
 .cf-card-shadow {
 	box-shadow: 6px 6px 12px #222222, -6px -6px 12px #383838;
 }
@@ -70,13 +71,23 @@ dialog {
 	box-shadow: 9px 9px 18px #222222, -9px -9px 18px #383838;
 }
 
-/* on surface-800 */
+/* flat on surface-800 */
 .cf-card-shadow-2 {
 	box-shadow: 6px 6px 12px #2a2a2a, -6px -6px 12px #444444;
 }
 .cf-card-shadow-2-hover:hover {
 	box-shadow: 9px 9px 18px #2a2a2a, -9px -9px 18px #444444;
 }
+
+/* convex on surface-900 */
+.cf-card-shadow-convex {
+	box-shadow: inset 3px 3px 6px #383838, inset -3px -3px 6px #222222, 3px 3px 6px #2a2a2a;
+}
+/* convex on surface-800 */
+.cf-card-shadow-convex-2 {
+	box-shadow: inset 3px 3px 6px #444444, inset -3px -3px 6px #2a2a2a, 3px 3px 6px #323232;
+}
+
 /* concave */
 .cf-card-shadow-concave {
 	box-shadow: inset 5px 5px 10px #222222, inset -5px -5px 10px #383838;
@@ -92,9 +103,17 @@ button.section-cta,
 button.grid-page-export {
 	@apply btn;
 	@apply min-w-[8rem] m-0;
-	@apply rounded-md;
 	@apply font-normal;
 	@apply flex gap-2;
+}
+button.cf-primary,
+button.cf-dangerous-primary,
+button.cf-secondary,
+button.section-cta {
+	@apply rounded-md;
+}
+button.grid-page-export {
+	@apply rounded-full;
 }
 button.cf-primary,
 button.cf-dangerous-primary,
@@ -379,6 +398,7 @@ form small.success-message {
 h1.grid-page-title {
 	@apply p-0 m-0;
 	@apply max-w-none;
+	@apply flex gap-12;
 	font-size: 28pt;
 }
 

@@ -117,9 +117,14 @@
 
 <PageSection>
 	<div class="student-grid">
-		<div>
-			<MinimalRadioGroup bind:target={filterYearCurrent} options={['All', ...yearOptionsCurrent]} />
-		</div>
+		{#if owner.current_students.length}
+			<div>
+				<MinimalRadioGroup
+					bind:target={filterYearCurrent}
+					options={['All', ...yearOptionsCurrent]}
+				/>
+			</div>
+		{/if}
 
 		<div class="student-cards-container">
 			{#each filteredCurrentStudents
@@ -129,24 +134,23 @@
 				<StudentAnchorCard {student} />
 			{/each}
 			{#if userCanEdit}
-				<button
-					class="btn bg-surface-900 cf-card-shadow-concave rounded-full hover:text-primary-500 flex gap-1 items-center"
-					on:click={() => goto('../students/new/')}
-				>
+				<a class="add-student cf-card-shadow-convex" href="../students/new/">
 					<i class="fa-solid fa-plus" />
-					Student</button
+					Student</a
 				>
 			{/if}
 		</div>
 	</div>
 
-	<button
-		class="flex gap-2 items-center text-surface-50 hover:text-primary-500 mt-12"
-		on:click={() => (showPastStudents = !showPastStudents)}
-	>
-		<i class={`toggle-icon fa-solid fa-chevron-down ${showPastStudents ? 'open' : ''}`} />
-		Past students
-	</button>
+	{#if owner.past_students.length}
+		<button
+			class="flex gap-2 items-center text-surface-50 hover:text-primary-500 mt-12"
+			on:click={() => (showPastStudents = !showPastStudents)}
+		>
+			Past students
+			<i class={`toggle-icon fa-solid fa-chevron-right ${showPastStudents ? 'open' : ''}`} />
+		</button>
+	{/if}
 
 	<div id="past-students-wrapper" class={showPastStudents ? 'open' : ''}>
 		<div class="student-grid mt-8">
@@ -211,6 +215,17 @@
 		@apply gap-7;
 		@apply h-fit;
 	}
+
+	a.add-student {
+		@apply btn bg-surface-900 text-primary-500;
+		@apply h-[64px] w-[169px];
+		@apply rounded-full;
+		@apply flex gap-2 items-center;
+	}
+	a.add-student i {
+		@apply -ml-2; /* visually center the button */
+	}
+
 	#past-students-wrapper {
 		display: grid;
 		grid-template-rows: 0fr;
@@ -231,6 +246,6 @@
 		transition: all 0.4s ease-in-out;
 	}
 	.toggle-icon.open {
-		rotate: 180deg;
+		rotate: 90deg;
 	}
 </style>

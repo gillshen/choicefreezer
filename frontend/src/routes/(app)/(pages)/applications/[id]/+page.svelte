@@ -135,7 +135,7 @@
 		</div>
 
 		<div class="grid grid-cols-2 gap-8 auto-rows-min">
-			<div class="application-card text-surface-900 min-h-[8rem] bg-yellow-400">
+			<div class="application-card deadline">
 				<header>
 					<div class="cf-key text-sm !text-surface-900">Due</div>
 					<button
@@ -152,9 +152,9 @@
 				/>
 			</div>
 
-			<div class="application-card cf-card-shadow-concave">
+			<div class="application-card decision-date cf-card-shadow-convex">
 				<header>
-					<div class="cf-key text-sm">Decision date</div>
+					<div class="cf-key text-sm">Decision</div>
 					<button
 						class="icon-button text-surface-300"
 						on:click={() => decisionDateUpdateDialog.showModal()}
@@ -321,8 +321,20 @@
 		@apply pt-2 pb-4 px-6 rounded-lg;
 		@apply flex flex-col;
 	}
+	.application-card.deadline,
+	.application-card.decision-date {
+		@apply aspect-square min-h-[8rem];
+		@apply grid grid-rows-[2fr_3fr] items-start;
+	}
+	.application-card.deadline {
+		@apply text-surface-900  bg-yellow-400;
+		box-shadow: 8px 8px 16px #161616, -8px -8px 16px #383838;
+	}
 	.application-card header {
 		@apply mb-2;
 		@apply flex justify-between items-center;
+	}
+	.cf-value {
+		@apply max-w-fit;
 	}
 </style>

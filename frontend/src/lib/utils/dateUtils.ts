@@ -24,6 +24,14 @@ export function toShortDate(dateString: string): string {
 	return format(new Date(dateString), 'MMM d, y');
 }
 
+export function toShortDateWithoutYear(dateString: string): string {
+	return format(new Date(dateString), 'MMM d');
+}
+
+export function toYear(dateString: string): string {
+	return format(new Date(dateString), 'y');
+}
+
 export function toTime(timeString: string): string {
 	return format(new Date(`2022-01-06T${timeString}`), 'hh:mm bbbb');
 }

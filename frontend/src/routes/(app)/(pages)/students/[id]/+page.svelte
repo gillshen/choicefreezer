@@ -161,22 +161,22 @@
 		</div>
 
 		<div class="grid grid-cols-2 gap-8">
-			<div class="cf-card-shadow-concave p-4 rounded-xl">
+			<div class="cf-card-shadow-convex p-4 rounded-xl">
 				<div class="inner-card">GPA</div>
 			</div>
 
-			<div class="cf-card-shadow-concave p-4 rounded-xl">
+			<div class="cf-card-shadow-convex p-4 rounded-xl">
 				<div class="inner-card">Class rank</div>
 			</div>
 
-			<div class="cf-card-shadow-concave p-4 rounded-xl">
+			<div class="cf-card-shadow-convex p-4 rounded-xl">
 				<div class="inner-card">SAT / ACT / GRE 1</div>
 			</div>
-			<div class="cf-card-shadow-concave p-4 rounded-xl">
+			<div class="cf-card-shadow-convex p-4 rounded-xl">
 				<div class="inner-card">SAT / ACT / GRE 2</div>
 			</div>
 
-			<div class="cf-card-shadow-concave p-4 rounded-xl">
+			<div class="cf-card-shadow-convex p-4 rounded-xl">
 				<div class="inner-card">TOEFL / IELTS</div>
 			</div>
 		</div>

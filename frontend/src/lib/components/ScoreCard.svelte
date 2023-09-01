@@ -3,7 +3,7 @@
 	export let score: string | number | null = null;
 </script>
 
-<div class="score-card cf-card-shadow-concave">
+<div class="score-card cf-card-shadow-convex">
 	<header class="cf-key text-sm">{title}</header>
 	{#if score === null}
 		<div class="cf-value text-surface-400">n/a</div>
@@ -14,12 +14,12 @@
 
 <style lang="postcss">
 	.score-card {
-		@apply flex justify-between;
+		@apply flex justify-between items-center;
 		@apply py-4 px-6;
 		@apply rounded-lg;
 	}
 	.cf-value {
-		@apply text-3xl font-bold;
+		@apply text-2xl font-bold;
 		@apply self-center tracking-wider;
 	}
 </style>

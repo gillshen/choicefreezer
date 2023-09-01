@@ -107,7 +107,7 @@
 	</div>
 
 	<div class="grid-page-content">
-		<h1 class="grid-page-title flex justify-between">
+		<h1 class="grid-page-title">
 			Students
 			<GridDownloadButton {gridOptions} />
 		</h1>
