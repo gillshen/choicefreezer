@@ -246,7 +246,7 @@
 							{/if}
 						</h3>
 
-						{#each log.comments.split(/\n+/g) as paragraph}
+						{#each log.comments.split(/(?:\r?\n)+/g) as paragraph}
 							<p class="mb-4 max-w-prose text-surface-300">
 								{paragraph}
 							</p>

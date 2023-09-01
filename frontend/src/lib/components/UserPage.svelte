@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 
 	import type { User } from '$lib/types/userTypes';
-	import type { UserLog } from '$lib/types/userLogTypes';
+	import type { UserLogListItem } from '$lib/types/userLogTypes';
 	import type { ApplicationListItem } from '$lib/types/applicationTypes';
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import type { NewUserLogSchema } from '$lib/schemas';
@@ -30,12 +29,13 @@
 	} from '$lib/utils/applicationGridUtils.js';
 
 	import { BANNER, NO_ROWS_TO_SHOW } from '$lib/constants/messages.js';
+	import { processLog } from '$lib/utils/userLogUtils';
 
 	export let data: {
 		userId: number;
 		username: string;
 		owner: User;
-		logs: UserLog[];
+		logs: UserLogListItem[];
 		userLogForm: SuperValidated<NewUserLogSchema>;
 		applications: ApplicationListItem[];
 	};
@@ -74,7 +74,7 @@
 	let showPastStudents = false;
 
 	$: owner = data.owner;
-	$: userCanEdit = data.username === owner.username;
+	$: userIsOwner = data.username === owner.username;
 	$: banner =
 		(data.username === owner.username ? owner.private_banner : owner.public_banner) ||
 		`${owner.username}${BANNER}`;
@@ -110,6 +110,8 @@
 		domLayout: data.applications.length > MAX_ROWS ? undefined : ('autoHeight' as DomLayoutType)
 	};
 
+	$: logs = data.logs.filter(userIsOwner ? () => true : (log) => log.public || log.shared);
+
 	onMount(() => mountGrid('#applications-grid', gridOptions));
 </script>
 
@@ -133,7 +135,7 @@
 				.sort(byContractType) as student}
 				<StudentAnchorCard {student} />
 			{/each}
-			{#if userCanEdit}
+			{#if userIsOwner}
 				<a class="add-student cf-card-shadow-convex" href="../students/new/">
 					<i class="fa-solid fa-plus" />
 					Student</a
@@ -172,15 +174,74 @@
 	<svelte:fragment slot="h2">Logs</svelte:fragment>
 
 	{#if data.logs.length}
-		<pre class="text-surface-400 overflow-x-hidden text-ellipsis">{JSON.stringify(
-				data.logs,
-				null,
-				2
-			)}</pre>
-	{/if}
+		<div class="logs-grid">
+			<div>
+				TODO: Filters
 
-	{#if userCanEdit}
-		<button class="section-cta" on:click={() => logCreateDialog.showModal()}>Add an entry</button>
+				{#if userIsOwner}
+					<button class="section-cta" on:click={() => logCreateDialog.showModal()}
+						>Add an entry</button
+					>
+				{/if}
+			</div>
+
+			<div class="pl-2">
+				<ol class="relative border-l border-tertiary-700">
+					{#each logs.map(processLog) as log}
+						<li class="mb-10 ml-4">
+							<div class={`log-bullet ${log.pinned ? 'bg-rose-400' : 'bg-primary-400'}`} />
+							<time class="mb-1 text-sm leading-none text-tertiary-500">{log.date}</time>
+
+							<h3 class="text-base font-bold py-2 text-surface-50 flex gap-4 items-baseline">
+								<div class="flex gap-2 items-center">
+									{#if log.relevant_student}
+										<div class="student-chip">{log.relevant_student.name}</div>
+									{/if}
+
+									{log.title}
+
+									{#if log.public && userIsOwner}
+										<i class="fa-solid fa-eye text-yellow-400" />
+									{/if}
+
+									{#if log.shared}
+										<i class="fa-solid fa-bullhorn text-yellow-400" />
+									{/if}
+								</div>
+
+								<small class="text-surface-400 font-normal">Updated {log.updated}</small>
+
+								{#if userIsOwner}
+									<div class="flex gap-0.5">
+										<div class="flex">
+											<button class="icon-button text-surface-300" on:click={() => alert('todo')}>
+												<i class="fa-solid fa-pen" />
+											</button>
+										</div>
+
+										<div class="flex">
+											<button
+												class="icon-button delete text-surface-300"
+												on:click={() => alert('todo')}
+											>
+												<i class="fa-solid fa-trash" />
+											</button>
+										</div>
+									</div>
+								{/if}
+							</h3>
+
+							{#each log.text.split(/(?:\r?\n){2,}/g) as paragraph}
+								<p class="max-w-prose text-surface-300">
+									<!-- TODO potentially unsafe -->
+									{@html paragraph.split(/\r?\n/g).join('<br />')}
+								</p>
+							{/each}
+						</li>
+					{/each}
+				</ol>
+			</div>
+		</div>
 	{/if}
 </PageSection>
 
@@ -207,9 +268,11 @@
 </Dialog>
 
 <style lang="postcss">
-	.student-grid {
-		@apply grid grid-cols-[1fr,_5fr] gap-x-20;
+	.student-grid,
+	.logs-grid {
+		@apply grid grid-cols-[1fr_5fr] gap-x-20;
 	}
+
 	.student-cards-container {
 		@apply grid grid-cols-4;
 		@apply gap-7;
@@ -224,6 +287,18 @@
 	}
 	a.add-student i {
 		@apply -ml-2; /* visually center the button */
+	}
+
+	.logs-grid > div {
+		@apply max-h-[calc(100vh-144px)] overflow-auto;
+	}
+	.log-bullet {
+		@apply absolute;
+		@apply w-4 h-4 mt-[38px] -left-2 rounded-full;
+	}
+	.student-chip {
+		@apply font-normal text-sm px-4 py-1 rounded-full;
+		@apply bg-primary-400 text-surface-900;
 	}
 
 	#past-students-wrapper {
