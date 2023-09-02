@@ -27,7 +27,6 @@
 		@apply scale-[103%];
 	}
 	.student-anchor section {
-		@apply text-lg;
 		@apply max-w-full whitespace-nowrap overflow-hidden text-ellipsis;
 	}
 	header.contract-chip {

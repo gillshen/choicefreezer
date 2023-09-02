@@ -10,6 +10,7 @@
 	import PageSection from '$lib/components/PageSection.svelte';
 	import MinimalRadioGroup from '$lib/components/MinimalRadioGroup.svelte';
 	import StudentAnchorCard from '$lib/components/StudentAnchorCard.svelte';
+	import UserLogCard from './UserLogCard.svelte';
 	import Dialog from './Dialog.svelte';
 	import UserLogForm from '$lib/forms/UserLogForm.svelte';
 	import { byContractType, byRomanizedName, byTargetYearDesc } from '$lib/utils/studentUtils.js';
@@ -119,14 +120,21 @@
 
 <PageSection>
 	<div class="student-grid">
-		{#if owner.current_students.length}
-			<div>
+		<div class="flex flex-col gap-4">
+			{#if userIsOwner}
+				<a class="add-student cf-card-shadow-convex" href="../students/new/">
+					<i class="fa-solid fa-plus" />
+					Student</a
+				>
+			{/if}
+
+			{#if owner.current_students.length}
 				<MinimalRadioGroup
 					bind:target={filterYearCurrent}
 					options={['All', ...yearOptionsCurrent]}
 				/>
-			</div>
-		{/if}
+			{/if}
+		</div>
 
 		<div class="student-cards-container">
 			{#each filteredCurrentStudents
@@ -135,12 +143,6 @@
 				.sort(byContractType) as student}
 				<StudentAnchorCard {student} />
 			{/each}
-			{#if userIsOwner}
-				<a class="add-student cf-card-shadow-convex" href="../students/new/">
-					<i class="fa-solid fa-plus" />
-					Student</a
-				>
-			{/if}
 		</div>
 	</div>
 
@@ -173,76 +175,28 @@
 <PageSection>
 	<svelte:fragment slot="h2">Logs</svelte:fragment>
 
-	{#if data.logs.length}
-		<div class="logs-grid">
+	<div class="logs-grid">
+		<div class="flex flex-col gap-4">
+			TODO: Filters
+
+			{#if userIsOwner}
+				<button class="cf-primary" on:click={() => logCreateDialog.showModal()}>Add an entry</button
+				>
+			{/if}
+		</div>
+
+		{#if data.logs.length}
 			<div>
-				TODO: Filters
-
-				{#if userIsOwner}
-					<button class="section-cta" on:click={() => logCreateDialog.showModal()}
-						>Add an entry</button
-					>
-				{/if}
-			</div>
-
-			<div class="pl-2">
-				<ol class="relative border-l border-tertiary-700">
+				<div class="top-mask" />
+				<ol class="scrollable flex flex-col gap-4 pl-4 pr-12 py-8 rounded-xl">
 					{#each logs.map(processLog) as log}
-						<li class="mb-10 ml-4">
-							<div class={`log-bullet ${log.pinned ? 'bg-rose-400' : 'bg-primary-400'}`} />
-							<time class="mb-1 text-sm leading-none text-tertiary-500">{log.date}</time>
-
-							<h3 class="text-base font-bold py-2 text-surface-50 flex gap-4 items-baseline">
-								<div class="flex gap-2 items-center">
-									{#if log.relevant_student}
-										<div class="student-chip">{log.relevant_student.name}</div>
-									{/if}
-
-									{log.title}
-
-									{#if log.public && userIsOwner}
-										<i class="fa-solid fa-eye text-yellow-400" />
-									{/if}
-
-									{#if log.shared}
-										<i class="fa-solid fa-bullhorn text-yellow-400" />
-									{/if}
-								</div>
-
-								<small class="text-surface-400 font-normal">Updated {log.updated}</small>
-
-								{#if userIsOwner}
-									<div class="flex gap-0.5">
-										<div class="flex">
-											<button class="icon-button text-surface-300" on:click={() => alert('todo')}>
-												<i class="fa-solid fa-pen" />
-											</button>
-										</div>
-
-										<div class="flex">
-											<button
-												class="icon-button delete text-surface-300"
-												on:click={() => alert('todo')}
-											>
-												<i class="fa-solid fa-trash" />
-											</button>
-										</div>
-									</div>
-								{/if}
-							</h3>
-
-							{#each log.text.split(/(?:\r?\n){2,}/g) as paragraph}
-								<p class="max-w-prose text-surface-300">
-									<!-- TODO potentially unsafe -->
-									{@html paragraph.split(/\r?\n/g).join('<br />')}
-								</p>
-							{/each}
-						</li>
+						<UserLogCard {log} allowEdit={userIsOwner} />
 					{/each}
 				</ol>
+				<div class="bottom-mask" />
 			</div>
-		</div>
-	{/if}
+		{/if}
+	</div>
 </PageSection>
 
 <PageSection>
@@ -279,26 +233,22 @@
 		@apply h-fit;
 	}
 
-	a.add-student {
+	.add-student {
 		@apply btn bg-surface-900 text-primary-500;
 		@apply h-[64px] w-[169px];
 		@apply rounded-full;
 		@apply flex gap-2 items-center;
 	}
-	a.add-student i {
+	.add-student i {
 		@apply -ml-2; /* visually center the button */
 	}
 
-	.logs-grid > div {
+	.logs-grid .scrollable {
 		@apply max-h-[calc(100vh-144px)] overflow-auto;
 	}
 	.log-bullet {
 		@apply absolute;
 		@apply w-4 h-4 mt-[38px] -left-2 rounded-full;
-	}
-	.student-chip {
-		@apply font-normal text-sm px-4 py-1 rounded-full;
-		@apply bg-primary-400 text-surface-900;
 	}
 
 	#past-students-wrapper {
@@ -322,5 +272,24 @@
 	}
 	.toggle-icon.open {
 		rotate: 90deg;
+	}
+
+	.top-mask,
+	.bottom-mask {
+		@apply relative;
+	}
+	.top-mask::after,
+	.bottom-mask::before {
+		@apply absolute h-8 w-full;
+		@apply z-10;
+		width: calc(100% - 2rem); /* avoid masking the scrollbar */
+		content: '';
+	}
+	.top-mask::after {
+		background: linear-gradient(#373737, rgba(255, 255, 255, 0));
+	}
+	.bottom-mask::before {
+		margin-top: -2rem;
+		background: linear-gradient(rgba(255, 255, 255, 0), #373737);
 	}
 </style>
