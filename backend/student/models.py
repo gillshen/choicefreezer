@@ -5,7 +5,6 @@ from contextlib import suppress
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
-from user.models import CfUser
 from core.models import Student, Progression, Application
 from target.models import School, Program, Target
 
@@ -20,10 +19,8 @@ class Enrollment(models.Model):
         program_type: Program.Type;
         starting_progression: <core.Progression>;
 
-        start_year: number;
-        start_term: Target.Term;
-        end_year?: number;
-        end_term?: Target.Term | "";
+        start_date: string; // date
+        end_date?: string; // date
 
         curriculum: Enrollment.Curriculum | "";
         majors: string;
@@ -54,10 +51,8 @@ class Enrollment(models.Model):
     program_type = models.CharField(max_length=100, choices=Program.Type.choices)
     starting_progression = models.CharField(max_length=50, choices=Progression.choices)
 
-    start_year = models.IntegerField()
-    start_term = models.CharField(max_length=50, choices=Target.Term.choices)
-    end_year = models.IntegerField(blank=True, null=True)
-    end_term = models.CharField(max_length=50, blank=True, choices=Target.Term.choices)
+    start_date = models.DateField()
+    end_date = models.DateField(blank=True, null=True)
 
     # For high school students
     curriculum = models.CharField(max_length=50, blank=True, choices=Curriculum.choices)
