@@ -1,6 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { superForm } from 'sveltekit-superforms/client';
+
 	import PageSection from '$lib/components/PageSection.svelte';
+	import Dialog from '$lib/components/Dialog.svelte';
+	import HiddenIdField from '$lib/components/HiddenIdField.svelte';
+	import FormTextInput from '$lib/components/FormTextInput.svelte';
+	import FormSubmit from '$lib/components/FormSubmit.svelte';
+	import { closeDialogOnSuccess } from '$lib/utils/formUtils.js';
 
 	import type { DomLayoutType } from 'ag-grid-community';
 	import { defaultColDef, columnTypes, mountGrid } from '$lib/utils/gridUtils.js';
@@ -17,6 +24,15 @@
 	import { NO_ROWS_TO_SHOW } from '$lib/constants/messages.js';
 
 	export let data;
+
+	let programUpdateDialog: HTMLDialogElement;
+
+	const { form, errors, message, enhance } = superForm(data.programUpdateForm, {
+		id: 'updateProgram',
+		scrollToError: 'auto',
+		taintedMessage: null,
+		onResult: ({ result }) => closeDialogOnSuccess(result, programUpdateDialog!)
+	});
 
 	const applicationColumnDefs = [
 		{
@@ -60,7 +76,7 @@
 
 <PageSection>
 	<pre class="text-surface-400">{JSON.stringify(program, null, 2)}</pre>
-	<button class="section-cta">Edit</button>
+	<button class="section-cta" on:click={() => programUpdateDialog.showModal()}>Edit</button>
 
 	<!-- <svelte:fragment slot="h2">Applications</svelte:fragment> -->
 	<h2 class="mt-12">Applications</h2>
@@ -73,3 +89,32 @@
 		<p class="section-placeholder">{NO_ROWS_TO_SHOW}</p>
 	{/if}
 </PageSection>
+
+<Dialog exitHelper bind:dialog={programUpdateDialog}>
+	<form method="post" action="?/updateProgram" novalidate use:enhance>
+		<fieldset>
+			<legend class="empty" />
+			<HiddenIdField id="program-id" value={program.id} />
+
+			<FormTextInput
+				id="program-name-input"
+				name="name"
+				label="Name"
+				form={$form}
+				errors={$errors}
+				width="wider"
+			/>
+
+			<FormTextInput
+				id="program-degree-input"
+				name="degree"
+				label="Degree"
+				form={$form}
+				errors={$errors}
+				width="wider"
+			/>
+		</fieldset>
+
+		<FormSubmit message={$message} />
+	</form>
+</Dialog>

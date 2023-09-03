@@ -6,6 +6,7 @@ import {
 	contractUpdateValidators,
 	idValidator,
 	newSchoolValidators,
+	programUpdateValidators,
 	studentValidators,
 	admissionPlanUpdateValidator,
 	majorChoicesUpdateValidator,
@@ -46,6 +47,10 @@ export const schoolUpdateSchema = z.object({
 });
 
 export type SchoolUpdateSchema = typeof schoolUpdateSchema;
+
+export const programUpdateSchema = z.object({ ...programUpdateValidators });
+
+export type ProgramUpdateSchema = typeof programUpdateSchema;
 
 export const newStudentSchema = z.object({
 	...studentValidators,

@@ -129,6 +129,10 @@ export async function createProgram(data: NewProgram) {
 	return await post('programs/new/', data);
 }
 
+export async function patchProgram(id: number, data: any) {
+	return await patch(`programs/${id}/update/`, data);
+}
+
 export async function fetchProgram(id: number) {
 	return await get(`programs/${id}/`);
 }

@@ -22,6 +22,13 @@ export const newSchoolValidators = {
 	ugTransferRelevant: z.boolean().default(false)
 };
 
+// Program update form
+export const programUpdateValidators = {
+	...idValidator,
+	name: z.string().trim().optional().default(''),
+	degree: z.string().trim().optional().default('')
+};
+
 // Student & contract creation form
 export const studentLegalNameValidators = {
 	last_name: z.string().trim().min(1, fieldRequired).refine(safeForHtml, beSafeForHtml),
