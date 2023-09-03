@@ -175,7 +175,7 @@
 		display: grid;
 		grid-template-rows: 0fr;
 		overflow: hidden;
-		opacity: 1;
+		opacity: 0;
 		transition: all 0.2s ease-in-out;
 		box-shadow: 10px 10px 24px rgb(25, 25, 25), -8px -8px 20px rgb(55, 55, 55);
 	}

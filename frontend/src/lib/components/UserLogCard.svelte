@@ -3,6 +3,7 @@
 
 	export let log: UserLogListItem;
 	export let allowEdit: boolean;
+	export let handleDeleteRequest: (log: UserLogListItem) => void;
 </script>
 
 <li class="px-6 py-4 rounded-xl cf-card-shadow-convex-2">
@@ -25,8 +26,11 @@
 
 		{#if allowEdit}
 			<div class="flex">
-				<button class="icon-button text-surface-300" on:click={() => alert('todo')}>
-					<i class="fa-solid fa-ellipsis-vertical" />
+				<button
+					class="icon-button delete text-surface-300"
+					on:click={() => handleDeleteRequest(log)}
+				>
+					<i class="fa-solid fa-trash" />
 				</button>
 			</div>
 		{/if}

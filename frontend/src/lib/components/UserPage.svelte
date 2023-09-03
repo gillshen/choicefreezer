@@ -11,9 +11,11 @@
 	import MinimalRadioGroup from '$lib/components/MinimalRadioGroup.svelte';
 	import StudentAnchorCard from '$lib/components/StudentAnchorCard.svelte';
 	import UserLogCard from './UserLogCard.svelte';
-	import Dialog from './Dialog.svelte';
 	import UserLogForm from '$lib/forms/UserLogForm.svelte';
+	import Dialog from './Dialog.svelte';
+	import BinaryDialog from './BinaryDialog.svelte';
 	import { byContractType, byRomanizedName, byTargetYearDesc } from '$lib/utils/studentUtils.js';
+	import { processLog } from '$lib/utils/userLogUtils';
 
 	import type { DomLayoutType } from 'ag-grid-community';
 	import { defaultColDef, columnTypes, mountGrid } from '$lib/utils/gridUtils.js';
@@ -29,8 +31,11 @@
 		deadlineValueFormatter
 	} from '$lib/utils/applicationGridUtils.js';
 
-	import { BANNER, NO_ROWS_TO_SHOW } from '$lib/constants/messages.js';
-	import { processLog } from '$lib/utils/userLogUtils';
+	import { BANNER, NO_ROWS_TO_SHOW, UNKNOWN_ERROR } from '$lib/constants/messages.js';
+
+	import { deleteUserLog } from '$lib/api';
+	import { toast } from '$lib/utils/interactiveUtils';
+	import { invalidateAll } from '$app/navigation';
 
 	export let data: {
 		userId: number;
@@ -42,6 +47,20 @@
 	};
 
 	let logCreateDialog: HTMLDialogElement;
+	let logDeleteDialog: HTMLDialogElement;
+
+	let activeLog: UserLogListItem;
+
+	async function handleDeleteLog() {
+		const response = await deleteUserLog(activeLog.id);
+		if (response.ok) {
+			invalidateAll();
+			logDeleteDialog.close();
+			toast('Log entry deleted', 'success');
+		} else {
+			toast(UNKNOWN_ERROR, 'error');
+		}
+	}
 
 	const MAX_ROWS = 15; // A grid with more rows have will have its height restricted
 
@@ -190,7 +209,14 @@
 				<div class="top-mask" />
 				<ol class="scrollable flex flex-col gap-4 pl-4 pr-12 py-8 rounded-xl">
 					{#each logs.map(processLog) as log}
-						<UserLogCard {log} allowEdit={userIsOwner} />
+						<UserLogCard
+							{log}
+							allowEdit={userIsOwner}
+							handleDeleteRequest={(log) => {
+								activeLog = log;
+								logDeleteDialog.showModal();
+							}}
+						/>
 					{/each}
 				</ol>
 				<div class="bottom-mask" />
@@ -220,6 +246,13 @@
 		students={[...owner.current_students, ...owner.past_students]}
 	/>
 </Dialog>
+
+<BinaryDialog
+	bind:dialog={logDeleteDialog}
+	title="Delete this log entry?"
+	onYes={handleDeleteLog}
+	dangerous
+/>
 
 <style lang="postcss">
 	.student-grid,
