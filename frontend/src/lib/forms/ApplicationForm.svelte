@@ -5,20 +5,21 @@
 	import type { NewApplicationSchema } from '$lib/schemas';
 	import type { School } from '$lib/types/schoolTypes';
 	import type { ProgramSelectItem } from '$lib/types/programTypes';
+
 	import { PROGRAM_TYPES } from '$lib/constants/programTypes';
 	import { UG_PLANS, NONUG_PLANS } from '$lib/constants/admissionPlans';
 	import { getYearOptions } from '$lib/utils/dateUtils';
 	import { TERMS } from '$lib/constants/terms';
 
-	import { closeDialogOnSuccess } from '$lib/utils/formUtils';
-	import OptionList from '$lib/components/OptionList.svelte';
-	import FormSubmit from '$lib/components/FormSubmit.svelte';
-
-	import { byName } from '$lib/utils/sortUtils';
+	import HiddenIdField from '$lib/components/HiddenIdField.svelte';
 	import FormTextInput from '$lib/components/FormTextInput.svelte';
 	import FormSelect from '$lib/components/FormSelect.svelte';
+	import OptionList from '$lib/components/OptionList.svelte';
 	import MajorFormFields from '$lib/components/MajorFormFields.svelte';
-	import HiddenIdField from '$lib/components/HiddenIdField.svelte';
+	import FormSubmit from '$lib/components/FormSubmit.svelte';
+	import { closeDialogOnSuccess } from '$lib/utils/formUtils';
+
+	import { byName } from '$lib/utils/sortUtils';
 
 	export let dialog: HTMLDialogElement | undefined;
 	export let action: string;

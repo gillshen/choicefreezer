@@ -12,6 +12,7 @@ import type {
 import type { NewMajorChoice } from './types/majorChoiceTypes';
 import type { NewApplicationLog } from './types/applicationLogTypes';
 import type { NewUserLog, UserLogListItem } from './types/userLogTypes';
+import type { NewEnrollment } from './types/enrollmentTypes';
 
 import { PLANNER, ASST_PLANNER, STRAT_PLANNER, ESSAY_ADVISOR } from './constants/cfRoles';
 
@@ -279,6 +280,10 @@ export async function fetchLogsOfUser(username: string): Promise<UserLogListItem
 
 export async function fetchLogsOfStudents(studentId: number): Promise<UserLogListItem[]> {
 	return await get(`user_logs/?student=${studentId}`);
+}
+
+export async function createEnrollment(data: NewEnrollment) {
+	return await post('s.enrollments/new/', data);
 }
 
 export async function performCreateContract(params: {

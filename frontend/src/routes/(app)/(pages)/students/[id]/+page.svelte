@@ -14,6 +14,7 @@
 	import StudentUpdateForm from '$lib/forms/StudentUpdateForm.svelte';
 	import ContractServiceForm from '$lib/forms/ContractServiceForm.svelte';
 	import ApplicationForm from '$lib/forms/ApplicationForm.svelte';
+	import EnrollmentForm from '$lib/forms/EnrollmentForm.svelte';
 
 	import {
 		formatStudentName,
@@ -84,6 +85,7 @@
 	let studentDeleteDialog: HTMLDialogElement;
 	let contractCreateDialog: HTMLDialogElement;
 	let applicationCreateDialog: HTMLDialogElement;
+	let enrollmentCreateDialog: HTMLDialogElement;
 
 	// TODO move to server side?
 	async function handleDeleteStudent() {
@@ -102,17 +104,17 @@
 	$: formattedName = formatStudentName(student);
 	$: formattedRomanizedName = formatStudentRomanizedName(student);
 
-	function canUserEdit(username: string) {
-		// When there is no contract associated with the student, any one can edit
+	function isUserOwner(username: string) {
+		// When there is no contract associated with the student, anyone is an owner
 		if (!data.contracts.length) {
 			return true;
 		}
-		// Else all the parties to the latest contract (and only these users) can
+		// Else all the parties to the latest contract (and only these users) are
 		const latestContract: ContractListItem = data.contracts.sort(byTargetYearDesc)[0];
 		return latestContract.services.map((s) => s.cf_username).includes(username);
 	}
 
-	$: userCanEdit = canUserEdit(data.username);
+	$: userIsOwner = isUserOwner(data.username);
 
 	onMount(() => mountGrid('#applications-grid', gridOptions));
 </script>
@@ -150,7 +152,7 @@
 				{/if}
 			</div>
 
-			{#if userCanEdit}
+			{#if userIsOwner}
 				<div class="flex gap-4">
 					<button class="section-cta" on:click={() => studentUpdateDialog.showModal()}>Edit</button>
 					<button class="section-cta delete" on:click={() => studentDeleteDialog.showModal()}
@@ -192,7 +194,7 @@
 		{/each}
 	</div>
 
-	{#if userCanEdit}
+	{#if userIsOwner}
 		<button class="section-cta" on:click={() => contractCreateDialog.showModal()}
 			>Add a contract</button
 		>
@@ -210,7 +212,7 @@
 		<p class="section-placeholder">{NO_ROWS_TO_SHOW}</p>
 	{/if}
 
-	{#if userCanEdit}
+	{#if userIsOwner}
 		<button class="section-cta" on:click={() => applicationCreateDialog.showModal()}
 			>Add an application</button
 		>
@@ -222,20 +224,18 @@
 	{#if data.logs.length}
 		<pre class="text-surface-400">{JSON.stringify(data.logs, null, 2)}</pre>
 	{/if}
-
-	{#if userCanEdit}
-		<button class="section-cta">Add an entry</button>
-	{/if}
 </PageSection>
 
 <PageSection>
-	<svelte:fragment slot="h2">School performance</svelte:fragment>
+	<svelte:fragment slot="h2">Enrollment Records</svelte:fragment>
 	{#if data.enrollments.length}
 		<pre class="text-surface-400">{JSON.stringify(data.enrollments, null, 2)}</pre>
 	{/if}
 
-	{#if userCanEdit}
-		<button class="section-cta">Add a school</button>
+	{#if userIsOwner}
+		<button class="section-cta" on:click={() => enrollmentCreateDialog.showModal()}
+			>Add a record</button
+		>
 	{/if}
 </PageSection>
 
@@ -277,7 +277,7 @@
 		<pre class="text-surface-400">{JSON.stringify(data.greScores, null, 2)}</pre>
 	{/if}
 
-	{#if userCanEdit}
+	{#if userIsOwner}
 		<button class="section-cta">Add a test score</button>
 	{/if}
 </PageSection>
@@ -324,6 +324,16 @@
 		data={data.applicationCreateForm}
 		schools={data.schools}
 		programs={data.programs}
+	/>
+</Dialog>
+
+<Dialog title="Add an enrollment record" exitHelper bind:dialog={enrollmentCreateDialog}>
+	<EnrollmentForm
+		bind:dialog={enrollmentCreateDialog}
+		action="?/createEnrollment"
+		studentId={student.id}
+		data={data.enrollmentCreateForm}
+		schools={data.schools}
 	/>
 </Dialog>
 

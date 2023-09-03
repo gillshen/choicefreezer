@@ -24,17 +24,25 @@ import {
 	fetchOrCreateTarget,
 	fetchOrCreateSubTarget,
 	createApplication,
-	createMajorChoice
+	createMajorChoice,
+	createEnrollment
 } from '$lib/api';
 
-import { studentUpdateSchema, contractServiceSchema, newApplicationSchema } from '$lib/schemas.js';
+import {
+	studentUpdateSchema,
+	contractServiceSchema,
+	newApplicationSchema,
+	enrollmentSchema
+} from '$lib/schemas.js';
 
 import type { Program, ProgramType } from '$lib/types/programTypes.js';
 import type { NewTarget, Target, Term } from '$lib/types/targetTypes.js';
 import type { NewSubTarget, SubTarget } from '$lib/types/subTargetTypes.js';
 import type { NewApplication } from '$lib/types/applicationTypes.js';
-import { UNKNOWN_ERROR } from '$lib/constants/messages.js';
 import type { NewMajorChoice } from '$lib/types/majorChoiceTypes.js';
+import type { NewEnrollment } from '$lib/types/enrollmentTypes.js';
+
+import { UNKNOWN_ERROR } from '$lib/constants/messages.js';
 
 export async function load(event: PageServerLoadEvent) {
 	const id = parseInt(event.params.id, 10);
@@ -56,6 +64,7 @@ export async function load(event: PageServerLoadEvent) {
 	const contractCreateForm = await superValidate(event, contractServiceSchema);
 
 	const applicationCreateForm = await superValidate(event, newApplicationSchema);
+	const enrollmentCreateForm = await superValidate(event, enrollmentSchema);
 
 	return {
 		student,
@@ -66,6 +75,7 @@ export async function load(event: PageServerLoadEvent) {
 		applicationCreateForm,
 		// enrollments
 		enrollments: fetchEnrollments(id),
+		enrollmentCreateForm,
 		// test scores
 		toeflScores: fetchTOEFL(id),
 		ieltslScores: fetchIELTS(id),
@@ -212,5 +222,20 @@ export const actions = {
 		}
 
 		throw redirect(301, `../applications/${createdApplication.id}/`);
+	},
+
+	createEnrollment: async (event: RequestEvent) => {
+		const form = await superValidate(event, enrollmentSchema);
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		const response = await createEnrollment(form.data as NewEnrollment);
+		if (!response.ok) {
+			return message(form, UNKNOWN_ERROR, { status: 400 });
+		}
+
+		return { form };
 	}
 };

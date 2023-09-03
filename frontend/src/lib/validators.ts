@@ -182,3 +182,16 @@ export const userLogValidators = {
 	shared: z.boolean().default(false),
 	relevant_student: z.number().min(1).nullable()
 };
+
+// Enrollment creation form
+export const enrollmentValidators = {
+	id: z.number().nullable(),
+	student: z.number().min(1), // student id
+	school: z.number().min(1, selectionRequired), // school id
+	program_type: z.string().min(1, selectionRequired),
+	starting_progression: z.string().min(1, selectionRequired),
+	start_date: z.string().min(1, fieldRequired),
+	end_date: z.string().nullable(),
+	curriculum: z.string().optional().default(''),
+	majors: z.string().optional().default('')
+};

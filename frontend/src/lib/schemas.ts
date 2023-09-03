@@ -12,7 +12,8 @@ import {
 	majorChoicesUpdateValidator,
 	deadlineValidators,
 	decisionDateValidators,
-	userLogValidators
+	userLogValidators,
+	enrollmentValidators
 } from '$lib/validators';
 
 export const authenticationSchema = z.object({
@@ -104,3 +105,7 @@ export type DecisionDateUpdateSchema = typeof decisionDateUpdateSchema;
 export const newUserLogSchema = z.object({ ...userLogValidators });
 
 export type NewUserLogSchema = typeof newUserLogSchema;
+
+export const enrollmentSchema = z.object({ ...enrollmentValidators });
+
+export type EnrollmentSchema = typeof enrollmentSchema;
