@@ -200,7 +200,7 @@
 			<label class="label flex flex-col" for="program-select">
 				Choose a program
 				{#if filteredPrograms.length && !isUndergraduate}
-					<small class="leading-normal my-1">
+					<small class="leading-normal my-1 w-[28rem]">
 						If your desired program is not listed, select "Add a program..." at the bottom and fill
 						out the &ldquo;New Program&rdquo; section which will then appear.
 					</small>
@@ -250,6 +250,7 @@
 				label="Name of the program"
 				form={$form}
 				errors={$errors}
+				width="wider"
 			/>
 
 			<FormTextInput
@@ -258,6 +259,7 @@
 				label="Degree awarded by the program"
 				form={$form}
 				errors={$errors}
+				width="wider"
 				optional
 			/>
 		</fieldset>

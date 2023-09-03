@@ -18,7 +18,7 @@
 		<SlideToggle
 			name={headerName}
 			checked={!hide}
-			active="bg-primary-400"
+			active="bg-primary-500"
 			size="sm"
 			on:change={(e) => toggleVisible(headerName, e)}
 		>

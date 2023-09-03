@@ -123,7 +123,7 @@
 		<div class="flex flex-col gap-4">
 			{#if userIsOwner}
 				<a class="add-student cf-card-shadow-convex" href="../students/new/">
-					<i class="fa-solid fa-plus" />
+					<i class="fa-solid fa-plus -ml-2" />
 					Student</a
 				>
 			{/if}
@@ -238,9 +238,6 @@
 		@apply h-[64px] w-[169px];
 		@apply rounded-full;
 		@apply flex gap-2 items-center;
-	}
-	.add-student i {
-		@apply -ml-2; /* visually center the button */
 	}
 
 	.logs-grid .scrollable {
