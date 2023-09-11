@@ -6,12 +6,20 @@
 	import type { ColumnControls } from '$lib/types/gridTypes.js';
 	import { ASST_PLANNER, ESSAY_ADVISOR, PLANNER, STRAT_PLANNER } from '$lib/constants/cfRoles.js';
 
-	import { defaultColDef, columnTypes, AgCellRenderer, mountGrid } from '$lib/utils/gridUtils.js';
+	import {
+		defaultColDef,
+		columnTypes,
+		AgCellRenderer,
+		mountGrid,
+		shortDateFormatter
+	} from '$lib/utils/gridUtils.js';
 	import ColumnVisibilityControl from '$lib/components/ColumnVisibilityControl.svelte';
 	import GridDownloadButton from '$lib/components/GridDownloadButton.svelte';
 
 	import { formatResidence } from '$lib/utils/studentUtils.js';
 	import { toUsernamesWithRole } from '$lib/utils/serviceUtils.js';
+	import Section from '$lib/components/Section.svelte';
+	import { makeDate } from '$lib/utils/dateUtils.js';
 
 	export let data;
 	const { students } = data;
@@ -38,6 +46,13 @@
 		};
 	}
 
+	function dateOfBirthValueGetter(params: ValueGetterParams): Date | null {
+		if (params.data.date_of_birth) {
+			return makeDate(params.data.date_of_birth);
+		}
+		return null;
+	}
+
 	function residenceValueGetter(params: ValueGetterParams): string {
 		const student: StudentListItemType = params.data;
 		return formatResidence(student);
@@ -56,12 +71,12 @@
 		target: { headerName: 'Target', hide: false },
 		gender: { headerName: 'Gender', hide: true },
 		citizenship: { headerName: 'Citizenship', hide: false },
+		born: { headerName: 'Born', hide: true },
+		based: { headerName: 'Based', hide: true },
 		stratPlanner: { headerName: STRAT_PLANNER, hide: true },
 		planner: { headerName: PLANNER, hide: false },
 		asstPlanner: { headerName: ASST_PLANNER, hide: true },
 		essayAdvisor: { headerName: ESSAY_ADVISOR, hide: false },
-		born: { headerName: 'Born', hide: true },
-		based: { headerName: 'Based', hide: true },
 		usedCfProducts: { headerName: 'Used CF Products', hide: true },
 		comments: { headerName: 'Comments', hide: false }
 	};
@@ -74,12 +89,18 @@
 		{ ...columnControls.target, field: 'latest_target_year', type: ['leftAlignedNumberColumn'] },
 		{ ...columnControls.gender, field: 'gender' },
 		{ ...columnControls.citizenship, field: 'citizenship' },
+		{
+			...columnControls.born,
+			field: 'date_of_birth',
+			type: ['dateStringColumn'],
+			valueGetter: dateOfBirthValueGetter,
+			valueFormatter: shortDateFormatter
+		},
+		{ ...columnControls.based, valueGetter: residenceValueGetter },
 		{ ...columnControls.stratPlanner, valueGetter: usernameGetterByRole(STRAT_PLANNER) },
 		{ ...columnControls.planner, valueGetter: usernameGetterByRole(PLANNER) },
 		{ ...columnControls.asstPlanner, valueGetter: usernameGetterByRole(ASST_PLANNER) },
 		{ ...columnControls.essayAdvisor, valueGetter: usernameGetterByRole(ESSAY_ADVISOR) },
-		{ ...columnControls.born, field: 'date_of_birth', type: ['dateStringColumn'] },
-		{ ...columnControls.based, valueGetter: residenceValueGetter },
 		{
 			...columnControls.usedCfProducts,
 			cellDataType: 'boolean',
@@ -99,7 +120,7 @@
 	onMount(() => mountGrid('#grid', gridOptions));
 </script>
 
-<div class="grid-page-container">
+<Section hero wide classNames="grid-page-container">
 	<div class="grid-page-sidebar">
 		<div class="grid-page-sidebar-content">
 			<ColumnVisibilityControl {gridOptions} initialStates={Object.values(columnControls)} />
@@ -114,4 +135,4 @@
 
 		<div id="grid" class="data-grid ag-theme-alpine-dark" />
 	</div>
-</div>
+</Section>

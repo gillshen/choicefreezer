@@ -29,16 +29,14 @@
 </script>
 
 <form method="post" {action} novalidate use:enhance>
-	<div class="-mb-8">
+	<fieldset>
+		<legend class="empty" />
+
 		<HiddenIdField id="application-id" value={$form.id} name="id" />
 		<HiddenIdField id="target-id" value={$form.targetId} name="targetId" />
 		<HiddenIdField id="first-major-id" value={$form.firstMajorId} name="firstMajorId" />
 		<HiddenIdField id="second-major-id" value={$form.secondMajorId} name="secondMajorId" />
 		<HiddenIdField id="third-major-id" value={$form.thirdMajorId} name="thirdMajorId" />
-	</div>
-
-	<fieldset>
-		<legend class="empty" />
 
 		<FormSelect
 			id="admission-plan-select"

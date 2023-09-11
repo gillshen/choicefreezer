@@ -10,7 +10,7 @@
 	id="gender-radio-group"
 	name="gender"
 	label="Gender"
-	options={GENDERS}
+	options={Array.from(GENDERS)}
 	{form}
 	{errors}
 />

@@ -13,7 +13,7 @@
 <fieldset>
 	<legend class="empty" />
 
-	<FormSelect id="country-select" name="country" label="Country" {form} {errors}>
+	<FormSelect id="country-select" name="country" label="Home country" {form} {errors}>
 		<OptionList options={COUNTRIES.sort(byNameChinaFirst)} />
 	</FormSelect>
 

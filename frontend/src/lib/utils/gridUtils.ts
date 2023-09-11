@@ -9,6 +9,8 @@ import {
 	type ValueGetterParams
 } from 'ag-grid-community';
 
+import { toShortDate } from '$lib/utils/dateUtils';
+
 export const defaultColDef = {
 	sortable: true,
 	resizable: true,
@@ -65,6 +67,13 @@ export function percentageFormatter(params: ValueFormatterParams): string {
 		minimumFractionDigits: 1,
 		maximumFractionDigits: 1
 	}).format(params.value);
+}
+
+export function shortDateFormatter(params: ValueFormatterParams): string {
+	if (!params.value) {
+		return '';
+	}
+	return toShortDate(params.value);
 }
 
 function numberAppliedValueGetter(params: ValueGetterParams): number {

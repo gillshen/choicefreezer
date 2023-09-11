@@ -17,7 +17,7 @@
 <FormTextInput
 	id={`${rankLower}-major-input`}
 	name={majorFieldName}
-	label={`${rank} major`}
+	label={`${rank}-choice major`}
 	{form}
 	{errors}
 	optional
@@ -27,7 +27,7 @@
 <FormSelect
 	id={`${rankLower}-major-category-select`}
 	name={majorCategoryFieldName}
-	label={`Category of the ${rank.toLowerCase()} major`}
+	label="Major classification"
 	{form}
 	{errors}
 	optional

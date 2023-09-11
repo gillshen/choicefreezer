@@ -270,6 +270,10 @@ export async function createUserLog(data: NewUserLog) {
 	return await post(`user_logs/new/`, data);
 }
 
+export async function patchUserLog(logId: number, data: any) {
+	return await patch(`user_logs/${logId}/update/`, data);
+}
+
 export async function deleteUserLog(logId: number) {
 	return await destroy(`user_logs/${logId}/delete/`);
 }

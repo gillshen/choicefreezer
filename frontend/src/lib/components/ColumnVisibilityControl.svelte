@@ -13,16 +13,17 @@
 	}
 </script>
 
-<div class="flex flex-col gap-2 text-surface-300">
+<div class="flex flex-col gap-3 text-surface-300">
 	{#each initialStates as { headerName, hide }}
 		<SlideToggle
 			name={headerName}
 			checked={!hide}
 			active="bg-primary-500"
-			size="sm"
+			size="xs"
+			background="bg-surface-500"
 			on:change={(e) => toggleVisible(headerName, e)}
 		>
-			{headerName}
+			<span class="text-sm font-heading-token">{headerName}</span>
 		</SlideToggle>
 	{/each}
 </div>

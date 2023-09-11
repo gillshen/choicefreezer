@@ -25,7 +25,7 @@ export function formatEndDate(
 		return serviceEndDate;
 	}
 	if (contractStatus === 'Effective') {
-		return 'present';
+		return 'n/a';
 	}
-	return 'e.o.c.'; // end of contract
+	return 'End of contract';
 }

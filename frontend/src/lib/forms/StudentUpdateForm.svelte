@@ -28,10 +28,9 @@
 </script>
 
 <form method="post" {action} novalidate use:enhance>
-	<HiddenIdField value={$form.id} name="id" />
-
 	<fieldset>
 		<legend>Legal name</legend>
+		<HiddenIdField value={$form.id} name="id" />
 		<StudentLegalNameFields form={$form} errors={$errors} />
 	</fieldset>
 

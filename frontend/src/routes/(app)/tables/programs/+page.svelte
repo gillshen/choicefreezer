@@ -17,6 +17,7 @@
 	} from '$lib/utils/programGridUtils.js';
 
 	import { byType } from '$lib/utils/sortUtils.js';
+	import Section from '$lib/components/Section.svelte';
 
 	export let data;
 	const { programs } = data;
@@ -29,19 +30,19 @@
 		cfRank: { headerName: 'CF Rank', hide: true },
 		targets: { headerName: 'Targets', hide: false },
 
-		applied: { headerName: '# Applied', hide: false },
-		resultPending: { headerName: '# Result Pending', hide: true },
+		applied: { headerName: 'Num. Applied', hide: false },
+		resultPending: { headerName: 'Num. Pending', hide: true },
 
-		admitted: { headerName: '# All Admitted', hide: false },
-		deferAdmitted: { headerName: '# Adm. after deferral', hide: true },
-		waitlistAdmitted: { headerName: '# Adm. from WL', hide: true },
+		admitted: { headerName: 'Num. Admitted Total', hide: false },
+		deferAdmitted: { headerName: 'Num. Deferred-Admitted', hide: true },
+		waitlistAdmitted: { headerName: 'Num. WL-Admitted', hide: true },
 
-		rejected: { headerName: '# All Rejected', hide: false },
-		deferRejected: { headerName: '# Rej. after deferral', hide: true },
-		waitlistRejected: { headerName: '# Rej. from WL', hide: true },
+		rejected: { headerName: 'Num. Rejected Total', hide: false },
+		deferRejected: { headerName: 'Num. Deferred-Rejected', hide: true },
+		waitlistRejected: { headerName: 'Num. WL-Rejected', hide: true },
 
-		deferred: { headerName: '# All Deferred', hide: true },
-		waitlisted: { headerName: '# All Waitlisted', hide: true },
+		deferred: { headerName: 'Num. Deferred Total', hide: true },
+		waitlisted: { headerName: 'Num. Waitlisted Total', hide: true },
 
 		admitRate: { headerName: 'Admit Rate', hide: false }
 	};
@@ -60,7 +61,6 @@
 		{ ...columnControls.type, field: 'type' },
 		{
 			...columnControls.schools,
-			minWidth: 240,
 			valueGetter: schoolsValueGetter,
 			cellRenderer: SchoolsRenderer
 		},
@@ -96,7 +96,7 @@
 	onMount(() => mountGrid('#grid', gridOptions));
 </script>
 
-<div class="grid-page-container">
+<Section hero wide classNames="grid-page-container">
 	<div class="grid-page-sidebar">
 		<div class="grid-page-sidebar-content">
 			<ColumnVisibilityControl {gridOptions} initialStates={Object.values(columnControls)} />
@@ -111,4 +111,4 @@
 
 		<div id="grid" class="data-grid ag-theme-alpine-dark" />
 	</div>
-</div>
+</Section>

@@ -3,12 +3,9 @@
 	import { typeToClass, typeToInitial } from '$lib/utils/contractUtils';
 
 	export let student: StudentOfUser;
-	export let lighter: boolean = false;
-
-	$: shadowClass = lighter ? 'cf-card-shadow-convex-2' : 'cf-card-shadow-convex';
 </script>
 
-<a href={`../students/${student.id}/`} class={`student-anchor ${shadowClass}`}>
+<a href={`../students/${student.id}/`} class="student-anchor">
 	<header class={`contract-chip bg-${typeToClass(student.latest_contract_type)}`}>
 		<p>{typeToInitial(student.latest_contract_type)}</p>
 	</header>

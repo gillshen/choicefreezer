@@ -2,7 +2,7 @@
 	import type { SuperValidated } from 'sveltekit-superforms';
 
 	import type { User } from '$lib/types/userTypes';
-	import type { UserLog } from '$lib/types/userLogTypes';
+	import type { UserLogListItem } from '$lib/types/userLogTypes';
 	import type { NewUserLogSchema } from '$lib/schemas';
 	import type { ApplicationListItem } from '$lib/types/applicationTypes';
 
@@ -12,7 +12,7 @@
 		userId: number;
 		username: string;
 		owner: User;
-		logs: UserLog[];
+		logs: UserLogListItem[];
 		userLogForm: SuperValidated<NewUserLogSchema>;
 		applications: ApplicationListItem[];
 	};

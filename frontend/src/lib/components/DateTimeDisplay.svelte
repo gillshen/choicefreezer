@@ -14,7 +14,7 @@
 			<div class="font-bold">{toYear(date)}</div>
 		</div>
 		{#if time}
-			<div>
+			<div class="text-surface-300">
 				{toTime(time)}
 				{#if timezone}{formatTimezone(timezone)}{/if}
 			</div>

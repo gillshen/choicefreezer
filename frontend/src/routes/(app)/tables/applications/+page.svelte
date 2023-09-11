@@ -3,7 +3,12 @@
 	import type { GridOptions } from 'ag-grid-community';
 
 	import type { ColumnControls } from '$lib/types/gridTypes.js';
-	import { defaultColDef, columnTypes, mountGrid } from '$lib/utils/gridUtils.js';
+	import {
+		defaultColDef,
+		columnTypes,
+		mountGrid,
+		shortDateFormatter
+	} from '$lib/utils/gridUtils.js';
 
 	import {
 		ApplicationIdRenderer,
@@ -26,12 +31,12 @@
 		toeflBestScoreGetter,
 		ieltsBestScoreGetter,
 		detBestScoreGetter,
-		statusUpdatedValueGetter,
-		shortDateFormatter
+		statusUpdatedValueGetter
 	} from '$lib/utils/applicationGridUtils.js';
 
 	import GridDownloadButton from '$lib/components/GridDownloadButton.svelte';
 	import ColumnVisibilityControl from '$lib/components/ColumnVisibilityControl.svelte';
+	import Section from '$lib/components/Section.svelte';
 
 	export let data;
 	const { applications } = data;
@@ -123,7 +128,7 @@
 	onMount(() => mountGrid('#grid', gridOptions));
 </script>
 
-<div class="grid-page-container">
+<Section hero wide classNames="grid-page-container">
 	<div class="grid-page-sidebar">
 		<div class="grid-page-sidebar-content">
 			<ColumnVisibilityControl {gridOptions} initialStates={Object.values(columnControls)} />
@@ -138,4 +143,4 @@
 
 		<div id="grid" class="data-grid ag-theme-alpine-dark" />
 	</div>
-</div>
+</Section>

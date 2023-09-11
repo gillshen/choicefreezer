@@ -177,10 +177,14 @@ export const userLogValidators = {
 	date: z.string().min(1, fieldRequired),
 	title: z.string().trim().max(100).optional().default(''),
 	text: z.string().trim().min(1, fieldRequired).max(1000),
-	public: z.boolean().default(false),
 	pinned: z.boolean().default(false),
 	shared: z.boolean().default(false),
-	relevant_student: z.number().min(1).nullable()
+	task_status: z.string().optional().default(''),
+	task_due: z.string().optional().nullable(),
+	relevant_student: z.number().min(1).nullable(),
+
+	// used internally
+	isTodo: z.boolean()
 };
 
 // Enrollment creation form

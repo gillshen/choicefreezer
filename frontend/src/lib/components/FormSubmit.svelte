@@ -5,7 +5,7 @@
 </script>
 
 <div class="form-actions flex gap-4">
-	<button type="submit" class="cf-primary">{buttonText}</button>
+	<button type="submit" class="submit cf-btn">{buttonText}</button>
 </div>
 
 <div class="h-8 mt-2">

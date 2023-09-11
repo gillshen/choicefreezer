@@ -10,6 +10,8 @@ export type UserListItem = {
 export type StudentOfUser = {
 	id: number;
 	name: string;
+	last_name: string;
+	first_name: string;
 	last_name_romanized: string;
 	first_name_romanized: string;
 	latest_target_year: number;

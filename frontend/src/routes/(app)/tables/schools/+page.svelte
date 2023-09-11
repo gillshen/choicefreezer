@@ -7,6 +7,7 @@
 	import ColumnVisibilityControl from '$lib/components/ColumnVisibilityControl.svelte';
 
 	import { defaultColDef, columnTypes, mountGrid, AgCellRenderer } from '$lib/utils/gridUtils.js';
+	import Section from '$lib/components/Section.svelte';
 
 	export let data;
 	const { schools } = data;
@@ -23,31 +24,31 @@
 
 	const columnControls: ColumnControls = {
 		type: { headerName: 'Type', hide: false },
-		school: { headerName: 'School', hide: false },
+		name: { headerName: 'Name', hide: false },
 		abbreviation: { headerName: 'Abbreviation', hide: false },
-		country: { headerName: 'Country', hide: true },
+		country: { headerName: 'Home Country', hide: true },
 		usNewsRank: { headerName: 'US News Rank', hide: false },
 
-		applied: { headerName: '# Applied', hide: false },
-		resultPending: { headerName: '# Result Pending', hide: true },
+		applied: { headerName: 'Num. Applied', hide: false },
+		resultPending: { headerName: 'Num. Pending', hide: true },
 
-		admitted: { headerName: '# All Admitted', hide: false },
-		deferAdmitted: { headerName: '# Adm. after deferral', hide: true },
-		waitlistAdmitted: { headerName: '# Adm. from WL', hide: true },
+		admitted: { headerName: 'Num. Admitted Total', hide: false },
+		deferAdmitted: { headerName: 'Num. Deferred-Admitted', hide: true },
+		waitlistAdmitted: { headerName: 'Num. WL-Admitted', hide: true },
 
-		rejected: { headerName: '# All Rejected', hide: false },
-		deferRejected: { headerName: '# Rej. after deferral', hide: true },
-		waitlistRejected: { headerName: '# Rej. from WL', hide: true },
+		rejected: { headerName: 'Num. Rejected Total', hide: false },
+		deferRejected: { headerName: 'Num. Deferred-Rejected', hide: true },
+		waitlistRejected: { headerName: 'Num. WL-Rejected', hide: true },
 
-		deferred: { headerName: '# All Deferred', hide: true },
-		waitlisted: { headerName: '# All Waitlisted', hide: true },
+		deferred: { headerName: 'Num. Deferred Total', hide: true },
+		waitlisted: { headerName: 'Num. Waitlisted Total', hide: true },
 
 		admitRate: { headerName: 'Admit Rate', hide: false }
 	};
 
 	const columnDefs = [
 		{ ...columnControls.type, field: 'type' },
-		{ ...columnControls.school, field: 'name', minWidth: 240, cellRenderer: NameRenderer },
+		{ ...columnControls.name, field: 'name', cellRenderer: NameRenderer },
 		{ ...columnControls.abbreviation, field: 'abbreviation' },
 		{ ...columnControls.country, field: 'country' },
 		{ ...columnControls.usNewsRank },
@@ -80,7 +81,7 @@
 	onMount(() => mountGrid('#grid', gridOptions));
 </script>
 
-<div class="grid-page-container">
+<Section hero wide classNames="grid-page-container">
 	<div class="grid-page-sidebar">
 		<div class="grid-page-sidebar-content">
 			<ColumnVisibilityControl {gridOptions} initialStates={Object.values(columnControls)} />
@@ -95,4 +96,4 @@
 
 		<div id="grid" class="data-grid ag-theme-alpine-dark" />
 	</div>
-</div>
+</Section>

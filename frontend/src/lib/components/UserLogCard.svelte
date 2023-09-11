@@ -1,72 +1,145 @@
 <script lang="ts">
 	import type { UserLogListItem } from '$lib/types/userLogTypes';
+	import { toShortTime, toTime } from '$lib/utils/dateUtils';
 
 	export let log: UserLogListItem;
 	export let allowEdit: boolean;
+	export let handleTodoToggleRequest: (log: UserLogListItem) => void;
+	export let handlePinToggleRequest: (log: UserLogListItem) => void;
 	export let handleDeleteRequest: (log: UserLogListItem) => void;
+
+	let open = false;
+
+	$: isTodo = log.task_status === 'TODO';
+
+	$: iconClass = isTodo
+		? 'fa-solid fa-hourglass-start'
+		: log.task_status === 'Done'
+		? 'fa-solid fa-check'
+		: log.shared
+		? 'fa-solid fa-bullhorn'
+		: log.pinned
+		? 'fa-solid fa-thumbtack'
+		: 'fa-regular fa-note-sticky';
+
+	$: iconColor = log.pinned
+		? 'text-orange-400'
+		: log.task_status === 'TODO'
+		? 'text-warning-400'
+		: log.task_status === 'Done'
+		? 'text-success-400'
+		: 'text-surface-400';
 </script>
 
-<li class="px-6 py-4 rounded-xl cf-card-shadow-convex-2">
-	<div class="flex justify-between">
-		<div class="flex gap-2 items-baseline text-sm text-tertiary-500">
-			<time class="">{log.date}</time>
+<button
+	class="text-base w-full font-bold my-1 flex items-center justify-between"
+	on:click={() => (open = !open)}
+>
+	<div class="w-[32px] flex justify-center">
+		<i class={`${iconClass} ${iconColor}`} />
+	</div>
 
-			{#if log.shared}
-				<i class="fa-solid fa-bullhorn" />
-			{/if}
+	<div class="flex-grow flex gap-2 items-baseline">
+		<span class={`${open ? 'font-bold' : 'font-normal'}`}>{log.title}</span>
 
-			{#if log.public && allowEdit}
-				<i class="fa-solid fa-eye" />
-			{/if}
-
-			{#if log.pinned}
-				<i class="fa-solid fa-thumbtack text-rose-400" />
-			{/if}
-		</div>
-
-		{#if allowEdit}
-			<div class="flex">
-				<button
-					class="icon-button delete text-surface-300"
-					on:click={() => handleDeleteRequest(log)}
-				>
-					<i class="fa-solid fa-trash" />
-				</button>
+		{#if log.relevant_student}
+			<div class="student-chip scale-90 whitespace-nowrap overflow-hidden text-ellipsis">
+				{log.relevant_student.name}
 			</div>
 		{/if}
 	</div>
 
-	<header class="text-base font-bold flex gap-4 items-baseline justify-between">
-		<div class="flex gap-2 items-center">
-			{#if log.relevant_student}
-				<div class="student-chip">{log.relevant_student.name}</div>
+	<div class="flex gap-4 items-center pr-1">
+		<time class="text-sm text-surface-300 font-normal">
+			{#if log.task_due}{toShortTime(log.task_due)}, {/if}{log.date}
+		</time>
+
+		<i
+			class={`fa-solid fa-chevron-down text-surface-300 ${open ? 'rotate-180' : ''} transition-all`}
+		/>
+	</div>
+</button>
+
+<div class={`log-text-container ${open ? 'open' : ''}`}>
+	{#if open}
+		{#each log.text.split(/(?:\r?\n){2,}/g) as paragraph}
+			<p class="log-text-paragraph max-w-prose mx-[32px] text-surface-300">
+				<!--
+					TODO potentially unsafe - should sanitize at log creation
+				-->
+				{@html paragraph.split(/\r?\n/g).join('<br />')}
+			</p>
+		{/each}
+	{/if}
+
+	{#if allowEdit && open}
+		<div class="flex gap-4 pl-[32px]">
+			{#if log.task_status}
+				<button
+					class={`cf-btn py-1 flex gap-1 items-center ${
+						isTodo
+							? 'text-primary-400 hover:text-primary-500'
+							: 'text-warning-400 hover:text-warning-500'
+					} `}
+					on:click={() => handleTodoToggleRequest(log)}
+				>
+					<i class={`text-xs fa-solid ${isTodo ? 'fa-check' : 'fa-hourglass-start'}`} />
+					<span class="text-xs">Mark as {isTodo ? 'Done' : 'TODO'}</span>
+				</button>
 			{/if}
 
-			{log.title}
+			<button
+				class={`cf-btn py-1 flex gap-1 items-center ${
+					log.pinned
+						? 'text-surface-300 hover:text-surface-100'
+						: 'text-orange-400 hover:text-orange-500'
+				} `}
+				on:click={() => handlePinToggleRequest(log)}
+			>
+				<i class="text-xs fa-solid fa-thumbtack" />
+				<span class="text-xs">{log.pinned ? 'Unpin' : 'Pin'}</span>
+			</button>
+
+			<button
+				class="cf-btn text-error-400 py-1 hover:text-error-500"
+				on:click={() => handleDeleteRequest(log)}
+			>
+				<span class="text-xs">Delete</span>
+			</button>
 		</div>
-
-		<small class="text-surface-400 font-normal">Updated {log.updated}</small>
-	</header>
-
-	{#each log.text.split(/(?:\r?\n){2,}/g) as paragraph}
-		<p class="log-text max-w-prose text-surface-300">
-			<!-- TODO potentially unsafe -->
-			{@html paragraph.split(/\r?\n/g).join('<br />')}
-		</p>
-	{/each}
-</li>
+	{/if}
+</div>
 
 <style lang="postcss">
 	.student-chip {
-		@apply px-4 py-1 rounded-full;
+		@apply px-3 py-1 rounded-full;
 		@apply font-normal text-sm;
 		@apply bg-primary-400 text-surface-900;
 	}
 
-	p.log-text:first-of-type {
-		@apply pt-2;
+	.log-text-container {
+		display: grid;
+		grid-template-rows: 0fr;
+		row-gap: 0rem;
+		overflow: hidden;
+		opacity: 0;
+		transition: all 0.15s ease-in-out;
 	}
-	p.log-text:last-of-type {
-		@apply pb-2;
+	.log-text-container.open {
+		grid-template-rows: 1fr;
+		row-gap: 1.5rem;
+		opacity: 1;
+		padding-bottom: 1rem;
+	}
+	.log-text-container * {
+		min-height: 0;
+		margin-top: 0;
+		margin-bottom: 0;
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+
+	.log-text-paragraph:first-of-type {
+		@apply mt-2;
 	}
 </style>

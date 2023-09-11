@@ -1,6 +1,8 @@
 /* Global styles */
+
+/* Fix Ag-Grid's white corner issue in Chromium-based browsers */
 ::-webkit-scrollbar-corner {
-	@apply bg-surface-900;
+	@apply bg-transparent;
 }
 
 html,
@@ -13,100 +15,214 @@ body {
 main {
 	@apply flex-grow;
 }
+
 nav a:hover,
 .nav-link:hover {
-	@apply text-primary-600;
+	@apply text-primary-500;
 }
 nav .divider {
-	@apply bg-surface-500;
+	@apply bg-surface-600;
 }
 
 footer > div {
 	@apply px-4 pt-6 pb-8;
 }
-article.main *.page-container {
-	@apply w-full max-w-5xl mx-auto p-4 pb-12;
+
+.page-section-container {
+	@apply rounded-none;
 }
-article.main > section {
-	@apply py-4;
+
+.page-section-container.hero {
+	@apply mx-8 mt-0 mb-6;
+	@apply min-h-[calc(100vh-108px)] max-h-[1280px] overflow-auto;
+	@apply rounded-tl-3xl rounded-b-3xl;
+	/* @apply bg-surface-800; */
 }
-article.main > section:nth-child(odd) {
+.page-section-container.hero:not(.long) {
+	background: rgb(25, 36, 5);
+	background: linear-gradient(
+		8deg,
+		rgba(34, 38, 8, 1) 0%,
+		rgba(25, 36, 5, 1) 32%,
+		rgba(30, 31, 30, 1) 64%
+	);
+}
+.page-section-container.long {
+	@apply max-h-none;
 	@apply bg-surface-800;
 }
-
-h1 {
-	@apply h1;
-	@apply w-full max-w-5xl mx-auto p-4 pt-12;
-	@apply font-bold;
-	font-size: 2.5rem !important;
-}
-h2 {
-	@apply h2;
-	@apply pt-4 pb-8;
-	font-size: 22pt;
-}
-h3 {
-	@apply h3;
-	@apply pt-4;
+.page-section-container:last-of-type {
+	@apply mb-12;
 }
 
-p + p {
-	@apply mt-4;
+.page-section {
+	@apply p-8;
 }
+.page-section,
+.cf-h1 {
+	@apply w-full max-w-7xl mx-auto;
+}
+.cf-h1 {
+	@apply flex items-center;
+	@apply text-2xl font-heading-token font-bold;
+	@apply mb-8;
+}
+.cf-h1,
+.cf-h2,
+.cf-h3 {
+	font-family: 'Montserrat' !important;
+}
+
+.panel {
+	@apply flex flex-col;
+}
+.panel:not(.transparent) {
+	@apply bg-surface-800/60;
+	@apply border border-surface-600 rounded-lg;
+}
+.panel:not(.fit-height) {
+	@apply h-[calc(100vh-232px)] max-h-[800px];
+}
+
+.cf-btn {
+	@apply !text-sm;
+	font-family: 'Montserrat' !important;
+}
+.cf-btn.cf-primary {
+	@apply bg-primary-400 text-black;
+}
+.cf-btn.cf-secondary {
+	@apply border border-primary-400/20;
+}
+.cf-btn.cf-secondary:hover {
+	@apply text-black bg-primary-500;
+}
+.cf-btn.cf-icon-button {
+	@apply rounded-full;
+	@apply flex justify-center items-center;
+	@apply text-sm;
+}
+.cf-btn.cf-delete:hover {
+	@apply bg-surface-700 text-error-400;
+}
+
+.cf-entry {
+	@apply border-b border-dotted border-surface-400;
+	@apply pb-2;
+}
+.cf-entry:not(:first-of-type) {
+	@apply pt-3.5;
+}
+.cf-entry-label {
+	@apply text-sm text-surface-400;
+	@apply font-heading-token;
+}
+.cf-page-link {
+	@apply text-primary-400/90;
+	@apply w-fit;
+}
+
+/* Form */
+form {
+	@apply flex flex-col;
+}
+form fieldset {
+	@apply flex flex-col gap-4;
+}
+form div.form-actions,
+form fieldset:not(:first-child) {
+	@apply mt-12;
+}
+form fieldset > legend {
+	@apply h3 py-4 pr-4;
+}
+form fieldset > legend.empty {
+	@apply px-0 py-2 my-0;
+}
+form label {
+	@apply max-w-[20rem];
+}
+form label.wider {
+	@apply max-w-[28rem];
+}
+form label:not(.radio-items-container > label) {
+	@apply pb-2 pt-2;
+}
+form label .optional {
+	@apply text-surface-400;
+}
+form input,
+form select {
+	@apply !bg-surface-700;
+}
+form input.input,
+form input.date,
+form input.time,
+form select.select {
+	@apply w-[20rem] h-10 px-2;
+	@apply rounded-md;
+}
+form input.input.wider,
+form select.select.wider {
+	@apply w-[28rem];
+}
+form textarea.input {
+	@apply min-h-[2.5rem];
+	@apply max-w-prose;
+}
+form input.radio {
+	@apply rounded-full;
+}
+form input.checkbox:checked,
+form input.radio:checked {
+	@apply !bg-primary-500;
+}
+form small.char-count {
+	@apply my-1 text-surface-400 text-sm;
+}
+form small.error-message,
+form small.success-message {
+	@apply text-sm mt-2;
+}
+form small.error-message {
+	@apply text-rose-400;
+}
+form small.success-message {
+	@apply text-lime-400;
+}
+form legend {
+	@apply !text-base font-bold !pb-1 !pr-8 mb-2;
+	@apply border-b-2 border-primary-400;
+	@apply text-surface-200;
+}
+form legend.empty {
+	@apply hidden !p-0 m-0;
+}
+form button.submit {
+	@apply btn variant-filled-primary text-black;
+}
+
 p.section-placeholder {
 	@apply text-surface-300;
 }
 
 dialog {
 	@apply rounded-xl;
-	box-shadow: 18px 18px 36px rgb(25, 25, 25), -18px -18px 36px rgb(55, 55, 55);
+	box-shadow: 4px 4px 8px rgba(0, 4, 0, 0.4), 24px 24px 48px rgba(0, 4, 0, 0.6),
+		3px 3px 6px rgba(48, 52, 48, 0.6), -12px -12px 36px rgba(48, 52, 48, 0.4);
 	border: none;
-}
-
-/* flat on surface-900 */
-.cf-card-shadow {
-	box-shadow: 6px 6px 12px #222222, -6px -6px 12px #383838;
-}
-.cf-card-shadow-hover:hover {
-	box-shadow: 9px 9px 18px #222222, -9px -9px 18px #383838;
-}
-
-/* flat on surface-800 */
-.cf-card-shadow-2 {
-	box-shadow: 6px 6px 12px #2a2a2a, -6px -6px 12px #444444;
-}
-.cf-card-shadow-2-hover:hover {
-	box-shadow: 9px 9px 18px #2a2a2a, -9px -9px 18px #444444;
-}
-
-/* convex on surface-900 */
-.cf-card-shadow-convex {
-	box-shadow: inset 3px 3px 6px #383838, inset -3px -3px 6px #222222, 3px 3px 6px #2a2a2a;
-}
-/* convex on surface-800 */
-.cf-card-shadow-convex-2 {
-	box-shadow: inset 3px 3px 6px #444444, inset -3px -3px 6px #2a2a2a, 3px 3px 6px #323232;
-}
-
-/* concave on surface-900 */
-.cf-card-shadow-concave {
-	box-shadow: inset 5px 5px 10px #222222, inset -5px -5px 10px #383838;
-}
-
-/* concave on surface-800 */
-.cf-card-shadow-concave-2 {
-	box-shadow: inset 5px 5px 10px #2a2a2a, inset -5px -5px 10px #444444;
 }
 
 button {
 	cursor: default;
 }
+
 button.cf-primary,
 button.cf-dangerous-primary,
 button.cf-secondary,
-button.section-cta,
-button.grid-page-export {
+button.section-cta {
 	@apply btn;
+	@apply text-sm;
 	@apply min-w-[8rem] m-0;
 	@apply font-normal;
 	@apply flex gap-2;
@@ -117,22 +233,10 @@ button.cf-secondary,
 button.section-cta {
 	@apply rounded-md;
 }
-button.grid-page-export {
-	@apply rounded-full;
-}
 button.cf-primary,
 button.cf-dangerous-primary,
-button.section-cta,
-button.grid-page-export {
-	@apply variant-filled-primary;
-	@apply hover:scale-[101%] duration-300;
-	box-shadow: 6px 6px 24px rgb(25, 25, 25), -6px -6px 20px rgb(55, 55, 55);
-}
-button.cf-primary:hover,
-button.cf-dangerous-primary:hover,
-button.section-cta:hover,
-button.grid-page-export:hover {
-	box-shadow: 8px 8px 24px rgb(25, 25, 25), -8px -8px 20px rgb(55, 55, 55);
+button.section-cta {
+	@apply variant-ringed-primary;
 }
 button.section-cta {
 	@apply mt-8;
@@ -153,66 +257,6 @@ button.icon-button {
 }
 button.icon-button.delete {
 	@apply hover:bg-red-400 hover:text-black;
-}
-
-/* Form */
-form {
-	@apply flex flex-col;
-}
-fieldset {
-	@apply flex flex-col gap-4;
-}
-fieldset:not(:first-child) {
-	@apply mt-12;
-}
-fieldset > legend {
-	@apply h3 py-4 pr-4;
-}
-fieldset > legend.empty {
-	@apply px-0 py-2 my-0;
-}
-label {
-	@apply max-w-[20rem];
-}
-label:not(.radio-items-container > label) {
-	@apply pb-2 pt-2;
-}
-label .optional {
-	@apply text-surface-400;
-}
-input.input,
-input.date,
-input.time,
-select.select {
-	@apply w-[20rem] h-10 px-2;
-	@apply rounded-md;
-}
-input.input.wider,
-select.select.wider {
-	@apply w-[28rem];
-}
-textarea.input {
-	@apply min-h-[2.5rem];
-	@apply max-w-prose;
-}
-input.radio {
-	@apply rounded-full;
-}
-form div.form-actions {
-	@apply mt-12;
-}
-form small.char-count {
-	@apply my-1 text-surface-400 text-sm;
-}
-form small.error-message,
-form small.success-message {
-	@apply text-sm mt-2;
-}
-form small.error-message {
-	@apply text-rose-400;
-}
-form small.success-message {
-	@apply text-lime-400;
 }
 
 /* navigation */
@@ -263,24 +307,24 @@ form small.success-message {
 }
 
 /* contract types */
-.bg-ug-freshman {
-	@apply bg-yellow-400;
+.text-ug-freshman {
+	@apply text-emerald-300/75;
 }
-/* .border-ug-freshman {
-	@apply border-b-yellow-400;
-} */
-.bg-ug-transfer {
-	@apply bg-rose-400;
+.border-ug-freshman {
+	@apply border-emerald-300;
 }
-/* .border-ug-transfer {
-	@apply border-b-rose-400;
-} */
-.bg-graduate {
-	@apply bg-blue-400;
+.text-ug-transfer {
+	@apply text-rose-300/75;
 }
-/* .border-graduate {
-	@apply border-b-blue-400;
-} */
+.border-ug-transfer {
+	@apply border-rose-300;
+}
+.text-graduate {
+	@apply text-amber-300/75;
+}
+.border-graduate {
+	@apply border-amber-300;
+}
 
 /* status chips */
 .contract-status-chip,
@@ -288,7 +332,7 @@ form small.success-message {
 	@apply px-4 py-1;
 	@apply min-w-[8rem] max-w-fit;
 	@apply rounded-full;
-	@apply text-base text-center font-normal;
+	@apply text-sm text-center font-normal;
 	@apply text-surface-900;
 	@apply bg-surface-50;
 }
@@ -362,12 +406,13 @@ form small.success-message {
 }
 
 /* Data grid styles */
-.data-grid {
+.data-grid.ag-theme-alpine-dark {
 	@apply w-full h-full overflow-scroll;
-	/* Border works well for Firefox, but will reveal the ugly scrollbar shift 
-	 * of Chrome and Edge */
-	/* @apply border border-surface-700 rounded-xl; */
+	/* Border works well in Firefox, but will reveal the ugly scrollbar shift 
+	 * in Chrome and Edge */
+	/* @apply border border-white rounded-xl; */
 }
+
 .data-grid a {
 	@apply text-indigo-200 hover:text-primary-500;
 }
@@ -382,54 +427,46 @@ form small.success-message {
 }
 .grid-page-sidebar,
 .grid-page-content {
-	/* 72px is the height of the topbar */
-	height: calc(100vh - 72px);
-	max-height: calc(100vh - 72px);
+	height: calc(100vh - 104px);
+	max-height: calc(100vh - 104px);
 }
 .grid-page-sidebar {
 	@apply w-[20rem] min-w-[20rem] max-w-[20rem];
-	/* background-color: #1d1d1d; */
 }
 .grid-page-sidebar-content {
-	@apply mx-6 my-0;
-	@apply px-6 py-8;
+	@apply mx-4 my-8;
+	@apply px-6;
 	@apply w-full overflow-auto;
 	@apply rounded-xl;
 }
 .grid-page-content {
-	@apply flex-col flex-grow gap-6;
-	@apply pl-12 pr-12 pt-8 pb-6;
+	@apply flex-col flex-grow gap-4;
+	@apply pl-6 pr-12 pt-8 pb-6;
 }
-h1.grid-page-title {
-	@apply p-0 m-0;
+.grid-page-title {
+	@apply text-2xl font-heading-token font-bold;
 	@apply max-w-none;
-	@apply flex gap-12;
-	font-size: 28pt;
+	@apply flex gap-12 items-center;
 }
 
 /* Overriding Ag-Grid defaults */
-:root {
-	--cf-theme-primary-500: #7ddc14;
-	--cf-theme-surface-900: #2d2d2d;
-}
 .ag-theme-alpine-dark {
-	/* Not using Fira Sans because its numbers are not monowidth */
-	--ag-font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Roboto,
-		'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans', 'Noto Sans SC', sans-serif,
-		'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+	--ag-font-family: 'Bahnschrift', 'Source Sans 3', Inter, ui-sans-serif, system-ui, -apple-system,
+		BlinkMacSystemFont, Roboto, 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans', 'Noto Sans SC',
+		sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
 	/* --ag-font-size */
 
 	/* The icon font used by the grid. */
 	/* --ag-icon-font-family */
 
-	--ag-alpine-active-color: var(--cf-theme-primary-500);
+	--ag-alpine-active-color: a9db5c;
 
 	/* Colour of text and icons in primary UI elements like menus */
 	--ag-foreground-color: #e7e7e7;
 
 	/* Background colour of the grid */
-	--ag-background-color: var(--cf-theme-surface-900);
+	--ag-background-color: transparent !important;
 
 	/* Colour of text and icons in UI elements that need to be slightly 
 	 * less emphasised to avoid distracting attention from data */
@@ -442,7 +479,7 @@ h1.grid-page-title {
 	--ag-header-foreground-color: #e7e7e7;
 
 	/* Background colour for all headers, including the grid header, panels etc */
-	--ag-header-background-color: #373737;
+	--ag-header-background-color: #2a2b2a; /* surface-700 */
 
 	/* Background colour for all tooltips */
 	/* --ag-tooltip-background-color */
@@ -456,7 +493,7 @@ h1.grid-page-title {
 
 	/* Background for areas of the interface that contain UI controls, like 
 	 * tool panels and the chart settings menu */
-	--ag-control-panel-background-color: var(--cf-theme-surface-900);
+	--ag-control-panel-background-color: #1e1f1e;
 
 	/* Background for the active tab on the side of the control panel */
 	/* --ag-side-button-selected-background-color */
@@ -465,7 +502,7 @@ h1.grid-page-title {
 	/* --ag-selected-row-background-color */
 
 	/* Background colour applied to every other row */
-	--ag-odd-row-background-color: #373737;
+	--ag-odd-row-background-color: rgba(40, 41, 40, 0.8);
 
 	/* Background color of the overlay shown over the grid e.g. a data loading indicator */
 	/* --ag-modal-overlay-background-color */
@@ -568,7 +605,7 @@ h1.grid-page-title {
 	/* --ag-input-disabled-background-color */
 	/* --ag-checkbox-background-color */
 	/* --ag-checkbox-border-radius */
-	--ag-checkbox-checked-color: white;
+	--ag-checkbox-checked-color: #a9db5c; /* primary-400 */
 	/* --ag-checkbox-unchecked-color: white; */
 	/* --ag-checkbox-indeterminate-color */
 	/* --ag-toggle-button-border-width */
@@ -586,7 +623,7 @@ h1.grid-page-title {
 
 	/* Colour of the border around focussed inputs. Set to `var(--ag-input-border-color)`
 	 * if you do not want to change the border colour on focus. */
-	--ag-input-focus-border-color: var(--cf-theme-primary-500);
+	--ag-input-focus-border-color: #a9db5c;
 
 	/* # Minichart styles */
 	/* --ag-minichart-selected-chart-color */
@@ -678,6 +715,16 @@ h1.grid-page-title {
 	/* --ag-popup-shadow */
 }
 
+/* dropdown list */
+.ag-list-item {
+	@apply bg-surface-700;
+	@apply px-2;
+}
+
+.ag-row-even {
+	/* slightly lighter than surface-800 */
+	background: rgba(36, 37, 36, 0.8);
+}
 .ag-header-cell:hover .ag-icon {
 	@apply text-surface-50;
 }
@@ -697,14 +744,15 @@ h1.grid-page-title {
 }
 /* floating filters */
 .ag-header-cell.ag-floating-filter {
-	@apply bg-surface-800 text-surface-50;
+	background-color: #2a2b2a; /* follows --ag-header-background-color */
+	@apply text-surface-50;
 }
 .ag-floating-filter .ag-input-field-input {
-	@apply bg-surface-700;
+	background-color: #434343 !important;
 	@apply font-normal;
 }
 .ag-header-cell.ag-floating-filter:hover {
-	@apply !bg-surface-800;
+	background-color: initial;
 }
 .ag-header-cell-filtered {
 	@apply text-amber-400;
@@ -712,7 +760,7 @@ h1.grid-page-title {
 
 /* Rounded corners for the headers */
 .ag-header {
-	@apply rounded-md;
+	@apply rounded-t-md;
 }
 
 /* Override the default 0.5 */
@@ -739,7 +787,7 @@ h1.grid-page-title {
 	animation: fadein 0.5s, fadeout 0.5s 2s;
 }
 
-/* Animations to fade in and out */
+/* Animations to fade the toast in and out */
 @-webkit-keyframes fadein {
 	from {
 		bottom: 0;
@@ -796,6 +844,6 @@ h1.grid-page-title {
 	@apply !w-8 !h-4;
 }
 .slide-toggle-thumb {
-	@apply scale-125;
-	@apply bg-surface-50;
+	@apply scale-110;
+	@apply bg-surface-200;
 }

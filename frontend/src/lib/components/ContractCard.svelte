@@ -1,69 +1,88 @@
 <script lang="ts">
 	import type { ContractListItem } from '$lib/types/contractTypes';
 	import { ESSAY_ADVISOR } from '$lib/constants/cfRoles';
-	import { statusToClass } from '$lib/utils/contractUtils';
+	import { statusToClass, typeToClass } from '$lib/utils/contractUtils';
+	import { byServiceRoleThenUsername } from '$lib/utils/sortUtils';
 
 	export let contract: ContractListItem;
 
 	const { type, target_year, services, status } = contract;
 
-	const essayServices = services.filter((s) => s.role === ESSAY_ADVISOR);
-	const planningServices = services.filter((s) => s.role !== ESSAY_ADVISOR);
+	const typeClass = typeToClass(type);
+	const statusClass = statusToClass(status);
+
+	const essayServices = services
+		.filter((s) => s.role === ESSAY_ADVISOR)
+		.sort(byServiceRoleThenUsername);
+
+	const planningServices = services
+		.filter((s) => s.role !== ESSAY_ADVISOR)
+		.sort(byServiceRoleThenUsername);
 </script>
 
 <a
 	href={`../contracts/${contract.id}/`}
-	class="contract-card cf-card-shadow-2 cf-card-shadow-2-hover"
+	class={`contract-card border-l-2 h-full border-${typeClass}`}
 >
-	<header>
-		<div class="text-2xl font-bold my-2">{type} {target_year}</div>
+	<header class={`px-6 pt-1 flex justify-between items-center rounded-t-lg `}>
+		<div class="text-xl font-bold my-2">
+			{type}
+			{target_year}
+		</div>
 
-		<div class={`contract-status-chip !min-w-0 !py-1 bg-${statusToClass(status)}`}>
+		<div
+			class={`contract-status-chip font-heading-token scale-90 !max-w-[18px] !px-0 !py-1 bg-${statusClass}`}
+		>
 			{status === 'Effective' ? 'In effect' : status}
 		</div>
 	</header>
 
-	<div class="my-4 flex flex-wrap gap-x-8 gap-y-4">
-		<section class="profile-grid">
+	<footer class="px-6 my-4 grid grid-cols-2 gap-x-4 items-start">
+		<section class="services-grid">
 			{#each planningServices as service}
-				<i class="cf-key fa-solid fa-compass self-center" />
-				<div class="cf-value">{service.cf_username}</div>
+				<div>
+					<i class={`fa-solid fa-compass text-${typeClass}`} />
+				</div>
+				<div class="text-sm font-heading-token">{service.cf_username}</div>
 			{/each}
 		</section>
 
-		<section class="profile-grid">
+		<section class="services-grid">
 			{#each essayServices as service}
-				<i class="cf-key fa-solid fa-feather self-center" />
-				<div class="cf-value">{service.cf_username}</div>
+				<div>
+					<i class={`fa-solid fa-feather text-${typeClass}`} />
+				</div>
+				<div class="text-sm font-heading-token">{service.cf_username}</div>
 			{/each}
 		</section>
-	</div>
+	</footer>
 </a>
 
 <style lang="postcss">
 	.contract-card {
-		@apply py-4 px-8 rounded-xl;
 		@apply flex flex-col;
-		@apply min-h-[12rem];
-		transition: all 0.3s ease-in-out;
+		@apply rounded-r-lg;
+		transition: all 0.2s ease-in-out;
 	}
 	.contract-card:hover {
-		@apply scale-[101%];
-	}
-
-	header {
-		@apply p-0 mb-2;
-		@apply flex flex-col gap-2;
+		@apply bg-surface-700;
 	}
 	.contract-status-chip {
+		padding: 2px 16px !important;
 		@apply font-normal text-sm;
-		@apply origin-left scale-90 opacity-80;
+		@apply opacity-80;
 		width: fit-content !important;
 	}
-	.profile-grid {
-		@apply gap-3;
-		@apply min-w-fit;
+	.services-grid {
+		@apply grid grid-cols-[2rem_1fr] gap-y-1;
+		@apply items-start;
 	}
+	.services-grid > div {
+		@apply h-6;
+	}
+	/* .services-grid i {
+		@apply text-primary-300/75;
+	} */
 	.cf-value {
 		@apply whitespace-nowrap overflow-hidden text-ellipsis;
 	}

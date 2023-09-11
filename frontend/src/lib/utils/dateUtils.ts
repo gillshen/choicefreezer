@@ -12,6 +12,15 @@ export function getYearOptions() {
 	return Array.from(Array(span + 1).keys()).map((i) => MAX_YEAR - i);
 }
 
+export function makeDate(date: Date | string): Date {
+	const newDate = new Date(date);
+	newDate.setHours(0);
+	newDate.setMinutes(0);
+	newDate.setSeconds(0);
+	newDate.setMilliseconds(0);
+	return newDate;
+}
+
 export function currentDateString() {
 	return format(new Date(), 'y-LL-dd');
 }
@@ -28,12 +37,23 @@ export function toShortDateWithoutYear(dateString: string): string {
 	return format(new Date(dateString), 'MMM d');
 }
 
+export function toConciseDate(dateString: string): string {
+	if (new Date(dateString).getFullYear() === new Date().getFullYear()) {
+		return toShortDateWithoutYear(dateString);
+	}
+	return toShortDate(dateString);
+}
+
 export function toYear(dateString: string): string {
 	return format(new Date(dateString), 'y');
 }
 
 export function toTime(timeString: string): string {
-	return format(new Date(`2022-01-06T${timeString}`), 'hh:mm bbbb');
+	return format(new Date(`2022-01-06T${timeString}`), 'hh:mm bbb');
+}
+
+export function toShortTime(timeString: string): string {
+	return format(new Date(`2022-01-06T${timeString}`), 'h:mm bbb');
 }
 
 export function toISODate(dateString: string): string {

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms/client';
-	// import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
 	import type { UserListItem } from '$lib/types/userTypes.js';
-	import PageSection from '$lib/components/PageSection.svelte';
+	import Section from '$lib/components/Section.svelte';
+
 	import StudentLegalNameFields from '$lib/components/StudentLegalNameFields.svelte';
 	import StudentRomanizedNameFields from '$lib/components/StudentRomanizedNameFields.svelte';
 	import StudentGenderField from '$lib/components/StudentGenderField.svelte';
@@ -30,47 +30,53 @@
 	const specialPeople = sortByUsername(filterForSpecial(cfPeople));
 </script>
 
-<h1 class="font-normal">Add a student</h1>
+<Section hero long>
+	<div class="flex flex-col items-center">
+		<form class="w-fit" method="post" novalidate use:enhance>
+			<h1 class="text-2xl font-heading-token font-bold">Add a student</h1>
 
-<PageSection>
-	<!-- <SuperDebug data={$form} /> -->
+			<fieldset>
+				<legend>Legal name</legend>
+				<StudentLegalNameFields form={$form} errors={$errors} />
+			</fieldset>
 
-	<form class="w-fit" method="post" novalidate use:enhance>
-		<fieldset>
-			<legend>Legal name</legend>
-			<StudentLegalNameFields form={$form} errors={$errors} />
-		</fieldset>
+			<fieldset>
+				<legend>English name</legend>
+				<StudentRomanizedNameFields form={$form} errors={$errors} />
+			</fieldset>
 
-		<fieldset>
-			<legend>English name</legend>
-			<StudentRomanizedNameFields form={$form} errors={$errors} />
-		</fieldset>
+			<fieldset class="single-column">
+				<legend>Personal information</legend>
+				<StudentGenderField form={$form} errors={$errors} />
+				<StudentCitizenshipField form={$form} errors={$errors} />
+				<StudentDobField form={$form} errors={$errors} />
+			</fieldset>
 
-		<fieldset class="single-column">
-			<legend>Personal information</legend>
-			<StudentGenderField form={$form} errors={$errors} />
-			<StudentCitizenshipField form={$form} errors={$errors} />
-			<StudentDobField form={$form} errors={$errors} />
-		</fieldset>
+			<fieldset>
+				<legend>Residence</legend>
+				<StudentResidenceFields form={$form} errors={$errors} />
+			</fieldset>
 
-		<fieldset>
-			<legend>Residence</legend>
-			<StudentResidenceFields form={$form} errors={$errors} />
-		</fieldset>
+			<fieldset class="single-column">
+				<legend>Contract</legend>
+				<ContractFormFields form={$form} errors={$errors} />
+			</fieldset>
 
-		<fieldset class="single-column">
-			<legend>Contract</legend>
-			<ContractFormFields form={$form} errors={$errors} />
-		</fieldset>
+			<fieldset class="single-column">
+				<legend>CF team</legend>
+				<ServiceFormFields
+					form={$form}
+					errors={$errors}
+					{planners}
+					{essayAdvisors}
+					{specialPeople}
+				/>
+			</fieldset>
 
-		<fieldset class="single-column">
-			<legend>CF team</legend>
-			<ServiceFormFields form={$form} errors={$errors} {planners} {essayAdvisors} {specialPeople} />
-		</fieldset>
-
-		<FormSubmit message={$message} />
-	</form>
-</PageSection>
+			<FormSubmit message={$message} />
+		</form>
+	</div>
+</Section>
 
 <style lang="postcss">
 	fieldset {

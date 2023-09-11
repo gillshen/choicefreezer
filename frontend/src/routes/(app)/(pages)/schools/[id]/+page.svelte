@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 
-	import PageSection from '$lib/components/PageSection.svelte';
+	import Section from '$lib/components/Section.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
 	import SchoolFormFields from '$lib/components/SchoolFormFields.svelte';
 	import FormSubmit from '$lib/components/FormSubmit.svelte';
@@ -67,9 +67,9 @@
 	onMount(() => mountGrid('#applications-grid', gridOptions));
 </script>
 
-<h1>{school.name}</h1>
+<Section hero>
+	<h1>{school.name}</h1>
 
-<PageSection>
 	<pre class="text-surface-400">{JSON.stringify(school, null, 2)}</pre>
 	<button class="section-cta" on:click={() => schoolUpdateDialog.showModal()}>Edit</button>
 
@@ -83,7 +83,7 @@
 	{:else}
 		<p class="section-placeholder">{NO_ROWS_TO_SHOW}</p>
 	{/if}
-</PageSection>
+</Section>
 
 <Dialog exitHelper bind:dialog={schoolUpdateDialog}>
 	<form method="post" action="?/updateSchool" novalidate use:enhance>

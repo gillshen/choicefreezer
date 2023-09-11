@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import PageSection from '$lib/components/PageSection.svelte';
+	import Section from '$lib/components/Section.svelte';
 
 	import type { DomLayoutType } from 'ag-grid-community';
 	import { defaultColDef, columnTypes, mountGrid } from '$lib/utils/gridUtils.js';
@@ -62,26 +62,26 @@
 	onMount(() => mountGrid('#applications-grid', gridOptions));
 </script>
 
-<h1>Target {target.id}</h1>
+<Section hero>
+	<h1>Target {target.id}</h1>
 
-<PageSection>
 	<pre class="text-surface-400">{JSON.stringify(target, null, 2)}</pre>
 
 	<h2 class="mt-12">Deadlines</h2>
 	<pre class="text-surface-400">{JSON.stringify(data.subTargets, null, 2)}</pre>
 
 	<button class="section-cta">Add a deadline</button>
-</PageSection>
+</Section>
 
-<PageSection>
-	<svelte:fragment slot="h2">Requirements</svelte:fragment>
+<Section>
+	<h2>Requirements</h2>
 	<pre class="text-surface-400">{JSON.stringify(data.requirements, null, 2)}</pre>
 
 	<button class="section-cta">Edit</button>
-</PageSection>
+</Section>
 
-<PageSection>
-	<svelte:fragment slot="h2">Applications</svelte:fragment>
+<Section>
+	<h2>Applications</h2>
 
 	{#if data.applications.length}
 		<div class={`w-full ${data.applications.length > 15 ? 'h-[calc(100vh-12rem)]' : ''}`}>
@@ -90,4 +90,4 @@
 	{:else}
 		<p class="section-placeholder">{NO_ROWS_TO_SHOW}</p>
 	{/if}
-</PageSection>
+</Section>

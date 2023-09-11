@@ -29,17 +29,50 @@
 		onResult: ({ result }) => closeDialogOnSuccess(result, dialog!)
 	});
 
-	if (!$form.date) {
-		$form.date = currentDateString();
-	}
+	$: isTodo = $form.isTodo;
+
+	$form.date ||= currentDateString();
+	$form.task_due ||= '18:00';
 </script>
 
 <form method="post" {action} novalidate use:enhance>
 	<fieldset>
 		<legend class="empty" />
+
+		<div class="flex flex-row gap-4 items-start mt-2">
+			<input
+				id="todo-check"
+				name="isTodo"
+				type="checkbox"
+				class="checkbox"
+				bind:checked={$form.isTodo}
+				on:change={() => (isTodo = $form.isTodo)}
+			/>
+			<label class="label !pt-0 !-mt-0.5" for="todo-check">This is a TODO item</label>
+		</div>
+	</fieldset>
+
+	<fieldset>
+		<legend class="empty" />
 		<HiddenIdField id="user-id" name="author" value={userId} />
 
-		<FormDateInput id="log-date-input" name="date" label="Date" form={$form} errors={$errors} />
+		<FormDateInput
+			id="log-date-input"
+			name="date"
+			label={isTodo ? 'Task due' : 'Date'}
+			form={$form}
+			errors={$errors}
+		/>
+
+		{#if isTodo}
+			<input
+				id="log-task-due-input"
+				class="input"
+				type="time"
+				name="task_due"
+				bind:value={$form.task_due}
+			/>
+		{/if}
 
 		<FormSelect
 			id="relevant-student-select"
@@ -65,18 +98,14 @@
 		<FormTextArea
 			id="log-text-area"
 			name="text"
-			label="Text"
+			label="Details"
 			form={$form}
 			errors={$errors}
 			maxlength={1000}
 			showCharCount
 		/>
-	</fieldset>
 
-	<fieldset class="flex flex-col gap-0">
 		<FormCheckInput id="log-pinned-check" name="pinned" label="Pin at the top" form={$form} />
-
-		<FormCheckInput id="log-public-check" name="public" label="Make public" form={$form} />
 
 		<FormCheckInput id="log-shared-check" name="shared" label="Post to the Commons" form={$form} />
 	</fieldset>

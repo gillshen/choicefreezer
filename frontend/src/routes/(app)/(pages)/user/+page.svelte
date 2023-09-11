@@ -2,10 +2,10 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import { goto } from '$app/navigation';
 
+	import Section from '$lib/components/Section.svelte';
 	import FormSubmit from '$lib/components/FormSubmit.svelte';
 	import FormTextInput from '$lib/components/FormTextInput.svelte';
 	import HiddenIdField from '$lib/components/HiddenIdField.svelte';
-	import PageSection from '$lib/components/PageSection.svelte';
 	import { toast } from '$lib/utils/interactiveUtils.js';
 	import { BANNER } from '$lib/constants/messages.js';
 
@@ -45,10 +45,10 @@
 	});
 </script>
 
-<h1>Hello, {data.username}</h1>
+<Section hero>
+	<h1>Hello, {data.username}</h1>
 
-<PageSection>
-	<svelte:fragment slot="h2">Change banners</svelte:fragment>
+	<h2>Change banners</h2>
 
 	<form method="post" action="?/updateBanners" novalidate use:bannerEnhance>
 		<fieldset>
@@ -78,10 +78,8 @@
 
 		<FormSubmit message={$bannerMessage} buttonText="Change" />
 	</form>
-</PageSection>
 
-<PageSection>
-	<svelte:fragment slot="h2">Change password</svelte:fragment>
+	<h2>Change password</h2>
 
 	<form method="post" action="?/resetPassword" novalidate use:passwordEnhance>
 		<fieldset>
@@ -113,4 +111,4 @@
 
 		<FormSubmit message={$passwordMessage} buttonText="Change" />
 	</form>
-</PageSection>
+</Section>

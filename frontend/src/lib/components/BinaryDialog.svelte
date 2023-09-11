@@ -10,12 +10,16 @@
 <dialog
 	bind:this={dialog}
 	on:close
-	class="w-fit max-w-prose max-h-[50rem] px-12 py-8 text-surface-50 bg-surface-900"
+	class="w-fit max-w-sm px-12 py-6 text-surface-50 bg-surface-800"
 >
 	{#if title || dangerous}
-		<h3 class="m-0 p-0 mb-4 text-xl font-bold flex gap-4 items-center">
+		<h3
+			class={`m-0 p-0 mb-4 text-base font-heading-token flex gap-3 items-start ${
+				dangerous ? 'text-warning-400' : ''
+			}`}
+		>
 			{#if dangerous}
-				<i class="fa-solid fa-triangle-exclamation" />
+				<i class="fa-solid fa-triangle-exclamation mt-1" />
 			{/if}
 			{title}
 		</h3>
@@ -23,12 +27,19 @@
 
 	<slot />
 
-	<div class="mt-12 flex gap-4 justify-center">
-		<button class={dangerous ? 'cf-dangerous-primary' : 'cf-primary'} on:click={onYes}
-			>{yesButtonText}</button
+	<div class="mt-8 flex gap-4 justify-center">
+		<button
+			class={`btn cf-btn ${dangerous ? 'variant-filled-error text-black' : ''}`}
+			on:click={onYes}>{yesButtonText}</button
 		>
-		<button class="cf-secondary bg-surface-800 hover:bg-surface-700" on:click={() => dialog.close()}
+		<button class="btn cf-btn bg-surface-700 hover:bg-surface-600" on:click={() => dialog.close()}
 			>{noButtonText}</button
 		>
 	</div>
 </dialog>
+
+<style lang="postcss">
+	button {
+		@apply py-1 min-w-[6rem];
+	}
+</style>

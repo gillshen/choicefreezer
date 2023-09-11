@@ -22,8 +22,8 @@
 </script>
 
 <form method="post" {action} novalidate use:enhance>
-	<HiddenIdField value={$form.id} name="id" />
 	<fieldset>
+		<HiddenIdField value={$form.id} name="id" />
 		<ContractFormFields form={$form} errors={$errors} />
 	</fieldset>
 

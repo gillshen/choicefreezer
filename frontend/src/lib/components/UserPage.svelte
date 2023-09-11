@@ -7,15 +7,19 @@
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import type { NewUserLogSchema } from '$lib/schemas';
 
-	import PageSection from '$lib/components/PageSection.svelte';
-	import MinimalRadioGroup from '$lib/components/MinimalRadioGroup.svelte';
-	import StudentAnchorCard from '$lib/components/StudentAnchorCard.svelte';
+	import Section from './Section.svelte';
 	import UserLogCard from './UserLogCard.svelte';
 	import UserLogForm from '$lib/forms/UserLogForm.svelte';
 	import Dialog from './Dialog.svelte';
 	import BinaryDialog from './BinaryDialog.svelte';
 	import { byContractType, byRomanizedName, byTargetYearDesc } from '$lib/utils/studentUtils.js';
-	import { processLog } from '$lib/utils/userLogUtils';
+	import {
+		countTasksDone,
+		countTasksTodo,
+		filterLogByCategory,
+		filterLogByDate,
+		processLog
+	} from '$lib/utils/userLogUtils';
 
 	import type { DomLayoutType } from 'ag-grid-community';
 	import { defaultColDef, columnTypes, mountGrid } from '$lib/utils/gridUtils.js';
@@ -33,9 +37,10 @@
 
 	import { BANNER, NO_ROWS_TO_SHOW, UNKNOWN_ERROR } from '$lib/constants/messages.js';
 
-	import { deleteUserLog } from '$lib/api';
+	import { deleteUserLog, patchUserLog } from '$lib/api';
 	import { toast } from '$lib/utils/interactiveUtils';
 	import { invalidateAll } from '$app/navigation';
+	import { typeToClass } from '$lib/utils/contractUtils';
 
 	export let data: {
 		userId: number;
@@ -45,6 +50,8 @@
 		userLogForm: SuperValidated<NewUserLogSchema>;
 		applications: ApplicationListItem[];
 	};
+
+	// Logs CRUD
 
 	let logCreateDialog: HTMLDialogElement;
 	let logDeleteDialog: HTMLDialogElement;
@@ -61,6 +68,30 @@
 			toast(UNKNOWN_ERROR, 'error');
 		}
 	}
+
+	async function handleToggleLogTodoStatus(log: UserLogListItem) {
+		const response = await patchUserLog(log.id, {
+			task_status: log.task_status === 'TODO' ? 'Done' : 'TODO'
+		});
+		if (response.ok) {
+			invalidateAll();
+			toast('Task status updated', 'success');
+		} else {
+			toast(UNKNOWN_ERROR, 'error');
+		}
+	}
+
+	async function handleToggleLogPinStatus(log: UserLogListItem) {
+		const response = await patchUserLog(log.id, { pinned: !log.pinned });
+		if (response.ok) {
+			invalidateAll();
+			toast(`Log ${log.pinned ? 'unpinned' : 'pinned'}`, 'success');
+		} else {
+			toast(UNKNOWN_ERROR, 'error');
+		}
+	}
+
+	// The applications grid
 
 	const MAX_ROWS = 15; // A grid with more rows have will have its height restricted
 
@@ -89,37 +120,30 @@
 		{ headerName: 'Status', field: 'latest_log.status', cellRenderer: StatusRenderer }
 	];
 
-	let filterYearCurrent: number | string = 'All';
-	let filterYearPast: number | string = 'All';
-	let showPastStudents = false;
+	// Data and filtering
 
 	$: owner = data.owner;
 	$: userIsOwner = data.username === owner.username;
 	$: banner =
-		(data.username === owner.username ? owner.private_banner : owner.public_banner) ||
-		`${owner.username}${BANNER}`;
+		(userIsOwner ? owner.private_banner : owner.public_banner) || `${owner.username}${BANNER}`;
 
 	// Filtering by latest_target_year values
+	let showPastStudents = false;
+	let yearFilter: number | string = 'All';
 
-	// - options for current students
-	$: yearOptionsCurrent = Array.from(
-		new Set(owner.current_students.map((s) => s.latest_target_year))
-	).sort((a, b) => b - a);
+	$: yearOptions = showPastStudents
+		? Array.from(new Set(owner.past_students.map((s) => s.latest_target_year))).sort(
+				(a, b) => b - a
+		  )
+		: Array.from(new Set(owner.current_students.map((s) => s.latest_target_year))).sort(
+				(a, b) => b - a
+		  );
 
-	// - options for past students
-	$: yearOptionsPast = Array.from(
-		new Set(owner.past_students.map((s) => s.latest_target_year))
-	).sort((a, b) => b - a);
-
-	$: filteredCurrentStudents =
-		filterYearCurrent === 'All'
-			? owner.current_students
-			: owner.current_students.filter((s) => s.latest_target_year === filterYearCurrent);
-
-	$: filteredPastStudents =
-		filterYearPast === 'All'
-			? owner.past_students
-			: owner.past_students.filter((s) => s.latest_target_year === filterYearPast);
+	$: filteredStudents = showPastStudents
+		? owner.past_students.filter((s) => yearFilter === 'All' || s.latest_target_year === yearFilter)
+		: owner.current_students.filter(
+				(s) => yearFilter === 'All' || s.latest_target_year === yearFilter
+		  );
 
 	$: gridOptions = {
 		defaultColDef,
@@ -130,112 +154,242 @@
 		domLayout: data.applications.length > MAX_ROWS ? undefined : ('autoHeight' as DomLayoutType)
 	};
 
-	$: logs = data.logs.filter(userIsOwner ? () => true : (log) => log.public || log.shared);
+	let logDateFilter: string | null = 'Last 7 days';
+	let logStudentfilter: number | null = null; // student id or null
+	let logCategoryFilter: string | null = null;
+
+	$: filteredLogs = data.logs.filter(
+		(log) =>
+			(logDateFilter === null ? true : filterLogByDate(log, logDateFilter)) &&
+			(logStudentfilter === null ? true : log.relevant_student?.id === logStudentfilter) &&
+			(logCategoryFilter === null ? true : filterLogByCategory(log, logCategoryFilter))
+	);
 
 	onMount(() => mountGrid('#applications-grid', gridOptions));
 </script>
 
-<h1>{banner}</h1>
+<Section hero>
+	<h1 class="cf-h1">{banner}</h1>
 
-<PageSection>
-	<div class="student-grid">
-		<div class="flex flex-col gap-4">
-			{#if userIsOwner}
-				<a class="add-student cf-card-shadow-convex" href="../students/new/">
-					<i class="fa-solid fa-plus -ml-2" />
-					Student</a
+	<div class="grid grid-cols-2 gap-16 h-full max-h-[960px]">
+		<!-- left panel -->
+
+		<article class="panel">
+			<!-- if the owner has any students, show the filters -->
+			{#if owner.current_students.length || owner.past_students.length}
+				<!-- filters -->
+				<div class="flex items-center px-8 pt-4 pb-4">
+					<!-- current/past filter -->
+					<div class="flex flex-wrap gap-6 pr-4 w-[160px]">
+						<button
+							class={`tab ${showPastStudents ? '' : 'checked'}`}
+							on:click={() => (showPastStudents = false)}>Current</button
+						>
+						<button
+							class={`tab ${showPastStudents ? 'checked' : ''}`}
+							on:click={() => (showPastStudents = true)}>Past</button
+						>
+					</div>
+
+					<!-- year filter -->
+					<div class="flex-1 pl-4 pr-8">
+						<ul class="flex flex-wrap gap-4">
+							{#each ['All', ...yearOptions] as year}
+								<li>
+									<button
+										class={`secondary-tab ${yearFilter === year ? 'checked' : ''}`}
+										on:click={() => (yearFilter = year)}>{year}</button
+									>
+								</li>
+							{/each}
+						</ul>
+					</div>
+				</div>
+
+				<!-- students list -->
+				<ul
+					class="flex-grow -ml-4 mr-8 grid grid-cols-2 gap-y-1 gap-x-6 auto-rows-min px-8 pb-4 overflow-auto"
 				>
-			{/if}
-
-			{#if owner.current_students.length}
-				<MinimalRadioGroup
-					bind:target={filterYearCurrent}
-					options={['All', ...yearOptionsCurrent]}
-				/>
-			{/if}
-		</div>
-
-		<div class="student-cards-container">
-			{#each filteredCurrentStudents
-				.sort(byRomanizedName)
-				.sort(byTargetYearDesc)
-				.sort(byContractType) as student}
-				<StudentAnchorCard {student} />
-			{/each}
-		</div>
-	</div>
-
-	{#if owner.past_students.length}
-		<button
-			class="flex gap-2 items-center text-surface-50 hover:text-primary-500 mt-12"
-			on:click={() => (showPastStudents = !showPastStudents)}
-		>
-			Past students
-			<i class={`toggle-icon fa-solid fa-chevron-right ${showPastStudents ? 'open' : ''}`} />
-		</button>
-	{/if}
-
-	<div id="past-students-wrapper" class={showPastStudents ? 'open' : ''}>
-		<div class="student-grid mt-8">
-			<MinimalRadioGroup bind:target={filterYearPast} options={['All', ...yearOptionsPast]} />
-
-			<div class="student-cards-container">
-				{#each filteredPastStudents
-					.sort(byRomanizedName)
-					.sort(byTargetYearDesc)
-					.sort(byContractType) as student}
-					<StudentAnchorCard {student} />
-				{/each}
-			</div>
-		</div>
-	</div>
-</PageSection>
-
-<PageSection>
-	<svelte:fragment slot="h2">Logs</svelte:fragment>
-
-	<div class="logs-grid">
-		<div class="flex flex-col gap-4">
-			TODO: Filters
-
-			{#if userIsOwner}
-				<button class="cf-primary" on:click={() => logCreateDialog.showModal()}>Add an entry</button
-				>
-			{/if}
-		</div>
-
-		{#if data.logs.length}
-			<div>
-				<div class="top-mask" />
-				<ol class="scrollable flex flex-col gap-4 pl-4 pr-12 py-8 rounded-xl">
-					{#each logs.map(processLog) as log}
-						<UserLogCard
-							{log}
-							allowEdit={userIsOwner}
-							handleDeleteRequest={(log) => {
-								activeLog = log;
-								logDeleteDialog.showModal();
-							}}
-						/>
+					{#each filteredStudents
+						.sort(byRomanizedName)
+						.sort(byTargetYearDesc)
+						.sort(byContractType) as student}
+						<li class="py-2 px-4 w-full rounded-full hover:bg-surface-700">
+							<a href={`../students/${student.id}/`} class="flex items-baseline gap-2">
+								<i
+									class={`fa-regular fa-folder text-${typeToClass(student.latest_contract_type)}`}
+								/>
+								<span class="whitespace-nowrap overflow-hidden text-ellipsis">{student.name}</span>
+								{#if student.first_name !== student.first_name_romanized}
+									<span
+										class="flex-shrink text-surface-300 text-sm whitespace-nowrap overflow-hidden text-ellipsis"
+										>{student.first_name_romanized}</span
+									>
+								{/if}
+							</a>
+						</li>
 					{/each}
-				</ol>
-				<div class="bottom-mask" />
+				</ul>
+
+				{#if userIsOwner}
+					<footer class="flex justify-between h-[72px]">
+						<a
+							href="../students/new/"
+							class="cf-btn flex gap-2 items-center p-8 pt-4 text-primary-400 hover:text-primary-500"
+						>
+							Add another<i class="fa-solid fa-arrow-right-long" />
+						</a>
+					</footer>
+				{/if}
+			{:else if userIsOwner}
+				<!-- show the CTA -->
+				<div class="flex flex-col gap-8 p-8">
+					<p class="text-surface-200">You do not have any students under your name.</p>
+					<a
+						href="../students/new/"
+						class="btn cf-btn cf-primary max-w-fit flex gap-2 items-center !bg-primary-500"
+					>
+						Add a student<i class="fa-solid fa-arrow-right-long" />
+					</a>
+				</div>
+			{:else}
+				<!-- show the void card -->
+				<div class="void">
+					Like birds who, having fed, to the woods repair,<br />
+					They leave the landscape desolate and bare.
+				</div>
+			{/if}
+		</article>
+
+		<!-- right panel -->
+		<article class="panel">
+			<!-- if the log book is not empty, show the entries and the filters -->
+			{#if data.logs.length}
+				<!-- filters -->
+				<div class="flex gap-4 justify-between px-8 pt-4 pb-2">
+					<select
+						id="log-dates-select"
+						class={`select !pl-3 !max-w-40 text-sm ${
+							logDateFilter ? 'text-surface-200' : 'text-surface-400'
+						}`}
+						bind:value={logDateFilter}
+					>
+						<option value={null} class="text-surface-400">By date...</option>
+						{#each [7, 15, 30] as nDays}
+							<option value={`Last ${nDays} days`} class="text-sm text-surface-200"
+								>{`Last ${nDays} days`}</option
+							>
+						{/each}
+					</select>
+
+					<select
+						id="log-student-select"
+						class={`select !pl-3 !max-w-40 text-sm ${
+							logStudentfilter ? 'text-surface-200' : 'text-surface-400'
+						}`}
+						bind:value={logStudentfilter}
+					>
+						<option value={null} class="text-surface-400">By student...</option>
+						{#each [...owner.current_students.sort(byRomanizedName), '- Past students -', ...owner.past_students.sort(byRomanizedName)] as student}
+							{#if typeof student === 'string'}
+								<option value={null} disabled>{student}</option>
+							{:else}
+								<option value={student.id} class="text-sm text-surface-200">{student.name}</option>
+							{/if}
+						{/each}
+					</select>
+
+					<select
+						id="log-category-select"
+						class={`select !pl-3 !max-w-40 text-sm ${
+							logCategoryFilter ? 'text-surface-200' : 'text-surface-400'
+						}`}
+						bind:value={logCategoryFilter}
+					>
+						<option value={null} class="text-surface-400">By category...</option>
+						{#each ['TODO', 'Done', 'Shared', 'None of the above'] as category}
+							<option value={category} class="text-sm text-surface-200">{category}</option>
+						{/each}
+					</select>
+				</div>
+
+				<!-- entries -->
+				{#if filteredLogs.length}
+					<ol class="flex-grow mx-8 flex-1 flex flex-col overflow-auto">
+						{#each filteredLogs.map(processLog) as log}
+							<li class="py-2 pr-2 mr-4 border-b border-surface-600 hover:bg-surface-700">
+								<UserLogCard
+									{log}
+									allowEdit={userIsOwner}
+									handleDeleteRequest={(log) => {
+										activeLog = log;
+										logDeleteDialog.showModal();
+									}}
+									handlePinToggleRequest={handleToggleLogPinStatus}
+									handleTodoToggleRequest={handleToggleLogTodoStatus}
+								/>
+							</li>
+						{/each}
+					</ol>
+				{:else}
+					<p class="flex-grow mt-4 mx-8">No entry in this category</p>
+				{/if}
+
+				<footer class="flex justify-between h-[72px]">
+					{#if userIsOwner}
+						<button
+							class="cf-btn cursor-pointer flex gap-2 items-center p-8 pt-4 text-primary-400 hover:text-primary-500"
+							on:click={() => logCreateDialog.showModal()}
+							>Add an entry
+						</button>
+					{/if}
+
+					<div class="mx-4 flex gap-4 justify-end items-center text-sm text-surface-300">
+						<div>
+							<i class="fa-solid fa-hourglass-start mr-1" />
+							<span>{countTasksTodo(data.logs)}</span>
+						</div>
+						<div>
+							<i class="fa-solid fa-check mr-1" />
+							<span>{countTasksDone(data.logs)}</span>
+						</div>
+					</div>
+				</footer>
+			{:else if userIsOwner}
+				<!-- show the CTA -->
+				<div class="flex flex-col gap-8 p-8">
+					<p class="text-surface-200 max-w-xs">Your log book is empty.</p>
+					<button
+						class="btn cf-btn cf-primary max-w-fit flex gap-2 items-center !bg-primary-500"
+						on:click={() => logCreateDialog.showModal()}
+					>
+						Add an entry
+					</button>
+				</div>
+			{:else}
+				<!-- show the void card -->
+				<div class="void">
+					When the food is gone the birds return to the wood;<br />
+					All that&rsquo;s left is emptiness and a great void.
+				</div>
+			{/if}
+		</article>
+	</div>
+</Section>
+
+<Section>
+	<h2 class="text-xl font-heading-token font-bold mb-8 mt-4">Applications</h2>
+
+	<div class="mb-12">
+		{#if data.applications.length}
+			<div class={`w-full ${data.applications.length > MAX_ROWS ? 'h-[calc(100vh-12rem)]' : ''}`}>
+				<div id="applications-grid" class="data-grid ag-theme-alpine-dark" />
 			</div>
+		{:else}
+			<p class="section-placeholder">{NO_ROWS_TO_SHOW}</p>
 		{/if}
 	</div>
-</PageSection>
-
-<PageSection>
-	<svelte:fragment slot="h2">Applications</svelte:fragment>
-
-	{#if data.applications.length}
-		<div class={`w-full ${data.applications.length > MAX_ROWS ? 'h-[calc(100vh-12rem)]' : ''}`}>
-			<div id="applications-grid" class="data-grid ag-theme-alpine-dark" />
-		</div>
-	{:else}
-		<p class="section-placeholder">{NO_ROWS_TO_SHOW}</p>
-	{/if}
-</PageSection>
+</Section>
 
 <Dialog title="Add a log entry" exitHelper bind:dialog={logCreateDialog}>
 	<UserLogForm
@@ -243,7 +397,7 @@
 		data={data.userLogForm}
 		action="../home?/createLog"
 		userId={data.userId}
-		students={[...owner.current_students, ...owner.past_students]}
+		students={[...owner.current_students]}
 	/>
 </Dialog>
 
@@ -252,74 +406,34 @@
 	title="Delete this log entry?"
 	onYes={handleDeleteLog}
 	dangerous
-/>
+>
+	<p class="text-surface-300 whitespace-nowrap overflow-hidden text-ellipsis">
+		{activeLog?.text}
+	</p>
+</BinaryDialog>
 
 <style lang="postcss">
-	.student-grid,
-	.logs-grid {
-		@apply grid grid-cols-[1fr_5fr] gap-x-20;
+	.panel {
+		@apply gap-4;
 	}
 
-	.student-cards-container {
-		@apply grid grid-cols-4;
-		@apply gap-7;
-		@apply h-fit;
+	.panel .void {
+		@apply h-full;
+		@apply flex justify-center items-center;
+		@apply text-center font-heading-token text-surface-400;
 	}
 
-	.add-student {
-		@apply btn bg-surface-900 text-primary-500;
-		@apply h-[64px] w-[169px];
-		@apply rounded-full;
-		@apply flex gap-2 items-center;
+	.tab,
+	.secondary-tab {
+		@apply py-1;
+		@apply text-surface-300;
+		@apply border-b-2 border-transparent;
 	}
 
-	.logs-grid .scrollable {
-		@apply max-h-[calc(100vh-144px)] overflow-auto;
-	}
-	.log-bullet {
-		@apply absolute;
-		@apply w-4 h-4 mt-[38px] -left-2 rounded-full;
-	}
-
-	#past-students-wrapper {
-		display: grid;
-		grid-template-rows: 0fr;
-		overflow: hidden;
-		opacity: 0;
-		transition: all 0.4s ease-in-out;
-	}
-	#past-students-wrapper.open {
-		grid-template-rows: 1fr;
-		opacity: 1;
-		/* avoid clipping shadows */
-		overflow: visible;
-	}
-	#past-students-wrapper * {
-		min-height: 0;
-	}
-	.toggle-icon {
-		transition: all 0.4s ease-in-out;
-	}
-	.toggle-icon.open {
-		rotate: 90deg;
-	}
-
-	.top-mask,
-	.bottom-mask {
-		@apply relative;
-	}
-	.top-mask::after,
-	.bottom-mask::before {
-		@apply absolute h-8 w-full;
-		@apply z-10;
-		width: calc(100% - 2rem); /* avoid masking the scrollbar */
-		content: '';
-	}
-	.top-mask::after {
-		background: linear-gradient(#373737, rgba(255, 255, 255, 0));
-	}
-	.bottom-mask::before {
-		margin-top: -2rem;
-		background: linear-gradient(rgba(255, 255, 255, 0), #373737);
+	.tab.checked,
+	.secondary-tab.checked {
+		@apply font-bold;
+		@apply border-primary-400;
+		@apply text-surface-200;
 	}
 </style>

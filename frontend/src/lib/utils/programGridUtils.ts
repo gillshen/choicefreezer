@@ -9,7 +9,7 @@ export class LinkRenderer extends AgCellRenderer {
 	init(params: ICellRendererParams<any, any, any>): void {
 		this.eGui = document.createElement('a');
 		this.eGui.href = `../programs/${params.data.id}/`;
-		this.eGui.innerHTML = '<i class="fa-solid fa-arrow-up-right-from-square" />';
+		this.eGui.innerHTML = '<i class="fa-solid fa-arrow-right" />';
 	}
 }
 

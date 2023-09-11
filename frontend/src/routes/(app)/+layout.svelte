@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { AppBar } from '@skeletonlabs/skeleton';
 	import { clickOutside } from '$lib/utils/clickOutside.js';
 
 	import {
@@ -21,77 +20,88 @@
 	let showUserMenu = false;
 </script>
 
-<AppBar slotDefault="place-self-center" slotTrail="place-content-end">
-	<svelte:fragment slot="lead"><div class="w-[100px]">(icon)</div></svelte:fragment>
-	<nav class="flex gap-8 flex-wrap">
-		<a href="../home">Home</a>
+<header class="match-hero flex justify-between rounded-tr-3xl mt-4 mx-8 font-heading-token">
+	<div class="cf-logo w-fit bg-surface-900 px-8 py-6 rounded-br-3xl flex items-center">(logo)</div>
 
-		<button
-			class="dropdown-trigger"
-			on:click={() => (showPeople = !showPeople)}
-			use:clickOutside={() => showPeople && (showPeople = false)}
-		>
-			People <i class={`toggle-icon fa-solid fa-chevron-down ${showPeople ? 'open' : ''}`} />
-			<div class={`dropdown-nav people ${showPeople ? 'open' : ''}`}>
-				<div>
-					<CfPeopleNav cfPeople={activePeople} />
-				</div>
-			</div>
-		</button>
+	<div class="bg-surface-900 w-full h-full">
+		<nav class="match-hero h-full w-full flex flex-wrap justify-between pl-8 rounded-t-3xl">
+			<ul class="mx-auto flex flex-wrap gap-8 items-center">
+				<li><a href="../home">Home</a></li>
 
-		<a href="../tables/students">Students</a>
+				<li>
+					<button
+						class="dropdown-trigger"
+						on:click={() => (showPeople = !showPeople)}
+						use:clickOutside={() => showPeople && (showPeople = false)}
+					>
+						People <i class={`toggle-icon fa-solid fa-chevron-down ${showPeople ? 'open' : ''}`} />
+						<div class={`dropdown-nav people ${showPeople ? 'open' : ''}`}>
+							<div>
+								<CfPeopleNav cfPeople={activePeople} />
+							</div>
+						</div>
+					</button>
+				</li>
 
-		<a href="../tables/applications">Applications</a>
+				<li><a href="../tables/students">Students</a></li>
 
-		<button
-			class="dropdown-trigger"
-			on:click={() => (showMore = !showMore)}
-			use:clickOutside={() => showMore && (showMore = false)}
-		>
-			More <i class={`toggle-icon fa-solid fa-chevron-down ${showMore ? 'open' : ''}`} />
-			<div class={`dropdown-nav ${showMore ? 'open' : ''}`}>
-				<ul class="flex flex-col pr-4">
-					<li><a href="../tables/schools">Schools</a></li>
-					<li><a href="../tables/programs">Programs</a></li>
-					<li>Requirements</li>
-					<li>Essays</li>
-					<li>The Commons</li>
-				</ul>
-			</div>
-		</button>
-	</nav>
-	<svelte:fragment slot="trail">
-		<button
-			class="dropdown-trigger flex gap-2 items-center py-2 px-8 max-w-fit hover:text-primary-500"
-			on:click={() => (showUserMenu = !showUserMenu)}
-			use:clickOutside={() => showUserMenu && (showUserMenu = false)}
-		>
-			<i class="fa-solid fa-circle-user" />
-			{username}
-			<div class={`dropdown-nav -translate-x-1/2 w-40 z-50 ${showUserMenu ? 'open' : ''}`}>
-				<ul class="flex flex-col pr-4">
-					<li>
-						<a href="../user" class="nav-link flex gap-2 justify-between items-center"
-							><i class="fa-solid fa-gear" />Settings</a
-						>
-					</li>
-					<li>
-						<a href="../logout" class="nav-link flex gap-2 justify-between items-center"
-							><i class="fa-solid fa-arrow-right-from-bracket" />Log Out</a
-						>
-					</li>
-				</ul>
-			</div>
-		</button>
-	</svelte:fragment>
-</AppBar>
+				<li><a href="../tables/applications">Applications</a></li>
+
+				<li>
+					<button
+						class="dropdown-trigger"
+						on:click={() => (showMore = !showMore)}
+						use:clickOutside={() => showMore && (showMore = false)}
+					>
+						More <i class={`toggle-icon fa-solid fa-chevron-down ${showMore ? 'open' : ''}`} />
+						<div class={`dropdown-nav ${showMore ? 'open' : ''}`}>
+							<ul class="flex flex-col pr-4">
+								<li><a href="../tables/schools">Schools</a></li>
+								<li><a href="../tables/programs">Programs</a></li>
+								<li>Requirements</li>
+								<li>Essays</li>
+								<li>The Commons</li>
+							</ul>
+						</div>
+					</button>
+				</li>
+			</ul>
+
+			<button
+				class="dropdown-trigger flex gap-2 items-center py-2 ml-24 pr-12 w-fit hover:text-primary-500"
+				on:click={() => (showUserMenu = !showUserMenu)}
+				use:clickOutside={() => showUserMenu && (showUserMenu = false)}
+			>
+				<i class="fa-solid fa-circle-user" />
+				{username}
+				<nav class={`dropdown-nav -translate-x-1/2 w-40 z-50 ${showUserMenu ? 'open' : ''}`}>
+					<ul class="flex flex-col">
+						<li>
+							<a href="../user" class="nav-link flex gap-2 justify-between items-center"
+								><i class="fa-solid fa-gear" />Settings</a
+							>
+						</li>
+						<li>
+							<a
+								href="../logout"
+								data-sveltekit-preload-data="off"
+								class="nav-link flex gap-2 justify-between items-center"
+								><i class="fa-solid fa-arrow-right-from-bracket" />Log Out</a
+							>
+						</li>
+					</ul>
+				</nav>
+			</button>
+		</nav>
+	</div>
+</header>
 
 <main>
 	<slot />
 </main>
 
 <footer>
-	<div class="p-0 m-0 mx-auto grid grid-cols-4 gap-8 max-w-5xl w-full">
+	<div class="py-0 px-4 m-0 mx-auto grid grid-cols-4 gap-8 max-w-7xl w-full font-heading-token">
 		<!-- site map -->
 		<section>
 			<div class="section-title">The Freezer</div>
@@ -164,20 +174,30 @@
 </footer>
 
 <style lang="postcss">
+	nav,
+	nav * {
+		@apply text-sm;
+	}
+
+	.match-hero {
+		@apply bg-surface-800;
+	}
+
 	.dropdown-trigger:hover {
 		@apply text-primary-500;
 	}
 	.dropdown-nav {
-		@apply absolute top-14;
+		@apply absolute top-[72px];
 		@apply z-10;
 		@apply text-surface-50 bg-surface-800;
 		@apply rounded-lg;
+		@apply -translate-x-1/3;
 		display: grid;
 		grid-template-rows: 0fr;
 		overflow: hidden;
 		opacity: 0;
 		transition: all 0.2s ease-in-out;
-		box-shadow: 10px 10px 24px rgb(25, 25, 25), -8px -8px 20px rgb(55, 55, 55);
+		box-shadow: 10px 10px 20px #111212, -10px 10px 20px #111212, 0px 10px 20px #2f3030;
 	}
 	.dropdown-nav.open {
 		grid-template-rows: 1fr;
@@ -225,7 +245,7 @@
 		@apply border-b border-surface-300;
 	}
 	footer section ul {
-		@apply text-sm;
 		@apply flex flex-col gap-1;
+		font-family: 'Montserrat';
 	}
 </style>

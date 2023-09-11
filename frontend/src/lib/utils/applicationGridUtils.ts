@@ -19,7 +19,7 @@ import type {
 
 import { AgCellRenderer } from '$lib/utils/gridUtils';
 import { statusToClass, getBestScore } from '$lib/utils/applicationUtils';
-import { toShortDate, toTime } from '$lib/utils/dateUtils';
+import { makeDate, toShortDate, toTime } from '$lib/utils/dateUtils';
 import { TIMEZONES_MAP } from '$lib/constants/timezones';
 
 export class ApplicationIdRenderer extends AgCellRenderer {
@@ -28,7 +28,7 @@ export class ApplicationIdRenderer extends AgCellRenderer {
 	init(params: ICellRendererParams<any, any, any>): void {
 		this.eGui = document.createElement('a');
 		this.eGui.href = `../applications/${params.data.id}/`;
-		this.eGui.innerHTML = '<i class="fa-solid fa-arrow-up-right-from-square" />';
+		this.eGui.innerHTML = '<i class="fa-solid fa-arrow-right" />';
 	}
 }
 
@@ -184,20 +184,4 @@ export function statusUpdatedValueGetter(params: ValueGetterParams): Date | null
 		return null;
 	}
 	return makeDate(params.data.latest_log.updated);
-}
-
-export function shortDateFormatter(params: ValueFormatterParams): string {
-	if (!params.value) {
-		return '';
-	}
-	return toShortDate(params.value);
-}
-
-function makeDate(date: Date | string): Date {
-	const newDate = new Date(date);
-	newDate.setHours(0);
-	newDate.setMinutes(0);
-	newDate.setSeconds(0);
-	newDate.setMilliseconds(0);
-	return newDate;
 }

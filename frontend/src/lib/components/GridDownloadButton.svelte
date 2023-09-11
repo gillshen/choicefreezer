@@ -8,6 +8,6 @@
 	}
 </script>
 
-<button class="grid-page-export" on:click={exportCsv}
+<button class="btn cf-btn cf-secondary" on:click={exportCsv}
 	><i class="fa-solid fa-download" />Download</button
 >

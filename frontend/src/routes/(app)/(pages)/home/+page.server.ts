@@ -7,6 +7,7 @@ import type { ApplicationListItem } from '$lib/types/applicationTypes.js';
 import { newUserLogSchema } from '$lib/schemas.js';
 import { createUserLog, fetchApplicationsOfUser, fetchLogsOfUser, fetchUser } from '$lib/api.js';
 import { UNKNOWN_ERROR } from '$lib/constants/messages.js';
+import { fr } from 'date-fns/locale';
 
 export async function load(event) {
 	const { username } = await event.parent();
@@ -30,7 +31,13 @@ export const actions = {
 			return fail(400, { form });
 		}
 
-		const response = await createUserLog(form.data);
+		const { data } = form;
+
+		const response = await createUserLog({
+			...data,
+			task_status: data.isTodo ? 'TODO' : '',
+			task_due: data.isTodo ? data.task_due! : null
+		});
 		if (!response.ok) {
 			return message(form, UNKNOWN_ERROR, { status: 400 });
 		}

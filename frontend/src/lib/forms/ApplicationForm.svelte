@@ -116,10 +116,10 @@
 </script>
 
 <form method="post" {action} novalidate use:enhance>
-	<HiddenIdField value={studentId} name="studentId" />
-
 	<fieldset>
 		<legend>Choose a program</legend>
+
+		<HiddenIdField value={studentId} name="studentId" />
 
 		<div class="flex gap-4 items-center">
 			<input

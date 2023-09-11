@@ -7,7 +7,8 @@
 	import { toast } from '$lib/utils/interactiveUtils.js';
 	import { NO_ROWS_TO_SHOW, UNKNOWN_ERROR } from '$lib/constants/messages.js';
 
-	import PageSection from '$lib/components/PageSection.svelte';
+	import Section from '$lib/components/Section.svelte';
+
 	import ContractCard from '$lib/components/ContractCard.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
 	import BinaryDialog from '$lib/components/BinaryDialog.svelte';
@@ -71,7 +72,7 @@
 		{ headerName: 'Status', field: 'latest_log.status', cellRenderer: StatusRenderer }
 	];
 
-	const gridOptions = {
+	$: gridOptions = {
 		defaultColDef,
 		columnTypes,
 		columnDefs: applicationColumnDefs,
@@ -119,90 +120,106 @@
 	onMount(() => mountGrid('#applications-grid', gridOptions));
 </script>
 
-<h1>{formattedName}</h1>
+<Section hero>
+	<h1 class="cf-h1">
+		{formattedName}{#if formattedName !== formattedRomanizedName}
+			&nbsp;/ {formattedRomanizedName}
+		{/if}
+	</h1>
 
-<PageSection>
-	<div class="grid grid-cols-2 gap-x-12 gap-y-8 auto-rows-min items-start">
-		<div class="px-0 py-6 auto-rows-min rounded-xl flex flex-col">
-			<div class="profile-grid flex-grow pb-6">
-				<div class="cf-key">Name</div>
-				<div class="cf-value">
-					{formattedName}{#if !(formattedName === formattedRomanizedName)}
-						&nbsp;/ {formattedRomanizedName}
-					{/if}
+	<div class="grid grid-cols-3 gap-16 h-full max-h-[960px]">
+		<!-- personal info -->
+		<article class="panel">
+			<div class="flex-grow overflow-auto flex flex-col px-6 pt-6">
+				<div class="cf-entry">{student.gender}</div>
+
+				<div class="cf-entry">Citizen of {student.citizenship}</div>
+
+				{#if student.city || student.state}
+					<div class="cf-entry">
+						<div class="cf-entry-label">Residence</div>
+						{formatResidence(student)}
+					</div>
+				{/if}
+
+				{#if student.date_of_birth}
+					<div class="cf-entry">
+						<div class="cf-entry-label">Date of birth</div>
+						{toLongDate(student.date_of_birth)}
+					</div>
+				{/if}
+
+				<div class={`cf-entry flex flex-col overflow-hidden`}>
+					<div class="cf-entry-label">Comments</div>
+					<div class="flex-grow min-h-[8rem] overflow-auto pr-2 text-surface-200">
+						{student.comments}
+					</div>
 				</div>
 
-				<div class="cf-key">Gender</div>
-				<div class="cf-value">{student.gender}</div>
-
-				<div class="cf-key">Citizen of</div>
-				<div class="cf-value">{student.citizenship}</div>
-
-				<div class="cf-key">Born</div>
-				<div class="cf-value">
-					{student.date_of_birth ? toLongDate(student.date_of_birth) : 'n/a'}
-				</div>
-
-				<div class="cf-key">Based in</div>
-				<div class="cf-value">{formatResidence(student) || 'n/a'}</div>
-
-				{#if student.comments}
-					<div class="cf-key">Comments</div>
-					<div class="cf-value">{student.comments}</div>
+				{#if userIsOwner}
+					<footer class="flex gap-6 mt-auto pt-4">
+						<button
+							class="cf-btn flex gap-2 items-center pb-8 pt-4 text-primary-400 hover:text-primary-500"
+							on:click={() => studentUpdateDialog.showModal()}>Edit</button
+						>
+						<button
+							class="cf-btn flex gap-2 items-center pb-8 pt-4 text-error-400 hover:text-error-500"
+							on:click={() => studentDeleteDialog.showModal()}>Delete</button
+						>
+					</footer>
 				{/if}
 			</div>
+		</article>
 
-			{#if userIsOwner}
-				<div class="flex gap-4">
-					<button class="section-cta" on:click={() => studentUpdateDialog.showModal()}>Edit</button>
-					<button class="section-cta delete" on:click={() => studentDeleteDialog.showModal()}
-						>Delete</button
-					>
+		<article class="panel">
+			<div class="flex-grow overflow-auto flex flex-col px-6 pt-6">
+				<div class="cf-entry">
+					<div class="cf-entry-label">Current school</div>
 				</div>
-			{/if}
-		</div>
 
-		<div class="grid grid-cols-2 gap-8">
-			<div class="cf-card-shadow-convex p-4 rounded-xl">
-				<div class="inner-card">GPA</div>
+				<div class="cf-entry">
+					<div class="cf-entry-label">GPA</div>
+				</div>
+
+				<div class="cf-entry">
+					<div class="cf-entry-label">Class rank</div>
+				</div>
+
+				<div class="cf-entry">
+					<div class="cf-entry-label">SAT / ACT / GRE 1</div>
+				</div>
+
+				<div class="cf-entry">
+					<div class="cf-entry-label">SAT / ACT / GRE 2</div>
+				</div>
+
+				<div class="cf-entry">
+					<div class="cf-entry-label">TOEFL / IELTS / DET</div>
+				</div>
+			</div>
+		</article>
+
+		<div class="panel transparent gap-6 overflow-auto">
+			<div class="flex flex-col gap-6 overflow-auto">
+				{#each data.contracts.sort(byStatusThenTargetYearDesc) as contract}
+					<article class="panel fit-height contract-card">
+						<ContractCard {contract} />
+					</article>
+				{/each}
 			</div>
 
-			<div class="cf-card-shadow-convex p-4 rounded-xl">
-				<div class="inner-card">Class rank</div>
-			</div>
-
-			<div class="cf-card-shadow-convex p-4 rounded-xl">
-				<div class="inner-card">SAT / ACT / GRE 1</div>
-			</div>
-			<div class="cf-card-shadow-convex p-4 rounded-xl">
-				<div class="inner-card">SAT / ACT / GRE 2</div>
-			</div>
-
-			<div class="cf-card-shadow-convex p-4 rounded-xl">
-				<div class="inner-card">TOEFL / IELTS</div>
+			<div class="flex-grow flex justify-center items-start">
+				<button
+					class="btn cf-btn w-full cf-secondary"
+					on:click={() => contractCreateDialog.showModal()}>Add a contract</button
+				>
 			</div>
 		</div>
 	</div>
-</PageSection>
+</Section>
 
-<PageSection>
-	<svelte:fragment slot="h2">Contracts</svelte:fragment>
-
-	<div class="grid grid-cols-3 gap-x-8 gap-y-8">
-		{#each data.contracts.sort(byStatusThenTargetYearDesc) as contract}
-			<ContractCard {contract} />
-		{/each}
-	</div>
-
-	{#if userIsOwner}
-		<button class="section-cta" on:click={() => contractCreateDialog.showModal()}
-			>Add a contract</button
-		>
-	{/if}
-</PageSection>
-
-<PageSection>
-	<svelte:fragment slot="h2">Applications</svelte:fragment>
+<Section>
+	<h2 class="text-xl font-heading-token font-bold mb-8">Applications</h2>
 
 	{#if data.applications.length}
 		<div class="w-full">
@@ -213,34 +230,34 @@
 	{/if}
 
 	{#if userIsOwner}
-		<button class="section-cta" on:click={() => applicationCreateDialog.showModal()}
-			>Add an application</button
-		>
+		<div class="mt-4">
+			<button class="btn cf-btn cf-secondary" on:click={() => applicationCreateDialog.showModal()}
+				>Add an application</button
+			>
+		</div>
 	{/if}
-</PageSection>
+</Section>
 
-<PageSection>
-	<svelte:fragment slot="h2">Logs</svelte:fragment>
-	{#if data.logs.length}
-		<pre class="text-surface-400">{JSON.stringify(data.logs, null, 2)}</pre>
-	{/if}
-</PageSection>
+<Section>
+	<h2 class="text-xl font-heading-token font-bold mb-8">Educational History</h2>
 
-<PageSection>
-	<svelte:fragment slot="h2">Enrollment Records</svelte:fragment>
 	{#if data.enrollments.length}
 		<pre class="text-surface-400">{JSON.stringify(data.enrollments, null, 2)}</pre>
+	{:else}
+		<p class="section-placeholder">{NO_ROWS_TO_SHOW}</p>
 	{/if}
 
 	{#if userIsOwner}
-		<button class="section-cta" on:click={() => enrollmentCreateDialog.showModal()}
-			>Add a record</button
-		>
+		<div class="mt-4">
+			<button class="btn cf-btn cf-secondary" on:click={() => enrollmentCreateDialog.showModal()}
+				>Add a stint</button
+			>
+		</div>
 	{/if}
-</PageSection>
+</Section>
 
-<PageSection>
-	<svelte:fragment slot="h2">Test Scores</svelte:fragment>
+<Section>
+	<h2 class="text-xl font-heading-token font-bold mb-8">Test Scores</h2>
 
 	{#if data.toeflScores.length}
 		<h3>TOEFL</h3>
@@ -278,9 +295,11 @@
 	{/if}
 
 	{#if userIsOwner}
-		<button class="section-cta">Add a test score</button>
+		<div class="mt-4">
+			<button class="btn cf-btn cf-secondary">Add a test score</button>
+		</div>
 	{/if}
-</PageSection>
+</Section>
 
 <!-- Dialogs -->
 
@@ -298,9 +317,10 @@
 	onYes={handleDeleteStudent}
 	dangerous
 >
-	<p>
-		You are about to delete all data pertaining to this student, including contracts, educational
-		histories, test scores, and applications. Are you sure you want to proceed?
+	<p class="text-surface-200">
+		You are about to delete all the data pertaining to this student, including personal profile,
+		contracts, educational histories, test scores, and applications. Are you sure you want to
+		proceed?
 	</p>
 </BinaryDialog>
 
@@ -338,7 +358,12 @@
 </Dialog>
 
 <style lang="postcss">
-	.inner-card {
-		@apply w-full min-h-[5rem] rounded-md flex items-center justify-center;
+	.cf-entry-label {
+		@apply mb-1;
+	}
+
+	.panel.contract-card {
+		@apply h-fit min-h-[140px];
+		@apply rounded-l-none border-l-transparent;
 	}
 </style>
