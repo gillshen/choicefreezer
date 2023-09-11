@@ -4,6 +4,7 @@
 
 	import type { DomLayoutType } from 'ag-grid-community';
 	import { defaultColDef, columnTypes, mountGrid } from '$lib/utils/gridUtils.js';
+	import { shortDateFormatter } from '$lib/utils/gridUtils.js';
 	import {
 		ApplicantRenderer,
 		ApplicationIdRenderer,
@@ -11,8 +12,7 @@
 		deadlineValueFormatter,
 		deadlineValueGetter,
 		decisionDateValueGetter,
-		majorsValueGetter,
-		shortDateFormatter
+		majorsValueGetter
 	} from '$lib/utils/applicationGridUtils.js';
 	import { NO_ROWS_TO_SHOW } from '$lib/constants/messages.js';
 
@@ -63,21 +63,21 @@
 </script>
 
 <Section hero>
-	<h1>Target {target.id}</h1>
+	<h1 class="cf-h1">Target {target.id}</h1>
 
 	<pre class="text-surface-400">{JSON.stringify(target, null, 2)}</pre>
 
 	<h2 class="mt-12">Deadlines</h2>
 	<pre class="text-surface-400">{JSON.stringify(data.subTargets, null, 2)}</pre>
 
-	<button class="section-cta">Add a deadline</button>
+	<button class="btn cf-btn cf-secondary">Add a deadline</button>
 </Section>
 
 <Section>
 	<h2>Requirements</h2>
 	<pre class="text-surface-400">{JSON.stringify(data.requirements, null, 2)}</pre>
 
-	<button class="section-cta">Edit</button>
+	<button class="btn cf-btn cf-secondary">Edit</button>
 </Section>
 
 <Section>
