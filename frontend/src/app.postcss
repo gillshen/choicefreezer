@@ -30,13 +30,16 @@ footer > div {
 
 .page-section-container {
 	@apply rounded-none;
+	@apply pt-4 pb-8;
+}
+.page-section-container.lighter {
+	@apply bg-surface-800;
 }
 
 .page-section-container.hero {
 	@apply mx-8 mt-0 mb-6;
 	@apply min-h-[calc(100vh-108px)] max-h-[1280px] overflow-auto;
 	@apply rounded-tl-3xl rounded-b-3xl;
-	/* @apply bg-surface-800; */
 }
 .page-section-container.hero:not(.long) {
 	background: rgb(25, 36, 5);
@@ -50,9 +53,6 @@ footer > div {
 .page-section-container.long {
 	@apply max-h-none;
 	@apply bg-surface-800;
-}
-.page-section-container:last-of-type {
-	@apply mb-12;
 }
 
 .page-section {
@@ -92,7 +92,7 @@ footer > div {
 	@apply bg-primary-400 text-black;
 }
 .cf-btn.cf-secondary {
-	@apply border border-primary-400/20;
+	@apply border border-primary-400/40;
 }
 .cf-btn.cf-secondary:hover {
 	@apply text-black bg-primary-500;
@@ -139,42 +139,45 @@ form fieldset > legend {
 form fieldset > legend.empty {
 	@apply px-0 py-2 my-0;
 }
-form label {
+label.label {
 	@apply max-w-[20rem];
 }
-form label.wider {
+label.label.wider {
 	@apply max-w-[28rem];
 }
-form label:not(.radio-items-container > label) {
+label.label:not(.radio-items-container > label) {
 	@apply pb-2 pt-2;
 }
-form label .optional {
+label.label .optional {
 	@apply text-surface-400;
 }
-form input,
-form select {
+input.input,
+select.select {
 	@apply !bg-surface-700;
 }
-form input.input,
-form input.date,
-form input.time,
-form select.select {
+input.input,
+input.date,
+input.time,
+select.select {
 	@apply w-[20rem] h-10 px-2;
 	@apply rounded-md;
 }
-form input.input.wider,
-form select.select.wider {
+input.input.wider,
+select.select.wider {
 	@apply w-[28rem];
 }
-form textarea.input {
+input.input.narrower {
+	@apply w-[8rem];
+}
+textarea.input {
 	@apply min-h-[2.5rem];
 	@apply max-w-prose;
 }
-form input.radio {
+input.radio {
 	@apply rounded-full;
 }
-form input.checkbox:checked,
-form input.radio:checked {
+input.checkbox:checked,
+input.radio:checked {
 	@apply !bg-primary-500;
 }
 form small.char-count {

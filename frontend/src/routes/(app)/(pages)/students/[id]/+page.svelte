@@ -16,6 +16,7 @@
 	import ContractServiceForm from '$lib/forms/ContractServiceForm.svelte';
 	import ApplicationForm from '$lib/forms/ApplicationForm.svelte';
 	import EnrollmentForm from '$lib/forms/EnrollmentForm.svelte';
+	import ToeflScoreForm from '$lib/forms/ToeflScoreForm.svelte';
 
 	import {
 		formatStudentName,
@@ -87,6 +88,10 @@
 	let contractCreateDialog: HTMLDialogElement;
 	let applicationCreateDialog: HTMLDialogElement;
 	let enrollmentCreateDialog: HTMLDialogElement;
+	let testScoreCreateDialog: HTMLDialogElement;
+
+	// Control which score creation form to display
+	let testScoreType = '';
 
 	// TODO move to server side?
 	async function handleDeleteStudent() {
@@ -238,8 +243,8 @@
 	{/if}
 </Section>
 
-<Section>
-	<h2 class="text-xl font-heading-token font-bold mb-8">Educational History</h2>
+<Section lighter>
+	<h2 class="text-xl font-heading-token font-bold mb-8">Schools Attended</h2>
 
 	{#if data.enrollments.length}
 		<pre class="text-surface-400">{JSON.stringify(data.enrollments, null, 2)}</pre>
@@ -250,7 +255,7 @@
 	{#if userIsOwner}
 		<div class="mt-4">
 			<button class="btn cf-btn cf-secondary" on:click={() => enrollmentCreateDialog.showModal()}
-				>Add a stint</button
+				>Add a school</button
 			>
 		</div>
 	{/if}
@@ -296,7 +301,9 @@
 
 	{#if userIsOwner}
 		<div class="mt-4">
-			<button class="btn cf-btn cf-secondary">Add a test score</button>
+			<button class="btn cf-btn cf-secondary" on:click={() => testScoreCreateDialog.showModal()}
+				>Add a test score</button
+			>
 		</div>
 	{/if}
 </Section>
@@ -355,6 +362,28 @@
 		data={data.enrollmentCreateForm}
 		schools={data.schools}
 	/>
+</Dialog>
+
+<Dialog title="Add a test score" exitHelper bind:dialog={testScoreCreateDialog}>
+	<div class="flex flex-col mb-8">
+		<label for="test-select" class="label">Select a test</label>
+		<select id="test-select" class="select" bind:value={testScoreType}>
+			{#each ['', 'SAT', 'ACT', 'AP', 'GRE', 'GMAT', 'TOEFL', 'IELTS', 'DET'] as test}
+				<option value={test}>{test}</option>
+			{/each}
+		</select>
+	</div>
+
+	{#if testScoreType === 'TOEFL'}
+		<ToeflScoreForm
+			bind:dialog={testScoreCreateDialog}
+			action="?/createToeflScore"
+			studentId={student.id}
+			data={data.toeflCreateForm}
+		/>
+	{:else}
+		{testScoreType} creation form
+	{/if}
 </Dialog>
 
 <style lang="postcss">

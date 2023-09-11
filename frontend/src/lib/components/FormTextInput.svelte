@@ -9,7 +9,7 @@
 	export let maxlength = 1000;
 	export let showCharCount = false;
 	export let placeholder = '';
-	export let width: undefined | 'wider' = undefined;
+	export let width: '' | 'wider' | 'narrower' = '';
 </script>
 
 <div class="flex flex-col">
@@ -21,7 +21,7 @@
 		{id}
 		{name}
 		type="text"
-		class={`input ${width ? width : ''}`}
+		class={`input ${width}`}
 		bind:value={form[name]}
 		aria-invalid={errors[name] ? 'true' : undefined}
 		required={!optional}

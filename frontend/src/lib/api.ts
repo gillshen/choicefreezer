@@ -14,6 +14,7 @@ import type { NewMajorChoice } from './types/majorChoiceTypes';
 import type { NewApplicationLog } from './types/applicationLogTypes';
 import type { NewUserLog, UserLogListItem } from './types/userLogTypes';
 import type { NewEnrollment } from './types/enrollmentTypes';
+import type { NewToeflScore } from './types/testScoreTypes';
 
 import { PLANNER, ASST_PLANNER, STRAT_PLANNER, ESSAY_ADVISOR } from './constants/cfRoles';
 
@@ -293,6 +294,10 @@ export async function fetchLogsOfStudents(studentId: number): Promise<UserLogLis
 
 export async function createEnrollment(data: NewEnrollment) {
 	return await post('s.enrollments/new/', data);
+}
+
+export async function createToeflScore(data: NewToeflScore) {
+	return await post('s.toefl/new/', data);
 }
 
 export async function performCreateContract(params: {

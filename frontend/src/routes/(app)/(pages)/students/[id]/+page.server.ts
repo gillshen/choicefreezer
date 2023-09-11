@@ -25,14 +25,16 @@ import {
 	fetchOrCreateSubTarget,
 	createApplication,
 	createMajorChoice,
-	createEnrollment
+	createEnrollment,
+	createToeflScore
 } from '$lib/api';
 
 import {
 	studentUpdateSchema,
 	contractServiceSchema,
 	newApplicationSchema,
-	enrollmentSchema
+	enrollmentSchema,
+	toeflSchema
 } from '$lib/schemas.js';
 
 import type { Program, ProgramType } from '$lib/types/programTypes.js';
@@ -66,6 +68,8 @@ export async function load(event: PageServerLoadEvent) {
 	const applicationCreateForm = await superValidate(event, newApplicationSchema);
 	const enrollmentCreateForm = await superValidate(event, enrollmentSchema);
 
+	const toeflCreateForm = await superValidate(event, toeflSchema);
+
 	return {
 		student,
 		studentUpdateForm,
@@ -78,6 +82,7 @@ export async function load(event: PageServerLoadEvent) {
 		enrollmentCreateForm,
 		// test scores
 		toeflScores: fetchTOEFL(id),
+		toeflCreateForm,
 		ieltslScores: fetchIELTS(id),
 		detScores: fetchDET(id),
 		satScores: fetchSAT(id),
@@ -232,6 +237,22 @@ export const actions = {
 		}
 
 		const response = await createEnrollment(form.data as NewEnrollment);
+		if (!response.ok) {
+			return message(form, UNKNOWN_ERROR, { status: 400 });
+		}
+
+		return { form };
+	},
+
+	createToeflScore: async (event: RequestEvent) => {
+		const form = await superValidate(event, toeflSchema);
+		console.log(form);
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		const response = await createToeflScore(form.data);
 		if (!response.ok) {
 			return message(form, UNKNOWN_ERROR, { status: 400 });
 		}

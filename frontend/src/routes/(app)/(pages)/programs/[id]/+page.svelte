@@ -73,13 +73,17 @@
 </script>
 
 <Section hero>
-	<h1>Program {program.id}</h1>
+	<h1 class="cf-h1">Program {program.id}</h1>
 
 	<pre class="text-surface-400">{JSON.stringify(program, null, 2)}</pre>
-	<button class="section-cta" on:click={() => programUpdateDialog.showModal()}>Edit</button>
 
-	<!-- <svelte:fragment slot="h2">Applications</svelte:fragment> -->
-	<h2 class="mt-12">Applications</h2>
+	<button class="btn cf-btn cf-secondary" on:click={() => programUpdateDialog.showModal()}
+		>Edit</button
+	>
+</Section>
+
+<Section>
+	<h2 class="text-xl font-heading-token font-bold mb-8">Applications</h2>
 
 	{#if data.applications.length}
 		<div class={`w-full ${data.applications.length > 15 ? 'h-[calc(100vh-12rem)]' : ''}`}>

@@ -14,7 +14,8 @@ import {
 	decisionDateValidators,
 	userLogValidators,
 	enrollmentValidators,
-	serviceValidators
+	serviceValidators,
+	toeflValidators
 } from '$lib/validators';
 
 export const authenticationSchema = z.object({
@@ -114,3 +115,7 @@ export type NewUserLogSchema = typeof newUserLogSchema;
 export const enrollmentSchema = z.object({ ...enrollmentValidators });
 
 export type EnrollmentSchema = typeof enrollmentSchema;
+
+export const toeflSchema = z.object({ ...toeflValidators });
+
+export type ToeflSchema = typeof toeflSchema;

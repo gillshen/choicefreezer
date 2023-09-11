@@ -6,6 +6,7 @@ const beSafeForHtml = { message: 'Characters <, >, &, and " are not allowed' };
 
 const fieldRequired = { message: 'This field is required' };
 const selectionRequired = { message: 'Select an option' };
+const valueInvalid = { message: 'Value not valid' };
 
 export const idValidator = { id: z.number().min(1) };
 export const optionalIdValidator = { id: z.number().min(1).optional().nullable() };
@@ -199,13 +200,30 @@ export const userLogValidators = {
 
 // Enrollment creation form
 export const enrollmentValidators = {
-	id: z.number().nullable(),
+	id: optionalIdValidator.id,
 	student: z.number().min(1), // student id
 	school: z.number().min(1, selectionRequired), // school id
 	program_type: z.string().min(1, selectionRequired),
 	starting_progression: z.string().min(1, selectionRequired),
 	start_date: z.string().min(1, fieldRequired),
 	end_date: z.string().nullable(),
-	curriculum: z.string().optional().default(''),
-	majors: z.string().optional().default('')
+	curriculum: z.string().trim().optional().default(''),
+	majors: z.string().trim().optional().default('')
+};
+
+// Base test score validators
+const testScoreValidators = {
+	id: optionalIdValidator.id,
+	student: idValidator.id,
+	date: z.string().nullable(),
+	comments: z.string().trim().optional().default('')
+};
+
+// TOEFL creation/update form
+export const toeflValidators = {
+	...testScoreValidators,
+	reading: z.number().min(0, valueInvalid).max(30, valueInvalid).nullable(),
+	listening: z.number().min(0, valueInvalid).max(30, valueInvalid).nullable(),
+	speaking: z.number().min(0, valueInvalid).max(30, valueInvalid).nullable(),
+	writing: z.number().min(0, valueInvalid).max(30, valueInvalid).nullable()
 };
