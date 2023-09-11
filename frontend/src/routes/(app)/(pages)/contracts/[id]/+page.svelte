@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 
 	import type { Service } from '$lib/types/contractTypes.js';
 
@@ -8,15 +8,19 @@
 	import Dialog from '$lib/components/Dialog.svelte';
 	import BinaryDialog from '$lib/components/BinaryDialog.svelte';
 	import ContractUpdateForm from '$lib/forms/ContractUpdateForm.svelte';
-	import { toast } from '$lib/utils/interactiveUtils.js';
-
-	import { deleteContract } from '$lib/api.js';
-	import { formatEndDate } from '$lib/utils/serviceUtils.js';
-	import { byServiceRoleThenUsername } from '$lib/utils/sortUtils.js';
-	import { UNKNOWN_ERROR } from '$lib/constants/messages.js';
 	import EditIconButton from '$lib/components/EditIconButton.svelte';
 	import DeleteIconButton from '$lib/components/DeleteIconButton.svelte';
+	import ServiceForm from '$lib/forms/ServiceForm.svelte';
+	import ServiceUpdateForm from '$lib/forms/ServiceUpdateForm.svelte';
+
+	import { deleteContract, deleteService } from '$lib/api.js';
+
+	import { toast } from '$lib/utils/interactiveUtils.js';
 	import { toShortDate } from '$lib/utils/dateUtils';
+	import { formatEndDate } from '$lib/utils/serviceUtils.js';
+	import { byServiceRoleThenUsername } from '$lib/utils/sortUtils.js';
+	import { sortByUsername } from '$lib/utils/userUtils.js';
+	import { UNKNOWN_ERROR } from '$lib/constants/messages.js';
 
 	export let data;
 
@@ -40,6 +44,18 @@
 		}
 	}
 
+	// TODO move to server side?
+	async function handleDeleteService() {
+		const response = await deleteService(activeService.id);
+		if (response.ok) {
+			invalidateAll();
+			serviceDeleteDialog.close();
+			toast('Member removed', 'success');
+		} else {
+			toast(UNKNOWN_ERROR, 'error');
+		}
+	}
+
 	$: contract = data.contract;
 
 	// Parties to the contract can edit
@@ -48,7 +64,6 @@
 
 <Section hero>
 	<h1 class="cf-h1">
-		<!-- <i class="fa-solid fa-file-signature mr-2" /> -->
 		<span class="mr-6">
 			{contract.student.name} &bullet;
 			{contract.type}
@@ -71,7 +86,7 @@
 						>
 					</div>
 
-					<div class="mb-8">{contract.type} {contract.target_year}</div>
+					<div class="mb-4">{contract.type} {contract.target_year}</div>
 				</div>
 
 				<div class="cf-entry">
@@ -132,10 +147,10 @@
 						</div>
 					</div>
 
-					<div class="text-xl font-bold font-heading-token mt-0 pt-2">{service.cf_username}</div>
+					<div class="text-xl font-bold font-heading-token mt-0">{service.cf_username}</div>
 
-					<div class="flex flex-col mt-6">
-						<div class="cf-entry">
+					<div class="flex flex-col mt-4">
+						<div class="cf-entry service-date">
 							<div class="cf-entry-label">Start date</div>
 							<div>
 								{service.start_date
@@ -146,7 +161,7 @@
 							</div>
 						</div>
 
-						<div class="cf-entry">
+						<div class="cf-entry service-date">
 							<div class="cf-entry-label">End date</div>
 							<div>{formatEndDate(service.end_date, contract.status)}</div>
 						</div>
@@ -178,17 +193,30 @@
 />
 
 <Dialog exitHelper bind:dialog={serviceCreateDialog}>
-	<p>TODO: service creation form</p>
+	<ServiceForm
+		bind:dialog={serviceCreateDialog}
+		action="?/createService"
+		data={data.serviceCreationForm}
+		contractId={data.contract.id}
+		cfPeople={sortByUsername(data.cfPeople.filter((p) => !!p.department))}
+	/>
 </Dialog>
 
 <Dialog exitHelper bind:dialog={serviceUpdateDialog}>
-	<p>TODO: service update form</p>
+	{#if activeService}
+		<ServiceUpdateForm
+			bind:dialog={serviceCreateDialog}
+			service={activeService}
+			action="?/updateService"
+			data={data.serviceUpdateForm}
+		/>
+	{/if}
 </Dialog>
 
 <BinaryDialog
 	title={`Remove ${activeService?.cf_username ?? 'this member'} from the team?`}
 	bind:dialog={serviceDeleteDialog}
-	onYes={() => alert('todo')}
+	onYes={handleDeleteService}
 	dangerous
 >
 	<p>
@@ -198,6 +226,9 @@
 </BinaryDialog>
 
 <style lang="postcss">
+	.cf-entry.service-date {
+		@apply border-none pt-0;
+	}
 	.cf-entry-label {
 		@apply mb-1;
 	}

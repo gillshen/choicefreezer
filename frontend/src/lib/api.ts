@@ -1,3 +1,4 @@
+import type { UserListItem } from './types/userTypes';
 import type { StudentListItemType } from './types/studentTypes';
 import type { ContractListItem, ContractPageData } from './types/contractTypes';
 import type { NewSchool, SchoolListItem } from './types/schoolTypes';
@@ -59,7 +60,7 @@ export async function resetUserPassword(username: string, data: { password: stri
 	return await patch(`cf/${username}/reset_password/`, data);
 }
 
-export async function fetchUsers() {
+export async function fetchUsers(): Promise<UserListItem[]> {
 	return await get('cf/');
 }
 
@@ -104,6 +105,10 @@ export async function fetchContractsOfStudent(studentId: number): Promise<Contra
 
 export async function createService(data: any) {
 	return await post('services/new/', data);
+}
+
+export async function patchService(serviceId: number, data: any) {
+	return await patch(`services/${serviceId}/update/`, data);
 }
 
 export async function deleteService(serviceId: number) {

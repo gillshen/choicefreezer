@@ -363,7 +363,7 @@
 	}
 
 	.panel.contract-card {
-		@apply h-fit min-h-[140px];
+		@apply h-fit min-h-fit;
 		@apply rounded-l-none border-l-transparent;
 	}
 </style>

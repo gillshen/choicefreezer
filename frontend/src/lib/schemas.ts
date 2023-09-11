@@ -13,7 +13,8 @@ import {
 	deadlineValidators,
 	decisionDateValidators,
 	userLogValidators,
-	enrollmentValidators
+	enrollmentValidators,
+	serviceValidators
 } from '$lib/validators';
 
 export const authenticationSchema = z.object({
@@ -77,6 +78,10 @@ export const contractServiceSchema = z.object({
 });
 
 export type ContractServiceSchema = typeof contractServiceSchema;
+
+export const serviceSchema = z.object({ ...serviceValidators });
+
+export type ServiceSchema = typeof serviceSchema;
 
 export const newApplicationSchema = z.object({ ...applicationValidators });
 

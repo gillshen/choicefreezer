@@ -30,9 +30,7 @@
 			{target_year}
 		</div>
 
-		<div
-			class={`contract-status-chip font-heading-token scale-90 !max-w-[18px] !px-0 !py-1 bg-${statusClass}`}
-		>
+		<div class={`contract-status-chip bg-${statusClass}`}>
 			{status === 'Effective' ? 'In effect' : status}
 		</div>
 	</header>
@@ -68,10 +66,9 @@
 		@apply bg-surface-700;
 	}
 	.contract-status-chip {
-		padding: 2px 16px !important;
+		@apply scale-90 max-w-[18px] w-fit px-0 py-1;
 		@apply font-normal text-sm;
-		@apply opacity-80;
-		width: fit-content !important;
+		@apply font-heading-token;
 	}
 	.services-grid {
 		@apply grid grid-cols-[2rem_1fr] gap-y-1;
@@ -80,9 +77,6 @@
 	.services-grid > div {
 		@apply h-6;
 	}
-	/* .services-grid i {
-		@apply text-primary-300/75;
-	} */
 	.cf-value {
 		@apply whitespace-nowrap overflow-hidden text-ellipsis;
 	}

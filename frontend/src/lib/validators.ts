@@ -92,6 +92,16 @@ export const contractServiceValidators = {
 	cf_essay_advisor_2: z.number().nullable()
 };
 
+// Service creation/update form
+export const serviceValidators = {
+	id: optionalIdValidator.id,
+	contract: idValidator.id,
+	cf_person: z.number().min(1, selectionRequired),
+	role: z.string().min(1, selectionRequired),
+	start_date: z.string().nullable(),
+	end_date: z.string().nullable()
+};
+
 // Application creation form
 export const applicationValidators = {
 	studentId: idValidator.id,

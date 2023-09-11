@@ -1,4 +1,5 @@
 import type { ContractStatus } from '$lib/types/contractTypes';
+import { toShortDate } from './dateUtils';
 
 export function toUsernamesWithRole(
 	services: { role: string; cf_username: string }[],
@@ -22,7 +23,7 @@ export function formatEndDate(
 	contractStatus: ContractStatus
 ): string {
 	if (serviceEndDate) {
-		return serviceEndDate;
+		return toShortDate(serviceEndDate);
 	}
 	if (contractStatus === 'Effective') {
 		return 'n/a';
