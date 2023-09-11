@@ -269,7 +269,10 @@ class ApplicationListItemSerializer(serializers.ModelSerializer):
 
         scholarship_amount: number;
         scholarship_currency: string;
-        alt_admitted_into: number;
+        alt_admitted_into: {
+            id: number;
+            program_display_name: string;
+        };
 
         cf_exclude: number[];
     """
@@ -344,6 +347,15 @@ class ApplicationListItemSerializer(serializers.ModelSerializer):
     gre_submitted = _GRE_Serializer(many=True)
     gmat_submitted = _GMAT_Serializer(many=True)
 
+    class _AltTargetSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Target
+            fields = ["id", "program_display_name"]
+
+        program_display_name = serializers.CharField()
+
+    alt_admitted_into = _AltTargetSerializer()
+
 
 class ApplicationPageDataSerializer(serializers.ModelSerializer):
     """
@@ -411,7 +423,10 @@ class ApplicationPageDataSerializer(serializers.ModelSerializer):
 
         scholarship_amount: number;
         scholarship_currency: string;
-        alt_admitted_into: number;
+        alt_admitted_into: {
+            id: number;
+            program_display_name: string;
+        };
         latest_status: string;
 
         cf_exclude: number[];
@@ -477,3 +492,12 @@ class ApplicationPageDataSerializer(serializers.ModelSerializer):
     ap_submitted = _AP_Serializer(many=True)
     gre_submitted = _GRE_Serializer(many=True)
     gmat_submitted = _GMAT_Serializer(many=True)
+
+    class _AltTargetSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Target
+            fields = ["id", "program_display_name"]
+
+        program_display_name = serializers.CharField()
+
+    alt_admitted_into = _AltTargetSerializer()

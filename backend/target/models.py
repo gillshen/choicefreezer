@@ -211,6 +211,12 @@ class Target(models.Model):
     def __str__(self) -> str:
         return f"{self.program} ({self.term} {self.year})"
 
+    @property
+    def program_display_name(self) -> str:
+        # A convenience method for avoiding deep nesting:
+        # see application serializers in core.serializers
+        return self.program.display_name
+
     @classmethod
     def of_school(cls, school_id: int):
         return cls.objects.filter(program__schools=school_id)

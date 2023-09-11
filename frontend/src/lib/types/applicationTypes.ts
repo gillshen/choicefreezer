@@ -168,7 +168,10 @@ export type ApplicationListItem = {
 
 	scholarship_amount: number;
 	scholarship_currency: string;
-	alt_admitted_into: number;
+	alt_admitted_into: {
+		id: number;
+		program_display_name: string;
+	};
 };
 
 export type ApplicationPageData = {
@@ -237,6 +240,9 @@ export type ApplicationPageData = {
 
 	scholarship_amount: number;
 	scholarship_currency: string;
-	alt_admitted_into: number;
+	alt_admitted_into: {
+		id: number;
+		program_display_name: string;
+	};
 	latest_status: ApplicationStatus | null;
 };

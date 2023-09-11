@@ -75,7 +75,7 @@
 	</h1>
 
 	<div class="grid grid-cols-3 gap-16 h-full max-h-[960px] items-start">
-		<article class="panel !grid grid-cols-2 col-span-2">
+		<article class="panel !grid grid-cols-[2fr_3fr] col-span-2">
 			<!-- Student info -->
 			<div class="flex-grow overflow-auto flex flex-col px-6 pt-6">
 				<div class="flex gap-2 items-baseline pb-4">
@@ -223,22 +223,11 @@
 					{application.subtarget.admission_plan}
 				</div>
 
-				<!-- <div class="cf-entry">
-					<div class="cf-entry-label mb-1"></div>
-					
-				</div> -->
-
 				<div class="cf-entry">
 					<div class="cf-entry-label mb-1">
 						{#if application.major_choices.length > 1}Majors{:else}Major{/if}
 					</div>
-					{#if application.major_choices.length}
-						{#each application.major_choices as majorChoice}
-							<div>{majorChoice.major}</div>
-						{/each}
-					{:else}
-						<div>n/a</div>
-					{/if}
+					{application.major_choices.map((mc) => mc.major).join('; ') || 'n/a'}
 				</div>
 
 				<!-- TODO -->
@@ -248,8 +237,14 @@
 
 				<div class="cf-entry">
 					<div class="cf-entry-label">Status</div>
-					<!-- TODO alt_admitted -->
-					{application.latest_status ?? 'n/a'}
+					{#if application.alt_admitted_into}
+						Admitted to <a
+							href={`/targets/${application.alt_admitted_into.id}/`}
+							class="cf-page-link">{application.alt_admitted_into.program_display_name}</a
+						>
+					{:else}
+						{application.latest_status ?? 'n/a'}
+					{/if}
 				</div>
 
 				<div class="cf-entry">
