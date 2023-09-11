@@ -9,9 +9,10 @@ class UserLogAdmin(admin.ModelAdmin):
         "author",
         "date",
         "text",
-        "public",
         "pinned",
         "shared",
+        "task_status",
+        "task_due",
         "relevant_student",
         "updated",
     )

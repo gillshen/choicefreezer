@@ -15,12 +15,18 @@ class UserLog(models.Model):
         date: string; // date
         title: string;
         text?: string;
-        public: boolean;
         pinned: boolean;
         shared: boolean;
+        task_status: <TaskStatus>;
+        task_due: string | null; // datetime
         relevant_student: number | null; // Student
         updated: string; // datetime
     """
+
+    class TaskStatus(models.TextChoices):
+        NONE = "", _("")
+        TODO = "TODO", _("TODO")
+        DONE = "Done", _("Done")
 
     author = models.ForeignKey(CfUser, related_name="logs", on_delete=models.CASCADE)
 
@@ -28,12 +34,15 @@ class UserLog(models.Model):
     title = models.CharField(max_length=100, blank=True)
     text = models.TextField(max_length=1000)
 
-    public = models.BooleanField(default=False)
     pinned = models.BooleanField(default=False)
-
-    # If an entry is to be shared, it should be public,
-    # but the database does not enforce this requirement
     shared = models.BooleanField(default=False)
+
+    task_status = models.CharField(
+        max_length=20,
+        choices=TaskStatus.choices,
+        default=TaskStatus.NONE,
+    )
+    task_due = models.TimeField(null=True, blank=True)
 
     relevant_student = models.ForeignKey(
         Student,

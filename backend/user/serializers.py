@@ -58,6 +58,8 @@ class CfUserRetrieveSerializer(serializers.ModelSerializer):
         current_students: {
             id: number;
             name: string;
+            last_name: string;
+            first_name: string;
             last_name_romanized: string;
             first_name_romanized: string;
             latest_target_year: number;
@@ -87,6 +89,8 @@ class CfUserRetrieveSerializer(serializers.ModelSerializer):
             fields = [
                 "id",
                 "name",
+                "last_name",
+                "first_name",
                 "last_name_romanized",
                 "first_name_romanized",
                 "latest_target_year",

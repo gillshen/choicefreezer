@@ -22,9 +22,10 @@ class UserLogListItemSerializer(serializers.ModelSerializer):
         title: string;
         text?: string;
 
-        public: boolean;
         pinned: boolean;
         shared: boolean;
+        task_status: <UserLog.TaskStatus>;
+        task_due: string | null; // datetime
 
         relevant_student: {
             id: number;
