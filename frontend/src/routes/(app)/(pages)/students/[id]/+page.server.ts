@@ -4,29 +4,37 @@ import { error, fail, redirect } from '@sveltejs/kit';
 import { message, superValidate } from 'sveltekit-superforms/server';
 
 import {
-	fetchACT,
-	fetchAP,
+	fetchActScores,
+	fetchApScores,
 	fetchContractsOfStudent,
-	fetchDET,
+	fetchDetScores,
 	fetchEnrollments,
-	fetchGRE,
-	fetchIELTS,
-	fetchSAT,
+	fetchGmatScores,
+	fetchGreScores,
+	fetchIeltsScores,
+	fetchSatScores,
 	fetchStudent,
-	fetchTOEFL,
+	fetchToeflScores,
 	fetchApplicationsOfStudent,
 	fetchLogsOfStudents,
 	patchStudent,
 	performCreateContract,
 	fetchSchools,
 	fetchProgramSelectList,
-	createProgram,
 	fetchOrCreateTarget,
 	fetchOrCreateSubTarget,
+	createProgram,
 	createApplication,
 	createMajorChoice,
 	createEnrollment,
-	createToeflScore
+	createToeflScore,
+	createIeltsScore,
+	createDetScore,
+	createSatScore,
+	createActScore,
+	createApScore,
+	createGreScore,
+	createGmatScore
 } from '$lib/api';
 
 import {
@@ -34,7 +42,14 @@ import {
 	contractServiceSchema,
 	newApplicationSchema,
 	enrollmentSchema,
-	toeflSchema
+	toeflScoreSchema,
+	ieltsScoreSchema,
+	detScoreSchema,
+	satScoreSchema,
+	actScoreSchema,
+	apScoreSchema,
+	greScoreSchema,
+	gmatScoreSchema
 } from '$lib/schemas.js';
 
 import type { Program, ProgramType } from '$lib/types/programTypes.js';
@@ -62,33 +77,42 @@ export async function load(event: PageServerLoadEvent) {
 	const schools = await fetchSchools();
 	const programs = await fetchProgramSelectList();
 
-	const studentUpdateForm = await superValidate(student, studentUpdateSchema);
-	const contractCreateForm = await superValidate(event, contractServiceSchema);
+	// const studentUpdateForm = await superValidate(student, studentUpdateSchema);
+	// const contractCreateForm = await superValidate(event, contractServiceSchema);
 
-	const applicationCreateForm = await superValidate(event, newApplicationSchema);
-	const enrollmentCreateForm = await superValidate(event, enrollmentSchema);
+	// const applicationCreateForm = await superValidate(event, newApplicationSchema);
+	// const enrollmentCreateForm = await superValidate(event, enrollmentSchema);
 
-	const toeflCreateForm = await superValidate(event, toeflSchema);
+	// const toeflCreateForm = await superValidate(event, toeflScoreSchema);
+	// const ieltsCreateForm = await superValidate(event, ieltsScoreSchema);
 
 	return {
 		student,
-		studentUpdateForm,
+		studentUpdateForm: superValidate(student, studentUpdateSchema),
 		// contracts
 		contracts: fetchContractsOfStudent(id),
-		contractCreateForm,
-		applicationCreateForm,
+		contractCreateForm: superValidate(event, contractServiceSchema),
+		applicationCreateForm: superValidate(event, newApplicationSchema),
 		// enrollments
 		enrollments: fetchEnrollments(id),
-		enrollmentCreateForm,
+		enrollmentCreateForm: superValidate(event, enrollmentSchema),
 		// test scores
-		toeflScores: fetchTOEFL(id),
-		toeflCreateForm,
-		ieltslScores: fetchIELTS(id),
-		detScores: fetchDET(id),
-		satScores: fetchSAT(id),
-		actScores: fetchACT(id),
-		apScores: fetchAP(id),
-		greScores: fetchGRE(id),
+		toeflScores: fetchToeflScores(id),
+		toeflScoreCreateForm: superValidate(event, toeflScoreSchema),
+		ieltsScores: fetchIeltsScores(id),
+		ieltsScoreCreateForm: superValidate(event, ieltsScoreSchema),
+		detScores: fetchDetScores(id),
+		detScoreCreateForm: superValidate(event, detScoreSchema),
+		satScores: fetchSatScores(id),
+		satScoreCreateForm: superValidate(event, satScoreSchema),
+		actScores: fetchActScores(id),
+		actScoreCreateForm: superValidate(event, actScoreSchema),
+		apScores: fetchApScores(id),
+		apScoreCreateForm: superValidate(event, apScoreSchema),
+		greScores: fetchGreScores(id),
+		greScoreCreateForm: superValidate(event, greScoreSchema),
+		gmatScores: fetchGmatScores(id),
+		gmatScoreCreateForm: superValidate(event, gmatScoreSchema),
 		// applications & public user logs
 		/*
 		 * TODO: return logs based on user: all public logs | all user-authored logs
@@ -245,7 +269,7 @@ export const actions = {
 	},
 
 	createToeflScore: async (event: RequestEvent) => {
-		const form = await superValidate(event, toeflSchema);
+		const form = await superValidate(event, toeflScoreSchema);
 		console.log(form);
 
 		if (!form.valid) {
@@ -256,7 +280,111 @@ export const actions = {
 		if (!response.ok) {
 			return message(form, UNKNOWN_ERROR, { status: 400 });
 		}
+		return { form };
+	},
 
+	createIeltsScore: async (event: RequestEvent) => {
+		const form = await superValidate(event, ieltsScoreSchema);
+		console.log(form);
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		const response = await createIeltsScore(form.data);
+		if (!response.ok) {
+			return message(form, UNKNOWN_ERROR, { status: 400 });
+		}
+		return { form };
+	},
+
+	createDetScore: async (event: RequestEvent) => {
+		const form = await superValidate(event, detScoreSchema);
+		console.log(form);
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		const response = await createDetScore(form.data);
+		if (!response.ok) {
+			return message(form, UNKNOWN_ERROR, { status: 400 });
+		}
+		return { form };
+	},
+
+	createSatScore: async (event: RequestEvent) => {
+		const form = await superValidate(event, satScoreSchema);
+		console.log(form);
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		const response = await createSatScore(form.data);
+		if (!response.ok) {
+			return message(form, UNKNOWN_ERROR, { status: 400 });
+		}
+		return { form };
+	},
+
+	createActScore: async (event: RequestEvent) => {
+		const form = await superValidate(event, actScoreSchema);
+		console.log(form);
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		const response = await createActScore(form.data);
+		if (!response.ok) {
+			return message(form, UNKNOWN_ERROR, { status: 400 });
+		}
+		return { form };
+	},
+
+	createApScore: async (event: RequestEvent) => {
+		const form = await superValidate(event, apScoreSchema);
+		console.log(form);
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		const response = await createApScore(form.data);
+		if (!response.ok) {
+			return message(form, UNKNOWN_ERROR, { status: 400 });
+		}
+		return { form };
+	},
+
+	createGreScore: async (event: RequestEvent) => {
+		const form = await superValidate(event, greScoreSchema);
+		console.log(form);
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		const response = await createGreScore(form.data);
+		if (!response.ok) {
+			return message(form, UNKNOWN_ERROR, { status: 400 });
+		}
+		return { form };
+	},
+
+	createGmatScore: async (event: RequestEvent) => {
+		const form = await superValidate(event, gmatScoreSchema);
+		console.log(form);
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		const response = await createGmatScore(form.data);
+		if (!response.ok) {
+			return message(form, UNKNOWN_ERROR, { status: 400 });
+		}
 		return { form };
 	}
 };

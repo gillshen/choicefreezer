@@ -6,7 +6,13 @@ const beSafeForHtml = { message: 'Characters <, >, &, and " are not allowed' };
 
 const fieldRequired = { message: 'This field is required' };
 const selectionRequired = { message: 'Select an option' };
-const valueInvalid = { message: 'Value not valid' };
+
+const minValueExceeded = (minValue: number) => ({ message: `Minimum value ${minValue}` });
+const maxValueExceeded = (maxValue: number) => ({ message: `Maximum value ${maxValue}` });
+
+const valueOutOfStep = (step: number) => ({
+	message: step === 1 ? 'Must be an integer' : `Must be multiples of ${step}`
+});
 
 export const idValidator = { id: z.number().min(1) };
 export const optionalIdValidator = { id: z.number().min(1).optional().nullable() };
@@ -220,10 +226,216 @@ const testScoreValidators = {
 };
 
 // TOEFL creation/update form
-export const toeflValidators = {
+export const toeflScoreValidators = {
 	...testScoreValidators,
-	reading: z.number().min(0, valueInvalid).max(30, valueInvalid).nullable(),
-	listening: z.number().min(0, valueInvalid).max(30, valueInvalid).nullable(),
-	speaking: z.number().min(0, valueInvalid).max(30, valueInvalid).nullable(),
-	writing: z.number().min(0, valueInvalid).max(30, valueInvalid).nullable()
+	reading: z
+		.number()
+		.min(0, minValueExceeded(0))
+		.max(30, maxValueExceeded(30))
+		.step(1, valueOutOfStep(1))
+		.nullable(),
+	listening: z
+		.number()
+		.min(0, minValueExceeded(0))
+		.max(30, maxValueExceeded(30))
+		.step(1, valueOutOfStep(1))
+		.nullable(),
+	speaking: z
+		.number()
+		.min(0, minValueExceeded(0))
+		.max(30, maxValueExceeded(30))
+		.step(1, valueOutOfStep(1))
+		.nullable(),
+	writing: z
+		.number()
+		.min(0, minValueExceeded(0))
+		.max(30, maxValueExceeded(30))
+		.step(1, valueOutOfStep(1))
+		.nullable()
+};
+
+// ILETS creation/update form
+export const ieltsScoreValidators = {
+	...testScoreValidators,
+	listening: z
+		.number()
+		.min(0, minValueExceeded(0))
+		.max(9, maxValueExceeded(9))
+		.step(0.5, valueOutOfStep(0.5))
+		.nullable(),
+	reading: z
+		.number()
+		.min(0, minValueExceeded(0))
+		.max(9, maxValueExceeded(9))
+		.step(0.5, valueOutOfStep(0.5))
+		.nullable(),
+	writing: z
+		.number()
+		.min(0, minValueExceeded(0))
+		.max(9, maxValueExceeded(9))
+		.step(0.5, valueOutOfStep(0.5))
+		.nullable(),
+	speaking: z
+		.number()
+		.min(0, minValueExceeded(0))
+		.max(9, maxValueExceeded(9))
+		.step(0.5, valueOutOfStep(0.5))
+		.nullable()
+};
+
+// DET creation/update form
+export const detScoreValidators = {
+	...testScoreValidators,
+	overall: z
+		.number()
+		.min(10, minValueExceeded(10))
+		.max(160, maxValueExceeded(160))
+		.step(5, valueOutOfStep(5))
+		.nullable(),
+	literacy: z
+		.number()
+		.min(10, minValueExceeded(10))
+		.max(160, maxValueExceeded(160))
+		.step(5, valueOutOfStep(5))
+		.nullable(),
+	comprehension: z
+		.number()
+		.min(10, minValueExceeded(10))
+		.max(160, maxValueExceeded(160))
+		.step(5, valueOutOfStep(5))
+		.nullable(),
+	conversation: z
+		.number()
+		.min(10, minValueExceeded(10))
+		.max(160, maxValueExceeded(160))
+		.step(5, valueOutOfStep(5))
+		.nullable(),
+	production: z
+		.number()
+		.min(10, minValueExceeded(10))
+		.max(160, maxValueExceeded(160))
+		.step(5, valueOutOfStep(5))
+		.nullable()
+};
+
+// SAT creation/update form
+export const satScoreValidators = {
+	...testScoreValidators,
+	ebrw: z
+		.number()
+		.min(200, minValueExceeded(200))
+		.max(800, maxValueExceeded(800))
+		.step(10, valueOutOfStep(10))
+		.nullable(),
+	math: z
+		.number()
+		.min(200, minValueExceeded(200))
+		.max(800, maxValueExceeded(800))
+		.step(10, valueOutOfStep(10))
+		.nullable()
+};
+
+// ACT creation/update form
+export const actScoreValidators = {
+	...testScoreValidators,
+	english: z
+		.number()
+		.min(1, minValueExceeded(1))
+		.max(36, maxValueExceeded(36))
+		.step(1, valueOutOfStep(1))
+		.nullable(),
+	math: z
+		.number()
+		.min(1, minValueExceeded(1))
+		.max(36, maxValueExceeded(36))
+		.step(1, valueOutOfStep(1))
+		.nullable(),
+	reading: z
+		.number()
+		.min(1, minValueExceeded(1))
+		.max(36, maxValueExceeded(36))
+		.step(1, valueOutOfStep(1))
+		.nullable(),
+	science: z
+		.number()
+		.min(1, minValueExceeded(1))
+		.max(36, maxValueExceeded(36))
+		.step(1, valueOutOfStep(1))
+		.nullable(),
+	writing: z
+		.number()
+		.min(2, minValueExceeded(2))
+		.max(12, maxValueExceeded(12))
+		.step(1, valueOutOfStep(1))
+		.nullable()
+};
+
+// AP creation/update form
+export const apScoreValidators = {
+	...testScoreValidators,
+	subject: z.string().min(1, fieldRequired),
+	score: z
+		.number()
+		.min(1, minValueExceeded(1))
+		.max(5, maxValueExceeded(5))
+		.step(1, valueOutOfStep(1))
+		.nullable()
+};
+
+// GRE creation/update form
+export const greScoreValidators = {
+	...testScoreValidators,
+	verbal: z
+		.number()
+		.min(130, minValueExceeded(130))
+		.max(170, maxValueExceeded(170))
+		.step(1, valueOutOfStep(1))
+		.nullable(),
+	quant: z
+		.number()
+		.min(130, minValueExceeded(130))
+		.max(170, maxValueExceeded(170))
+		.step(1, valueOutOfStep(1))
+		.nullable(),
+	writing: z
+		.number()
+		.min(0, minValueExceeded(0))
+		.max(6, maxValueExceeded(170))
+		.step(0.5, valueOutOfStep(0.5))
+		.nullable()
+};
+
+// GMAT creation/update form
+export const gmatScoreValidators = {
+	...testScoreValidators,
+	total: z
+		.number()
+		.min(200, minValueExceeded(200))
+		.max(800, maxValueExceeded(800))
+		.step(10, valueOutOfStep(10))
+		.nullable(),
+	verbal: z
+		.number()
+		.min(0, minValueExceeded(0))
+		.max(60, maxValueExceeded(60))
+		.step(1, valueOutOfStep(1))
+		.nullable(),
+	quant: z
+		.number()
+		.min(0, minValueExceeded(0))
+		.max(60, maxValueExceeded(60))
+		.step(1, valueOutOfStep(1))
+		.nullable(),
+	reasoning: z
+		.number()
+		.min(1, minValueExceeded(1))
+		.max(8, maxValueExceeded(8))
+		.step(1, valueOutOfStep(1))
+		.nullable(),
+	writing: z
+		.number()
+		.min(0, minValueExceeded(0))
+		.max(6, maxValueExceeded(6))
+		.step(1, valueOutOfStep(1))
+		.nullable()
 };

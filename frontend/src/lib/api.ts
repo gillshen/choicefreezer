@@ -1,22 +1,31 @@
-import type { UserListItem } from './types/userTypes';
-import type { StudentListItemType } from './types/studentTypes';
-import type { ContractListItem, ContractPageData } from './types/contractTypes';
+import type { UserListItem } from '$lib/types/userTypes';
+import type { StudentListItemType } from '$lib/types/studentTypes';
+import type { ContractListItem, ContractPageData } from '$lib/types/contractTypes';
 import type { NewSchool, SchoolListItem } from './types/schoolTypes';
-import type { NewProgram, ProgramListItem, ProgramSelectItem } from './types/programTypes';
-import type { NewTarget } from './types/targetTypes';
-import type { NewSubTarget } from './types/subTargetTypes';
+import type { NewProgram, ProgramListItem, ProgramSelectItem } from '$lib/types/programTypes';
+import type { NewTarget } from '$lib/types/targetTypes';
+import type { NewSubTarget } from '$lib/types/subTargetTypes';
 import type {
 	ApplicationListItem,
 	ApplicationPageData,
 	NewApplication
-} from './types/applicationTypes';
-import type { NewMajorChoice } from './types/majorChoiceTypes';
-import type { NewApplicationLog } from './types/applicationLogTypes';
-import type { NewUserLog, UserLogListItem } from './types/userLogTypes';
-import type { NewEnrollment } from './types/enrollmentTypes';
-import type { NewToeflScore } from './types/testScoreTypes';
+} from '$lib/types/applicationTypes';
+import type { NewMajorChoice } from '$lib/types/majorChoiceTypes';
+import type { NewApplicationLog } from '$lib/types/applicationLogTypes';
+import type { NewUserLog, UserLogListItem } from '$lib/types/userLogTypes';
+import type { NewEnrollment } from '$lib/types/enrollmentTypes';
+import type {
+	NewActScore,
+	NewApScore,
+	NewDetScore,
+	NewGmatScore,
+	NewGreScore,
+	NewIeltsScore,
+	NewSatScore,
+	NewToeflScore
+} from '$lib/types/testScoreTypes';
 
-import { PLANNER, ASST_PLANNER, STRAT_PLANNER, ESSAY_ADVISOR } from './constants/cfRoles';
+import { PLANNER, ASST_PLANNER, STRAT_PLANNER, ESSAY_ADVISOR } from '$lib/constants/cfRoles';
 
 const BASE = 'http://127.0.0.1:8000/api/';
 
@@ -240,36 +249,76 @@ export async function deleteApplicationLog(logId: number) {
 	return await destroy(`application_logs/${logId}/delete/`);
 }
 
+export async function createEnrollment(data: NewEnrollment) {
+	return await post('s.enrollments/new/', data);
+}
+
 export async function fetchEnrollments(studentId: number) {
 	return await get(`s.enrollments/?student=${studentId}`);
 }
 
-export async function fetchTOEFL(studentId: number) {
+export async function createToeflScore(data: NewToeflScore) {
+	return await post('s.toefl/new/', data);
+}
+
+export async function fetchToeflScores(studentId: number) {
 	return await get(`s.toefl/?student=${studentId}`);
 }
 
-export async function fetchIELTS(studentId: number) {
+export async function createIeltsScore(data: NewIeltsScore) {
+	return await post('s.ielts/new/', data);
+}
+
+export async function fetchIeltsScores(studentId: number) {
 	return await get(`s.ielts/?student=${studentId}`);
 }
 
-export async function fetchDET(studentId: number) {
+export async function createDetScore(data: NewDetScore) {
+	return await post('s.det/new/', data);
+}
+
+export async function fetchDetScores(studentId: number) {
 	return await get(`s.det/?student=${studentId}`);
 }
 
-export async function fetchSAT(studentId: number) {
+export async function createSatScore(data: NewSatScore) {
+	return await post('s.sat/new/', data);
+}
+
+export async function fetchSatScores(studentId: number) {
 	return await get(`s.sat/?student=${studentId}`);
 }
 
-export async function fetchACT(studentId: number) {
+export async function createActScore(data: NewActScore) {
+	return await post('s.act/new/', data);
+}
+
+export async function fetchActScores(studentId: number) {
 	return await get(`s.act/?student=${studentId}`);
 }
 
-export async function fetchAP(studentId: number) {
+export async function createApScore(data: NewApScore) {
+	return await post('s.ap/new/', data);
+}
+
+export async function fetchApScores(studentId: number) {
 	return await get(`s.ap/?student=${studentId}`);
 }
 
-export async function fetchGRE(studentId: number) {
+export async function createGreScore(data: NewGreScore) {
+	return await post('s.gre/new/', data);
+}
+
+export async function fetchGreScores(studentId: number) {
 	return await get(`s.gre/?student=${studentId}`);
+}
+
+export async function createGmatScore(data: NewGmatScore) {
+	return await post('s.gmat/new/', data);
+}
+
+export async function fetchGmatScores(studentId: number) {
+	return await get(`s.gmat/?student=${studentId}`);
 }
 
 export async function createUserLog(data: NewUserLog) {
@@ -290,14 +339,6 @@ export async function fetchLogsOfUser(username: string): Promise<UserLogListItem
 
 export async function fetchLogsOfStudents(studentId: number): Promise<UserLogListItem[]> {
 	return await get(`user_logs/?student=${studentId}`);
-}
-
-export async function createEnrollment(data: NewEnrollment) {
-	return await post('s.enrollments/new/', data);
-}
-
-export async function createToeflScore(data: NewToeflScore) {
-	return await post('s.toefl/new/', data);
 }
 
 export async function performCreateContract(params: {

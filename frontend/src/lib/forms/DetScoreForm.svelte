@@ -2,7 +2,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 
 	import type { SuperValidated } from 'sveltekit-superforms';
-	import type { ToeflScoreSchema } from '$lib/schemas';
+	import type { DetScoreSchema } from '$lib/schemas';
 
 	import { closeDialogOnSuccess } from '$lib/utils/formUtils';
 	import HiddenIdField from '$lib/components/HiddenIdField.svelte';
@@ -12,7 +12,7 @@
 	import FormTextArea from '$lib/components/FormTextArea.svelte';
 
 	export let dialog: HTMLDialogElement | undefined;
-	export let data: SuperValidated<ToeflScoreSchema>;
+	export let data: SuperValidated<DetScoreSchema>;
 	export let action: string;
 	export let studentId: number;
 
@@ -42,9 +42,9 @@
 
 	<fieldset>
 		<FormTextInput
-			id="reading-input"
-			name="reading"
-			label="Reading"
+			id="overall-input"
+			name="overall"
+			label="Overall"
 			form={$form}
 			errors={$errors}
 			optional
@@ -52,9 +52,9 @@
 		/>
 
 		<FormTextInput
-			id="listening-input"
-			name="listening"
-			label="Listening"
+			id="literacy-input"
+			name="literacy"
+			label="Literacy"
 			form={$form}
 			errors={$errors}
 			optional
@@ -62,9 +62,9 @@
 		/>
 
 		<FormTextInput
-			id="speaking-input"
-			name="speaking"
-			label="Speaking"
+			id="comprehension-input"
+			name="comprehension"
+			label="Comprehension"
 			form={$form}
 			errors={$errors}
 			optional
@@ -72,9 +72,19 @@
 		/>
 
 		<FormTextInput
-			id="writing-input"
-			name="writing"
-			label="Writing"
+			id="conversation-input"
+			name="conversation"
+			label="Conversation"
+			form={$form}
+			errors={$errors}
+			optional
+			width="narrower"
+		/>
+
+		<FormTextInput
+			id="production-input"
+			name="production"
+			label="Production"
 			form={$form}
 			errors={$errors}
 			optional

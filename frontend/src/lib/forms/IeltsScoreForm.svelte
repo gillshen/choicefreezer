@@ -2,7 +2,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 
 	import type { SuperValidated } from 'sveltekit-superforms';
-	import type { ToeflScoreSchema } from '$lib/schemas';
+	import type { IeltsScoreSchema } from '$lib/schemas';
 
 	import { closeDialogOnSuccess } from '$lib/utils/formUtils';
 	import HiddenIdField from '$lib/components/HiddenIdField.svelte';
@@ -12,7 +12,7 @@
 	import FormTextArea from '$lib/components/FormTextArea.svelte';
 
 	export let dialog: HTMLDialogElement | undefined;
-	export let data: SuperValidated<ToeflScoreSchema>;
+	export let data: SuperValidated<IeltsScoreSchema>;
 	export let action: string;
 	export let studentId: number;
 
@@ -42,16 +42,6 @@
 
 	<fieldset>
 		<FormTextInput
-			id="reading-input"
-			name="reading"
-			label="Reading"
-			form={$form}
-			errors={$errors}
-			optional
-			width="narrower"
-		/>
-
-		<FormTextInput
 			id="listening-input"
 			name="listening"
 			label="Listening"
@@ -62,9 +52,9 @@
 		/>
 
 		<FormTextInput
-			id="speaking-input"
-			name="speaking"
-			label="Speaking"
+			id="reading-input"
+			name="reading"
+			label="Reading"
 			form={$form}
 			errors={$errors}
 			optional
@@ -75,6 +65,16 @@
 			id="writing-input"
 			name="writing"
 			label="Writing"
+			form={$form}
+			errors={$errors}
+			optional
+			width="narrower"
+		/>
+
+		<FormTextInput
+			id="speaking-input"
+			name="speaking"
+			label="Speaking"
 			form={$form}
 			errors={$errors}
 			optional

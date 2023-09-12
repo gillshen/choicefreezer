@@ -198,10 +198,10 @@ class TOEFL(BaseTest):
         date?: string | null; // date
         comments?: string;
 
-        reading?: number;
-        listening?: number;
-        speaking?: number;
-        writing?: number;
+        reading?: number | null;
+        listening?: number | null;
+        speaking?: number | null;
+        writing?: number | null;
 
     Computed fields:
         result: number;
@@ -235,10 +235,10 @@ class IELTS(BaseTest):
         date?: string | null; // date
         comments?: string;
 
-        listening?: number;
-        reading?: number;
-        writing?: number;
-        speaking?: number;
+        listening?: number | null;
+        reading?: number | null;
+        writing?: number | null;
+        speaking?: number | null;
 
     Computed fields:
         result: number;
@@ -280,7 +280,7 @@ class DET(BaseTest):
         date?: string | null; // date
         comments?: string;
 
-        overall?: number;
+        overall?: number | null;
         literacy?: number | null;
         comprehension?: number | null;
         conversation?: number | null;
@@ -318,8 +318,8 @@ class SAT(BaseTest):
         date?: string | null; // date
         comments?: string;
 
-        ebrw?: number;
-        math?: number;
+        ebrw?: number | null;
+        math?: number | null;
 
     Computed fields:
         result: number;
@@ -351,11 +351,11 @@ class ACT(BaseTest):
         date?: string | null; // date
         comments?: string;
 
-        english?: number;
-        math?: number;
-        reading?: number;
-        science?: number;
-        writing?: number;
+        english?: number | null;
+        math?: number | null;
+        reading?: number | null;
+        science?: number | null;
+        writing?: number | null;
 
     Computed fields:
         result: number;
@@ -392,7 +392,7 @@ class AP(BaseTest):
         comments?: string;
 
         subject: string;
-        score?: number;
+        score?: number | null;
 
     Computed fields:
         result: number;
@@ -423,9 +423,9 @@ class GRE(BaseTest):
         date?: string | null; // date
         comments?: string;
 
-        verbal?: number;
-        quant?: number;
-        writing?: number;
+        verbal?: number | null;
+        quant?: number | null;
+        writing?: number | null;
 
     Computed fields:
         result: number;
@@ -458,11 +458,11 @@ class GMAT(BaseTest):
         date?: string | null; // date
         comments?: string;
 
-        total?: number;
-        verbal?: number;
-        quant?: number;
-        reasoning?: number;
-        writing?: number;
+        total?: number | null;
+        verbal?: number | null;
+        quant?: number | null;
+        reasoning?: number | null;
+        writing?: number | null;
 
     Computed fields:
         result: number;

@@ -15,7 +15,14 @@ import {
 	userLogValidators,
 	enrollmentValidators,
 	serviceValidators,
-	toeflValidators
+	toeflScoreValidators,
+	ieltsScoreValidators,
+	detScoreValidators,
+	satScoreValidators,
+	actScoreValidators,
+	apScoreValidators,
+	greScoreValidators,
+	gmatScoreValidators
 } from '$lib/validators';
 
 export const authenticationSchema = z.object({
@@ -116,6 +123,34 @@ export const enrollmentSchema = z.object({ ...enrollmentValidators });
 
 export type EnrollmentSchema = typeof enrollmentSchema;
 
-export const toeflSchema = z.object({ ...toeflValidators });
+export const toeflScoreSchema = z.object({ ...toeflScoreValidators });
 
-export type ToeflSchema = typeof toeflSchema;
+export type ToeflScoreSchema = typeof toeflScoreSchema;
+
+export const ieltsScoreSchema = z.object({ ...ieltsScoreValidators });
+
+export type IeltsScoreSchema = typeof ieltsScoreSchema;
+
+export const detScoreSchema = z.object({ ...detScoreValidators });
+
+export type DetScoreSchema = typeof detScoreSchema;
+
+export const satScoreSchema = z.object({ ...satScoreValidators });
+
+export type SatScoreSchema = typeof satScoreSchema;
+
+export const actScoreSchema = z.object({ ...actScoreValidators });
+
+export type ActScoreSchema = typeof actScoreSchema;
+
+export const apScoreSchema = z.object({ ...apScoreValidators });
+
+export type ApScoreSchema = typeof apScoreSchema;
+
+export const greScoreSchema = z.object({ ...greScoreValidators });
+
+export type GreScoreSchema = typeof greScoreSchema;
+
+export const gmatScoreSchema = z.object({ ...gmatScoreValidators });
+
+export type GmatScoreSchema = typeof gmatScoreSchema;

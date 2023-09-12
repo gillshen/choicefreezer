@@ -2,7 +2,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 
 	import type { SuperValidated } from 'sveltekit-superforms';
-	import type { ToeflScoreSchema } from '$lib/schemas';
+	import type { GmatScoreSchema } from '$lib/schemas';
 
 	import { closeDialogOnSuccess } from '$lib/utils/formUtils';
 	import HiddenIdField from '$lib/components/HiddenIdField.svelte';
@@ -12,7 +12,7 @@
 	import FormTextArea from '$lib/components/FormTextArea.svelte';
 
 	export let dialog: HTMLDialogElement | undefined;
-	export let data: SuperValidated<ToeflScoreSchema>;
+	export let data: SuperValidated<GmatScoreSchema>;
 	export let action: string;
 	export let studentId: number;
 
@@ -42,9 +42,9 @@
 
 	<fieldset>
 		<FormTextInput
-			id="reading-input"
-			name="reading"
-			label="Reading"
+			id="total-input"
+			name="total"
+			label="Total"
 			form={$form}
 			errors={$errors}
 			optional
@@ -52,9 +52,9 @@
 		/>
 
 		<FormTextInput
-			id="listening-input"
-			name="listening"
-			label="Listening"
+			id="verbal-input"
+			name="verbal"
+			label="Verbal"
 			form={$form}
 			errors={$errors}
 			optional
@@ -62,9 +62,19 @@
 		/>
 
 		<FormTextInput
-			id="speaking-input"
-			name="speaking"
-			label="Speaking"
+			id="quant-input"
+			name="quant"
+			label="Quantitative"
+			form={$form}
+			errors={$errors}
+			optional
+			width="narrower"
+		/>
+
+		<FormTextInput
+			id="reasoning-input"
+			name="reasoning"
+			label="Integrated reasoning"
 			form={$form}
 			errors={$errors}
 			optional

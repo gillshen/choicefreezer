@@ -2,13 +2,12 @@
 	export let dialog;
 	export let title = '';
 	export let exitHelper = false;
+	export let fullHeight = false;
+
+	const dialogClass = 'w-full max-w-3xl max-h-[80vh] p-12 text-surface-50 bg-surface-800';
 </script>
 
-<dialog
-	bind:this={dialog}
-	on:close
-	class="w-full max-w-3xl max-h-[80vh] p-12 text-surface-50 bg-surface-800"
->
+<dialog bind:this={dialog} on:close class={`${dialogClass} ${fullHeight ? 'min-h-[80vh]' : ''}`}>
 	{#if title || exitHelper}
 		<div class="flex flex-col gap-4 mb-8">
 			{#if title}

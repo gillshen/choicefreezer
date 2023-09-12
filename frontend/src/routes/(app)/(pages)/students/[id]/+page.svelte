@@ -17,6 +17,13 @@
 	import ApplicationForm from '$lib/forms/ApplicationForm.svelte';
 	import EnrollmentForm from '$lib/forms/EnrollmentForm.svelte';
 	import ToeflScoreForm from '$lib/forms/ToeflScoreForm.svelte';
+	import IeltsScoreForm from '$lib/forms/IeltsScoreForm.svelte';
+	import DetScoreForm from '$lib/forms/DetScoreForm.svelte';
+	import SatScoreForm from '$lib/forms/SatScoreForm.svelte';
+	import ActScoreForm from '$lib/forms/ActScoreForm.svelte';
+	import ApScoreForm from '$lib/forms/ApScoreForm.svelte';
+	import GreScoreForm from '$lib/forms/GreScoreForm.svelte';
+	import GmatScoreForm from '$lib/forms/GmatScoreForm.svelte';
 
 	import {
 		formatStudentName,
@@ -269,9 +276,9 @@
 		<pre class="text-surface-400">{JSON.stringify(data.toeflScores, null, 2)}</pre>
 	{/if}
 
-	{#if data.ieltslScores.length}
+	{#if data.ieltsScores.length}
 		<h3>IELTS</h3>
-		<pre class="text-surface-400">{JSON.stringify(data.ieltslScores, null, 2)}</pre>
+		<pre class="text-surface-400">{JSON.stringify(data.ieltsScores, null, 2)}</pre>
 	{/if}
 
 	{#if data.detScores.length}
@@ -297,6 +304,11 @@
 	{#if data.greScores.length}
 		<h3>GRE</h3>
 		<pre class="text-surface-400">{JSON.stringify(data.greScores, null, 2)}</pre>
+	{/if}
+
+	{#if data.gmatScores.length}
+		<h3>GMAT</h3>
+		<pre class="text-surface-400">{JSON.stringify(data.gmatScores, null, 2)}</pre>
 	{/if}
 
 	{#if userIsOwner}
@@ -364,7 +376,7 @@
 	/>
 </Dialog>
 
-<Dialog title="Add a test score" exitHelper bind:dialog={testScoreCreateDialog}>
+<Dialog title="Add a test score" exitHelper fullHeight bind:dialog={testScoreCreateDialog}>
 	<div class="flex flex-col mb-8">
 		<label for="test-select" class="label">Select a test</label>
 		<select id="test-select" class="select" bind:value={testScoreType}>
@@ -379,10 +391,59 @@
 			bind:dialog={testScoreCreateDialog}
 			action="?/createToeflScore"
 			studentId={student.id}
-			data={data.toeflCreateForm}
+			data={data.toeflScoreCreateForm}
+		/>
+	{:else if testScoreType === 'IELTS'}
+		<IeltsScoreForm
+			bind:dialog={testScoreCreateDialog}
+			action="?/createIeltsScore"
+			studentId={student.id}
+			data={data.ieltsScoreCreateForm}
+		/>
+	{:else if testScoreType === 'DET'}
+		<DetScoreForm
+			bind:dialog={testScoreCreateDialog}
+			action="?/createDetScore"
+			studentId={student.id}
+			data={data.detScoreCreateForm}
+		/>
+	{:else if testScoreType === 'SAT'}
+		<SatScoreForm
+			bind:dialog={testScoreCreateDialog}
+			action="?/createSatScore"
+			studentId={student.id}
+			data={data.satScoreCreateForm}
+		/>
+	{:else if testScoreType === 'ACT'}
+		<ActScoreForm
+			bind:dialog={testScoreCreateDialog}
+			action="?/createActScore"
+			studentId={student.id}
+			data={data.actScoreCreateForm}
+		/>
+	{:else if testScoreType === 'AP'}
+		<ApScoreForm
+			bind:dialog={testScoreCreateDialog}
+			action="?/createApScore"
+			studentId={student.id}
+			data={data.apScoreCreateForm}
+		/>
+	{:else if testScoreType === 'GRE'}
+		<GreScoreForm
+			bind:dialog={testScoreCreateDialog}
+			action="?/createGreScore"
+			studentId={student.id}
+			data={data.greScoreCreateForm}
+		/>
+	{:else if testScoreType === 'GMAT'}
+		<GmatScoreForm
+			bind:dialog={testScoreCreateDialog}
+			action="?/createGmatScore"
+			studentId={student.id}
+			data={data.gmatScoreCreateForm}
 		/>
 	{:else}
-		{testScoreType} creation form
+		<div />
 	{/if}
 </Dialog>
 
