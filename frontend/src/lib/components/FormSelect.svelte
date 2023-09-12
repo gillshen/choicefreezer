@@ -26,6 +26,10 @@
 		<slot />
 	</select>
 	{#if errors[name]}
-		<small class="error-message">{errors[name]}</small>
+		<small class="error-message">
+			{#each errors[name] as error}
+				<p>{error}</p>
+			{/each}
+		</small>
 	{/if}
 </div>
