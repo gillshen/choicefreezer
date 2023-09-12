@@ -67,17 +67,12 @@
 	}
 	.contract-status-chip {
 		@apply scale-90 max-w-[18px] w-fit px-0 py-1;
-		@apply font-normal text-sm;
-		@apply font-heading-token;
 	}
 	.services-grid {
-		@apply grid grid-cols-[2rem_1fr] gap-y-1;
+		@apply grid grid-cols-[1.5rem_1fr] gap-y-1;
 		@apply items-start;
 	}
 	.services-grid > div {
 		@apply h-6;
-	}
-	.cf-value {
-		@apply whitespace-nowrap overflow-hidden text-ellipsis;
 	}
 </style>

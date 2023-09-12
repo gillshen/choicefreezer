@@ -195,12 +195,13 @@
 
 			<!-- Target info -->
 			<div class="flex-grow overflow-auto flex flex-col px-6 pt-6">
-				<div class="flex flex-col gap-4 pb-4">
+				<div class="flex flex-col gap-2 pb-4">
 					{#each application.schools as school}
-						<div class="flex gap-2 items-end">
-							<span class="text-xl font-bold">{school.name}</span><a
-								href={`../schools/${school.id}/`}
-								class="cf-page-link text-base"><i class="fa-solid fa-arrow-right" /></a
+						<div class="flex gap-2 items-baseline">
+							<span class="text-xl font-bold whitespace-nowrap overflow-hidden text-ellipsis"
+								>{school.name}</span
+							><a href={`../schools/${school.id}/`} class="cf-page-link text-base"
+								><i class="fa-solid fa-arrow-right" /></a
 							>
 						</div>
 					{/each}
@@ -215,12 +216,14 @@
 
 				<div class="cf-entry">
 					<div class="cf-entry-label">Admission plan</div>
-					<a href={`../targets/${application.target.id}/`} class="cf-page-link">
-						{application.target.term}
-						{application.target.year}
-					</a>
-					/
-					{application.subtarget.admission_plan}
+					<div class="flex gap-1">
+						<a href={`../targets/${application.target.id}/`} class="cf-page-link">
+							{application.target.term}
+							{application.target.year}
+						</a>
+						<span class="text-surface-400">|</span>
+						{application.subtarget.admission_plan}
+					</div>
 				</div>
 
 				<div class="cf-entry">
@@ -263,8 +266,8 @@
 		<article class="panel transparent gap-8">
 			<div class="date-card-background deadline">
 				<div class="date-card">
-					<header class="flex justify-between items-center mb-8">
-						<div class="text-surface-300">Due</div>
+					<header class="flex justify-between items-center">
+						<div class="text-surface-300">Deadline</div>
 						<EditIconButton
 							onClick={() => deadlineUpdateDialog.showModal()}
 							classNames="text-primary-400 hover:text-primary-500"
@@ -281,7 +284,7 @@
 
 			<div class="date-card-background decision-date">
 				<div class="date-card">
-					<header class="flex justify-between items-center mb-8">
+					<header class="flex justify-between items-center">
 						<div class="text-surface-300">Decision date</div>
 						<EditIconButton
 							onClick={() => decisionDateUpdateDialog.showModal()}
@@ -403,9 +406,12 @@
 
 	.date-card-background,
 	.date-card {
-		@apply w-[180px] h-[180px];
 		@apply aspect-square;
 		@apply rounded-lg;
+	}
+	.date-card-background {
+		@apply w-[180px] h-[180px];
+		@apply flex justify-center items-center;
 	}
 
 	.date-card-background.deadline {
@@ -418,7 +424,7 @@
 	.date-card {
 		@apply p-4;
 		@apply flex flex-col;
-		@apply scale-[99%];
+		@apply w-[178px] h-[178px];
 		@apply bg-surface-800;
 	}
 </style>

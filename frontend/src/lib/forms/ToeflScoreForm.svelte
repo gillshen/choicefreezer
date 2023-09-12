@@ -38,48 +38,48 @@
 			errors={$errors}
 			optional
 		/>
+	</fieldset>
 
-		<div class="grid grid-cols-4">
-			<FormTextInput
-				id="reading-input"
-				name="reading"
-				label="Reading"
-				form={$form}
-				errors={$errors}
-				optional
-				width="narrower"
-			/>
+	<fieldset>
+		<FormTextInput
+			id="reading-input"
+			name="reading"
+			label="Reading"
+			form={$form}
+			errors={$errors}
+			optional
+			width="narrower"
+		/>
 
-			<FormTextInput
-				id="listening-input"
-				name="listening"
-				label="Listening"
-				form={$form}
-				errors={$errors}
-				optional
-				width="narrower"
-			/>
+		<FormTextInput
+			id="listening-input"
+			name="listening"
+			label="Listening"
+			form={$form}
+			errors={$errors}
+			optional
+			width="narrower"
+		/>
 
-			<FormTextInput
-				id="speaking-input"
-				name="speaking"
-				label="Speaking"
-				form={$form}
-				errors={$errors}
-				optional
-				width="narrower"
-			/>
+		<FormTextInput
+			id="speaking-input"
+			name="speaking"
+			label="Speaking"
+			form={$form}
+			errors={$errors}
+			optional
+			width="narrower"
+		/>
 
-			<FormTextInput
-				id="writing-input"
-				name="writing"
-				label="Writing"
-				form={$form}
-				errors={$errors}
-				optional
-				width="narrower"
-			/>
-		</div>
+		<FormTextInput
+			id="writing-input"
+			name="writing"
+			label="Writing"
+			form={$form}
+			errors={$errors}
+			optional
+			width="narrower"
+		/>
 	</fieldset>
 
 	<fieldset>

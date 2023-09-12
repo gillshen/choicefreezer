@@ -14,7 +14,7 @@
 
 <div class="flex flex-col">
 	{#if label}
-		<label class="optional" for={id}>
+		<label class="label" for={id}>
 			{label}
 			{#if optional}<span class="optional">({optionalText})</span>{/if}
 		</label>

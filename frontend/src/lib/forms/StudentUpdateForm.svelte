@@ -52,7 +52,7 @@
 	</fieldset>
 
 	<fieldset class="fullwidth">
-		<legend>Comments</legend>
+		<legend class="mb-4">Comments</legend>
 		<StudentCommentsField form={$form} errors={$errors} showLabel={false} />
 	</fieldset>
 

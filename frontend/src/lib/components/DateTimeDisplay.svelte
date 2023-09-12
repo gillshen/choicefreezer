@@ -8,9 +8,9 @@
 </script>
 
 {#if date}
-	<div class="flex flex-col gap-2">
+	<div class="flex flex-col gap-2 my-auto">
 		<div class="flex gap-4 items-baseline">
-			<div class="text-3xl font-bold tracking-wide">{toShortDateWithoutYear(date)}</div>
+			<div class="text-3xl font-bold">{toShortDateWithoutYear(date)}</div>
 			<div class="font-bold">{toYear(date)}</div>
 		</div>
 		{#if time}
@@ -21,5 +21,5 @@
 		{/if}
 	</div>
 {:else}
-	<div class="text-5xl font-bold text-center mt-1">{placeholder}</div>
+	<div class="text-5xl font-bold text-center my-auto">{placeholder}</div>
 {/if}

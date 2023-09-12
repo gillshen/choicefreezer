@@ -35,7 +35,7 @@
 						use:clickOutside={() => showPeople && (showPeople = false)}
 					>
 						People <i class={`toggle-icon fa-solid fa-chevron-down ${showPeople ? 'open' : ''}`} />
-						<div class={`dropdown-nav people ${showPeople ? 'open' : ''}`}>
+						<div class={`dropdown-nav -translate-x-[250px] people ${showPeople ? 'open' : ''}`}>
 							<div>
 								<CfPeopleNav cfPeople={activePeople} />
 							</div>
@@ -54,7 +54,7 @@
 						use:clickOutside={() => showMore && (showMore = false)}
 					>
 						More <i class={`toggle-icon fa-solid fa-chevron-down ${showMore ? 'open' : ''}`} />
-						<div class={`dropdown-nav ${showMore ? 'open' : ''}`}>
+						<div class={`dropdown-nav -translate-x-[24px] ${showMore ? 'open' : ''}`}>
 							<ul class="flex flex-col pr-4">
 								<li><a href="../tables/schools">Schools</a></li>
 								<li><a href="../tables/programs">Programs</a></li>
@@ -74,7 +74,9 @@
 			>
 				<i class="fa-solid fa-circle-user" />
 				{username}
-				<nav class={`dropdown-nav -translate-x-1/2 w-40 z-50 ${showUserMenu ? 'open' : ''}`}>
+				<nav
+					class={`dropdown-nav -translate-x-[60px] w-[140px] z-50 ${showUserMenu ? 'open' : ''}`}
+				>
 					<ul class="flex flex-col">
 						<li>
 							<a href="../user" class="nav-link flex gap-2 justify-between items-center"
@@ -191,7 +193,6 @@
 		@apply z-10;
 		@apply text-surface-50 bg-surface-800;
 		@apply rounded-lg;
-		@apply -translate-x-1/3;
 		display: grid;
 		grid-template-rows: 0fr;
 		overflow: hidden;

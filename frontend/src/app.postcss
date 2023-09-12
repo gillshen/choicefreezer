@@ -86,6 +86,7 @@ footer > div {
 
 .cf-btn {
 	@apply !text-sm;
+	@apply cursor-default;
 	font-family: 'Montserrat' !important;
 }
 .cf-btn.cf-primary {
@@ -146,7 +147,7 @@ label.label.wider {
 	@apply max-w-[28rem];
 }
 label.label:not(.radio-items-container > label) {
-	@apply pb-2 pt-2;
+	@apply pb-1 pt-1;
 }
 label.label .optional {
 	@apply text-surface-400;
@@ -205,7 +206,7 @@ form button.submit {
 	@apply btn variant-filled-primary text-black;
 }
 
-p.section-placeholder {
+.section-placeholder {
 	@apply text-surface-300;
 }
 
@@ -214,52 +215,6 @@ dialog {
 	box-shadow: 4px 4px 8px rgba(0, 4, 0, 0.4), 24px 24px 48px rgba(0, 4, 0, 0.6),
 		3px 3px 6px rgba(48, 52, 48, 0.6), -12px -12px 36px rgba(48, 52, 48, 0.4);
 	border: none;
-}
-
-button {
-	cursor: default;
-}
-
-button.cf-primary,
-button.cf-dangerous-primary,
-button.cf-secondary,
-button.section-cta {
-	@apply btn;
-	@apply text-sm;
-	@apply min-w-[8rem] m-0;
-	@apply font-normal;
-	@apply flex gap-2;
-}
-button.cf-primary,
-button.cf-dangerous-primary,
-button.cf-secondary,
-button.section-cta {
-	@apply rounded-md;
-}
-button.cf-primary,
-button.cf-dangerous-primary,
-button.section-cta {
-	@apply variant-ringed-primary;
-}
-button.section-cta {
-	@apply mt-8;
-}
-button.section-cta.delete {
-	@apply bg-surface-800 text-surface-300;
-	@apply hover:bg-red-400 hover:text-black;
-	box-shadow: 0 0 0;
-}
-button.cf-dangerous-primary {
-	@apply !bg-red-400 !text-black;
-}
-button.icon-button {
-	@apply w-[30px] h-[30px] rounded-full;
-	@apply flex justify-center items-center;
-	@apply text-sm;
-	@apply hover:bg-surface-700;
-}
-button.icon-button.delete {
-	@apply hover:bg-red-400 hover:text-black;
 }
 
 /* navigation */
@@ -271,42 +226,6 @@ button.icon-button.delete {
 }
 .dropdown-nav li {
 	@apply text-left w-fit min-w-[5rem];
-}
-
-/* student card hovering effect */
-.student-cards-container .card:hover {
-	transform: scale(1.05);
-	transition: all 0.15s ease;
-}
-
-/* profile grid */
-.profile-grid {
-	@apply grid gap-x-8 gap-y-4 auto-rows-min;
-	@apply rounded-xl;
-	grid-template-columns: max-content 1fr;
-}
-.cf-key,
-.profile-grid .cf-key {
-	@apply text-tertiary-500;
-}
-.profile-grid .cf-value {
-	@apply flex flex-wrap gap-3 w-full;
-}
-.profile-grid .cf-value button {
-	opacity: 0;
-	transition: opacity 0.4s;
-	@apply text-sm text-primary-600 bg-surface-700;
-	@apply px-3;
-	@apply rounded-md;
-}
-.profile-grid .cf-value:hover button {
-	opacity: 1;
-}
-.profile-grid .cf-value:hover button:hover {
-	@apply text-surface-900 bg-primary-500;
-}
-.profile-grid a:hover {
-	@apply text-secondary-400;
 }
 
 /* contract types */
@@ -335,23 +254,23 @@ button.icon-button.delete {
 	@apply px-4 py-1;
 	@apply min-w-[8rem] max-w-fit;
 	@apply rounded-full;
-	@apply text-sm text-center font-normal;
+	@apply text-sm text-center font-bold font-heading-token;
 	@apply text-surface-900;
-	@apply bg-surface-50;
+	@apply bg-surface-100;
 }
 
 /* contract status chip */
 .contract-status-chip.bg-effective {
-	@apply text-surface-900;
-	@apply bg-lime-300/90;
+	@apply text-primary-900;
+	@apply bg-primary-300;
 }
 .contract-status-chip.bg-fulfilled {
-	@apply text-white/90;
-	@apply bg-zinc-700/90;
+	@apply text-zinc-50;
+	@apply bg-zinc-700;
 }
 .contract-status-chip.bg-terminated {
-	@apply text-black;
-	@apply bg-rose-400/90;
+	@apply text-red-800;
+	@apply bg-red-300;
 }
 
 /* application status chip & dot */

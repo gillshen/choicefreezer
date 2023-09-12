@@ -68,13 +68,16 @@
 </script>
 
 <Section hero>
-	<h1>{school.name}</h1>
+	<h1 class="cf-h1">{school.name}</h1>
 
 	<pre class="text-surface-400">{JSON.stringify(school, null, 2)}</pre>
-	<button class="section-cta" on:click={() => schoolUpdateDialog.showModal()}>Edit</button>
+	<button class="btn cf-btn cf-secondary" on:click={() => schoolUpdateDialog.showModal()}
+		>Edit</button
+	>
+</Section>
 
-	<!-- <svelte:fragment slot="h2">Applications</svelte:fragment> -->
-	<h2 class="mt-12">Applications</h2>
+<Section>
+	<h2 class="text-xl font-heading-token font-bold mb-8">Applications</h2>
 
 	{#if data.applications.length}
 		<div class={`w-full ${data.applications.length > 15 ? 'h-[calc(100vh-12rem)]' : ''}`}>
