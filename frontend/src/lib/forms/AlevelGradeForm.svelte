@@ -2,7 +2,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 
 	import type { SuperValidated } from 'sveltekit-superforms';
-	import type { ApScoreSchema } from '$lib/schemas';
+	import type { AlevelGradeSchema } from '$lib/schemas';
 
 	import { closeDialogOnSuccess } from '$lib/utils/formUtils';
 	import HiddenIdField from '$lib/components/HiddenIdField.svelte';
@@ -12,10 +12,10 @@
 	import FormTextArea from '$lib/components/FormTextArea.svelte';
 	import FormSelect from '$lib/components/FormSelect.svelte';
 	import OptionList from '$lib/components/OptionList.svelte';
-	import { AP_EXAMS } from '$lib/constants/apExams';
+	import { ALEVEL_EXAMS } from '$lib/constants/alevelExams';
 
 	export let dialog: HTMLDialogElement | undefined;
-	export let data: SuperValidated<ApScoreSchema>;
+	export let data: SuperValidated<AlevelGradeSchema>;
 	export let action: string;
 	export let studentId: number;
 
@@ -45,18 +45,30 @@
 
 	<fieldset>
 		<FormSelect id="subject-select" name="subject" label="Subject" form={$form} errors={$errors}>
-			<OptionList options={Array.from(AP_EXAMS)} />
+			<OptionList options={Array.from(ALEVEL_EXAMS)} />
 		</FormSelect>
 
 		<FormTextInput
-			id="score-input"
-			name="score"
-			label="Score"
+			id="percentage-input"
+			name="percentage"
+			label="Percentage"
 			form={$form}
 			errors={$errors}
 			optional
 			width="narrower"
 		/>
+
+		<FormSelect
+			id="grade-select"
+			name="grade"
+			label="Grade"
+			form={$form}
+			errors={$errors}
+			optional
+			width="narrower"
+		>
+			<OptionList options={['A*', 'A', 'B', 'C', 'D']} insertNullRow />
+		</FormSelect>
 	</fieldset>
 
 	<fieldset>

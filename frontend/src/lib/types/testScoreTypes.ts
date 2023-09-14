@@ -56,6 +56,23 @@ export type NewApScore = {
 	score: number | null;
 };
 
+export type NewIbGrade = {
+	student: number;
+	date: string | null;
+	comments: string;
+	subject: string;
+	grade: number | null;
+};
+
+export type NewAlevelGrade = {
+	student: number;
+	date: string | null;
+	comments: string;
+	subject: string;
+	percentage: number | null;
+	grade: string | null;
+};
+
 export type NewGreScore = {
 	student: number;
 	date: string | null;
@@ -74,4 +91,11 @@ export type NewGmatScore = {
 	quant: number | null;
 	reasoning: number | null;
 	writing: number | null;
+};
+
+export type NewLsatScore = {
+	student: number;
+	date: string | null;
+	comments: string;
+	total: number | null;
 };

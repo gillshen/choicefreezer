@@ -228,30 +228,10 @@ const testScoreValidators = {
 // TOEFL creation/update form
 export const toeflScoreValidators = {
 	...testScoreValidators,
-	reading: z
-		.number()
-		.min(0, minValueExceeded(0))
-		.max(30, maxValueExceeded(30))
-		.step(1, valueOutOfStep(1))
-		.nullable(),
-	listening: z
-		.number()
-		.min(0, minValueExceeded(0))
-		.max(30, maxValueExceeded(30))
-		.step(1, valueOutOfStep(1))
-		.nullable(),
-	speaking: z
-		.number()
-		.min(0, minValueExceeded(0))
-		.max(30, maxValueExceeded(30))
-		.step(1, valueOutOfStep(1))
-		.nullable(),
-	writing: z
-		.number()
-		.min(0, minValueExceeded(0))
-		.max(30, maxValueExceeded(30))
-		.step(1, valueOutOfStep(1))
-		.nullable()
+	reading: z.number().int().min(0, minValueExceeded(0)).max(30, maxValueExceeded(30)).nullable(),
+	listening: z.number().int().min(0, minValueExceeded(0)).max(30, maxValueExceeded(30)).nullable(),
+	speaking: z.number().int().min(0, minValueExceeded(0)).max(30, maxValueExceeded(30)).nullable(),
+	writing: z.number().int().min(0, minValueExceeded(0)).max(30, maxValueExceeded(30)).nullable()
 };
 
 // ILETS creation/update form
@@ -288,30 +268,35 @@ export const detScoreValidators = {
 	...testScoreValidators,
 	overall: z
 		.number()
+		.int()
 		.min(10, minValueExceeded(10))
 		.max(160, maxValueExceeded(160))
 		.step(5, valueOutOfStep(5))
 		.nullable(),
 	literacy: z
 		.number()
+		.int()
 		.min(10, minValueExceeded(10))
 		.max(160, maxValueExceeded(160))
 		.step(5, valueOutOfStep(5))
 		.nullable(),
 	comprehension: z
 		.number()
+		.int()
 		.min(10, minValueExceeded(10))
 		.max(160, maxValueExceeded(160))
 		.step(5, valueOutOfStep(5))
 		.nullable(),
 	conversation: z
 		.number()
+		.int()
 		.min(10, minValueExceeded(10))
 		.max(160, maxValueExceeded(160))
 		.step(5, valueOutOfStep(5))
 		.nullable(),
 	production: z
 		.number()
+		.int()
 		.min(10, minValueExceeded(10))
 		.max(160, maxValueExceeded(160))
 		.step(5, valueOutOfStep(5))
@@ -323,12 +308,14 @@ export const satScoreValidators = {
 	...testScoreValidators,
 	ebrw: z
 		.number()
+		.int()
 		.min(200, minValueExceeded(200))
 		.max(800, maxValueExceeded(800))
 		.step(10, valueOutOfStep(10))
 		.nullable(),
 	math: z
 		.number()
+		.int()
 		.min(200, minValueExceeded(200))
 		.max(800, maxValueExceeded(800))
 		.step(10, valueOutOfStep(10))
@@ -338,48 +325,33 @@ export const satScoreValidators = {
 // ACT creation/update form
 export const actScoreValidators = {
 	...testScoreValidators,
-	english: z
-		.number()
-		.min(1, minValueExceeded(1))
-		.max(36, maxValueExceeded(36))
-		.step(1, valueOutOfStep(1))
-		.nullable(),
-	math: z
-		.number()
-		.min(1, minValueExceeded(1))
-		.max(36, maxValueExceeded(36))
-		.step(1, valueOutOfStep(1))
-		.nullable(),
-	reading: z
-		.number()
-		.min(1, minValueExceeded(1))
-		.max(36, maxValueExceeded(36))
-		.step(1, valueOutOfStep(1))
-		.nullable(),
-	science: z
-		.number()
-		.min(1, minValueExceeded(1))
-		.max(36, maxValueExceeded(36))
-		.step(1, valueOutOfStep(1))
-		.nullable(),
-	writing: z
-		.number()
-		.min(2, minValueExceeded(2))
-		.max(12, maxValueExceeded(12))
-		.step(1, valueOutOfStep(1))
-		.nullable()
+	english: z.number().int().min(1, minValueExceeded(1)).max(36, maxValueExceeded(36)).nullable(),
+	math: z.number().int().min(1, minValueExceeded(1)).max(36, maxValueExceeded(36)).nullable(),
+	reading: z.number().int().min(1, minValueExceeded(1)).max(36, maxValueExceeded(36)).nullable(),
+	science: z.number().int().min(1, minValueExceeded(1)).max(36, maxValueExceeded(36)).nullable(),
+	writing: z.number().int().min(2, minValueExceeded(2)).max(12, maxValueExceeded(12)).nullable()
 };
 
 // AP creation/update form
 export const apScoreValidators = {
 	...testScoreValidators,
 	subject: z.string().min(1, fieldRequired),
-	score: z
-		.number()
-		.min(1, minValueExceeded(1))
-		.max(5, maxValueExceeded(5))
-		.step(1, valueOutOfStep(1))
-		.nullable()
+	score: z.number().int().min(1, minValueExceeded(1)).max(5, maxValueExceeded(5)).nullable()
+};
+
+// IB creation/update form
+export const ibGradeValidators = {
+	...testScoreValidators,
+	subject: z.string().min(1, fieldRequired),
+	grade: z.number().int().min(1, minValueExceeded(1)).max(7, maxValueExceeded(7)).nullable()
+};
+
+// A-level creation/update form
+export const alevelGradeValidators = {
+	...testScoreValidators,
+	subject: z.string().min(1, fieldRequired),
+	percentage: z.number().min(0, minValueExceeded(0)).max(100, maxValueExceeded(100)).nullable(),
+	grade: z.string().nullable()
 };
 
 // GRE creation/update form
@@ -387,15 +359,15 @@ export const greScoreValidators = {
 	...testScoreValidators,
 	verbal: z
 		.number()
+		.int()
 		.min(130, minValueExceeded(130))
 		.max(170, maxValueExceeded(170))
-		.step(1, valueOutOfStep(1))
 		.nullable(),
 	quant: z
 		.number()
+		.int()
 		.min(130, minValueExceeded(130))
 		.max(170, maxValueExceeded(170))
-		.step(1, valueOutOfStep(1))
 		.nullable(),
 	writing: z
 		.number()
@@ -410,32 +382,19 @@ export const gmatScoreValidators = {
 	...testScoreValidators,
 	total: z
 		.number()
+		.int()
 		.min(200, minValueExceeded(200))
 		.max(800, maxValueExceeded(800))
 		.step(10, valueOutOfStep(10))
 		.nullable(),
-	verbal: z
-		.number()
-		.min(0, minValueExceeded(0))
-		.max(60, maxValueExceeded(60))
-		.step(1, valueOutOfStep(1))
-		.nullable(),
-	quant: z
-		.number()
-		.min(0, minValueExceeded(0))
-		.max(60, maxValueExceeded(60))
-		.step(1, valueOutOfStep(1))
-		.nullable(),
-	reasoning: z
-		.number()
-		.min(1, minValueExceeded(1))
-		.max(8, maxValueExceeded(8))
-		.step(1, valueOutOfStep(1))
-		.nullable(),
-	writing: z
-		.number()
-		.min(0, minValueExceeded(0))
-		.max(6, maxValueExceeded(6))
-		.step(1, valueOutOfStep(1))
-		.nullable()
+	verbal: z.number().int().min(0, minValueExceeded(0)).max(60, maxValueExceeded(60)).nullable(),
+	quant: z.number().int().min(0, minValueExceeded(0)).max(60, maxValueExceeded(60)).nullable(),
+	reasoning: z.number().int().min(1, minValueExceeded(1)).max(8, maxValueExceeded(8)).nullable(),
+	writing: z.number().int().min(0, minValueExceeded(0)).max(6, maxValueExceeded(6)).nullable()
+};
+
+// LSAT creation/update form
+export const lsatScoreValidators = {
+	...testScoreValidators,
+	total: z.number().int().min(120, minValueExceeded(120)).max(180, maxValueExceeded(180)).nullable()
 };

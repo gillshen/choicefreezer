@@ -6,7 +6,7 @@
 	export let errors: any;
 	export let optional = false;
 	export let optionalText = 'optional';
-	export let width: '' | 'wider' = '';
+	export let width: '' | 'wider' | 'narrower' = '';
 </script>
 
 <div class="flex flex-col">

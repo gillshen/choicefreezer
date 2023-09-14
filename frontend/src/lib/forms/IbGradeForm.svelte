@@ -2,7 +2,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 
 	import type { SuperValidated } from 'sveltekit-superforms';
-	import type { ApScoreSchema } from '$lib/schemas';
+	import type { IbGradeSchema } from '$lib/schemas';
 
 	import { closeDialogOnSuccess } from '$lib/utils/formUtils';
 	import HiddenIdField from '$lib/components/HiddenIdField.svelte';
@@ -12,10 +12,10 @@
 	import FormTextArea from '$lib/components/FormTextArea.svelte';
 	import FormSelect from '$lib/components/FormSelect.svelte';
 	import OptionList from '$lib/components/OptionList.svelte';
-	import { AP_EXAMS } from '$lib/constants/apExams';
+	import { IB_EXAMS } from '$lib/constants/ibExams';
 
 	export let dialog: HTMLDialogElement | undefined;
-	export let data: SuperValidated<ApScoreSchema>;
+	export let data: SuperValidated<IbGradeSchema>;
 	export let action: string;
 	export let studentId: number;
 
@@ -45,13 +45,13 @@
 
 	<fieldset>
 		<FormSelect id="subject-select" name="subject" label="Subject" form={$form} errors={$errors}>
-			<OptionList options={Array.from(AP_EXAMS)} />
+			<OptionList options={Array.from(IB_EXAMS)} />
 		</FormSelect>
 
 		<FormTextInput
-			id="score-input"
-			name="score"
-			label="Score"
+			id="grade-input"
+			name="grade"
+			label="Grade"
 			form={$form}
 			errors={$errors}
 			optional

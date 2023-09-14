@@ -34,7 +34,15 @@ import {
 	createActScore,
 	createApScore,
 	createGreScore,
-	createGmatScore
+	createGmatScore,
+	fetchIbPredictedGrades,
+	fetchAlevelGrades,
+	fetchLsatScores,
+	createIbPredictedGrade,
+	createAlevelGrade,
+	createLsatScore,
+	createIbFinalGrade,
+	fetchIbFinalGrades
 } from '$lib/api';
 
 import {
@@ -49,7 +57,10 @@ import {
 	actScoreSchema,
 	apScoreSchema,
 	greScoreSchema,
-	gmatScoreSchema
+	gmatScoreSchema,
+	ibGradeSchema,
+	alevelGradeSchema,
+	lsatScoreSchema
 } from '$lib/schemas.js';
 
 import type { Program, ProgramType } from '$lib/types/programTypes.js';
@@ -77,22 +88,20 @@ export async function load(event: PageServerLoadEvent) {
 	const schools = await fetchSchools();
 	const programs = await fetchProgramSelectList();
 
-	// const studentUpdateForm = await superValidate(student, studentUpdateSchema);
-	// const contractCreateForm = await superValidate(event, contractServiceSchema);
-
-	// const applicationCreateForm = await superValidate(event, newApplicationSchema);
-	// const enrollmentCreateForm = await superValidate(event, enrollmentSchema);
-
-	// const toeflCreateForm = await superValidate(event, toeflScoreSchema);
-	// const ieltsCreateForm = await superValidate(event, ieltsScoreSchema);
+	const contracts = await fetchContractsOfStudent(id);
+	const applications = await fetchApplicationsOfStudent(id);
+	const logs = await fetchLogsOfStudents(id);
 
 	return {
 		student,
 		studentUpdateForm: superValidate(student, studentUpdateSchema),
 		// contracts
-		contracts: fetchContractsOfStudent(id),
+		contracts,
 		contractCreateForm: superValidate(event, contractServiceSchema),
 		applicationCreateForm: superValidate(event, newApplicationSchema),
+		// applications & user logs
+		applications,
+		logs,
 		// enrollments
 		enrollments: fetchEnrollments(id),
 		enrollmentCreateForm: superValidate(event, enrollmentSchema),
@@ -109,16 +118,18 @@ export async function load(event: PageServerLoadEvent) {
 		actScoreCreateForm: superValidate(event, actScoreSchema),
 		apScores: fetchApScores(id),
 		apScoreCreateForm: superValidate(event, apScoreSchema),
+		ibPredictedGrades: fetchIbPredictedGrades(id),
+		ibPredictedGradeCreateForm: superValidate(event, ibGradeSchema),
+		ibFinalGrades: fetchIbFinalGrades(id),
+		ibFinalGradeCreateForm: superValidate(event, ibGradeSchema),
+		alevelGrades: fetchAlevelGrades(id),
+		alevelGradeCreateForm: superValidate(event, alevelGradeSchema),
 		greScores: fetchGreScores(id),
 		greScoreCreateForm: superValidate(event, greScoreSchema),
 		gmatScores: fetchGmatScores(id),
 		gmatScoreCreateForm: superValidate(event, gmatScoreSchema),
-		// applications & public user logs
-		/*
-		 * TODO: return logs based on user: all public logs | all user-authored logs
-		 */
-		applications: fetchApplicationsOfStudent(id),
-		logs: fetchLogsOfStudents(id),
+		lsatScores: fetchLsatScores(id),
+		lsatScoreCreateForm: superValidate(event, lsatScoreSchema),
 		// application form data:
 		schools,
 		programs
@@ -358,6 +369,51 @@ export const actions = {
 		return { form };
 	},
 
+	createIbPredictedGrade: async (event: RequestEvent) => {
+		const form = await superValidate(event, ibGradeSchema);
+		console.log(form);
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		const response = await createIbPredictedGrade(form.data);
+		if (!response.ok) {
+			return message(form, UNKNOWN_ERROR, { status: 400 });
+		}
+		return { form };
+	},
+
+	createIbFinalGrade: async (event: RequestEvent) => {
+		const form = await superValidate(event, ibGradeSchema);
+		console.log(form);
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		const response = await createIbFinalGrade(form.data);
+		if (!response.ok) {
+			return message(form, UNKNOWN_ERROR, { status: 400 });
+		}
+		return { form };
+	},
+
+	createAlevelScore: async (event: RequestEvent) => {
+		const form = await superValidate(event, alevelGradeSchema);
+		console.log(form);
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		const response = await createAlevelGrade(form.data);
+		if (!response.ok) {
+			return message(form, UNKNOWN_ERROR, { status: 400 });
+		}
+		return { form };
+	},
+
 	createGreScore: async (event: RequestEvent) => {
 		const form = await superValidate(event, greScoreSchema);
 		console.log(form);
@@ -382,6 +438,21 @@ export const actions = {
 		}
 
 		const response = await createGmatScore(form.data);
+		if (!response.ok) {
+			return message(form, UNKNOWN_ERROR, { status: 400 });
+		}
+		return { form };
+	},
+
+	createLsatScore: async (event: RequestEvent) => {
+		const form = await superValidate(event, lsatScoreSchema);
+		console.log(form);
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		const response = await createLsatScore(form.data);
 		if (!response.ok) {
 			return message(form, UNKNOWN_ERROR, { status: 400 });
 		}

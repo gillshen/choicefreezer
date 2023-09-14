@@ -135,7 +135,8 @@ form fieldset:not(:first-child) {
 	@apply mt-12;
 }
 form fieldset > legend {
-	@apply h3 py-4 pr-4;
+	@apply text-lg font-bold font-heading-token;
+	@apply py-4;
 }
 form fieldset > legend.empty {
 	@apply px-0 py-2 my-0;
@@ -167,7 +168,8 @@ input.input.wider,
 select.select.wider {
 	@apply w-[28rem];
 }
-input.input.narrower {
+input.input.narrower,
+select.select.narrower {
 	@apply w-[8rem];
 }
 textarea.input {

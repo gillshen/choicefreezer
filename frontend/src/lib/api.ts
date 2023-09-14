@@ -16,11 +16,14 @@ import type { NewUserLog, UserLogListItem } from '$lib/types/userLogTypes';
 import type { NewEnrollment } from '$lib/types/enrollmentTypes';
 import type {
 	NewActScore,
+	NewAlevelGrade as NewAlevelGrade,
 	NewApScore,
 	NewDetScore,
 	NewGmatScore,
 	NewGreScore,
+	NewIbGrade as NewIbGrade,
 	NewIeltsScore,
+	NewLsatScore,
 	NewSatScore,
 	NewToeflScore
 } from '$lib/types/testScoreTypes';
@@ -305,6 +308,30 @@ export async function fetchApScores(studentId: number) {
 	return await get(`s.ap/?student=${studentId}`);
 }
 
+export async function createIbPredictedGrade(data: NewIbGrade) {
+	return await post('s.ib_predicted/new/', data);
+}
+
+export async function fetchIbPredictedGrades(studentId: number) {
+	return await get(`s.ib_predicted/?student=${studentId}`);
+}
+
+export async function createIbFinalGrade(data: NewIbGrade) {
+	return await post('s.ib_final/new/', data);
+}
+
+export async function fetchIbFinalGrades(studentId: number) {
+	return await get(`s.ib_final/?student=${studentId}`);
+}
+
+export async function createAlevelGrade(data: NewAlevelGrade) {
+	return await post('s.alevel/new/', data);
+}
+
+export async function fetchAlevelGrades(studentId: number) {
+	return await get(`s.alevel/?student=${studentId}`);
+}
+
 export async function createGreScore(data: NewGreScore) {
 	return await post('s.gre/new/', data);
 }
@@ -319,6 +346,14 @@ export async function createGmatScore(data: NewGmatScore) {
 
 export async function fetchGmatScores(studentId: number) {
 	return await get(`s.gmat/?student=${studentId}`);
+}
+
+export async function createLsatScore(data: NewLsatScore) {
+	return await post('s.lsat/new/', data);
+}
+
+export async function fetchLsatScores(studentId: number) {
+	return await get(`s.lsat/?student=${studentId}`);
 }
 
 export async function createUserLog(data: NewUserLog) {

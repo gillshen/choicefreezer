@@ -21,8 +21,11 @@ import {
 	satScoreValidators,
 	actScoreValidators,
 	apScoreValidators,
+	ibGradeValidators,
+	alevelGradeValidators,
 	greScoreValidators,
-	gmatScoreValidators
+	gmatScoreValidators,
+	lsatScoreValidators
 } from '$lib/validators';
 
 export const authenticationSchema = z.object({
@@ -147,6 +150,14 @@ export const apScoreSchema = z.object({ ...apScoreValidators });
 
 export type ApScoreSchema = typeof apScoreSchema;
 
+export const ibGradeSchema = z.object({ ...ibGradeValidators });
+
+export type IbGradeSchema = typeof ibGradeSchema;
+
+export const alevelGradeSchema = z.object({ ...alevelGradeValidators });
+
+export type AlevelGradeSchema = typeof alevelGradeSchema;
+
 export const greScoreSchema = z.object({ ...greScoreValidators });
 
 export type GreScoreSchema = typeof greScoreSchema;
@@ -154,3 +165,7 @@ export type GreScoreSchema = typeof greScoreSchema;
 export const gmatScoreSchema = z.object({ ...gmatScoreValidators });
 
 export type GmatScoreSchema = typeof gmatScoreSchema;
+
+export const lsatScoreSchema = z.object({ ...lsatScoreValidators });
+
+export type LsatScoreSchema = typeof lsatScoreSchema;

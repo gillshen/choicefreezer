@@ -53,6 +53,11 @@
 		deadlineValueGetter,
 		deadlineValueFormatter
 	} from '$lib/utils/applicationGridUtils.js';
+	import LsatScoreForm from '$lib/forms/LsatScoreForm.svelte';
+	import IbGradeForm from '$lib/forms/IbGradeForm.svelte';
+	import AlevelGradeForm from '$lib/forms/AlevelGradeForm.svelte';
+	import { RECOGNIZED_TESTS } from '$lib/constants/recognizedTests.js';
+	import OptionList from '$lib/components/OptionList.svelte';
 
 	export let data;
 
@@ -301,6 +306,21 @@
 		<pre class="text-surface-400">{JSON.stringify(data.apScores, null, 2)}</pre>
 	{/if}
 
+	{#if data.ibPredictedGrades.length}
+		<h3>IB predicted</h3>
+		<pre class="text-surface-400">{JSON.stringify(data.ibPredictedGrades, null, 2)}</pre>
+	{/if}
+
+	{#if data.ibFinalGrades.length}
+		<h3>IB final</h3>
+		<pre class="text-surface-400">{JSON.stringify(data.ibFinalGrades, null, 2)}</pre>
+	{/if}
+
+	{#if data.alevelGrades.length}
+		<h3>A-Level</h3>
+		<pre class="text-surface-400">{JSON.stringify(data.alevelGrades, null, 2)}</pre>
+	{/if}
+
 	{#if data.greScores.length}
 		<h3>GRE</h3>
 		<pre class="text-surface-400">{JSON.stringify(data.greScores, null, 2)}</pre>
@@ -309,6 +329,11 @@
 	{#if data.gmatScores.length}
 		<h3>GMAT</h3>
 		<pre class="text-surface-400">{JSON.stringify(data.gmatScores, null, 2)}</pre>
+	{/if}
+
+	{#if data.lsatScores.length}
+		<h3>LSAT</h3>
+		<pre class="text-surface-400">{JSON.stringify(data.lsatScores, null, 2)}</pre>
 	{/if}
 
 	{#if userIsOwner}
@@ -380,9 +405,7 @@
 	<div class="flex flex-col mb-8">
 		<label for="test-select" class="label">Select a test</label>
 		<select id="test-select" class="select" bind:value={testScoreType}>
-			{#each ['', 'SAT', 'ACT', 'AP', 'GRE', 'GMAT', 'TOEFL', 'IELTS', 'DET'] as test}
-				<option value={test}>{test}</option>
-			{/each}
+			<OptionList options={Array.from(RECOGNIZED_TESTS)} />
 		</select>
 	</div>
 
@@ -428,6 +451,27 @@
 			studentId={student.id}
 			data={data.apScoreCreateForm}
 		/>
+	{:else if testScoreType === 'IB (predicted)'}
+		<IbGradeForm
+			bind:dialog={testScoreCreateDialog}
+			action="?/createIbPredictedGrade"
+			studentId={student.id}
+			data={data.ibPredictedGradeCreateForm}
+		/>
+	{:else if testScoreType === 'IB (final)'}
+		<IbGradeForm
+			bind:dialog={testScoreCreateDialog}
+			action="?/createIbFinalGrade"
+			studentId={student.id}
+			data={data.ibFinalGradeCreateForm}
+		/>
+	{:else if testScoreType === 'A-Level'}
+		<AlevelGradeForm
+			bind:dialog={testScoreCreateDialog}
+			action="?/createAlevelScore"
+			studentId={student.id}
+			data={data.alevelGradeCreateForm}
+		/>
 	{:else if testScoreType === 'GRE'}
 		<GreScoreForm
 			bind:dialog={testScoreCreateDialog}
@@ -441,6 +485,13 @@
 			action="?/createGmatScore"
 			studentId={student.id}
 			data={data.gmatScoreCreateForm}
+		/>
+	{:else if testScoreType === 'LSAT'}
+		<LsatScoreForm
+			bind:dialog={testScoreCreateDialog}
+			action="?/createLsatScore"
+			studentId={student.id}
+			data={data.lsatScoreCreateForm}
 		/>
 	{:else}
 		<div />
