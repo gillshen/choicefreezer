@@ -86,12 +86,21 @@ from student.views import (
     AP_CreateView,
     AP_UpdateDeleteView,
     AP_ListView,
+    IB_CreateView,
+    IB_UpdateDeleteView,
+    IB_ListView,
+    AlevelCreateView,
+    AlevelUpdateDeleteView,
+    AlevelListView,
     GRE_CreateView,
     GRE_UpdateDeleteView,
     GRE_ListView,
     GMAT_CreateView,
     GMAT_UpdateDeleteView,
     GMAT_ListView,
+    LSAT_CreateView,
+    LSAT_UpdateDeleteView,
+    LSAT_ListView,
 )
 
 from writing.views import (
@@ -303,6 +312,22 @@ urlpatterns += [
     path("s.ap/", AP_ListView.as_view()),
 ]
 
+# IB views
+urlpatterns += [
+    path("s.ib/new/", IB_CreateView.as_view()),
+    path("s.ib/<int:pk>/update/", IB_UpdateDeleteView.as_view()),
+    path("s.ib/<int:pk>/delete/", IB_UpdateDeleteView.as_view()),
+    path("s.ib/", IB_ListView.as_view()),
+]
+
+# IB views
+urlpatterns += [
+    path("s.alevel/new/", AlevelCreateView.as_view()),
+    path("s.alevel/<int:pk>/update/", AlevelUpdateDeleteView.as_view()),
+    path("s.alevel/<int:pk>/delete/", AlevelUpdateDeleteView.as_view()),
+    path("s.alevel/", AlevelListView.as_view()),
+]
+
 # GRE views
 urlpatterns += [
     path("s.gre/new/", GRE_CreateView.as_view()),
@@ -317,6 +342,14 @@ urlpatterns += [
     path("s.gmat/<int:pk>/update/", GMAT_UpdateDeleteView.as_view()),
     path("s.gmat/<int:pk>/delete/", GMAT_UpdateDeleteView.as_view()),
     path("s.gmat/", GMAT_ListView.as_view()),
+]
+
+# LSAT views
+urlpatterns += [
+    path("s.lsat/new/", LSAT_CreateView.as_view()),
+    path("s.lsat/<int:pk>/update/", LSAT_UpdateDeleteView.as_view()),
+    path("s.lsat/<int:pk>/delete/", LSAT_UpdateDeleteView.as_view()),
+    path("s.lsat/", LSAT_ListView.as_view()),
 ]
 
 # writing.views

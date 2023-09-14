@@ -34,7 +34,6 @@ class Enrollment(models.Model):
         AP = "AP", _("AP")
         IBDP = "IBDP", _("IBDP")
         ALEVEL = "A-Level", _("A-Level")
-        IGCSE = "IGCSE", _("IGCSE")
         GAOKAO = "Gaokao", _("Gaokao")
 
     student = models.ForeignKey(
@@ -207,10 +206,10 @@ class TOEFL(BaseTest):
         result: number;
     """
 
-    reading = models.PositiveSmallIntegerField(blank=True, null=True)
-    listening = models.PositiveSmallIntegerField(blank=True, null=True)
-    speaking = models.PositiveSmallIntegerField(blank=True, null=True)
-    writing = models.PositiveSmallIntegerField(blank=True, null=True)
+    reading = models.SmallIntegerField(blank=True, null=True)
+    listening = models.SmallIntegerField(blank=True, null=True)
+    speaking = models.SmallIntegerField(blank=True, null=True)
+    writing = models.SmallIntegerField(blank=True, null=True)
 
     used_for = models.ManyToManyField(
         Application,
@@ -415,6 +414,72 @@ class AP(BaseTest):
         return self.score
 
 
+class IB(BaseTest):
+    """
+    Fields:
+        id: number;
+        student: number;
+        date?: string | null; // date
+        comments?: string;
+
+        subject: string;
+        score?: number | null;
+
+    Computed fields:
+        result: number;
+    """
+
+    subject = models.CharField(max_length=100)
+    score = models.PositiveSmallIntegerField(blank=True, null=True)
+
+    used_for = models.ManyToManyField(
+        Application,
+        related_name="ib_submitted",
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name_plural = "IB scores"
+
+    @property
+    def result(self) -> int | None:
+        return self.score
+
+
+class Alevel(BaseTest):
+    """
+    Fields:
+        id: number;
+        student: number;
+        date?: string | null; // date
+        comments?: string;
+
+        subject: string;
+        percentage?: number | null;
+        grade?: string;
+
+    Computed fields:
+        result: number;
+    """
+
+    subject = models.CharField(max_length=100)
+    percentage = models.SmallIntegerField(blank=True, null=True)
+    grade = models.CharField(max_length=10, blank=True)
+
+    used_for = models.ManyToManyField(
+        Application,
+        related_name="alevel_submitted",
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name_plural = "A-level scores"
+
+    @property
+    def result(self) -> str | None:
+        return self.grade or None
+
+
 class GRE(BaseTest):
     """
     Fields:
@@ -469,9 +534,9 @@ class GMAT(BaseTest):
     """
 
     total = models.PositiveSmallIntegerField(blank=True, null=True)
-    verbal = models.PositiveSmallIntegerField(blank=True, null=True)
-    quant = models.PositiveSmallIntegerField(blank=True, null=True)
-    reasoning = models.PositiveSmallIntegerField(blank=True, null=True)
+    verbal = models.SmallIntegerField(blank=True, null=True)
+    quant = models.SmallIntegerField(blank=True, null=True)
+    reasoning = models.SmallIntegerField(blank=True, null=True)
     writing = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
 
     used_for = models.ManyToManyField(
@@ -482,6 +547,36 @@ class GMAT(BaseTest):
 
     class Meta:
         verbose_name_plural = "GMAT scores"
+
+    @property
+    def result(self) -> int | None:
+        return self.total
+
+
+class LSAT(BaseTest):
+    """
+    Fields:
+        id: number;
+        student: number;
+        date?: string | null; // date
+        comments?: string;
+
+        total?: number | null;
+
+    Computed fields:
+        result: number;
+    """
+
+    total = models.PositiveSmallIntegerField(blank=True, null=True)
+
+    used_for = models.ManyToManyField(
+        Application,
+        related_name="lsat_submitted",
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name_plural = "LSAT scores"
 
     @property
     def result(self) -> int | None:

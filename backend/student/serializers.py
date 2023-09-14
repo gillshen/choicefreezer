@@ -9,8 +9,11 @@ from student.models import (
     SAT,
     ACT,
     AP,
+    IB,
+    Alevel,
     GRE,
     GMAT,
+    LSAT,
 )
 
 
@@ -68,6 +71,18 @@ class AP_Serializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class IB_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = IB
+        fields = "__all__"
+
+
+class AlevelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Alevel
+        fields = "__all__"
+
+
 class GRE_Serializer(serializers.ModelSerializer):
     class Meta:
         model = GRE
@@ -77,4 +92,10 @@ class GRE_Serializer(serializers.ModelSerializer):
 class GMAT_Serializer(serializers.ModelSerializer):
     class Meta:
         model = GMAT
+        fields = "__all__"
+
+
+class LSAT_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = LSAT
         fields = "__all__"

@@ -14,8 +14,11 @@ from student.models import (
     SAT,
     ACT,
     AP,
+    IB,
+    Alevel,
     GRE,
     GMAT,
+    LSAT,
 )
 
 from student.serializers import (
@@ -28,8 +31,11 @@ from student.serializers import (
     SAT_Serializer,
     ACT_Serializer,
     AP_Serializer,
+    IB_Serializer,
+    AlevelSerializer,
     GRE_Serializer,
     GMAT_Serializer,
+    LSAT_Serializer,
 )
 
 
@@ -179,6 +185,36 @@ class AP_ListView(StudentQueryMixin, ListAPIView):
     serializer_class = AP_Serializer
 
 
+class IB_CreateView(CreateAPIView):
+    queryset = IB.objects.all()
+    serializer_class = IB_Serializer
+
+
+class IB_UpdateDeleteView(RetrieveUpdateDestroyAPIView):
+    queryset = IB.objects.all()
+    serializer_class = IB_Serializer
+
+
+class IB_ListView(StudentQueryMixin, ListAPIView):
+    _model = IB
+    serializer_class = IB_Serializer
+
+
+class AlevelCreateView(CreateAPIView):
+    queryset = Alevel.objects.all()
+    serializer_class = AlevelSerializer
+
+
+class AlevelUpdateDeleteView(RetrieveUpdateDestroyAPIView):
+    queryset = Alevel.objects.all()
+    serializer_class = AlevelSerializer
+
+
+class AlevelListView(StudentQueryMixin, ListAPIView):
+    _model = Alevel
+    serializer_class = AlevelSerializer
+
+
 class GRE_CreateView(CreateAPIView):
     queryset = GRE.objects.all()
     serializer_class = GRE_Serializer
@@ -207,3 +243,18 @@ class GMAT_UpdateDeleteView(RetrieveUpdateDestroyAPIView):
 class GMAT_ListView(StudentQueryMixin, ListAPIView):
     _model = GMAT
     serializer_class = GMAT_Serializer
+
+
+class LSAT_CreateView(CreateAPIView):
+    queryset = LSAT.objects.all()
+    serializer_class = LSAT_Serializer
+
+
+class LSAT_UpdateDeleteView(RetrieveUpdateDestroyAPIView):
+    queryset = LSAT.objects.all()
+    serializer_class = LSAT_Serializer
+
+
+class LSAT_ListView(StudentQueryMixin, ListAPIView):
+    _model = LSAT
+    serializer_class = LSAT_Serializer

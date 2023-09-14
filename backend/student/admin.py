@@ -63,6 +63,16 @@ class AP_Admin(admin.ModelAdmin):
     list_display = "id", "student", "subject", "score", "date"
 
 
+@admin.register(models.IB)
+class IB_Admin(admin.ModelAdmin):
+    list_display = "id", "student", "subject", "score", "date"
+
+
+@admin.register(models.Alevel)
+class AlevelAdmin(admin.ModelAdmin):
+    list_display = "id", "student", "subject", "percentage", "grade", "date"
+
+
 @admin.register(models.GRE)
 class GRE_Admin(admin.ModelAdmin):
     list_display = "id", "student", "result", "writing", "date"
@@ -71,3 +81,8 @@ class GRE_Admin(admin.ModelAdmin):
 @admin.register(models.GMAT)
 class GMAT_Admin(admin.ModelAdmin):
     list_display = "id", "student", "result", "writing", "date"
+
+
+@admin.register(models.LSAT)
+class LSAT_Admin(admin.ModelAdmin):
+    list_display = "id", "student", "result", "date"
