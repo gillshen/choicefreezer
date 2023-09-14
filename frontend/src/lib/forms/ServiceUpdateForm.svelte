@@ -25,6 +25,17 @@
 
 	$form.start_date = service.start_date;
 	$form.end_date = service.end_date;
+
+	let hideStartDate = !service.start_date;
+	let hideEndDate = !service.end_date;
+
+	$: if (hideStartDate) {
+		$form.start_date = null;
+	}
+
+	$: if (hideEndDate) {
+		$form.end_date = null;
+	}
 </script>
 
 <form method="post" {action}>
@@ -38,23 +49,41 @@
 
 		<p class="font-bold font-heading-token">{service.cf_username}</p>
 
-		<FormDateInput
-			id="start-date-input"
-			name="start_date"
-			label="Start date"
-			form={$form}
-			errors={$errors}
-			optional
-		/>
+		<div class="flex flex-row gap-4 items-start mt-2">
+			<input id="hide-start-date" type="checkbox" class="checkbox" bind:checked={hideStartDate} />
+			<label class="label !pt-0 !-mt-0.5 max-w-md" for="hide-start-date"
+				>Start date same as the contract start date</label
+			>
+		</div>
 
-		<FormDateInput
-			id="end-date-input"
-			name="end_date"
-			label="End date"
-			form={$form}
-			errors={$errors}
-			optional
-		/>
+		{#if !hideStartDate}
+			<FormDateInput
+				id="start-date-input"
+				name="start_date"
+				label="Start date"
+				form={$form}
+				errors={$errors}
+			/>
+		{/if}
+
+		<div class="flex flex-row gap-4 items-start mt-2">
+			<input id="hide-end-date" type="checkbox" class="checkbox" bind:checked={hideEndDate} />
+			<label class="label !pt-0 !-mt-0.5 max-w-md" for="hide-end-date"
+				>End date same as the contract end date</label
+			>
+		</div>
+
+		{#if !hideEndDate}
+			<FormDateInput
+				id="end-date-input"
+				name="end_date"
+				label="End date"
+				form={$form}
+				errors={$errors}
+				optional
+				optionalText="if not the end of the contract"
+			/>
+		{/if}
 	</fieldset>
 
 	<FormSubmit message={$message} />

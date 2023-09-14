@@ -153,11 +153,7 @@
 						<div class="cf-entry service-date">
 							<div class="cf-entry-label">Start date</div>
 							<div>
-								{service.start_date
-									? toShortDate(service.start_date)
-									: contract.date_signed
-									? toShortDate(contract.date_signed)
-									: 'n/a'}
+								{service.start_date ? toShortDate(service.start_date) : 'Start of contract'}
 							</div>
 						</div>
 

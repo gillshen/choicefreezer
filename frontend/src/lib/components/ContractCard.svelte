@@ -38,19 +38,21 @@
 	<footer class="px-6 my-4 grid grid-cols-2 gap-x-4 items-start">
 		<section class="services-grid">
 			{#each planningServices as service}
+				{@const serviceStatus = service.end_date ? 'service-ended' : ''}
 				<div>
-					<i class={`fa-solid fa-compass text-${typeClass}`} />
+					<i class={`fa-solid fa-compass text-${typeClass} ${serviceStatus}`} />
 				</div>
-				<div class="text-sm font-heading-token">{service.cf_username}</div>
+				<div class={`username ${serviceStatus}`}>{service.cf_username}</div>
 			{/each}
 		</section>
 
 		<section class="services-grid">
 			{#each essayServices as service}
+				{@const serviceStatus = service.end_date ? 'service-ended' : ''}
 				<div>
-					<i class={`fa-solid fa-feather text-${typeClass}`} />
+					<i class={`fa-solid fa-feather text-${typeClass} ${serviceStatus}`} />
 				</div>
-				<div class="text-sm font-heading-token">{service.cf_username}</div>
+				<div class={`username ${serviceStatus}`}>{service.cf_username}</div>
 			{/each}
 		</section>
 	</footer>
@@ -74,5 +76,14 @@
 	}
 	.services-grid > div {
 		@apply h-6;
+	}
+	i.service-ended {
+		@apply opacity-50;
+	}
+	.username {
+		@apply text-sm font-heading-token;
+	}
+	.username.service-ended {
+		@apply opacity-50;
 	}
 </style>
