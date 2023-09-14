@@ -86,9 +86,12 @@ from student.views import (
     AP_CreateView,
     AP_UpdateDeleteView,
     AP_ListView,
-    IB_CreateView,
-    IB_UpdateDeleteView,
-    IB_ListView,
+    IBPredictedCreateView,
+    IBPredictedUpdateDeleteView,
+    IBPredictedListView,
+    IBFinalCreateView,
+    IBFinalUpdateDeleteView,
+    IBFinalListView,
     AlevelCreateView,
     AlevelUpdateDeleteView,
     AlevelListView,
@@ -312,15 +315,23 @@ urlpatterns += [
     path("s.ap/", AP_ListView.as_view()),
 ]
 
-# IB views
+# IB predicted grades views
 urlpatterns += [
-    path("s.ib/new/", IB_CreateView.as_view()),
-    path("s.ib/<int:pk>/update/", IB_UpdateDeleteView.as_view()),
-    path("s.ib/<int:pk>/delete/", IB_UpdateDeleteView.as_view()),
-    path("s.ib/", IB_ListView.as_view()),
+    path("s.ib_predicted/new/", IBPredictedCreateView.as_view()),
+    path("s.ib_predicted/<int:pk>/update/", IBPredictedUpdateDeleteView.as_view()),
+    path("s.ib_predicted/<int:pk>/delete/", IBPredictedUpdateDeleteView.as_view()),
+    path("s.ib_predicted/", IBPredictedListView.as_view()),
 ]
 
-# IB views
+# IB final grades views
+urlpatterns += [
+    path("s.ib_final/new/", IBFinalCreateView.as_view()),
+    path("s.ib_final/<int:pk>/update/", IBFinalUpdateDeleteView.as_view()),
+    path("s.ib_final/<int:pk>/delete/", IBFinalUpdateDeleteView.as_view()),
+    path("s.ib_final/", IBFinalListView.as_view()),
+]
+
+# A-level views
 urlpatterns += [
     path("s.alevel/new/", AlevelCreateView.as_view()),
     path("s.alevel/<int:pk>/update/", AlevelUpdateDeleteView.as_view()),

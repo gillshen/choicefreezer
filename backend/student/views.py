@@ -14,7 +14,8 @@ from student.models import (
     SAT,
     ACT,
     AP,
-    IB,
+    IBPredicted,
+    IBFinal,
     Alevel,
     GRE,
     GMAT,
@@ -31,7 +32,8 @@ from student.serializers import (
     SAT_Serializer,
     ACT_Serializer,
     AP_Serializer,
-    IB_Serializer,
+    IBPredictedSerializer,
+    IBFinalSerializer,
     AlevelSerializer,
     GRE_Serializer,
     GMAT_Serializer,
@@ -185,19 +187,34 @@ class AP_ListView(StudentQueryMixin, ListAPIView):
     serializer_class = AP_Serializer
 
 
-class IB_CreateView(CreateAPIView):
-    queryset = IB.objects.all()
-    serializer_class = IB_Serializer
+class IBPredictedCreateView(CreateAPIView):
+    queryset = IBPredicted.objects.all()
+    serializer_class = IBPredictedSerializer
 
 
-class IB_UpdateDeleteView(RetrieveUpdateDestroyAPIView):
-    queryset = IB.objects.all()
-    serializer_class = IB_Serializer
+class IBPredictedUpdateDeleteView(RetrieveUpdateDestroyAPIView):
+    queryset = IBPredicted.objects.all()
+    serializer_class = IBPredictedSerializer
 
 
-class IB_ListView(StudentQueryMixin, ListAPIView):
-    _model = IB
-    serializer_class = IB_Serializer
+class IBPredictedListView(StudentQueryMixin, ListAPIView):
+    _model = IBPredicted
+    serializer_class = IBPredictedSerializer
+
+
+class IBFinalCreateView(CreateAPIView):
+    queryset = IBFinal.objects.all()
+    serializer_class = IBFinalSerializer
+
+
+class IBFinalUpdateDeleteView(RetrieveUpdateDestroyAPIView):
+    queryset = IBFinal.objects.all()
+    serializer_class = IBFinalSerializer
+
+
+class IBFinalListView(StudentQueryMixin, ListAPIView):
+    _model = IBFinal
+    serializer_class = IBFinalSerializer
 
 
 class AlevelCreateView(CreateAPIView):

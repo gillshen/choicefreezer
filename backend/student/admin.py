@@ -63,9 +63,14 @@ class AP_Admin(admin.ModelAdmin):
     list_display = "id", "student", "subject", "score", "date"
 
 
-@admin.register(models.IB)
-class IB_Admin(admin.ModelAdmin):
-    list_display = "id", "student", "subject", "score", "date"
+@admin.register(models.IBPredicted)
+class IBPredictedAdmin(admin.ModelAdmin):
+    list_display = "id", "student", "subject", "grade", "date"
+
+
+@admin.register(models.IBFinal)
+class IBFinalAdmin(admin.ModelAdmin):
+    list_display = "id", "student", "subject", "grade", "date"
 
 
 @admin.register(models.Alevel)

@@ -9,7 +9,8 @@ from student.models import (
     SAT,
     ACT,
     AP,
-    IB,
+    IBPredicted,
+    IBFinal,
     Alevel,
     GRE,
     GMAT,
@@ -71,9 +72,15 @@ class AP_Serializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class IB_Serializer(serializers.ModelSerializer):
+class IBPredictedSerializer(serializers.ModelSerializer):
     class Meta:
-        model = IB
+        model = IBPredicted
+        fields = "__all__"
+
+
+class IBFinalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IBFinal
         fields = "__all__"
 
 

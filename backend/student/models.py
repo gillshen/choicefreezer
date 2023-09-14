@@ -414,7 +414,7 @@ class AP(BaseTest):
         return self.score
 
 
-class IB(BaseTest):
+class IBPredicted(BaseTest):
     """
     Fields:
         id: number;
@@ -423,27 +423,59 @@ class IB(BaseTest):
         comments?: string;
 
         subject: string;
-        score?: number | null;
+        grade?: number | null;
 
     Computed fields:
         result: number;
     """
 
     subject = models.CharField(max_length=100)
-    score = models.PositiveSmallIntegerField(blank=True, null=True)
+    grade = models.PositiveSmallIntegerField(blank=True, null=True)
 
     used_for = models.ManyToManyField(
         Application,
-        related_name="ib_submitted",
+        related_name="ib_predicted_submitted",
         blank=True,
     )
 
     class Meta:
-        verbose_name_plural = "IB scores"
+        verbose_name_plural = "IB predicted grades"
 
     @property
     def result(self) -> int | None:
-        return self.score
+        return self.grade
+
+
+class IBFinal(BaseTest):
+    """
+    Fields:
+        id: number;
+        student: number;
+        date?: string | null; // date
+        comments?: string;
+
+        subject: string;
+        grade?: number | null;
+
+    Computed fields:
+        result: number;
+    """
+
+    subject = models.CharField(max_length=100)
+    grade = models.PositiveSmallIntegerField(blank=True, null=True)
+
+    used_for = models.ManyToManyField(
+        Application,
+        related_name="ib_final_submitted",
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name_plural = "IB final grades"
+
+    @property
+    def result(self) -> int | None:
+        return self.grade
 
 
 class Alevel(BaseTest):
@@ -473,7 +505,7 @@ class Alevel(BaseTest):
     )
 
     class Meta:
-        verbose_name_plural = "A-level scores"
+        verbose_name_plural = "A-level grades"
 
     @property
     def result(self) -> str | None:
