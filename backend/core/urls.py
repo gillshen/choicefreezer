@@ -92,9 +92,12 @@ from student.views import (
     IBFinalCreateView,
     IBFinalUpdateDeleteView,
     IBFinalListView,
-    AlevelCreateView,
-    AlevelUpdateDeleteView,
-    AlevelListView,
+    AlevelPredictedCreateView,
+    AlevelPredictedUpdateDeleteView,
+    AlevelPredictedListView,
+    AlevelFinalCreateView,
+    AlevelFinalUpdateDeleteView,
+    AlevelFinalListView,
     GRE_CreateView,
     GRE_UpdateDeleteView,
     GRE_ListView,
@@ -331,12 +334,20 @@ urlpatterns += [
     path("s.ib_final/", IBFinalListView.as_view()),
 ]
 
-# A-level views
+# A-level predicted grades views
 urlpatterns += [
-    path("s.alevel/new/", AlevelCreateView.as_view()),
-    path("s.alevel/<int:pk>/update/", AlevelUpdateDeleteView.as_view()),
-    path("s.alevel/<int:pk>/delete/", AlevelUpdateDeleteView.as_view()),
-    path("s.alevel/", AlevelListView.as_view()),
+    path("s.al_predicted/new/", AlevelPredictedCreateView.as_view()),
+    path("s.al_predicted/<int:pk>/update/", AlevelPredictedUpdateDeleteView.as_view()),
+    path("s.al_predicted/<int:pk>/delete/", AlevelPredictedUpdateDeleteView.as_view()),
+    path("s.al_predicted/", AlevelPredictedListView.as_view()),
+]
+
+# A-level final grades views
+urlpatterns += [
+    path("s.al_final/new/", AlevelFinalCreateView.as_view()),
+    path("s.al_final/<int:pk>/update/", AlevelFinalUpdateDeleteView.as_view()),
+    path("s.al_final/<int:pk>/delete/", AlevelFinalUpdateDeleteView.as_view()),
+    path("s.al_final/", AlevelFinalListView.as_view()),
 ]
 
 # GRE views

@@ -7,7 +7,8 @@ const recognized_tests = [
 	'AP',
 	'IB (final)',
 	'IB (predicted)',
-	'A-Level',
+	'A-Level (final)',
+	'A-Level (predicted)',
 	'GRE',
 	'GMAT',
 	'LSAT'

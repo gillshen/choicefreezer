@@ -478,7 +478,7 @@ class IBFinal(BaseTest):
         return self.grade
 
 
-class Alevel(BaseTest):
+class AlevelPredicted(BaseTest):
     """
     Fields:
         id: number;
@@ -500,12 +500,46 @@ class Alevel(BaseTest):
 
     used_for = models.ManyToManyField(
         Application,
-        related_name="alevel_submitted",
+        related_name="alevel_predicted_submitted",
         blank=True,
     )
 
     class Meta:
-        verbose_name_plural = "A-level grades"
+        verbose_name_plural = "A-level predicted grades"
+
+    @property
+    def result(self) -> str | None:
+        return self.grade or None
+
+
+class AlevelFinal(BaseTest):
+    """
+    Fields:
+        id: number;
+        student: number;
+        date?: string | null; // date
+        comments?: string;
+
+        subject: string;
+        percentage?: number | null;
+        grade?: string;
+
+    Computed fields:
+        result: number;
+    """
+
+    subject = models.CharField(max_length=100)
+    percentage = models.SmallIntegerField(blank=True, null=True)
+    grade = models.CharField(max_length=10, blank=True)
+
+    used_for = models.ManyToManyField(
+        Application,
+        related_name="alevel_final_submitted",
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name_plural = "A-level final grades"
 
     @property
     def result(self) -> str | None:

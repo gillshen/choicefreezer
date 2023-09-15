@@ -15,17 +15,28 @@ import type { NewApplicationLog } from '$lib/types/applicationLogTypes';
 import type { NewUserLog, UserLogListItem } from '$lib/types/userLogTypes';
 import type { NewEnrollment } from '$lib/types/enrollmentTypes';
 import type {
+	ActScore,
+	AlevelGrade,
+	ApScore,
+	DetScore,
+	GmatScore,
+	GreScore,
+	IbGrade,
+	IeltsScore,
+	LsatScore,
 	NewActScore,
-	NewAlevelGrade as NewAlevelGrade,
+	NewAlevelGrade,
 	NewApScore,
 	NewDetScore,
 	NewGmatScore,
 	NewGreScore,
-	NewIbGrade as NewIbGrade,
+	NewIbGrade,
 	NewIeltsScore,
 	NewLsatScore,
 	NewSatScore,
-	NewToeflScore
+	NewToeflScore,
+	SatScore,
+	ToeflScore
 } from '$lib/types/testScoreTypes';
 
 import { PLANNER, ASST_PLANNER, STRAT_PLANNER, ESSAY_ADVISOR } from '$lib/constants/cfRoles';
@@ -264,7 +275,7 @@ export async function createToeflScore(data: NewToeflScore) {
 	return await post('s.toefl/new/', data);
 }
 
-export async function fetchToeflScores(studentId: number) {
+export async function fetchToeflScores(studentId: number): Promise<ToeflScore[]> {
 	return await get(`s.toefl/?student=${studentId}`);
 }
 
@@ -272,7 +283,7 @@ export async function createIeltsScore(data: NewIeltsScore) {
 	return await post('s.ielts/new/', data);
 }
 
-export async function fetchIeltsScores(studentId: number) {
+export async function fetchIeltsScores(studentId: number): Promise<IeltsScore[]> {
 	return await get(`s.ielts/?student=${studentId}`);
 }
 
@@ -280,7 +291,7 @@ export async function createDetScore(data: NewDetScore) {
 	return await post('s.det/new/', data);
 }
 
-export async function fetchDetScores(studentId: number) {
+export async function fetchDetScores(studentId: number): Promise<DetScore[]> {
 	return await get(`s.det/?student=${studentId}`);
 }
 
@@ -288,7 +299,7 @@ export async function createSatScore(data: NewSatScore) {
 	return await post('s.sat/new/', data);
 }
 
-export async function fetchSatScores(studentId: number) {
+export async function fetchSatScores(studentId: number): Promise<SatScore[]> {
 	return await get(`s.sat/?student=${studentId}`);
 }
 
@@ -296,7 +307,7 @@ export async function createActScore(data: NewActScore) {
 	return await post('s.act/new/', data);
 }
 
-export async function fetchActScores(studentId: number) {
+export async function fetchActScores(studentId: number): Promise<ActScore[]> {
 	return await get(`s.act/?student=${studentId}`);
 }
 
@@ -304,7 +315,7 @@ export async function createApScore(data: NewApScore) {
 	return await post('s.ap/new/', data);
 }
 
-export async function fetchApScores(studentId: number) {
+export async function fetchApScores(studentId: number): Promise<ApScore[]> {
 	return await get(`s.ap/?student=${studentId}`);
 }
 
@@ -312,7 +323,7 @@ export async function createIbPredictedGrade(data: NewIbGrade) {
 	return await post('s.ib_predicted/new/', data);
 }
 
-export async function fetchIbPredictedGrades(studentId: number) {
+export async function fetchIbPredictedGrades(studentId: number): Promise<IbGrade[]> {
 	return await get(`s.ib_predicted/?student=${studentId}`);
 }
 
@@ -320,23 +331,31 @@ export async function createIbFinalGrade(data: NewIbGrade) {
 	return await post('s.ib_final/new/', data);
 }
 
-export async function fetchIbFinalGrades(studentId: number) {
+export async function fetchIbFinalGrades(studentId: number): Promise<IbGrade[]> {
 	return await get(`s.ib_final/?student=${studentId}`);
 }
 
-export async function createAlevelGrade(data: NewAlevelGrade) {
-	return await post('s.alevel/new/', data);
+export async function createAlevelPredictedGrade(data: NewAlevelGrade) {
+	return await post('s.al_predicted/new/', data);
 }
 
-export async function fetchAlevelGrades(studentId: number) {
-	return await get(`s.alevel/?student=${studentId}`);
+export async function fetchAlevelPredictedGrades(studentId: number): Promise<AlevelGrade[]> {
+	return await get(`s.al_predicted/?student=${studentId}`);
+}
+
+export async function createAlevelFinalGrade(data: NewAlevelGrade) {
+	return await post('s.al_final/new/', data);
+}
+
+export async function fetchAlevelFinalGrades(studentId: number): Promise<AlevelGrade[]> {
+	return await get(`s.al_final/?student=${studentId}`);
 }
 
 export async function createGreScore(data: NewGreScore) {
 	return await post('s.gre/new/', data);
 }
 
-export async function fetchGreScores(studentId: number) {
+export async function fetchGreScores(studentId: number): Promise<GreScore[]> {
 	return await get(`s.gre/?student=${studentId}`);
 }
 
@@ -344,7 +363,7 @@ export async function createGmatScore(data: NewGmatScore) {
 	return await post('s.gmat/new/', data);
 }
 
-export async function fetchGmatScores(studentId: number) {
+export async function fetchGmatScores(studentId: number): Promise<GmatScore[]> {
 	return await get(`s.gmat/?student=${studentId}`);
 }
 
@@ -352,7 +371,7 @@ export async function createLsatScore(data: NewLsatScore) {
 	return await post('s.lsat/new/', data);
 }
 
-export async function fetchLsatScores(studentId: number) {
+export async function fetchLsatScores(studentId: number): Promise<LsatScore[]> {
 	return await get(`s.lsat/?student=${studentId}`);
 }
 

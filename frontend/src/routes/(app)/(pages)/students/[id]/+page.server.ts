@@ -4,23 +4,28 @@ import { error, fail, redirect } from '@sveltejs/kit';
 import { message, superValidate } from 'sveltekit-superforms/server';
 
 import {
-	fetchActScores,
-	fetchApScores,
-	fetchContractsOfStudent,
-	fetchDetScores,
-	fetchEnrollments,
-	fetchGmatScores,
-	fetchGreScores,
-	fetchIeltsScores,
-	fetchSatScores,
 	fetchStudent,
-	fetchToeflScores,
-	fetchApplicationsOfStudent,
-	fetchLogsOfStudents,
-	patchStudent,
-	performCreateContract,
 	fetchSchools,
 	fetchProgramSelectList,
+	fetchContractsOfStudent,
+	fetchApplicationsOfStudent,
+	fetchLogsOfStudents,
+	fetchEnrollments,
+	fetchToeflScores,
+	fetchIeltsScores,
+	fetchDetScores,
+	fetchSatScores,
+	fetchActScores,
+	fetchApScores,
+	fetchIbPredictedGrades,
+	fetchIbFinalGrades,
+	fetchAlevelPredictedGrades,
+	fetchAlevelFinalGrades,
+	fetchGreScores,
+	fetchGmatScores,
+	fetchLsatScores,
+	patchStudent,
+	performCreateContract,
 	fetchOrCreateTarget,
 	fetchOrCreateSubTarget,
 	createProgram,
@@ -33,16 +38,13 @@ import {
 	createSatScore,
 	createActScore,
 	createApScore,
+	createIbPredictedGrade,
+	createIbFinalGrade,
+	createAlevelPredictedGrade,
+	createAlevelFinalGrade,
 	createGreScore,
 	createGmatScore,
-	fetchIbPredictedGrades,
-	fetchAlevelGrades,
-	fetchLsatScores,
-	createIbPredictedGrade,
-	createAlevelGrade,
-	createLsatScore,
-	createIbFinalGrade,
-	fetchIbFinalGrades
+	createLsatScore
 } from '$lib/api';
 
 import {
@@ -119,10 +121,10 @@ export async function load(event: PageServerLoadEvent) {
 		apScores: fetchApScores(id),
 		apScoreCreateForm: superValidate(event, apScoreSchema),
 		ibPredictedGrades: fetchIbPredictedGrades(id),
-		ibPredictedGradeCreateForm: superValidate(event, ibGradeSchema),
 		ibFinalGrades: fetchIbFinalGrades(id),
-		ibFinalGradeCreateForm: superValidate(event, ibGradeSchema),
-		alevelGrades: fetchAlevelGrades(id),
+		ibGradeCreateForm: superValidate(event, ibGradeSchema),
+		alevelPredictedGrades: fetchAlevelPredictedGrades(id),
+		alevelFinalGrades: fetchAlevelFinalGrades(id),
 		alevelGradeCreateForm: superValidate(event, alevelGradeSchema),
 		greScores: fetchGreScores(id),
 		greScoreCreateForm: superValidate(event, greScoreSchema),
@@ -399,7 +401,7 @@ export const actions = {
 		return { form };
 	},
 
-	createAlevelScore: async (event: RequestEvent) => {
+	createAlevelPredictedGrade: async (event: RequestEvent) => {
 		const form = await superValidate(event, alevelGradeSchema);
 		console.log(form);
 
@@ -407,7 +409,22 @@ export const actions = {
 			return fail(400, { form });
 		}
 
-		const response = await createAlevelGrade(form.data);
+		const response = await createAlevelPredictedGrade(form.data);
+		if (!response.ok) {
+			return message(form, UNKNOWN_ERROR, { status: 400 });
+		}
+		return { form };
+	},
+
+	createAlevelFinalGrade: async (event: RequestEvent) => {
+		const form = await superValidate(event, alevelGradeSchema);
+		console.log(form);
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		const response = await createAlevelFinalGrade(form.data);
 		if (!response.ok) {
 			return message(form, UNKNOWN_ERROR, { status: 400 });
 		}

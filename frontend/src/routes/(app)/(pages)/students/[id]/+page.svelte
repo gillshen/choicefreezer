@@ -338,8 +338,12 @@
 							<IbGradesCard data={data.ibFinalGrades} gradesType="final" />
 						{/if}
 
-						{#if data.alevelGrades.length}
-							<AlevelGradesCard data={data.alevelGrades} />
+						{#if data.alevelPredictedGrades.length}
+							<AlevelGradesCard data={data.alevelPredictedGrades} gradesType="predicted" />
+						{/if}
+
+						{#if data.alevelFinalGrades.length}
+							<AlevelGradesCard data={data.alevelFinalGrades} gradesType="final" />
 						{/if}
 					</div>
 				{/if}
@@ -467,19 +471,26 @@
 			bind:dialog={testScoreCreateDialog}
 			action="?/createIbPredictedGrade"
 			studentId={student.id}
-			data={data.ibPredictedGradeCreateForm}
+			data={data.ibGradeCreateForm}
 		/>
 	{:else if testScoreType === 'IB (final)'}
 		<IbGradeForm
 			bind:dialog={testScoreCreateDialog}
 			action="?/createIbFinalGrade"
 			studentId={student.id}
-			data={data.ibFinalGradeCreateForm}
+			data={data.ibGradeCreateForm}
 		/>
-	{:else if testScoreType === 'A-Level'}
+	{:else if testScoreType === 'A-Level (predicted)'}
 		<AlevelGradeForm
 			bind:dialog={testScoreCreateDialog}
-			action="?/createAlevelScore"
+			action="?/createAlevelPredictedGrade"
+			studentId={student.id}
+			data={data.alevelGradeCreateForm}
+		/>
+	{:else if testScoreType === 'A-Level (final)'}
+		<AlevelGradeForm
+			bind:dialog={testScoreCreateDialog}
+			action="?/createAlevelFinalGrade"
 			studentId={student.id}
 			data={data.alevelGradeCreateForm}
 		/>

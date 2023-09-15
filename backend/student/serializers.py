@@ -11,7 +11,8 @@ from student.models import (
     AP,
     IBPredicted,
     IBFinal,
-    Alevel,
+    AlevelPredicted,
+    AlevelFinal,
     GRE,
     GMAT,
     LSAT,
@@ -94,9 +95,15 @@ class IBFinalSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class AlevelSerializer(serializers.ModelSerializer):
+class AlevelPredictedSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Alevel
+        model = AlevelPredicted
+        fields = "__all__"
+
+
+class AlevelFinalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AlevelFinal
         fields = "__all__"
 
 

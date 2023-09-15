@@ -16,7 +16,8 @@ from student.models import (
     AP,
     IBPredicted,
     IBFinal,
-    Alevel,
+    AlevelPredicted,
+    AlevelFinal,
     GRE,
     GMAT,
     LSAT,
@@ -34,7 +35,8 @@ from student.serializers import (
     AP_Serializer,
     IBPredictedSerializer,
     IBFinalSerializer,
-    AlevelSerializer,
+    AlevelPredictedSerializer,
+    AlevelFinalSerializer,
     GRE_Serializer,
     GMAT_Serializer,
     LSAT_Serializer,
@@ -217,19 +219,34 @@ class IBFinalListView(StudentQueryMixin, ListAPIView):
     serializer_class = IBFinalSerializer
 
 
-class AlevelCreateView(CreateAPIView):
-    queryset = Alevel.objects.all()
-    serializer_class = AlevelSerializer
+class AlevelPredictedCreateView(CreateAPIView):
+    queryset = AlevelPredicted.objects.all()
+    serializer_class = AlevelPredictedSerializer
 
 
-class AlevelUpdateDeleteView(RetrieveUpdateDestroyAPIView):
-    queryset = Alevel.objects.all()
-    serializer_class = AlevelSerializer
+class AlevelPredictedUpdateDeleteView(RetrieveUpdateDestroyAPIView):
+    queryset = AlevelPredicted.objects.all()
+    serializer_class = AlevelPredictedSerializer
 
 
-class AlevelListView(StudentQueryMixin, ListAPIView):
-    _model = Alevel
-    serializer_class = AlevelSerializer
+class AlevelPredictedListView(StudentQueryMixin, ListAPIView):
+    _model = AlevelPredicted
+    serializer_class = AlevelPredictedSerializer
+
+
+class AlevelFinalCreateView(CreateAPIView):
+    queryset = AlevelFinal.objects.all()
+    serializer_class = AlevelFinalSerializer
+
+
+class AlevelFinalUpdateDeleteView(RetrieveUpdateDestroyAPIView):
+    queryset = AlevelFinal.objects.all()
+    serializer_class = AlevelFinalSerializer
+
+
+class AlevelFinalListView(StudentQueryMixin, ListAPIView):
+    _model = AlevelFinal
+    serializer_class = AlevelFinalSerializer
 
 
 class GRE_CreateView(CreateAPIView):

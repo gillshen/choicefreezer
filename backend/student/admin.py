@@ -73,8 +73,13 @@ class IBFinalAdmin(admin.ModelAdmin):
     list_display = "id", "student", "subject", "grade", "date"
 
 
-@admin.register(models.Alevel)
-class AlevelAdmin(admin.ModelAdmin):
+@admin.register(models.AlevelPredicted)
+class AlevelPredictedAdmin(admin.ModelAdmin):
+    list_display = "id", "student", "subject", "percentage", "grade", "date"
+
+
+@admin.register(models.AlevelFinal)
+class AlevelFinalAdmin(admin.ModelAdmin):
     list_display = "id", "student", "subject", "percentage", "grade", "date"
 
 
