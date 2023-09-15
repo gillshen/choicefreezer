@@ -41,11 +41,15 @@ class TOEFL_Serializer(serializers.ModelSerializer):
         model = TOEFL
         fields = "__all__"
 
+    result = serializers.IntegerField(read_only=True)
+
 
 class IELTS_Serializer(serializers.ModelSerializer):
     class Meta:
         model = IELTS
         fields = "__all__"
+
+    result = serializers.IntegerField(read_only=True)
 
 
 class DET_Serializer(serializers.ModelSerializer):
@@ -53,17 +57,23 @@ class DET_Serializer(serializers.ModelSerializer):
         model = DET
         fields = "__all__"
 
+    result = serializers.IntegerField(read_only=True)
+
 
 class SAT_Serializer(serializers.ModelSerializer):
     class Meta:
         model = SAT
         fields = "__all__"
 
+    result = serializers.IntegerField(read_only=True)
+
 
 class ACT_Serializer(serializers.ModelSerializer):
     class Meta:
         model = ACT
         fields = "__all__"
+
+    result = serializers.IntegerField(read_only=True)
 
 
 class AP_Serializer(serializers.ModelSerializer):
@@ -95,14 +105,20 @@ class GRE_Serializer(serializers.ModelSerializer):
         model = GRE
         fields = "__all__"
 
+    result = serializers.IntegerField(read_only=True)
+
 
 class GMAT_Serializer(serializers.ModelSerializer):
     class Meta:
         model = GMAT
         fields = "__all__"
 
+    result = serializers.IntegerField(read_only=True)
+
 
 class LSAT_Serializer(serializers.ModelSerializer):
     class Meta:
         model = LSAT
         fields = "__all__"
+
+    result = serializers.IntegerField(read_only=True)

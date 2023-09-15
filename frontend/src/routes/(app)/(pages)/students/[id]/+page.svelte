@@ -59,6 +59,18 @@
 	import { RECOGNIZED_TESTS } from '$lib/constants/recognizedTests.js';
 	import OptionList from '$lib/components/OptionList.svelte';
 
+	import ToeflScoreCard from '$lib/components/ToeflScoreCard.svelte';
+	import IeltsScoreCard from '$lib/components/IeltsScoreCard.svelte';
+	import DetScoreCard from '$lib/components/DetScoreCard.svelte';
+	import SatScoreCard from '$lib/components/SatScoreCard.svelte';
+	import ActScoreCard from '$lib/components/ActScoreCard.svelte';
+	import GreScoreCard from '$lib/components/GreScoreCard.svelte';
+	import GmatScoreCard from '$lib/components/GmatScoreCard.svelte';
+	import LsatScoreCard from '$lib/components/LsatScoreCard.svelte';
+	import ApScoresCard from '$lib/components/ApScoresCard.svelte';
+	import IbGradesCard from '$lib/components/IbGradesCard.svelte';
+	import AlevelGradesCard from '$lib/components/AlevelGradesCard.svelte';
+
 	export let data;
 
 	const applicationColumnDefs = [
@@ -144,7 +156,7 @@
 		{/if}
 	</h1>
 
-	<div class="grid grid-cols-3 gap-16 h-full max-h-[960px]">
+	<div class="grid grid-cols-3 gap-12 h-full max-h-[960px]">
 		<!-- personal info -->
 		<article class="panel">
 			<div class="flex-grow overflow-auto flex flex-col px-6 pt-6">
@@ -255,94 +267,93 @@
 	{/if}
 </Section>
 
-<Section lighter>
-	<h2 class="text-xl font-heading-token font-bold mb-8">Schools Attended</h2>
+<Section lighter long>
+	<div class="grid grid-cols-2 gap-12 items-start">
+		<article class="panel transparent fit-height">
+			<h2 class="text-xl font-heading-token font-bold mb-8">Schools Attended</h2>
 
-	{#if data.enrollments.length}
-		<pre class="text-surface-400">{JSON.stringify(data.enrollments, null, 2)}</pre>
-	{:else}
-		<p class="section-placeholder">{NO_ROWS_TO_SHOW}</p>
-	{/if}
+			{#if data.enrollments.length}
+				<pre class="text-surface-400">{JSON.stringify(data.enrollments, null, 2)}</pre>
+			{:else}
+				<p class="section-placeholder">{NO_ROWS_TO_SHOW}</p>
+			{/if}
 
-	{#if userIsOwner}
-		<div class="mt-4">
-			<button class="btn cf-btn cf-secondary" on:click={() => enrollmentCreateDialog.showModal()}
-				>Add a school</button
-			>
-		</div>
-	{/if}
-</Section>
+			{#if userIsOwner}
+				<div class="mt-4">
+					<button
+						class="btn cf-btn cf-secondary"
+						on:click={() => enrollmentCreateDialog.showModal()}>Add a school</button
+					>
+				</div>
+			{/if}
+		</article>
 
-<Section>
-	<h2 class="text-xl font-heading-token font-bold mb-8">Test Scores</h2>
+		<article class="panel transparent fit-height">
+			<h2 class="text-xl font-heading-token font-bold mb-8">Test Scores</h2>
 
-	{#if data.toeflScores.length}
-		<h3>TOEFL</h3>
-		<pre class="text-surface-400">{JSON.stringify(data.toeflScores, null, 2)}</pre>
-	{/if}
+			<div class="flex flex-col gap-4">
+				{#if data.satScores.length || data.actScores.length || data.greScores.length || data.gmatScores.length || data.lsatScores.length || data.toeflScores.length || data.ieltsScores.length || data.detScores.length}
+					<div class="grid grid-cols-3 gap-4">
+						{#each data.satScores as satScore}
+							<SatScoreCard data={satScore} />
+						{/each}
 
-	{#if data.ieltsScores.length}
-		<h3>IELTS</h3>
-		<pre class="text-surface-400">{JSON.stringify(data.ieltsScores, null, 2)}</pre>
-	{/if}
+						{#each data.actScores as actScore}
+							<ActScoreCard data={actScore} />
+						{/each}
 
-	{#if data.detScores.length}
-		<h3>DET</h3>
-		<pre class="text-surface-400">{JSON.stringify(data.detScores, null, 2)}</pre>
-	{/if}
+						{#each data.greScores as greScore}
+							<GreScoreCard data={greScore} />
+						{/each}
 
-	{#if data.satScores.length}
-		<h3>SAT</h3>
-		<pre class="text-surface-400">{JSON.stringify(data.satScores, null, 2)}</pre>
-	{/if}
+						{#each data.gmatScores as gmatScore}
+							<GmatScoreCard data={gmatScore} />
+						{/each}
 
-	{#if data.actScores.length}
-		<h3>ACT</h3>
-		<pre class="text-surface-400">{JSON.stringify(data.actScores, null, 2)}</pre>
-	{/if}
+						{#each data.lsatScores as lsatScore}
+							<LsatScoreCard data={lsatScore} />
+						{/each}
 
-	{#if data.apScores.length}
-		<h3>AP</h3>
-		<pre class="text-surface-400">{JSON.stringify(data.apScores, null, 2)}</pre>
-	{/if}
+						{#each data.toeflScores as toeflScore}
+							<ToeflScoreCard data={toeflScore} />
+						{/each}
 
-	{#if data.ibPredictedGrades.length}
-		<h3>IB predicted</h3>
-		<pre class="text-surface-400">{JSON.stringify(data.ibPredictedGrades, null, 2)}</pre>
-	{/if}
+						{#each data.ieltsScores as ieltsScore}
+							<IeltsScoreCard data={ieltsScore} />
+						{/each}
 
-	{#if data.ibFinalGrades.length}
-		<h3>IB final</h3>
-		<pre class="text-surface-400">{JSON.stringify(data.ibFinalGrades, null, 2)}</pre>
-	{/if}
+						{#each data.detScores as detScore}
+							<DetScoreCard data={detScore} />
+						{/each}
 
-	{#if data.alevelGrades.length}
-		<h3>A-Level</h3>
-		<pre class="text-surface-400">{JSON.stringify(data.alevelGrades, null, 2)}</pre>
-	{/if}
+						{#if data.apScores.length}
+							<ApScoresCard data={data.apScores} />
+						{/if}
 
-	{#if data.greScores.length}
-		<h3>GRE</h3>
-		<pre class="text-surface-400">{JSON.stringify(data.greScores, null, 2)}</pre>
-	{/if}
+						{#if data.ibPredictedGrades.length}
+							<IbGradesCard data={data.ibPredictedGrades} gradesType="predicted" />
+						{/if}
 
-	{#if data.gmatScores.length}
-		<h3>GMAT</h3>
-		<pre class="text-surface-400">{JSON.stringify(data.gmatScores, null, 2)}</pre>
-	{/if}
+						{#if data.ibFinalGrades.length}
+							<IbGradesCard data={data.ibFinalGrades} gradesType="final" />
+						{/if}
 
-	{#if data.lsatScores.length}
-		<h3>LSAT</h3>
-		<pre class="text-surface-400">{JSON.stringify(data.lsatScores, null, 2)}</pre>
-	{/if}
+						{#if data.alevelGrades.length}
+							<AlevelGradesCard data={data.alevelGrades} />
+						{/if}
+					</div>
+				{/if}
+			</div>
 
-	{#if userIsOwner}
-		<div class="mt-4">
-			<button class="btn cf-btn cf-secondary" on:click={() => testScoreCreateDialog.showModal()}
-				>Add a test score</button
-			>
-		</div>
-	{/if}
+			{#if userIsOwner}
+				<div class="mt-4">
+					<button class="btn cf-btn cf-secondary" on:click={() => testScoreCreateDialog.showModal()}
+						>Add a test score</button
+					>
+				</div>
+			{/if}
+		</article>
+	</div>
 </Section>
 
 <!-- Dialogs -->

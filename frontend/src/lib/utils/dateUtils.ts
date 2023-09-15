@@ -44,6 +44,10 @@ export function toConciseDate(dateString: string): string {
 	return toShortDate(dateString);
 }
 
+export function toMonthYear(dateString: string): string {
+	return format(new Date(dateString), 'MMM y');
+}
+
 export function toYear(dateString: string): string {
 	return format(new Date(dateString), 'y');
 }

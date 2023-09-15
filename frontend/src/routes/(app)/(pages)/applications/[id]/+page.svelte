@@ -74,8 +74,8 @@
 		</div>
 	</h1>
 
-	<div class="grid grid-cols-3 gap-16 h-full max-h-[960px] items-start">
-		<article class="panel !grid grid-cols-[2fr_3fr] col-span-2">
+	<div class="grid grid-cols-3 gap-12 h-full max-h-[960px] items-start">
+		<article class="panel !grid grid-cols-[1fr_2fr] gap-8 col-span-2">
 			<!-- Student info -->
 			<div class="flex-grow overflow-auto flex flex-col px-6 pt-6">
 				<div class="flex gap-2 items-baseline pb-4">
@@ -221,7 +221,7 @@
 							{application.target.term}
 							{application.target.year}
 						</a>
-						<span class="text-surface-400">|</span>
+						<span class="text-surface-400 border-r mx-1 border-surface-500" />
 						{application.subtarget.admission_plan}
 					</div>
 				</div>
@@ -230,7 +230,18 @@
 					<div class="cf-entry-label mb-1">
 						{#if application.major_choices.length > 1}Majors{:else}Major{/if}
 					</div>
-					{application.major_choices.map((mc) => mc.major).join('; ') || 'n/a'}
+					{#if application.major_choices.length > 1}
+						<div class="flex gap-1">
+							{#each application.major_choices as majorChoice, index}
+								{#if index}
+									<span class="text-surface-400 border-r mx-1 border-surface-500" />
+								{/if}
+								<span>{majorChoice.major}</span>
+							{/each}
+						</div>
+					{:else}
+						n/a
+					{/if}
 				</div>
 
 				<!-- TODO -->

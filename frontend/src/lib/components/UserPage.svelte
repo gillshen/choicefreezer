@@ -171,7 +171,7 @@
 <Section hero>
 	<h1 class="cf-h1">{banner}</h1>
 
-	<div class="grid grid-cols-2 gap-16 h-full max-h-[960px]">
+	<div class="grid grid-cols-2 gap-12 h-full max-h-[960px]">
 		<!-- left panel -->
 
 		<article class="panel">

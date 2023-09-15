@@ -35,7 +35,7 @@ export const AP_EXAMS = [
 	'Spanish Language and Culture',
 	'Spanish Literature and Culture',
 	'Statistics',
-	'United States Government and Politics',
-	'United States History',
+	'US Government and Politics',
+	'US History',
 	'World History: Modern'
 ] as const;

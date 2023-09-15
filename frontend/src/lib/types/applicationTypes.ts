@@ -3,6 +3,16 @@ import type { ProgramType } from '$lib/types/programTypes';
 import type { AdmissionPlan } from '$lib/types/subTargetTypes';
 import type { Term } from '$lib/types/targetTypes';
 import type { APPLICATION_STATUSES } from '$lib/constants/applicationStatuses';
+import type {
+	ActScore,
+	ApScore,
+	DetScore,
+	GmatScore,
+	GreScore,
+	IeltsScore,
+	SatScore,
+	ToeflScore
+} from './testScoreTypes';
 
 export type NewApplication = {
 	student: number;
@@ -10,99 +20,6 @@ export type NewApplication = {
 };
 
 export type ApplicationStatus = (typeof APPLICATION_STATUSES)[number];
-
-export type TOEFLScore = {
-	id: number;
-	student: number;
-	date: string | null; // date
-	comments: string;
-	reading: number | null;
-	listening: number | null;
-	speaking: number | null;
-	writing: number | null;
-	result: number | null;
-};
-
-export type IELTSScore = {
-	id: number;
-	student: number;
-	date: string | null; // date
-	comments: string;
-	listening: number | null;
-	reading: number | null;
-	writing: number | null;
-	speaking: number | null;
-	result: number | null;
-};
-
-export type DETScore = {
-	id: number;
-	student: number;
-	date: string | null; // date
-	comments: string;
-	overall: number;
-	literacy: number | null;
-	comprehension: number | null;
-	conversation: number | null;
-	production: number | null;
-	result: number | null;
-};
-
-export type SATScore = {
-	id: number;
-	student: number;
-	date: string | null; // date
-	comments: string;
-	ebrw: number | null;
-	math: number | null;
-	result: number | null;
-};
-
-export type ACTScore = {
-	id: number;
-	student: number;
-	date: string | null; // date
-	comments: string;
-	english: number | null;
-	math: number | null;
-	reading: number | null;
-	science: number | null;
-	writing: number | null;
-	result: number | null;
-};
-
-export type APScore = {
-	id: number;
-	student: number;
-	date: string | null; // date
-	comments: string;
-	subject: string;
-	score: number | null;
-};
-
-export type GREScore = {
-	id: number;
-	student: number;
-	date: string | null; // date
-	comments: string;
-	verbal: number | null;
-	quant: number | null;
-	writing: number | null;
-	result: number | null;
-};
-
-export type GMATScore = {
-	id: number;
-	student: number;
-	date: string | null; // date
-	comments: string;
-	verbal: number | null;
-	quant: number | null;
-	reasoning: number | null;
-	writing: number | null;
-	total: number | null;
-	result: number | null;
-};
 
 export type ApplicationListItem = {
 	id: number;
@@ -157,14 +74,14 @@ export type ApplicationListItem = {
 		updated: string; // datetime
 	};
 
-	toefl_submitted: TOEFLScore[];
-	ielts_submitted: IELTSScore[];
-	det_submitted: DETScore[];
-	sat_submitted: SATScore[];
-	act_submitted: ACTScore[];
-	ap_submitted: APScore[];
-	gre_submitted: GREScore[];
-	gmat_submitted: GMATScore[];
+	toefl_submitted: ToeflScore[];
+	ielts_submitted: IeltsScore[];
+	det_submitted: DetScore[];
+	sat_submitted: SatScore[];
+	act_submitted: ActScore[];
+	ap_submitted: ApScore[];
+	gre_submitted: GreScore[];
+	gmat_submitted: GmatScore[];
 
 	scholarship_amount: number;
 	scholarship_currency: string;
@@ -229,14 +146,14 @@ export type ApplicationPageData = {
 		updated: string; // datetime
 	}>;
 
-	toefl_submitted: TOEFLScore[];
-	ielts_submitted: IELTSScore[];
-	det_submitted: DETScore[];
-	sat_submitted: SATScore[];
-	act_submitted: ACTScore[];
-	ap_submitted: APScore[];
-	gre_submitted: GREScore[];
-	gmat_submitted: GMATScore[];
+	toefl_submitted: ToeflScore[];
+	ielts_submitted: IeltsScore[];
+	det_submitted: DetScore[];
+	sat_submitted: SatScore[];
+	act_submitted: ActScore[];
+	ap_submitted: ApScore[];
+	gre_submitted: GreScore[];
+	gmat_submitted: GmatScore[];
 
 	scholarship_amount: number;
 	scholarship_currency: string;

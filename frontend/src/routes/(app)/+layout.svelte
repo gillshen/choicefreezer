@@ -102,7 +102,7 @@
 	<slot />
 </main>
 
-<footer>
+<footer class="page-footer">
 	<div class="py-0 px-4 m-0 mx-auto grid grid-cols-4 gap-8 max-w-7xl w-full font-heading-token">
 		<!-- site map -->
 		<section>

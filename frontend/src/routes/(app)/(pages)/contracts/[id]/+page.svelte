@@ -74,7 +74,7 @@
 		</span>
 	</h1>
 
-	<div class="grid grid-cols-3 gap-16 h-full max-h-[960px]">
+	<div class="grid grid-cols-3 gap-12 h-full max-h-[960px]">
 		<!-- basic info -->
 		<article class="panel">
 			<div class="flex-grow overflow-auto flex flex-col px-6 pt-6">

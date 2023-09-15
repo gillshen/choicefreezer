@@ -24,7 +24,7 @@ nav .divider {
 	@apply bg-surface-600;
 }
 
-footer > div {
+footer.page-footer > div {
 	@apply px-4 pt-6 pb-8;
 }
 
@@ -121,6 +121,44 @@ footer > div {
 .cf-page-link {
 	@apply text-primary-400/90;
 	@apply w-fit;
+}
+
+.cf-score-card {
+	@apply flex flex-col gap-4;
+	@apply bg-surface-700;
+	@apply rounded-lg;
+	@apply py-4 px-2 max-h-fit;
+}
+.cf-score-card.collection {
+	@apply col-span-2;
+}
+.cf-score-card-header {
+	@apply px-1;
+	@apply text-lg font-heading-token text-surface-300;
+}
+.cf-score-card-body {
+	@apply grid gap-y-1 mx-1;
+	grid-template-columns: 1fr auto;
+}
+.cf-score-card-body.collection {
+	@apply flex flex-col gap-4;
+}
+.cf-score-key {
+	@apply text-surface-300;
+}
+.cf-score-value {
+	@apply text-right;
+}
+.cf-score-value.numeric {
+	@apply font-bold;
+}
+.cf-score-value.null {
+	@apply text-surface-400;
+}
+.cf-score-card-date {
+	@apply mx-1 pb-2;
+	@apply text-sm text-surface-300;
+	@apply border-b border-surface-500;
 }
 
 /* Form */
@@ -257,7 +295,7 @@ dialog {
 	@apply min-w-[8rem] max-w-fit;
 	@apply rounded-full;
 	@apply text-sm text-center font-bold font-heading-token;
-	@apply text-surface-900;
+	@apply text-surface-500;
 	@apply bg-surface-100;
 }
 
