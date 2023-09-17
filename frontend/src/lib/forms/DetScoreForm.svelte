@@ -3,6 +3,7 @@
 
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import type { DetScoreSchema } from '$lib/schemas';
+	import type { DetScore } from '$lib/types/testScoreTypes';
 
 	import { closeDialogOnSuccess } from '$lib/utils/formUtils';
 	import HiddenIdField from '$lib/components/HiddenIdField.svelte';
@@ -15,19 +16,26 @@
 	export let data: SuperValidated<DetScoreSchema>;
 	export let action: string;
 	export let studentId: number;
+	export let score: DetScore | undefined = undefined;
 
 	const { form, errors, message, enhance } = superForm(data, {
-		id: action,
+		id: `${action}-${score?.id}`,
 		scrollToError: 'auto',
 		taintedMessage: null,
 		onResult: ({ result }) => closeDialogOnSuccess(result, dialog!)
 	});
+
+	if (score) {
+		$form = { ...$form, ...score };
+		studentId = score.student;
+	}
 </script>
 
 <form method="post" {action} novalidate use:enhance>
 	<fieldset>
 		<legend class="empty" />
 
+		<HiddenIdField id="score-id" name="id" value={$form.id} />
 		<HiddenIdField id="student-id" name="student" value={studentId} />
 
 		<FormDateInput

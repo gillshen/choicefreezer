@@ -372,7 +372,7 @@ export const greScoreValidators = {
 	writing: z
 		.number()
 		.min(0, minValueExceeded(0))
-		.max(6, maxValueExceeded(170))
+		.max(6, maxValueExceeded(6))
 		.step(0.5, valueOutOfStep(0.5))
 		.nullable()
 };

@@ -444,7 +444,7 @@
 			bind:dialog={testScoreCreateDialog}
 			action="/scores?/createToeflScore"
 			studentId={student.id}
-			data={data.toeflScoreCreateForm}
+			data={data.toeflScoreForm}
 		/>
 	{:else if testScoreType === 'IELTS'}
 		<IeltsScoreForm
@@ -458,77 +458,77 @@
 			bind:dialog={testScoreCreateDialog}
 			action="/scores?/createDetScore"
 			studentId={student.id}
-			data={data.detScoreCreateForm}
+			data={data.detScoreForm}
 		/>
 	{:else if testScoreType === 'SAT'}
 		<SatScoreForm
 			bind:dialog={testScoreCreateDialog}
 			action="/scores?/createSatScore"
 			studentId={student.id}
-			data={data.satScoreCreateForm}
+			data={data.satScoreForm}
 		/>
 	{:else if testScoreType === 'ACT'}
 		<ActScoreForm
 			bind:dialog={testScoreCreateDialog}
 			action="/scores?/createActScore"
 			studentId={student.id}
-			data={data.actScoreCreateForm}
+			data={data.actScoreForm}
 		/>
 	{:else if testScoreType === 'AP'}
 		<ApScoreForm
 			bind:dialog={testScoreCreateDialog}
 			action="/scores?/createApScore"
 			studentId={student.id}
-			data={data.apScoreCreateForm}
+			data={data.apScoreForm}
 		/>
 	{:else if testScoreType === 'IB (predicted)'}
 		<IbGradeForm
 			bind:dialog={testScoreCreateDialog}
 			action="/scores?/createIbPredictedGrade"
 			studentId={student.id}
-			data={data.ibGradeCreateForm}
+			data={data.ibGradeForm}
 		/>
 	{:else if testScoreType === 'IB (final)'}
 		<IbGradeForm
 			bind:dialog={testScoreCreateDialog}
 			action="/scores?/createIbFinalGrade"
 			studentId={student.id}
-			data={data.ibGradeCreateForm}
+			data={data.ibGradeForm}
 		/>
 	{:else if testScoreType === 'A-Level (predicted)'}
 		<AlevelGradeForm
 			bind:dialog={testScoreCreateDialog}
 			action="/scores?/createAlevelPredictedGrade"
 			studentId={student.id}
-			data={data.alevelGradeCreateForm}
+			data={data.alevelGradeForm}
 		/>
 	{:else if testScoreType === 'A-Level (final)'}
 		<AlevelGradeForm
 			bind:dialog={testScoreCreateDialog}
 			action="/scores?/createAlevelFinalGrade"
 			studentId={student.id}
-			data={data.alevelGradeCreateForm}
+			data={data.alevelGradeForm}
 		/>
 	{:else if testScoreType === 'GRE'}
 		<GreScoreForm
 			bind:dialog={testScoreCreateDialog}
 			action="/scores?/createGreScore"
 			studentId={student.id}
-			data={data.greScoreCreateForm}
+			data={data.greScoreForm}
 		/>
 	{:else if testScoreType === 'GMAT'}
 		<GmatScoreForm
 			bind:dialog={testScoreCreateDialog}
 			action="/scores?/createGmatScore"
 			studentId={student.id}
-			data={data.gmatScoreCreateForm}
+			data={data.gmatScoreForm}
 		/>
 	{:else if testScoreType === 'LSAT'}
 		<LsatScoreForm
 			bind:dialog={testScoreCreateDialog}
 			action="/scores?/createLsatScore"
 			studentId={student.id}
-			data={data.lsatScoreCreateForm}
+			data={data.lsatScoreForm}
 		/>
 	{:else}
 		<div />
