@@ -117,6 +117,21 @@
 	// Control which score creation form to display
 	let testScoreType = '';
 
+	$: hasTestScores =
+		!!data.toeflScores.length ||
+		!!data.ieltsScores.length ||
+		!!data.detScores.length ||
+		!!data.satScores.length ||
+		!!data.actScores.length ||
+		!!data.apScores.length ||
+		!!data.ibFinalGrades.length ||
+		!!data.ibPredictedGrades.length ||
+		!!data.alevelFinalGrades.length ||
+		!!data.alevelPredictedGrades.length ||
+		!!data.greScores.length ||
+		!!data.gmatScores.length ||
+		!!data.lsatScores.length;
+
 	// TODO move to server side?
 	async function handleDeleteStudent() {
 		const response = await deleteStudent(student.id);
@@ -292,7 +307,7 @@
 			<h2 class="text-xl font-heading-token font-bold mb-8">Test Scores</h2>
 
 			<div class="flex flex-col gap-4">
-				{#if data.satScores.length || data.actScores.length || data.greScores.length || data.gmatScores.length || data.lsatScores.length || data.toeflScores.length || data.ieltsScores.length || data.detScores.length}
+				{#if hasTestScores}
 					<div class="grid grid-cols-3 gap-4">
 						{#each data.satScores as satScore}
 							<SatScoreCard data={satScore} />

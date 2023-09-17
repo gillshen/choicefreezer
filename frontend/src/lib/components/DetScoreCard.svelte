@@ -1,14 +1,17 @@
 <script lang="ts">
 	import type { DetScore } from '$lib/types/testScoreTypes';
+	import { deleteDetScore } from '$lib/api';
+	import { scoreDeleter } from '$lib/utils/scoreUtils';
 	import ScoreCard from './ScoreCard.svelte';
 	import ScoreCardValue from './ScoreCardValue.svelte';
 
 	export let data: DetScore;
 
 	const value = data.result ? ((data.result - 70) * 100) / 90 : 0;
+	const handleDelete = scoreDeleter(deleteDetScore, data.id);
 </script>
 
-<ScoreCard {data} title="DET" {value}>
+<ScoreCard {data} title="DET" {value} {handleDelete}>
 	<div class="cf-score-key">Literacy</div>
 	<ScoreCardValue value={data.literacy} />
 

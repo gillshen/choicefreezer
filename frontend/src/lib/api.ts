@@ -275,12 +275,20 @@ export async function createToeflScore(data: NewToeflScore) {
 	return await post('s.toefl/new/', data);
 }
 
+export async function deleteToeflScore(scoreId: number) {
+	return await destroy(`s.toefl/${scoreId}/delete/`);
+}
+
 export async function fetchToeflScores(studentId: number): Promise<ToeflScore[]> {
 	return await get(`s.toefl/?student=${studentId}`);
 }
 
 export async function createIeltsScore(data: NewIeltsScore) {
 	return await post('s.ielts/new/', data);
+}
+
+export async function deleteIeltsScore(scoreId: number) {
+	return await destroy(`s.ielts/${scoreId}/delete/`);
 }
 
 export async function fetchIeltsScores(studentId: number): Promise<IeltsScore[]> {
@@ -291,6 +299,10 @@ export async function createDetScore(data: NewDetScore) {
 	return await post('s.det/new/', data);
 }
 
+export async function deleteDetScore(scoreId: number) {
+	return await destroy(`s.det/${scoreId}/delete/`);
+}
+
 export async function fetchDetScores(studentId: number): Promise<DetScore[]> {
 	return await get(`s.det/?student=${studentId}`);
 }
@@ -299,12 +311,20 @@ export async function createSatScore(data: NewSatScore) {
 	return await post('s.sat/new/', data);
 }
 
+export async function deleteSatScore(scoreId: number) {
+	return await destroy(`s.sat/${scoreId}/delete/`);
+}
+
 export async function fetchSatScores(studentId: number): Promise<SatScore[]> {
 	return await get(`s.sat/?student=${studentId}`);
 }
 
 export async function createActScore(data: NewActScore) {
 	return await post('s.act/new/', data);
+}
+
+export async function deleteActScore(scoreId: number) {
+	return await destroy(`s.act/${scoreId}/delete/`);
 }
 
 export async function fetchActScores(studentId: number): Promise<ActScore[]> {
@@ -355,6 +375,10 @@ export async function createGreScore(data: NewGreScore) {
 	return await post('s.gre/new/', data);
 }
 
+export async function deleteGreScore(scoreId: number) {
+	return await destroy(`s.gre/${scoreId}/delete/`);
+}
+
 export async function fetchGreScores(studentId: number): Promise<GreScore[]> {
 	return await get(`s.gre/?student=${studentId}`);
 }
@@ -363,12 +387,20 @@ export async function createGmatScore(data: NewGmatScore) {
 	return await post('s.gmat/new/', data);
 }
 
+export async function deleteGmatScore(scoreId: number) {
+	return await destroy(`s.gmat/${scoreId}/delete/`);
+}
+
 export async function fetchGmatScores(studentId: number): Promise<GmatScore[]> {
 	return await get(`s.gmat/?student=${studentId}`);
 }
 
 export async function createLsatScore(data: NewLsatScore) {
 	return await post('s.lsat/new/', data);
+}
+
+export async function deleteLsatScore(scoreId: number) {
+	return await destroy(`s.lsat/${scoreId}/delete/`);
 }
 
 export async function fetchLsatScores(studentId: number): Promise<LsatScore[]> {

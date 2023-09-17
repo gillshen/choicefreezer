@@ -19,6 +19,8 @@
 	export let action: string;
 	export let studentId: number;
 
+	const GRADES = ['A*', 'A', 'B', 'C', 'D', 'E', 'U', 'X'];
+
 	const { form, errors, message, enhance } = superForm(data, {
 		id: action,
 		scrollToError: 'auto',
@@ -67,7 +69,7 @@
 			optional
 			width="narrower"
 		>
-			<OptionList options={['A*', 'A', 'B', 'C', 'D']} insertNullRow />
+			<OptionList options={GRADES} insertNullRow />
 		</FormSelect>
 	</fieldset>
 
