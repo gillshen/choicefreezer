@@ -5,10 +5,11 @@
 	import type { ContractListItem } from '$lib/types/contractTypes.js';
 	import { deleteStudent } from '$lib/api.js';
 	import { toast } from '$lib/utils/interactiveUtils.js';
-	import { NO_ROWS_TO_SHOW, UNKNOWN_ERROR } from '$lib/constants/messages.js';
+	import { NONE_AT_THE_MOMENT, UNKNOWN_ERROR } from '$lib/constants/messages.js';
 
 	import Section from '$lib/components/Section.svelte';
 
+	import Paragraphs from '$lib/components/Paragraphs.svelte';
 	import ContractCard from '$lib/components/ContractCard.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
 	import BinaryDialog from '$lib/components/BinaryDialog.svelte';
@@ -196,7 +197,7 @@
 				<div class={`cf-entry flex flex-col overflow-hidden`}>
 					<div class="cf-entry-label">Comments</div>
 					<div class="flex-grow min-h-[8rem] overflow-auto pr-2 text-surface-200">
-						{student.comments}
+						<Paragraphs paragraphs={student.comments} />
 					</div>
 				</div>
 
@@ -269,102 +270,102 @@
 		<div class="w-full">
 			<div id="applications-grid" class="data-grid ag-theme-alpine-dark" />
 		</div>
-	{:else}
-		<p class="section-placeholder">{NO_ROWS_TO_SHOW}</p>
 	{/if}
 
-	{#if userIsOwner}
-		<div class="mt-4">
+	<div class="mt-4">
+		{#if userIsOwner}
 			<button class="btn cf-btn cf-secondary" on:click={() => applicationCreateDialog.showModal()}
 				>Add an application</button
 			>
-		</div>
-	{/if}
+		{:else if !data.applications.length}
+			<p class="section-placeholder">{NONE_AT_THE_MOMENT}</p>
+		{/if}
+	</div>
 </Section>
 
 <Section lighter long>
-	<div class="grid grid-cols-2 gap-12 items-start">
+	<div class="grid grid-cols-[1fr_2fr] gap-12 items-start">
 		<article class="panel transparent fit-height">
-			<h2 class="text-xl font-heading-token font-bold mb-8">Schools Attended</h2>
+			<h2 class="text-xl font-heading-token font-bold mb-4">Schools Attended</h2>
 
 			{#if data.enrollments.length}
 				<pre class="text-surface-400">{JSON.stringify(data.enrollments, null, 2)}</pre>
-			{:else}
-				<p class="section-placeholder">{NO_ROWS_TO_SHOW}</p>
 			{/if}
 
-			{#if userIsOwner}
-				<div class="mt-4">
+			<div class="mt-4">
+				{#if userIsOwner}
 					<button
 						class="btn cf-btn cf-secondary"
 						on:click={() => enrollmentCreateDialog.showModal()}>Add a school</button
 					>
-				</div>
-			{/if}
+				{:else if !data.enrollments.length}
+					<p class="section-placeholder">{NONE_AT_THE_MOMENT}</p>
+				{/if}
+			</div>
 		</article>
 
 		<article class="panel transparent fit-height">
-			<h2 class="text-xl font-heading-token font-bold mb-8">Test Scores</h2>
+			<h2 class="text-xl font-heading-token font-bold mb-4">Test Scores</h2>
 
-			<div class="flex flex-col gap-4">
-				{#if hasTestScores}
-					<div class="grid grid-cols-3 gap-4">
-						<!-- Order by level (graduate first) and specificity (more specialized test first) -->
-						{#each data.lsatScores as lsatScore}
-							<LsatScoreCard data={lsatScore} />
-						{/each}
-						{#each data.gmatScores as gmatScore}
-							<GmatScoreCard data={gmatScore} />
-						{/each}
-						{#each data.greScores as greScore}
-							<GreScoreCard data={greScore} />
-						{/each}
+			{#if hasTestScores}
+				<div class="grid grid-cols-3 gap-6">
+					<!-- Order by level (graduate first) and specificity (more specialized test first) -->
+					{#each data.lsatScores as lsatScore}
+						<LsatScoreCard data={lsatScore} />
+					{/each}
+					{#each data.gmatScores as gmatScore}
+						<GmatScoreCard data={gmatScore} />
+					{/each}
+					{#each data.greScores as greScore}
+						<GreScoreCard data={greScore} />
+					{/each}
 
-						{#each data.satScores as satScore}
-							<SatScoreCard data={satScore} />
-						{/each}
-						{#each data.actScores as actScore}
-							<ActScoreCard data={actScore} />
-						{/each}
+					{#each data.satScores as satScore}
+						<SatScoreCard data={satScore} />
+					{/each}
+					{#each data.actScores as actScore}
+						<ActScoreCard data={actScore} />
+					{/each}
 
-						{#each data.toeflScores as toeflScore}
-							<ToeflScoreCard data={toeflScore} />
-						{/each}
-						{#each data.ieltsScores as ieltsScore}
-							<IeltsScoreCard data={ieltsScore} />
-						{/each}
-						{#each data.detScores as detScore}
-							<DetScoreCard data={detScore} />
-						{/each}
+					{#each data.toeflScores as toeflScore}
+						<ToeflScoreCard data={toeflScore} />
+					{/each}
+					{#each data.ieltsScores as ieltsScore}
+						<IeltsScoreCard data={ieltsScore} />
+					{/each}
+					{#each data.detScores as detScore}
+						<DetScoreCard data={detScore} />
+					{/each}
 
-						{#if data.apScores.length}
-							<ApScoresCard data={data.apScores} />
-						{/if}
+					{#if data.apScores.length}
+						<ApScoresCard data={data.apScores} />
+					{/if}
 
-						{#if data.ibPredictedGrades.length}
-							<IbGradesCard data={data.ibPredictedGrades} gradesType="predicted" />
-						{/if}
-						{#if data.ibFinalGrades.length}
-							<IbGradesCard data={data.ibFinalGrades} gradesType="final" />
-						{/if}
+					{#if data.ibPredictedGrades.length}
+						<IbGradesCard data={data.ibPredictedGrades} gradesType="predicted" />
+					{/if}
+					{#if data.ibFinalGrades.length}
+						<IbGradesCard data={data.ibFinalGrades} gradesType="final" />
+					{/if}
 
-						{#if data.alevelPredictedGrades.length}
-							<AlevelGradesCard data={data.alevelPredictedGrades} gradesType="predicted" />
-						{/if}
-						{#if data.alevelFinalGrades.length}
-							<AlevelGradesCard data={data.alevelFinalGrades} gradesType="final" />
-						{/if}
-					</div>
-				{/if}
-			</div>
+					{#if data.alevelPredictedGrades.length}
+						<AlevelGradesCard data={data.alevelPredictedGrades} gradesType="predicted" />
+					{/if}
+					{#if data.alevelFinalGrades.length}
+						<AlevelGradesCard data={data.alevelFinalGrades} gradesType="final" />
+					{/if}
+				</div>
+			{/if}
 
-			{#if userIsOwner}
-				<div class="mt-4">
+			<div class="mt-4">
+				{#if userIsOwner}
 					<button class="btn cf-btn cf-secondary" on:click={() => testScoreCreateDialog.showModal()}
 						>Add a test score</button
 					>
-				</div>
-			{/if}
+				{:else if !hasTestScores}
+					<p class="section-placeholder">{NONE_AT_THE_MOMENT}</p>
+				{/if}
+			</div>
 		</article>
 	</div>
 </Section>

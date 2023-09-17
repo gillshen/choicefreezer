@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import { scoreDeleter } from '$lib/utils/scoreUtils';
 	import { toMonthYear } from '$lib/utils/dateUtils';
-	import { ProgressBar } from '@skeletonlabs/skeleton';
+	import { ProgressBar, popup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import EditIconButton from './EditIconButton.svelte';
 	import DeleteIconButton from './DeleteIconButton.svelte';
 	import Dialog from './Dialog.svelte';
@@ -18,6 +18,7 @@
 		deleteAlevelPredictedGrade,
 		deleteAlevelFinalGrade
 	} from '$lib/api';
+	import Paragraphs from './Paragraphs.svelte';
 
 	export let data: ApScore | IbGrade | AlevelGrade;
 	export let gradeType: 'predicted' | 'final' | undefined = undefined;
@@ -56,10 +57,17 @@
 
 	let updateDialog: HTMLDialogElement;
 	let deleteDialog: HTMLDialogElement;
+
+	const popupTarget = `${data.id}-${new Date().toISOString()}`;
+	const popupClick: PopupSettings = {
+		event: 'click',
+		target: popupTarget,
+		placement: 'top'
+	};
 </script>
 
 <div class="cf-subject-score-card">
-	<div class="text-surface-300 flex gap-4 items-baseline">
+	<div class="text-surface-50 flex gap-4 items-baseline">
 		<div class="whitespace-nowrap overflow-hidden text-ellipsis">{data.subject}</div>
 
 		{#if userIsOwner}
@@ -76,12 +84,13 @@
 		{/if}
 	</div>
 
-	<div class="grid grid-cols-[auto_1fr_68px] gap-x-4 items-center">
+	<div class="grid grid-cols-[auto_1fr_80px_16px] gap-x-2 items-center">
 		<div
-			class="text-lg font-bold w-8 h-8 flex justify-center items-center rounded-full border border-primary-400/40"
+			class="text-lg font-bold w-8 h-8 mr-2 flex justify-center items-center rounded-full border border-primary-400/40"
 		>
 			{grade ?? ''}
 		</div>
+
 		<ProgressBar
 			value={value ?? 0}
 			{max}
@@ -89,10 +98,20 @@
 			meter="bg-primary-400"
 			track="bg-surface-500/30"
 		/>
-		<div class="text-surface-300 text-sm">
+
+		<div class="text-surface-300 text-sm ml-2">
 			{data.date ? toMonthYear(data.date) : 'Undated'}
 		</div>
+
+		<button class="cf-btn score-comment pr-1" use:popup={popupClick} disabled={!data.comments}>
+			<i class="fa-regular fa-message" />
+		</button>
 	</div>
+</div>
+
+<div class="rounded-lg bg-surface-500 px-6 py-4" data-popup={popupTarget}>
+	<Paragraphs paragraphs={data.comments} />
+	<div class="arrow variant-filled-surface" />
 </div>
 
 <Dialog bind:dialog={updateDialog} exitHelper>

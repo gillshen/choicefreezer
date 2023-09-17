@@ -127,7 +127,7 @@ footer.page-footer > div {
 	@apply flex flex-col gap-4;
 	@apply bg-surface-700;
 	@apply rounded-lg;
-	@apply pt-2 pb-4 px-2 max-h-fit;
+	@apply pt-3 pb-6 px-4 max-h-fit;
 	@apply overflow-x-auto;
 }
 .cf-score-card.collection {
@@ -144,6 +144,7 @@ footer.page-footer > div {
 }
 .cf-score-card-body.collection {
 	@apply flex flex-col gap-4;
+	@apply ml-1 mr-0;
 }
 .cf-score-key {
 	@apply text-surface-300;
@@ -158,11 +159,24 @@ footer.page-footer > div {
 .cf-score-value.null {
 	@apply text-surface-400;
 }
-.cf-score-card-date {
+.cf-score-card-aux {
+	@apply flex justify-between items-center;
 	@apply mx-1 pb-2;
 	@apply text-sm text-surface-300;
 	@apply border-b border-surface-500;
+}
+.cf-score-card-date {
 	@apply whitespace-nowrap overflow-hidden text-ellipsis;
+}
+.score-comment {
+	@apply text-primary-400;
+}
+.score-comment:hover {
+	@apply text-primary-500;
+}
+.score-comment:disabled {
+	cursor: default !important;
+	@apply text-surface-500;
 }
 
 /* Form */

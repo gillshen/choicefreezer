@@ -21,7 +21,7 @@
 		deadlineValueGetter,
 		deadlineValueFormatter
 	} from '$lib/utils/applicationGridUtils.js';
-	import { NO_ROWS_TO_SHOW } from '$lib/constants/messages.js';
+	import { NONE_AT_THE_MOMENT } from '$lib/constants/messages.js';
 
 	export let data;
 
@@ -90,7 +90,7 @@
 			<div id="applications-grid" class="data-grid ag-theme-alpine-dark" />
 		</div>
 	{:else}
-		<p class="section-placeholder">{NO_ROWS_TO_SHOW}</p>
+		<p class="section-placeholder">{NONE_AT_THE_MOMENT}</p>
 	{/if}
 </Section>
 

@@ -35,7 +35,7 @@
 		deadlineValueFormatter
 	} from '$lib/utils/applicationGridUtils.js';
 
-	import { BANNER, NO_ROWS_TO_SHOW, UNKNOWN_ERROR } from '$lib/constants/messages.js';
+	import { BANNER, NONE_AT_THE_MOMENT, UNKNOWN_ERROR } from '$lib/constants/messages.js';
 
 	import { deleteUserLog, patchUserLog } from '$lib/api';
 	import { toast } from '$lib/utils/interactiveUtils';
@@ -386,7 +386,7 @@
 				<div id="applications-grid" class="data-grid ag-theme-alpine-dark" />
 			</div>
 		{:else}
-			<p class="section-placeholder">{NO_ROWS_TO_SHOW}</p>
+			<p class="section-placeholder">{NONE_AT_THE_MOMENT}</p>
 		{/if}
 	</div>
 </Section>

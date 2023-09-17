@@ -10,10 +10,11 @@
 		ToeflScore
 	} from '$lib/types/testScoreTypes';
 	import { toShortDate } from '$lib/utils/dateUtils';
-	import { ProgressRadial } from '@skeletonlabs/skeleton';
+	import { ProgressRadial, type PopupSettings, popup } from '@skeletonlabs/skeleton';
 	import EditIconButton from './EditIconButton.svelte';
 	import DeleteIconButton from './DeleteIconButton.svelte';
 	import BinaryDialog from './BinaryDialog.svelte';
+	import Paragraphs from './Paragraphs.svelte';
 
 	export let data:
 		| ToeflScore
@@ -33,6 +34,13 @@
 	export let meter = 'stroke-primary-400';
 
 	let deleteDialog: HTMLDialogElement;
+
+	const popupTarget = `${data.id}-${new Date().toISOString()}`;
+	const popupClick: PopupSettings = {
+		event: 'click',
+		target: popupTarget,
+		placement: 'top'
+	};
 </script>
 
 <div class="cf-score-card">
@@ -59,17 +67,28 @@
 		>
 	</div>
 
-	<div class="cf-score-card-date">
-		{#if data.date}
-			{toShortDate(data.date)}
-		{:else}
-			Undated
-		{/if}
+	<div class="cf-score-card-aux">
+		<time class="cf-score-card-date">
+			{#if data.date}
+				{toShortDate(data.date)}
+			{:else}
+				Undated
+			{/if}
+		</time>
+
+		<button class="cf-btn score-comment" use:popup={popupClick} disabled={!data.comments}>
+			<i class="fa-regular fa-message" />
+		</button>
 	</div>
 
 	<div class="cf-score-card-body">
 		<slot />
 	</div>
+</div>
+
+<div class="rounded-lg bg-surface-500 px-6 py-4" data-popup={popupTarget}>
+	<Paragraphs paragraphs={data.comments} />
+	<div class="arrow variant-filled-surface" />
 </div>
 
 <BinaryDialog
