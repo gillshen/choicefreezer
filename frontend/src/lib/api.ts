@@ -355,12 +355,28 @@ export async function createApScore(data: NewApScore) {
 	return await post('s.ap/new/', data);
 }
 
+export async function patchApScore(scoreId: number, data: any) {
+	return await patch(`s.ap/${scoreId}/update/`, data);
+}
+
+export async function deleteApScore(scoreId: number) {
+	return await destroy(`s.ap/${scoreId}/delete/`);
+}
+
 export async function fetchApScores(studentId: number): Promise<ApScore[]> {
 	return await get(`s.ap/?student=${studentId}`);
 }
 
 export async function createIbPredictedGrade(data: NewIbGrade) {
 	return await post('s.ib_predicted/new/', data);
+}
+
+export async function patchIbPredictedGrade(scoreId: number, data: any) {
+	return await patch(`s.ib_predicted/${scoreId}/update/`, data);
+}
+
+export async function deleteIbPredictedGrade(scoreId: number) {
+	return await destroy(`s.ib_predicted/${scoreId}/delete/`);
 }
 
 export async function fetchIbPredictedGrades(studentId: number): Promise<IbGrade[]> {
@@ -371,6 +387,14 @@ export async function createIbFinalGrade(data: NewIbGrade) {
 	return await post('s.ib_final/new/', data);
 }
 
+export async function patchIbFinalGrade(scoreId: number, data: any) {
+	return await patch(`s.ib_final/${scoreId}/update/`, data);
+}
+
+export async function deleteIbFinalGrade(scoreId: number) {
+	return await destroy(`s.ib_final/${scoreId}/delete/`);
+}
+
 export async function fetchIbFinalGrades(studentId: number): Promise<IbGrade[]> {
 	return await get(`s.ib_final/?student=${studentId}`);
 }
@@ -379,12 +403,28 @@ export async function createAlevelPredictedGrade(data: NewAlevelGrade) {
 	return await post('s.al_predicted/new/', data);
 }
 
+export async function patchAlevelPredictedGrade(scoreId: number, data: any) {
+	return await patch(`s.al_predicted/${scoreId}/update/`, data);
+}
+
+export async function deleteAlevelPredictedGrade(scoreId: number) {
+	return await destroy(`s.al_predicted/${scoreId}/delete/`);
+}
+
 export async function fetchAlevelPredictedGrades(studentId: number): Promise<AlevelGrade[]> {
 	return await get(`s.al_predicted/?student=${studentId}`);
 }
 
 export async function createAlevelFinalGrade(data: NewAlevelGrade) {
 	return await post('s.al_final/new/', data);
+}
+
+export async function patchAlevelFinalGrade(scoreId: number, data: any) {
+	return await patch(`s.al_final/${scoreId}/update/`, data);
+}
+
+export async function deleteAlevelFinalGrade(scoreId: number) {
+	return await destroy(`s.al_final/${scoreId}/delete/`);
 }
 
 export async function fetchAlevelFinalGrades(studentId: number): Promise<AlevelGrade[]> {

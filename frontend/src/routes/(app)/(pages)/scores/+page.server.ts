@@ -55,6 +55,11 @@ import {
 	createSatScore,
 	createToeflScore,
 	patchActScore,
+	patchApScore,
+	patchIbPredictedGrade,
+	patchIbFinalGrade,
+	patchAlevelPredictedGrade,
+	patchAlevelFinalGrade,
 	patchDetScore,
 	patchGmatScore,
 	patchGreScore,
@@ -173,12 +178,19 @@ export const actions = {
 	updateActScore: scorePatcher(actScoreSchema, patchActScore),
 
 	createApScore: scoreCreater(apScoreSchema, createApScore),
+	updateApScore: scorePatcher(apScoreSchema, patchApScore),
 
 	createIbPredictedGrade: scoreCreater(ibGradeSchema, createIbPredictedGrade),
+	updateIbPredictedGrade: scorePatcher(ibGradeSchema, patchIbPredictedGrade),
+
 	createIbFinalGrade: scoreCreater(ibGradeSchema, createIbFinalGrade),
+	updateIbFinalGrade: scorePatcher(ibGradeSchema, patchIbFinalGrade),
 
 	createAlevelPredictedGrade: scoreCreater(alevelGradeSchema, createAlevelPredictedGrade),
+	updateAlevelPredictedGrade: scorePatcher(alevelGradeSchema, patchAlevelPredictedGrade),
+
 	createAlevelFinalGrade: scoreCreater(alevelGradeSchema, createAlevelFinalGrade),
+	updateAlevelFinalGrade: scorePatcher(alevelGradeSchema, patchAlevelFinalGrade),
 
 	createGreScore: scoreCreater(greScoreSchema, createGreScore),
 	updateGreScore: scorePatcher(greScoreSchema, patchGreScore),

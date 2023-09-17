@@ -9,8 +9,8 @@
 	<header class="cf-score-card-header">AP</header>
 
 	<div class="cf-score-card-body collection">
-		{#each data as { subject, score, date }}
-			<SubjectScoreCard {subject} value={score} max={5} {date} />
+		{#each data as apScore}
+			<SubjectScoreCard data={apScore} />
 		{/each}
 	</div>
 </div>

@@ -10,8 +10,8 @@
 	<header class="cf-score-card-header">IB {gradesType}</header>
 
 	<div class="cf-score-card-body collection">
-		{#each data as { subject, grade, date }}
-			<SubjectScoreCard {subject} value={grade} max={7} {date} />
+		{#each data as ibGrade}
+			<SubjectScoreCard data={ibGrade} gradeType={gradesType} />
 		{/each}
 	</div>
 </div>

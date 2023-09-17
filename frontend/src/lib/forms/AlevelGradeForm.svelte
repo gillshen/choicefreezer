@@ -3,6 +3,7 @@
 
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import type { AlevelGradeSchema } from '$lib/schemas';
+	import type { AlevelGrade } from '$lib/types/testScoreTypes';
 
 	import { closeDialogOnSuccess } from '$lib/utils/formUtils';
 	import HiddenIdField from '$lib/components/HiddenIdField.svelte';
@@ -18,21 +19,28 @@
 	export let data: SuperValidated<AlevelGradeSchema>;
 	export let action: string;
 	export let studentId: number;
+	export let grade: AlevelGrade | undefined = undefined;
 
 	const GRADES = ['A*', 'A', 'B', 'C', 'D', 'E', 'U', 'X'];
 
 	const { form, errors, message, enhance } = superForm(data, {
-		id: action,
+		id: `${action}-${grade?.id}`,
 		scrollToError: 'auto',
 		taintedMessage: null,
 		onResult: ({ result }) => closeDialogOnSuccess(result, dialog!)
 	});
+
+	if (grade) {
+		$form = { ...$form, ...grade };
+		studentId = grade.student;
+	}
 </script>
 
 <form method="post" {action} novalidate use:enhance>
 	<fieldset>
 		<legend class="empty" />
 
+		<HiddenIdField id="grade-id" name="id" value={$form.id} />
 		<HiddenIdField id="student-id" name="student" value={studentId} />
 
 		<FormDateInput

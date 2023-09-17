@@ -128,6 +128,7 @@ footer.page-footer > div {
 	@apply bg-surface-700;
 	@apply rounded-lg;
 	@apply pt-2 pb-4 px-2 max-h-fit;
+	@apply overflow-x-auto;
 }
 .cf-score-card.collection {
 	@apply col-span-2;
@@ -146,6 +147,7 @@ footer.page-footer > div {
 }
 .cf-score-key {
 	@apply text-surface-300;
+	@apply whitespace-nowrap overflow-hidden text-ellipsis;
 }
 .cf-score-value {
 	@apply text-right;
@@ -160,6 +162,7 @@ footer.page-footer > div {
 	@apply mx-1 pb-2;
 	@apply text-sm text-surface-300;
 	@apply border-b border-surface-500;
+	@apply whitespace-nowrap overflow-hidden text-ellipsis;
 }
 
 /* Form */
