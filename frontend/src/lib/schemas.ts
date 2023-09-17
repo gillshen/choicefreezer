@@ -169,3 +169,16 @@ export type GmatScoreSchema = typeof gmatScoreSchema;
 export const lsatScoreSchema = z.object({ ...lsatScoreValidators });
 
 export type LsatScoreSchema = typeof lsatScoreSchema;
+
+export type ScoreSchema =
+	| ToeflScoreSchema
+	| IeltsScoreSchema
+	| DetScoreSchema
+	| SatScoreSchema
+	| ActScoreSchema
+	| ApScoreSchema
+	| IbGradeSchema
+	| AlevelGradeSchema
+	| GreScoreSchema
+	| GmatScoreSchema
+	| LsatScoreSchema;
