@@ -309,34 +309,30 @@
 			<div class="flex flex-col gap-4">
 				{#if hasTestScores}
 					<div class="grid grid-cols-3 gap-4">
-						{#each data.satScores as satScore}
-							<SatScoreCard data={satScore} />
+						<!-- Order by level (graduate first) and specificity (more specialized test first) -->
+						{#each data.lsatScores as lsatScore}
+							<LsatScoreCard data={lsatScore} />
 						{/each}
-
-						{#each data.actScores as actScore}
-							<ActScoreCard data={actScore} />
+						{#each data.gmatScores as gmatScore}
+							<GmatScoreCard data={gmatScore} />
 						{/each}
-
 						{#each data.greScores as greScore}
 							<GreScoreCard data={greScore} />
 						{/each}
 
-						{#each data.gmatScores as gmatScore}
-							<GmatScoreCard data={gmatScore} />
+						{#each data.satScores as satScore}
+							<SatScoreCard data={satScore} />
 						{/each}
-
-						{#each data.lsatScores as lsatScore}
-							<LsatScoreCard data={lsatScore} />
+						{#each data.actScores as actScore}
+							<ActScoreCard data={actScore} />
 						{/each}
 
 						{#each data.toeflScores as toeflScore}
 							<ToeflScoreCard data={toeflScore} />
 						{/each}
-
 						{#each data.ieltsScores as ieltsScore}
 							<IeltsScoreCard data={ieltsScore} />
 						{/each}
-
 						{#each data.detScores as detScore}
 							<DetScoreCard data={detScore} />
 						{/each}
@@ -348,7 +344,6 @@
 						{#if data.ibPredictedGrades.length}
 							<IbGradesCard data={data.ibPredictedGrades} gradesType="predicted" />
 						{/if}
-
 						{#if data.ibFinalGrades.length}
 							<IbGradesCard data={data.ibFinalGrades} gradesType="final" />
 						{/if}
@@ -356,7 +351,6 @@
 						{#if data.alevelPredictedGrades.length}
 							<AlevelGradesCard data={data.alevelPredictedGrades} gradesType="predicted" />
 						{/if}
-
 						{#if data.alevelFinalGrades.length}
 							<AlevelGradesCard data={data.alevelFinalGrades} gradesType="final" />
 						{/if}

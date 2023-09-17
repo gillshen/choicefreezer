@@ -10,7 +10,10 @@
 
 	export let data: ActScore;
 
-	const value = data.result ? ((data.result - 18) * 100) / 18 : 0;
+	// Apply a non-linear transformation so that 28/36 (net 27/35) corresponds to a half circle
+	const exp = 2.4;
+	const base = Math.ceil(Math.pow(35, exp));
+	const value = data.result ? Math.ceil((Math.pow(data.result - 1, exp) * 100) / base) : 0;
 	const handleDelete = scoreDeleter(deleteActScore, data.id);
 
 	let updateDialog: HTMLDialogElement;

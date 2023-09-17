@@ -10,7 +10,10 @@
 
 	export let data: ToeflScore;
 
-	const value = data.result ? ((data.result - 60) * 100) / 60 : 0;
+	// Apply a non-linear transformation so that 90/120 corresponds to a half circle
+	const exp = 2.4;
+	const base = Math.ceil(Math.pow(120, exp));
+	const value = data.result ? Math.ceil((Math.pow(data.result, exp) * 100) / base) : 0;
 	const handleDelete = scoreDeleter(deleteToeflScore, data.id);
 
 	let updateDialog: HTMLDialogElement;

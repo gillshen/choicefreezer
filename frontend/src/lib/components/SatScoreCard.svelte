@@ -10,7 +10,10 @@
 
 	export let data: SatScore;
 
-	const value = data.result ? ((data.result - 400) * 100) / 1200 : 0;
+	// Apply a non-linear transformation so that 1300/1600 (net 900/1200) corresponds to a half circle
+	const exp = 2.4;
+	const base = Math.ceil(Math.pow(1200, exp));
+	const value = data.result ? Math.ceil((Math.pow(data.result - 400, exp) * 100) / base) : 0;
 	const handleDelete = scoreDeleter(deleteSatScore, data.id);
 
 	let updateDialog: HTMLDialogElement;

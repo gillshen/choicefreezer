@@ -10,7 +10,10 @@
 
 	export let data: IeltsScore;
 
-	const value = data.result ? (data.result * 100) / 9 : 0;
+	// Apply a non-linear transformation so that 6/9 corresponds to a half circle
+	const exp = 1.7;
+	const base = Math.ceil(Math.pow(9, exp));
+	const value = data.result ? Math.ceil((Math.pow(data.result, exp) * 100) / base) : 0;
 	const handleDelete = scoreDeleter(deleteIeltsScore, data.id);
 
 	let updateDialog: HTMLDialogElement;

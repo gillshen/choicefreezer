@@ -54,7 +54,9 @@
 	</header>
 
 	<div class="mx-auto">
-		<ProgressRadial {value} {font} {meter}>{data.result ?? 'n/a'}</ProgressRadial>
+		<ProgressRadial value={value > 0 ? value : 0} {font} {meter}
+			>{data.result ?? 'n/a'}</ProgressRadial
+		>
 	</div>
 
 	<div class="cf-score-card-date">

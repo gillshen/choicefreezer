@@ -10,7 +10,10 @@
 
 	export let data: DetScore;
 
-	const value = data.result ? ((data.result - 70) * 100) / 90 : 0;
+	// Apply a non-linear transformation so that 120/160 (net 110/150) corresponds to a half circle
+	const exp = 2.2;
+	const base = Math.ceil(Math.pow(150, exp));
+	const value = data.result ? Math.ceil((Math.pow(data.result - 10, exp) * 100) / base) : 0;
 	const handleDelete = scoreDeleter(deleteDetScore, data.id);
 
 	let updateDialog: HTMLDialogElement;
