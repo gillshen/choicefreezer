@@ -50,7 +50,11 @@ class IELTS_Serializer(serializers.ModelSerializer):
         model = IELTS
         fields = "__all__"
 
-    result = serializers.IntegerField(read_only=True)
+    listening = serializers.FloatField()
+    reading = serializers.FloatField()
+    writing = serializers.FloatField()
+    speaking = serializers.FloatField()
+    result = serializers.FloatField(read_only=True)
 
 
 class DET_Serializer(serializers.ModelSerializer):

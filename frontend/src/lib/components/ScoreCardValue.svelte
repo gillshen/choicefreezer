@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let value: number | string | null;
+	export let value: number | string | null | undefined;
 </script>
 
 {#if typeof value === 'number'}

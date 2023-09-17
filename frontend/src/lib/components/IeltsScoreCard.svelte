@@ -13,34 +13,14 @@
 
 <ScoreCard {data} title="IELTS" {value} {handleDelete}>
 	<div class="cf-score-key">Listening</div>
-	<ScoreCardValue value={data.listening} />
+	<ScoreCardValue value={data.listening?.toFixed(1)} />
 
 	<div class="cf-score-key">Reading</div>
-	<ScoreCardValue value={data.reading} />
+	<ScoreCardValue value={data.reading?.toFixed(1)} />
 
 	<div class="cf-score-key">Writing</div>
-	<ScoreCardValue value={data.writing} />
+	<ScoreCardValue value={data.writing?.toFixed(1)} />
 
 	<div class="cf-score-key">Speaking</div>
-	<ScoreCardValue value={data.speaking} />
+	<ScoreCardValue value={data.speaking?.toFixed(1)} />
 </ScoreCard>
-
-<!-- <div class="cf-score-card">
-	<header class="cf-score-card-header">IELTS</header>
-
-	<div class="mx-auto">
-		<ProgressRadial {value} {font} {meter}>{data.result ?? 'n/a'}</ProgressRadial>
-	</div>
-
-	<div class="cf-score-card-date">
-		{#if data.date}
-			{toShortDate(data.date)}
-		{:else}
-			Undated
-		{/if}
-	</div>
-
-	<div class="cf-score-card-body">
-		
-	</div>
-</div> -->

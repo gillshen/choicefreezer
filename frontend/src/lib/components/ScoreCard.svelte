@@ -41,8 +41,14 @@
 
 		{#if userIsOwner}
 			<div class="cf-score-card-actions">
-				<EditIconButton onClick={onTryUpdate} />
-				<DeleteIconButton onClick={() => deleteDialog.showModal()} />
+				<EditIconButton
+					classNames="text-primary-400 hover:text-primary-500"
+					onClick={onTryUpdate}
+				/>
+				<DeleteIconButton
+					classNames="text-error-400 hover:text-error-500"
+					onClick={() => deleteDialog.showModal()}
+				/>
 			</div>
 		{/if}
 	</header>
@@ -79,13 +85,11 @@
 		@apply h-[30px];
 	}
 	.cf-score-card-actions {
-		opacity: 0;
-		height: 0;
-		transition: all 0.2s ease-in-out;
 		@apply flex items-center;
+		@apply opacity-0;
+		@apply transition-opacity duration-200 ease-in-out;
 	}
 	.cf-score-card:hover .cf-score-card-actions {
-		opacity: 1;
-		height: 100%;
+		@apply opacity-100;
 	}
 </style>
