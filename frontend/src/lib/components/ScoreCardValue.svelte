@@ -5,7 +5,7 @@
 {#if typeof value === 'number'}
 	<div class="cf-score-value numeric">{value}</div>
 {:else if typeof value === 'string'}
-	<div class="cf-score-value string">{value}</div>
+	<div class="cf-score-value numeric string">{value}</div>
 {:else}
 	<div class="cf-score-value null">n/a</div>
 {/if}
