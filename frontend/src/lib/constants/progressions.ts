@@ -1,23 +1,16 @@
 export const HIGH_SCHOOL_PROGRESSIONS = [
-	'High School G9 - Fall',
-	'High School G9 - Spring',
-	'High School G10 - Fall',
-	'High School G10 - Spring',
-	'High School G11 - Fall',
-	'High School G11 - Spring',
-	'High School G12 - Fall',
-	'High School G12 - Spring'
+	'High School G9',
+	'High School G10',
+	'High School G11',
+	'High School G12'
 ] as const;
 
-export const COLLEGE_PROGRESSIONS = [
-	'College Year 1 - Fall',
-	'College Year 1 - Spring',
-	'College Year 2 - Fall',
-	'College Year 2 - Spring',
-	'College Year 3 - Fall',
-	'College Year 3 - Spring',
-	'College Year 4 - Fall',
-	'College Year 4 - Spring'
-] as const;
+export const UG_PROGRESSIONS = ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Year 5'] as const;
 
-export const ALL_PROGRESSIONS = [...HIGH_SCHOOL_PROGRESSIONS, ...COLLEGE_PROGRESSIONS] as const;
+export const MASTER_PROGRESSIONS = ['Master Year 1', 'Master Year 2'];
+
+export const ALL_PROGRESSIONS = [
+	...HIGH_SCHOOL_PROGRESSIONS,
+	...UG_PROGRESSIONS,
+	...MASTER_PROGRESSIONS
+] as const;

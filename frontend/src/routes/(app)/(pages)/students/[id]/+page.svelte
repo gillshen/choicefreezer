@@ -39,8 +39,12 @@
 		sortByUsername
 	} from '$lib/utils/userUtils.js';
 
-	import { byStatusThenTargetYearDesc, byTargetYearDesc } from '$lib/utils/sortUtils.js';
-	import { toLongDate } from '$lib/utils/dateUtils';
+	import {
+		byEndDateStartDateDesc,
+		byStatusThenTargetYearDesc,
+		byTargetYearDesc
+	} from '$lib/utils/sortUtils.js';
+	import { toLongDate, toMonthYear } from '$lib/utils/dateUtils';
 
 	import type { DomLayoutType } from 'ag-grid-community';
 	import { defaultColDef, columnTypes, mountGrid } from '$lib/utils/gridUtils.js';
@@ -59,6 +63,8 @@
 	import AlevelGradeForm from '$lib/forms/AlevelGradeForm.svelte';
 	import { RECOGNIZED_TESTS } from '$lib/constants/recognizedTests.js';
 	import OptionList from '$lib/components/OptionList.svelte';
+
+	import EnrollmentCard from '$lib/components/EnrollmentCard.svelte';
 
 	import ToeflScoreCard from '$lib/components/ToeflScoreCard.svelte';
 	import IeltsScoreCard from '$lib/components/IeltsScoreCard.svelte';
@@ -253,10 +259,9 @@
 				{/each}
 			</div>
 
-			<div class="flex-grow flex justify-center items-start">
-				<button
-					class="btn cf-btn w-full cf-secondary"
-					on:click={() => contractCreateDialog.showModal()}>Add a contract</button
+			<div class="flex-grow flex items-start">
+				<button class="btn cf-btn cf-secondary" on:click={() => contractCreateDialog.showModal()}
+					>Add a contract</button
 				>
 			</div>
 		</div>
@@ -272,7 +277,7 @@
 		</div>
 	{/if}
 
-	<div class="mt-4">
+	<div class="mt-6">
 		{#if userIsOwner}
 			<button class="btn cf-btn cf-secondary" on:click={() => applicationCreateDialog.showModal()}
 				>Add an application</button
@@ -284,19 +289,25 @@
 </Section>
 
 <Section lighter long>
-	<div class="grid grid-cols-[1fr_2fr] gap-12 items-start">
-		<article class="panel transparent fit-height">
-			<h2 class="text-xl font-heading-token font-bold mb-4">Schools Attended</h2>
+	<div class="grid grid-cols-3 gap-12 items-start">
+		<article class="panel transparent fit-height gap-6">
+			<h2 class="text-xl font-heading-token font-bold">School Attendance</h2>
 
 			{#if data.enrollments.length}
-				<pre class="text-surface-400">{JSON.stringify(data.enrollments, null, 2)}</pre>
+				<div class="flex flex-col gap-6">
+					{#each data.enrollments.sort(byEndDateStartDateDesc) as enrollment}
+						<div class="panel fit-height enrollment-card">
+							<EnrollmentCard {enrollment} />
+						</div>
+					{/each}
+				</div>
 			{/if}
 
-			<div class="mt-4">
+			<div>
 				{#if userIsOwner}
 					<button
 						class="btn cf-btn cf-secondary"
-						on:click={() => enrollmentCreateDialog.showModal()}>Add a school</button
+						on:click={() => enrollmentCreateDialog.showModal()}>Add a record</button
 					>
 				{:else if !data.enrollments.length}
 					<p class="section-placeholder">{NONE_AT_THE_MOMENT}</p>
@@ -304,8 +315,8 @@
 			</div>
 		</article>
 
-		<article class="panel transparent fit-height">
-			<h2 class="text-xl font-heading-token font-bold mb-4">Test Scores</h2>
+		<article class="col-span-2 panel transparent fit-height gap-6">
+			<h2 class="text-xl font-heading-token font-bold">Test Scores</h2>
 
 			{#if hasTestScores}
 				<div class="grid grid-cols-3 gap-6">
@@ -357,7 +368,7 @@
 				</div>
 			{/if}
 
-			<div class="mt-4">
+			<div>
 				{#if userIsOwner}
 					<button class="btn cf-btn cf-secondary" on:click={() => testScoreCreateDialog.showModal()}
 						>Add a test score</button
@@ -538,5 +549,9 @@
 	.panel.contract-card {
 		@apply h-fit min-h-fit;
 		@apply rounded-l-none border-l-transparent;
+	}
+	.panel.enrollment-card {
+		@apply h-fit min-h-fit;
+		@apply rounded-t-none border-t-transparent;
 	}
 </style>

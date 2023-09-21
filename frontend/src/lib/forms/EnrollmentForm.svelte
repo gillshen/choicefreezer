@@ -9,8 +9,9 @@
 	import { PROGRAM_TYPES } from '$lib/constants/programTypes';
 	import {
 		ALL_PROGRESSIONS,
-		COLLEGE_PROGRESSIONS,
-		HIGH_SCHOOL_PROGRESSIONS
+		UG_PROGRESSIONS,
+		HIGH_SCHOOL_PROGRESSIONS,
+		MASTER_PROGRESSIONS
 	} from '$lib/constants/progressions';
 	import { CURRICULA } from '$lib/constants/curricula';
 
@@ -46,15 +47,27 @@
 	let showMajorsInput = false;
 
 	function onProgramTypeChange() {
-		if (isUndergraduate($form.program_type as ProgramType)) {
-			progressions = Array.from(COLLEGE_PROGRESSIONS);
-			showCurriculumSelect = false;
-			showMajorsInput = true;
-		} else {
-			progressions = Array.from(HIGH_SCHOOL_PROGRESSIONS);
+		if ($form.program_type === 'Pre-College') {
 			showCurriculumSelect = true;
 			showMajorsInput = false;
+			progressions = Array.from(HIGH_SCHOOL_PROGRESSIONS);
+		} else {
+			showMajorsInput = true;
+			showCurriculumSelect = false;
+
+			if (isUndergraduate($form.program_type as ProgramType)) {
+				progressions = Array.from(UG_PROGRESSIONS);
+			} else if ($form.program_type === 'Master') {
+				progressions = Array.from(MASTER_PROGRESSIONS);
+			} else {
+				progressions = Array.from(ALL_PROGRESSIONS);
+			}
 		}
+	}
+
+	$: {
+		if (!showCurriculumSelect) $form.curriculum = '';
+		if (!showMajorsInput) $form.majors = '';
 	}
 </script>
 
@@ -124,6 +137,19 @@
 			errors={$errors}
 			optional
 		/>
+
+		<FormSelect
+			id="ending-progression-select"
+			name="ending_progression"
+			label="Ending progression"
+			form={$form}
+			errors={$errors}
+			optional
+		>
+			{#each progressions as progression}
+				<option value={progression}>{progression}</option>
+			{/each}
+		</FormSelect>
 	</fieldset>
 
 	<fieldset>

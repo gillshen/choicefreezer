@@ -212,6 +212,7 @@ export const enrollmentValidators = {
 	program_type: z.string().min(1, selectionRequired),
 	starting_progression: z.string().min(1, selectionRequired),
 	start_date: z.string().min(1, fieldRequired),
+	ending_progression: z.string().optional().default(''),
 	end_date: z.string().nullable(),
 	curriculum: z.string().trim().optional().default(''),
 	majors: z.string().trim().optional().default('')

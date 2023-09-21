@@ -1,4 +1,5 @@
-import type { ProgramType } from './programTypes';
+import type { ProgramType } from '$lib/types/programTypes';
+import type { Term } from '$lib/types/targetTypes';
 import type { ALL_PROGRESSIONS } from '$lib/constants/progressions';
 import type { CURRICULA } from '$lib/constants/curricula';
 
@@ -16,8 +17,49 @@ export type Enrollment = {
 	start_date: string; // date
 	end_date: string | null; // date
 
-	curriculum: Curriculum;
+	curriculum: Curriculum | '';
 	majors: string;
 };
 
 export type NewEnrollment = Omit<Enrollment, 'id'>;
+
+export type Grade = {
+	id: number;
+	enrollment: number;
+	progression: Progression;
+	term: Term;
+	value: number;
+	scale: number;
+	is_cumulative: boolean;
+};
+
+export type ClassRank = {
+	id: number;
+	enrollment: number;
+	progression: Progression;
+	term: Term;
+	class_size: number | null;
+	rank: number | null;
+	top_x: number | null;
+};
+
+export type EnrollmentListItem = {
+	id: number;
+	student: number;
+	school: {
+		id: number;
+		name: string;
+	};
+
+	program_type: ProgramType;
+	start_date: string; // date
+	starting_progression: Progression;
+	end_date: string | null; // date
+	ending_progression: Progression | '';
+
+	curriculum: Curriculum | '';
+	majors: string;
+
+	grades: Grade[];
+	class_ranks: ClassRank[];
+};

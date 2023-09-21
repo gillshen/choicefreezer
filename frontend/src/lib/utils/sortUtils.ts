@@ -54,3 +54,35 @@ export function byServiceRoleThenUsername(
 	}
 	return SERVICE_ROLE_ORDER[a.role] - SERVICE_ROLE_ORDER[b.role];
 }
+
+function compareDateStringDesc(a: string | null, b: string | null) {
+	if (a === null && b === null) {
+		return 0;
+	}
+	if (a === null) {
+		return 1;
+	}
+	if (b === null) {
+		return -1;
+	}
+	return b.localeCompare(a);
+}
+
+export function byEndDateStartDateDesc(
+	a: { start_date: string | null; end_date: string | null },
+	b: { start_date: string | null; end_date: string | null }
+) {
+	return (
+		compareDateStringDesc(a.end_date, b.end_date) ||
+		compareDateStringDesc(a.start_date, b.start_date)
+	);
+}
+
+export function cumulativeFirst(a: { is_cumulative: boolean }, b: { is_cumulative: boolean }) {
+	if (a.is_cumulative) {
+		return -1;
+	} else if (b.is_cumulative) {
+		return 1;
+	}
+	return 0;
+}

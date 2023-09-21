@@ -13,7 +13,7 @@ import type {
 import type { NewMajorChoice } from '$lib/types/majorChoiceTypes';
 import type { NewApplicationLog } from '$lib/types/applicationLogTypes';
 import type { NewUserLog, UserLogListItem } from '$lib/types/userLogTypes';
-import type { NewEnrollment } from '$lib/types/enrollmentTypes';
+import type { EnrollmentListItem, NewEnrollment } from '$lib/types/enrollmentTypes';
 import type {
 	ActScore,
 	AlevelGrade,
@@ -267,7 +267,7 @@ export async function createEnrollment(data: NewEnrollment) {
 	return await post('s.enrollments/new/', data);
 }
 
-export async function fetchEnrollments(studentId: number) {
+export async function fetchEnrollments(studentId: number): Promise<EnrollmentListItem[]> {
 	return await get(`s.enrollments/?student=${studentId}`);
 }
 

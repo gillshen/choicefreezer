@@ -217,7 +217,7 @@
 >
 	<p>
 		Do this only if {activeService?.cf_username ?? 'this member'} was never on the team in the first
-		place. If s/he was but has left, click the Edit icon on the card and set a service end date.
+		place. If s/he was on the team but has left, click the Edit icon on the card and set an end date.
 	</p>
 </BinaryDialog>
 
