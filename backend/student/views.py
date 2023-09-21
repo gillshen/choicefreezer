@@ -25,6 +25,7 @@ from student.models import (
 
 from student.serializers import (
     EnrollmentSerializer,
+    EnrollementListItemSerializer,
     GPA_Serializer,
     ClassRankSerializer,
     TOEFL_Serializer,
@@ -66,7 +67,7 @@ class EnrollmentUpdateDeleteView(RetrieveUpdateDestroyAPIView):
 
 class EnrollmentListView(StudentQueryMixin, ListAPIView):
     _model = Enrollment
-    serializer_class = EnrollmentSerializer
+    serializer_class = EnrollementListItemSerializer
 
 
 class GPA_CreateView(CreateAPIView):

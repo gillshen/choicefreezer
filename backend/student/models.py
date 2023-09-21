@@ -48,10 +48,16 @@ class Enrollment(models.Model):
     )
 
     program_type = models.CharField(max_length=100, choices=Program.Type.choices)
-    starting_progression = models.CharField(max_length=50, choices=Progression.choices)
 
     start_date = models.DateField()
+    starting_progression = models.CharField(max_length=50, choices=Progression.choices)
+
     end_date = models.DateField(blank=True, null=True)
+    ending_progression = models.CharField(
+        max_length=50,
+        blank=True,
+        choices=Progression.choices,
+    )
 
     # For high school students
     curriculum = models.CharField(max_length=50, blank=True, choices=Curriculum.choices)

@@ -17,6 +17,7 @@ from student.models import (
     GMAT,
     LSAT,
 )
+from target.models import School
 
 
 class EnrollmentSerializer(serializers.ModelSerializer):
@@ -133,3 +134,18 @@ class LSAT_Serializer(serializers.ModelSerializer):
         fields = "__all__"
 
     result = serializers.IntegerField(read_only=True)
+
+
+class EnrollementListItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Enrollment
+        fields = "__all__"
+
+    class _SchoolSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = School
+            fields = ["id", "name"]
+
+    school = _SchoolSerializer()
+    grades = GPA_Serializer(read_only=True, many=True)
+    class_ranks = ClassRankSerializer(read_only=True, many=True)

@@ -7,29 +7,17 @@ from target.models import Target, SubTarget
 
 
 class Progression(models.TextChoices):
-    GRADE_9_FALL = "High School G9 - Fall", _("High School G9 - Fall")
-    GRADE_9_SPRING = "High School G9 - Spring", _("High School G9 - Spring")
-
-    GRADE_10_FALL = "High School G10 - Fall", _("High School G10 - Fall")
-    GRADE_10_SPRING = "High School G10 - Spring", _("High School G10 - Spring")
-
-    GRADE_11_FALL = "High School G11 - Fall", _("High School G11 - Fall")
-    GRADE_11_SPRING = "High School G11 - Spring", _("High School G11 - Spring")
-
-    GRADE_12_FALL = "High School G12 - Fall", _("High School G12 - Fall")
-    GRADE_12_SPRING = "High School G12 - Spring", _("High School G12 - Spring")
-
-    YEAR_1_FALL = "College Year 1 - Fall", _("College Year 1 - Fall")
-    YEAR_1_SPRING = "College Year 1 - Spring", _("College Year 1 - Spring")
-
-    YEAR_2_FALL = "College Year 2 - Fall", _("College Year 2 - Fall")
-    YEAR_2_SPRING = "College Year 2 - Spring", _("College Year 2 - Spring")
-
-    YEAR_3_FALL = "College Year 3 - Fall", _("College Year 3 - Fall")
-    YEAR_3_SPRING = "College Year 3 - Spring", _("College Year 3 - Spring")
-
-    YEAR_4_FALL = "College Year 4 - Fall", _("College Year 4 - Fall")
-    YEAR_4_SPRING = "College Year 4 - Spring", _("College Year 4 - Spring")
+    GRADE_9 = "High School G9", _("High School G9")
+    GRADE_10 = "High School G10", _("High School G10")
+    GRADE_11 = "High School G11", _("High School G11")
+    GRADE_12 = "High School G12", _("High School G12")
+    UG_YEAR_1 = "Freshman", _("Freshman")
+    UG_YEAR_2 = "Sophomore", _("Sophomore")
+    UG_YEAR_3 = "Junior", _("Junior")
+    UG_YEAR_4 = "Senior", _("Senior")
+    UG_YEAR_5 = "Year 5", _("Year 5")
+    MASTER_YEAR_1 = "Master Year 1", _("Master Year 1")
+    MASTER_YEAR_2 = "Master Year 2", _("Master Year 2")
 
 
 class CfProduct(models.Model):
