@@ -13,7 +13,11 @@ import type {
 import type { NewMajorChoice } from '$lib/types/majorChoiceTypes';
 import type { NewApplicationLog } from '$lib/types/applicationLogTypes';
 import type { NewUserLog, UserLogListItem } from '$lib/types/userLogTypes';
-import type { EnrollmentListItem, NewEnrollment } from '$lib/types/enrollmentTypes';
+import type {
+	EnrollmentListItem,
+	EnrollmentPageData,
+	NewEnrollment
+} from '$lib/types/enrollmentTypes';
 import type {
 	ActScore,
 	AlevelGrade,
@@ -265,6 +269,18 @@ export async function deleteApplicationLog(logId: number) {
 
 export async function createEnrollment(data: NewEnrollment) {
 	return await post('s.enrollments/new/', data);
+}
+
+export async function fetchEnrollment(enrollmentId: number): Promise<EnrollmentPageData> {
+	return await get(`s.enrollments/${enrollmentId}/`);
+}
+
+export async function patchEnrollment(enrollmentId: number, data: any) {
+	return await patch(`s.enrollments/${enrollmentId}/update/`, data);
+}
+
+export async function deleteEnrollment(enrollmentId: number) {
+	return await destroy(`s.enrollments/${enrollmentId}/delete/`);
 }
 
 export async function fetchEnrollments(studentId: number): Promise<EnrollmentListItem[]> {

@@ -8,7 +8,6 @@
 	import { TERMS } from '$lib/constants/terms';
 	import { toMonthYear } from '$lib/utils/dateUtils';
 	import { abbreviateProgression } from '$lib/utils/enrollmentUtils';
-	import { ProgressRadial } from '@skeletonlabs/skeleton';
 	import { cumulativeFirst } from '$lib/utils/sortUtils';
 
 	export let enrollment: EnrollmentListItem;
@@ -36,9 +35,6 @@
 			progressions = [];
 			targetClass = 'other';
 	}
-
-	console.table(enrollment.grades);
-	console.log(progressions);
 </script>
 
 <a

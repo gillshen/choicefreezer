@@ -1,6 +1,7 @@
 from rest_framework.generics import (
     CreateAPIView,
     ListAPIView,
+    RetrieveAPIView,
     RetrieveUpdateDestroyAPIView,
 )
 
@@ -26,6 +27,7 @@ from student.models import (
 from student.serializers import (
     EnrollmentSerializer,
     EnrollementListItemSerializer,
+    EnrollmentPageDataSerializer,
     GPA_Serializer,
     ClassRankSerializer,
     TOEFL_Serializer,
@@ -68,6 +70,11 @@ class EnrollmentUpdateDeleteView(RetrieveUpdateDestroyAPIView):
 class EnrollmentListView(StudentQueryMixin, ListAPIView):
     _model = Enrollment
     serializer_class = EnrollementListItemSerializer
+
+
+class EnrollmentRetrieveView(RetrieveAPIView):
+    queryset = Enrollment.objects.all()
+    serializer_class = EnrollmentPageDataSerializer
 
 
 class GPA_CreateView(CreateAPIView):

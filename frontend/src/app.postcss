@@ -93,7 +93,7 @@ footer.page-footer > div {
 	@apply bg-primary-400 text-black;
 }
 .cf-btn.cf-secondary {
-	@apply border border-primary-400/40;
+	@apply border border-primary-400/60;
 }
 .cf-btn.cf-secondary:hover {
 	@apply text-black bg-primary-500;
@@ -234,6 +234,7 @@ textarea.input {
 }
 input.radio {
 	@apply rounded-full;
+	@apply !bg-surface-600;
 }
 input.checkbox:checked,
 input.radio:checked {
@@ -253,9 +254,10 @@ form small.success-message {
 	@apply text-lime-400;
 }
 form legend {
-	@apply !text-base font-bold !pb-1 !pr-8 mb-2;
-	@apply border-b-2 border-primary-400;
-	@apply text-surface-200;
+	@apply !text-base font-bold !pt-1 !pb-1 !pr-8 mb-2;
+	@apply border-t border-primary-400;
+	@apply text-primary-400;
+	@apply w-[16rem];
 }
 form legend.empty {
 	@apply hidden !p-0 m-0;

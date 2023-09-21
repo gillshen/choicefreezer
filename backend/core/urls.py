@@ -62,6 +62,7 @@ from student.views import (
     EnrollmentCreateView,
     EnrollmentUpdateDeleteView,
     EnrollmentListView,
+    EnrollmentRetrieveView,
     GPA_CreateView,
     GPA_UpdateDeleteView,
     GPA_ListView,
@@ -249,6 +250,7 @@ urlpatterns += [
 # Enrollment views
 urlpatterns += [
     path("s.enrollments/new/", EnrollmentCreateView.as_view()),
+    path("s.enrollments/<int:pk>/", EnrollmentRetrieveView.as_view()),
     path("s.enrollments/<int:pk>/update/", EnrollmentUpdateDeleteView.as_view()),
     path("s.enrollments/<int:pk>/delete/", EnrollmentUpdateDeleteView.as_view()),
     path("s.enrollments/", EnrollmentListView.as_view()),

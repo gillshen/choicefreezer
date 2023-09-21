@@ -3,6 +3,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 
 	import type { EnrollmentSchema } from '$lib/schemas';
+	import type { Enrollment } from '$lib/types/enrollmentTypes';
 	import type { School } from '$lib/types/schoolTypes';
 	import type { ProgramType } from '$lib/types/programTypes';
 
@@ -29,9 +30,9 @@
 	export let dialog: HTMLDialogElement | undefined;
 	export let action: string;
 	export let studentId: number;
-	export let enrollmentId: number | null = null;
 	export let data: SuperValidated<EnrollmentSchema>;
 	export let schools: School[];
+	export let enrollment: Enrollment | undefined = undefined;
 
 	const { form, errors, message, enhance } = superForm(data, {
 		id: action,
@@ -69,12 +70,17 @@
 		if (!showCurriculumSelect) $form.curriculum = '';
 		if (!showMajorsInput) $form.majors = '';
 	}
+
+	if (enrollment) {
+		$form = { ...$form, ...enrollment };
+		onProgramTypeChange();
+	}
 </script>
 
 <form method="post" {action} novalidate use:enhance>
 	<fieldset>
 		<legend class="empty" />
-		<HiddenIdField id="enrollment-id" name="id" value={enrollmentId} />
+		<HiddenIdField id="enrollment-id" name="id" value={enrollment?.id ?? null} />
 		<HiddenIdField id="student-id" name="student" value={studentId} />
 
 		<FormSelect

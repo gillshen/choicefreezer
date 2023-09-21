@@ -63,3 +63,27 @@ export type EnrollmentListItem = {
 	grades: Grade[];
 	class_ranks: ClassRank[];
 };
+
+export type EnrollmentPageData = {
+	id: number;
+	student: {
+		id: number;
+		name: string;
+	};
+	school: {
+		id: number;
+		name: string;
+	};
+
+	program_type: ProgramType;
+	start_date: string; // date
+	starting_progression: Progression;
+	end_date: string | null; // date
+	ending_progression: Progression | '';
+
+	curriculum: Curriculum | '';
+	majors: string;
+
+	grades: Grade[];
+	class_ranks: ClassRank[];
+};

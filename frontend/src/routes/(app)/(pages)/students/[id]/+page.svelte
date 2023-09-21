@@ -44,7 +44,7 @@
 		byStatusThenTargetYearDesc,
 		byTargetYearDesc
 	} from '$lib/utils/sortUtils.js';
-	import { toLongDate, toMonthYear } from '$lib/utils/dateUtils';
+	import { toLongDate } from '$lib/utils/dateUtils';
 
 	import type { DomLayoutType } from 'ag-grid-community';
 	import { defaultColDef, columnTypes, mountGrid } from '$lib/utils/gridUtils.js';

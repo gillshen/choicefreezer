@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from student.models import (
+    Student,
     Enrollment,
     GPA,
     ClassRank,
@@ -147,5 +148,30 @@ class EnrollementListItemSerializer(serializers.ModelSerializer):
             fields = ["id", "name"]
 
     school = _SchoolSerializer()
+    grades = GPA_Serializer(read_only=True, many=True)
+    class_ranks = ClassRankSerializer(read_only=True, many=True)
+
+
+class EnrollmentPageDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Enrollment
+        fields = "__all__"
+
+    class _StudentSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Student
+            fields = ["id", "name"]
+
+        name = serializers.CharField()
+
+    student = _StudentSerializer()
+
+    class _SchoolSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = School
+            fields = ["id", "name"]
+
+    school = _SchoolSerializer()
+
     grades = GPA_Serializer(read_only=True, many=True)
     class_ranks = ClassRankSerializer(read_only=True, many=True)

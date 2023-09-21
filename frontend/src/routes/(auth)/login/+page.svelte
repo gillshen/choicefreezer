@@ -36,7 +36,7 @@
 			</div>
 
 			<div class="mt-8 flex flex-col gap-1 h-16">
-				<button type="submit" class="submit cf-btn flex gap-2">
+				<button type="submit" class="btn cf-btn variant-filled-primary flex gap-2">
 					Log in
 					<i class="fa-solid fa-arrow-right-long" />
 				</button>

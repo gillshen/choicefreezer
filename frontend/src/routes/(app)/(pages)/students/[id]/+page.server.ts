@@ -80,45 +80,69 @@ export async function load(event: PageServerLoadEvent) {
 	const contracts = await fetchContractsOfStudent(id);
 	const applications = await fetchApplicationsOfStudent(id);
 	const logs = await fetchLogsOfStudents(id);
+	const enrollments = await fetchEnrollments(id);
+
+	const toeflScores = await fetchToeflScores(id);
+	const ieltsScores = await fetchIeltsScores(id);
+	const detScores = await fetchDetScores(id);
+	const satScores = await fetchSatScores(id);
+	const actScores = await fetchActScores(id);
+	const greScores = await fetchGreScores(id);
+	const gmatScores = await fetchGmatScores(id);
 
 	return {
 		student,
 		studentUpdateForm: superValidate(student, studentUpdateSchema),
+
 		// contracts
 		contracts,
 		contractCreateForm: superValidate(event, contractServiceSchema),
 		applicationCreateForm: superValidate(event, newApplicationSchema),
+
 		// applications & user logs
 		applications,
 		logs,
+
 		// enrollments
-		enrollments: fetchEnrollments(id),
+		enrollments,
 		enrollmentCreateForm: superValidate(event, enrollmentSchema),
+
 		// test scores
-		toeflScores: fetchToeflScores(id),
+		toeflScores,
 		toeflScoreForm: superValidate(event, toeflScoreSchema),
-		ieltsScores: fetchIeltsScores(id),
+
+		ieltsScores,
 		ieltsScoreForm: superValidate(event, ieltsScoreSchema),
-		detScores: fetchDetScores(id),
+
+		detScores,
 		detScoreForm: superValidate(event, detScoreSchema),
-		satScores: fetchSatScores(id),
+
+		satScores,
 		satScoreForm: superValidate(event, satScoreSchema),
-		actScores: fetchActScores(id),
+
+		actScores,
 		actScoreForm: superValidate(event, actScoreSchema),
+
 		apScores: fetchApScores(id),
 		apScoreForm: superValidate(event, apScoreSchema),
+
 		ibPredictedGrades: fetchIbPredictedGrades(id),
 		ibFinalGrades: fetchIbFinalGrades(id),
 		ibGradeForm: superValidate(event, ibGradeSchema),
+
 		alevelPredictedGrades: fetchAlevelPredictedGrades(id),
 		alevelFinalGrades: fetchAlevelFinalGrades(id),
 		alevelGradeForm: superValidate(event, alevelGradeSchema),
-		greScores: fetchGreScores(id),
+
+		greScores,
 		greScoreForm: superValidate(event, greScoreSchema),
-		gmatScores: fetchGmatScores(id),
+
+		gmatScores,
 		gmatScoreForm: superValidate(event, gmatScoreSchema),
+
 		lsatScores: fetchLsatScores(id),
 		lsatScoreForm: superValidate(event, lsatScoreSchema),
+
 		// application form data:
 		schools,
 		programs
