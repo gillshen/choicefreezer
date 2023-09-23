@@ -8,6 +8,8 @@ from django.utils.translation import gettext_lazy as _
 from core.models import Student, Progression, Application
 from target.models import School, Program, Target
 
+TERMS = Target.Term.choices + [("Academic Year", "Academic Year")]
+
 
 class Enrollment(models.Model):
     """
@@ -88,7 +90,7 @@ class GPA(models.Model):
     )
 
     progression = models.CharField(max_length=50, choices=Progression.choices)
-    term = models.CharField(max_length=50, choices=Target.Term.choices)
+    term = models.CharField(max_length=50, choices=TERMS)
 
     value = models.DecimalField(max_digits=6, decimal_places=3)
     scale = models.DecimalField(max_digits=6, decimal_places=3)
@@ -134,7 +136,7 @@ class ClassRank(models.Model):
     )
 
     progression = models.CharField(max_length=50, choices=Progression.choices)
-    term = models.CharField(max_length=50, choices=Target.Term.choices)
+    term = models.CharField(max_length=50, choices=TERMS)
 
     class_size = models.PositiveIntegerField(null=True, blank=True)
     rank = models.PositiveIntegerField(null=True, blank=True)
