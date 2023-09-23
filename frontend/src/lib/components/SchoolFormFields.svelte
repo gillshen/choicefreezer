@@ -30,5 +30,6 @@
 		{form}
 		{errors}
 		optional
+		width="narrower"
 	/>
 </fieldset>

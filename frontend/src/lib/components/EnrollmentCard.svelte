@@ -95,11 +95,12 @@
 								<div class="cf-entry-label">{formatTermType(gpa)} GPA</div>
 								<div class="flex gap-1 items-baseline my-auto">
 									<span
-										class={`${gpa.is_cumulative ? 'text-primary-400' : 'text-surface-50'} text-xl`}
-										>{gpa.value}</span
+										class={`${
+											gpa.is_cumulative ? 'text-primary-400' : 'text-surface-50'
+										} text-xl tabular-nums`}>{gpa.value}</span
 									>
 									<span class="text-surface-200 text-sm">/</span>
-									<span class="text-surface-200 text-sm">{gpa.scale}</span>
+									<span class="text-surface-200 text-sm tabular-nums">{gpa.scale}</span>
 								</div>
 							</div>
 						{/each}
@@ -109,15 +110,19 @@
 								<div class="cf-entry-label">Class rank</div>
 								<div class="my-auto">
 									{#if classRank.top_x}
-										<span class="text-primary-400 text-xl">{classRank.top_x}%</span>
+										<span class="text-primary-400 text-xl tabular-nums">{classRank.top_x}%</span>
 										{#if classRank.class_size}
-											<span class="text-surface-200 text-sm"> of {classRank.class_size}</span>
+											<span class="text-surface-200 text-sm tabular-nums">
+												of {classRank.class_size}</span
+											>
 										{/if}
 									{:else}
 										<div class="flex gap-1 items-baseline">
-											<span class="text-primary-400 text-xl">{classRank.rank}</span>
+											<span class="text-primary-400 text-xl tabular-nums">{classRank.rank}</span>
 											<span class="text-surface-200 text-sm">/</span>
-											<span class="text-surface-200 text-sm">{classRank.class_size}</span>
+											<span class="text-surface-200 text-sm tabular-nums"
+												>{classRank.class_size}</span
+											>
 										</div>
 									{/if}
 								</div>

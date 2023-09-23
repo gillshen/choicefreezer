@@ -26,7 +26,7 @@
 	<div class="bg-surface-900 w-full h-full">
 		<nav class="match-hero h-full w-full flex flex-wrap justify-between pl-8 rounded-t-3xl">
 			<ul class="mx-auto flex flex-wrap gap-8 items-center">
-				<li><a href="../home">Home</a></li>
+				<li><a href="/home">Home</a></li>
 
 				<li>
 					<button
@@ -43,9 +43,9 @@
 					</button>
 				</li>
 
-				<li><a href="../tables/students">Students</a></li>
+				<li><a href="/tables/students">Students</a></li>
 
-				<li><a href="../tables/applications">Applications</a></li>
+				<li><a href="/tables/applications">Applications</a></li>
 
 				<li>
 					<button
@@ -56,11 +56,11 @@
 						More <i class={`toggle-icon fa-solid fa-chevron-down ${showMore ? 'open' : ''}`} />
 						<div class={`dropdown-nav -translate-x-[24px] ${showMore ? 'open' : ''}`}>
 							<ul class="flex flex-col pr-4">
-								<li><a href="../tables/schools">Schools</a></li>
-								<li><a href="../tables/programs">Programs</a></li>
-								<li>Requirements</li>
-								<li>Essays</li>
-								<li>The Commons</li>
+								<li><a href="/tables/schools">Schools</a></li>
+								<li><a href="/tables/programs">Programs</a></li>
+								<li><a href="/requirements">How to Apply</a></li>
+								<li><a href="/essays">Essays</a></li>
+								<li><a href="/commons">The Commons</a></li>
 							</ul>
 						</div>
 					</button>
@@ -79,13 +79,13 @@
 				>
 					<ul class="flex flex-col">
 						<li>
-							<a href="../user" class="nav-link flex gap-2 justify-between items-center"
+							<a href="/user" class="nav-link flex gap-2 justify-between items-center"
 								><i class="fa-solid fa-gear" />Settings</a
 							>
 						</li>
 						<li>
 							<a
-								href="../logout"
+								href="/logout"
 								data-sveltekit-preload-data="off"
 								class="nav-link flex gap-2 justify-between items-center"
 								><i class="fa-solid fa-arrow-right-from-bracket" />Log Out</a
@@ -109,15 +109,15 @@
 			<div class="section-title">The Freezer</div>
 			<nav>
 				<ul>
-					<li><a href="../home">Home</a></li>
-					<li><a href="../tables/students/">Students</a></li>
-					<li><a href="../tables/applications/">Applications</a></li>
-					<li><a href="../tables/schools/">Schools</a></li>
-					<li><a href="../tables/programs/">Programs</a></li>
-					<li>Requirements</li>
-					<li>Essays</li>
-					<li>The Commons</li>
-					<li><a href="../about/">About</a></li>
+					<li><a href="/home">Home</a></li>
+					<li><a href="/tables/students">Students</a></li>
+					<li><a href="/tables/applications">Applications</a></li>
+					<li><a href="/tables/schools">Schools</a></li>
+					<li><a href="/tables/programs">Programs</a></li>
+					<li><a href="/requirements">How to Apply</a></li>
+					<li><a href="/essays">Essays</a></li>
+					<li><a href="/commons">The Commons</a></li>
+					<li><a href="/about/">About</a></li>
 				</ul>
 			</nav>
 		</section>

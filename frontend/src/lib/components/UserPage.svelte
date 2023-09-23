@@ -315,9 +315,9 @@
 
 				<!-- entries -->
 				{#if filteredLogs.length}
-					<ol class="flex-grow mx-8 flex-1 flex flex-col overflow-auto">
+					<ol class="flex-grow ml-8 mr-5 flex-1 flex flex-col overflow-auto">
 						{#each filteredLogs.map(processLog) as log}
-							<li class="py-2 pr-2 mr-4 border-b border-surface-600 hover:bg-surface-700">
+							<li class="py-2 pr-1 mr-3 border-b border-surface-600 hover:bg-surface-700">
 								<UserLogCard
 									{log}
 									allowEdit={userIsOwner}
@@ -344,7 +344,7 @@
 						</button>
 					{/if}
 
-					<div class="mx-4 flex gap-4 justify-end items-center text-sm text-surface-300">
+					<div class="ml-auto mr-6 flex gap-4 justify-end items-center text-sm text-surface-300">
 						<div>
 							<i class="fa-solid fa-hourglass-start mr-1" />
 							<span>{countTasksTodo(data.logs)}</span>

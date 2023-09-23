@@ -36,15 +36,15 @@
 
 	<div class="flex items-baseline gap-1">
 		{#if rank.top_x}
-			<span class="text-primary-400 text-xl">{rank.top_x}%</span>
+			<span class="text-primary-400 text-xl tabular-nums">{rank.top_x}%</span>
 			{#if rank.class_size}
-				<span class="text-surface-200 text-sm"> of {rank.class_size}</span>
+				<span class="text-surface-200 text-sm tabular-nums"> of {rank.class_size}</span>
 			{/if}
 		{:else}
 			<div class="flex gap-1 items-baseline">
-				<span class="text-primary-400 text-xl">{rank.rank}</span>
+				<span class="text-primary-400 text-xl tabular-nums">{rank.rank}</span>
 				<span class="text-surface-200 text-sm">/</span>
-				<span class="text-surface-200 text-sm">{rank.class_size}</span>
+				<span class="text-surface-200 text-sm tabular-nums">{rank.class_size}</span>
 			</div>
 		{/if}
 
@@ -52,17 +52,11 @@
 			<div class="class-rank-actions">
 				<EditIconButton
 					classNames="text-primary-400 hover:text-primary-500"
-					onClick={() => {
-						// activeService = service;
-						rankUpdateDialog.showModal();
-					}}
+					onClick={() => rankUpdateDialog.showModal()}
 				/>
 				<DeleteIconButton
 					classNames="text-error-400 hover:text-error-500"
-					onClick={() => {
-						// activeService = service;
-						rankDeleteDialog.showModal();
-					}}
+					onClick={() => rankDeleteDialog.showModal()}
 				/>
 			</div>
 		{/if}
@@ -88,8 +82,17 @@
 <style lang="postcss">
 	.class-rank-card {
 		@apply flex flex-col gap-2;
-		@apply py-2 px-3 rounded-md;
+		@apply py-2 px-3;
 		@apply bg-surface-700;
+	}
+	.class-rank-card:first-of-type {
+		@apply rounded-t-md;
+	}
+	.class-rank-card:not(:first-of-type) {
+		@apply border-t border-surface-600;
+	}
+	.class-rank-card:last-of-type {
+		@apply rounded-b-md;
 	}
 	.class-rank-actions {
 		@apply ml-auto flex items-center;

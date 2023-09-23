@@ -34,11 +34,12 @@
 		{gpa.term}{#if gpa.is_cumulative}&nbsp;(Cumul.){/if}
 	</div>
 	<div class="flex items-baseline gap-1">
-		<span class={`${gpa.is_cumulative ? 'text-primary-400' : 'text-surface-200'} text-xl`}
+		<span
+			class={`${gpa.is_cumulative ? 'text-primary-400' : 'text-surface-200'} text-xl tabular-nums`}
 			>{gpa.value}</span
 		>
 		<span class="text-surface-200 text-sm">/</span>
-		<span class="text-surface-200 text-sm">{gpa.scale}</span>
+		<span class="text-surface-200 text-sm tabular-nums">{gpa.scale}</span>
 
 		{#if userIsOwner}
 			<div class="gpa-actions">
@@ -74,8 +75,17 @@
 <style lang="postcss">
 	.gpa-card {
 		@apply flex flex-col gap-2;
-		@apply py-2 px-3 rounded-md;
+		@apply py-2 px-3;
 		@apply bg-surface-700;
+	}
+	.gpa-card:first-of-type {
+		@apply rounded-t-md;
+	}
+	.gpa-card:not(:first-of-type) {
+		@apply border-t border-surface-600;
+	}
+	.gpa-card:last-of-type {
+		@apply rounded-b-md;
 	}
 	.gpa-actions {
 		@apply ml-auto flex items-center;

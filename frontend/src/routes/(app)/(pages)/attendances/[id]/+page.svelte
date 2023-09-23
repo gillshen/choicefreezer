@@ -45,7 +45,7 @@
 <Section hero>
 	<h1 class="cf-h1">{enrollment.student.name} @ {enrollment.school.name}</h1>
 
-	<div class="grid grid-cols-3 gap-12 h-full max-h-[960px]">
+	<div class="grid grid-cols-3 gap-12 h-full items-start">
 		<article class="panel">
 			<div class="flex-grow overflow-auto flex flex-col px-6 pt-6">
 				<div class="flex gap-2 items-baseline pb-2">
@@ -127,7 +127,7 @@
 								<div class="cf-entry-label mb-1">
 									{formatProgression(progression)}
 								</div>
-								<div class="flex flex-col gap-2">
+								<div class="flex flex-col">
 									{#each gpaArray.sort(byTermDescCumulativeFirst) as gpa}
 										<GpaCard {gpa} {userIsOwner} />
 									{/each}
@@ -146,7 +146,7 @@
 					{/if}
 				{:else if userIsOwner}
 					<button
-						class="btn cf-btn cf-primary !bg-primary-500 max-w-fit mt-4"
+						class="btn cf-btn cf-primary !bg-primary-500 max-w-fit mt-4 mb-6"
 						on:click={() => gpaCreateDialog.showModal()}>Add a GPA record</button
 					>
 				{/if}
@@ -164,7 +164,7 @@
 								<div class="cf-entry-label mb-1">
 									{formatProgression(progression)}
 								</div>
-								<div class="flex flex-col gap-2">
+								<div class="flex flex-col">
 									{#each classRankArray.sort(byTermDescCumulativeFirst) as classRank}
 										<ClassRankCard rank={classRank} {userIsOwner} />
 									{/each}
@@ -183,7 +183,7 @@
 					{/if}
 				{:else if userIsOwner}
 					<button
-						class="btn cf-btn cf-primary !bg-primary-500 max-w-fit mt-4"
+						class="btn cf-btn cf-primary !bg-primary-500 max-w-fit mt-4 mb-6"
 						on:click={() => rankCreateDialog.showModal()}>Add a rank record</button
 					>
 				{/if}
