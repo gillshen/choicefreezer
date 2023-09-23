@@ -90,7 +90,7 @@
 			<h2 class="cf-h2 font-bold py-2 border-t border-primary-400">Change banners</h2>
 
 			<form method="post" action="?/updateBanners" novalidate use:bannerEnhance>
-				<fieldset>
+				<fieldset class="-mb-4">
 					<legend class="empty" />
 					<HiddenIdField id="username-field" name="username" value={data.username} />
 
@@ -118,7 +118,7 @@
 				<FormSubmit message={$bannerMessage} buttonText="Change" />
 			</form>
 
-			<h2 class="cf-h2 font-bold py-2 border-t border-primary-400">Change avatar color</h2>
+			<h2 class="cf-h2 font-bold py-2 border-t border-primary-400 mt-4">Change avatar color</h2>
 			<form method="post" novalidate>
 				<fieldset>
 					<legend class="empty" />
@@ -132,7 +132,7 @@
 			<h2 class="cf-h2 font-bold py-2 border-t border-primary-400">Change password</h2>
 
 			<form method="post" action="?/resetPassword" novalidate use:passwordEnhance>
-				<fieldset>
+				<fieldset class="-mb-4">
 					<legend class="empty" />
 					<HiddenIdField id="username-field" name="username" value={data.username} />
 

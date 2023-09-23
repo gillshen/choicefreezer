@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { UserLogListItem } from '$lib/types/userLogTypes';
-	import { toShortTime, toTime } from '$lib/utils/dateUtils';
+	import { toShortTime } from '$lib/utils/dateUtils';
+	import Paragraphs from './Paragraphs.svelte';
 
 	export let log: UserLogListItem;
 	export let allowEdit: boolean;
@@ -62,14 +63,7 @@
 
 <div class={`log-text-container ${open ? 'open' : ''}`}>
 	{#if open}
-		{#each log.text.split(/(?:\r?\n){2,}/g) as paragraph}
-			<p class="log-text-paragraph max-w-prose mx-[32px] text-surface-300">
-				<!--
-					TODO potentially unsafe - should sanitize at log creation
-				-->
-				{@html paragraph.split(/\r?\n/g).join('<br />')}
-			</p>
-		{/each}
+		<Paragraphs paragraphs={log.text} textClass="text-surface-300 mx-[32px] first-of-type:mt-2" />
 	{/if}
 
 	{#if allowEdit && open}

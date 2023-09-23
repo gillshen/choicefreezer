@@ -17,7 +17,7 @@
 
 		init(params: ICellRendererParams<any, any, any>): void {
 			this.eGui = document.createElement('a');
-			this.eGui.href = `../schools/${params.data.id}/`;
+			this.eGui.href = `/schools/${params.data.id}`;
 			this.eGui.innerHTML = params.data.name;
 		}
 	}

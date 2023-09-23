@@ -10,10 +10,10 @@ export function processLog(log: UserLogListItem): UserLogListItem {
 	}
 
 	// The title is empty
-	const MAX_TITLE_LENGTH = 12;
+	const MAX_TITLE_LENGTH = 15;
 
 	if (log.text.length > MAX_TITLE_LENGTH) {
-		return { ...log, date, title: `${log.text.slice(0, MAX_TITLE_LENGTH - 3)}...`, updated };
+		return { ...log, date, title: `${log.text.slice(0, MAX_TITLE_LENGTH)}...`, updated };
 	} else {
 		return { ...log, date, title: log.text, updated };
 	}

@@ -8,7 +8,7 @@ export class LinkRenderer extends AgCellRenderer {
 
 	init(params: ICellRendererParams<any, any, any>): void {
 		this.eGui = document.createElement('a');
-		this.eGui.href = `../programs/${params.data.id}/`;
+		this.eGui.href = `/programs/${params.data.id}`;
 		this.eGui.innerHTML = '<i class="fa-solid fa-arrow-right" />';
 	}
 }
@@ -18,12 +18,13 @@ export class SchoolsRenderer extends AgCellRenderer {
 
 	init(params: ICellRendererParams<any, any, any>): void {
 		this.eGui = document.createElement('div');
+		// show ellipsis when overflowing
+		this.eGui.classList.add('cf-renderer');
 		const schoolLinks = [];
 
 		for (const school of params.data.schools) {
-			schoolLinks.push(`<a href="../schools/${school.id}">${school.name}</a>`);
+			schoolLinks.push(`<a href="/schools/${school.id}">${school.name}</a>`);
 		}
-
 		this.eGui.innerHTML = schoolLinks.join(' | ');
 	}
 }
@@ -33,12 +34,13 @@ export class TargetsRenderer extends AgCellRenderer {
 
 	init(params: ICellRendererParams<any, any, any>): void {
 		this.eGui = document.createElement('div');
+		// show ellipsis when overflowing
+		this.eGui.classList.add('cf-renderer');
 		const targetLinks = [];
 
 		for (const target of params.data.targets.sort(byYearDesc)) {
 			targetLinks.push(`<a href="../targets/${target.id}">${target.term} ${target.year}</a>`);
 		}
-
 		this.eGui.innerHTML = targetLinks.join(', ');
 	}
 }

@@ -184,7 +184,7 @@
 				{:else if userIsOwner}
 					<button
 						class="btn cf-btn cf-primary !bg-primary-500 max-w-fit mt-4 mb-6"
-						on:click={() => rankCreateDialog.showModal()}>Add a rank record</button
+						on:click={() => rankCreateDialog.showModal()}>Add a class rank</button
 					>
 				{/if}
 			</div>

@@ -179,6 +179,12 @@ footer.page-footer > div {
 	@apply text-surface-500;
 }
 
+.avatar {
+	@apply w-8 h-8 rounded-full;
+	@apply flex justify-center items-center;
+	@apply font-heading-token font-bold;
+}
+
 /* Form */
 form {
 	@apply flex flex-col;
@@ -397,6 +403,9 @@ dialog {
 
 .data-grid a {
 	@apply text-indigo-200 hover:text-primary-500;
+}
+.data-grid .cf-renderer {
+	@apply whitespace-nowrap text-ellipsis overflow-hidden;
 }
 
 .grid-page-container,

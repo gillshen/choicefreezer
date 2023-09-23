@@ -12,7 +12,7 @@
 	import UserLogForm from '$lib/forms/UserLogForm.svelte';
 	import Dialog from './Dialog.svelte';
 	import BinaryDialog from './BinaryDialog.svelte';
-	import { byContractType, byRomanizedName, byTargetYearDesc } from '$lib/utils/studentUtils.js';
+	import { byContractType, byRomanizedName } from '$lib/utils/studentUtils.js';
 	import {
 		countTasksDone,
 		countTasksTodo,
@@ -207,17 +207,14 @@
 				</div>
 
 				<!-- students list -->
-				<ul
-					class="flex-grow -ml-4 mr-8 grid grid-cols-2 gap-y-1 gap-x-6 auto-rows-min px-8 pb-4 overflow-auto"
-				>
-					{#each filteredStudents
-						.sort(byRomanizedName)
-						.sort(byTargetYearDesc)
-						.sort(byContractType) as student}
+				<ul class="flex-grow grid grid-cols-2 gap-y-1 auto-rows-min px-8 pb-4 overflow-auto">
+					{#each filteredStudents.sort(byRomanizedName).sort(byContractType) as student}
 						<li class="py-2 px-4 w-full rounded-full hover:bg-surface-700">
-							<a href={`../students/${student.id}/`} class="flex items-baseline gap-2">
+							<a href={`/students/${student.id}/`} class="flex items-baseline gap-2">
 								<i
-									class={`fa-regular fa-folder text-${typeToClass(student.latest_contract_type)}`}
+									class={`fa-regular fa-circle-user text-${typeToClass(
+										student.latest_contract_type
+									)}`}
 								/>
 								<span class="whitespace-nowrap overflow-hidden text-ellipsis">{student.name}</span>
 								{#if student.first_name !== student.first_name_romanized}
@@ -332,7 +329,7 @@
 						{/each}
 					</ol>
 				{:else}
-					<p class="flex-grow mt-4 mx-8">No entry in this category</p>
+					<p class="flex-grow mt-4 mx-8 text-surface-200">No entry in this category</p>
 				{/if}
 
 				<footer class="flex justify-between h-[72px]">
@@ -426,7 +423,7 @@
 	.tab,
 	.secondary-tab {
 		@apply py-1;
-		@apply text-surface-300;
+		@apply text-surface-200;
 		@apply border-b-2 border-transparent;
 	}
 
@@ -434,6 +431,6 @@
 	.secondary-tab.checked {
 		@apply font-bold;
 		@apply border-primary-400;
-		@apply text-surface-200;
+		@apply text-surface-50;
 	}
 </style>

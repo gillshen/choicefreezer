@@ -18,6 +18,9 @@
 	let showPeople = false;
 	let showMore = false;
 	let showUserMenu = false;
+
+	// TODO
+	const avatarColor = 'bg-lime-300';
 </script>
 
 <header class="match-hero flex justify-between rounded-tr-3xl mt-4 mx-8 font-heading-token">
@@ -72,7 +75,9 @@
 				on:click={() => (showUserMenu = !showUserMenu)}
 				use:clickOutside={() => showUserMenu && (showUserMenu = false)}
 			>
-				<i class="fa-solid fa-circle-user" />
+				<div class={`avatar text-surface-900 ${avatarColor}`}>
+					{username[0]}
+				</div>
 				{username}
 				<nav
 					class={`dropdown-nav -translate-x-[60px] w-[140px] z-50 ${showUserMenu ? 'open' : ''}`}
