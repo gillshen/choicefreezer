@@ -21,6 +21,7 @@
 	import { toShortDate } from '$lib/utils/dateUtils';
 	import { getBestScore, statusToClass } from '$lib/utils/applicationUtils.js';
 	import { isGraduate, isUndergraduate } from '$lib/utils/programUtils.js';
+	import Paragraphs from '$lib/components/Paragraphs.svelte';
 
 	export let data;
 
@@ -35,7 +36,7 @@
 		if (response.ok) {
 			applicationDeleteDialog.close();
 			toast('Application deleted. Redirecting...', 'success');
-			setTimeout(() => goto(`../students/${application.student.id}/`), 2000);
+			setTimeout(() => goto(`/students/${application.student.id}`), 2000);
 		} else {
 			toast(UNKNOWN_ERROR, 'error');
 		}
@@ -75,14 +76,14 @@
 	</h1>
 
 	<div class="grid grid-cols-3 gap-12 h-full max-h-[960px] items-start">
-		<article class="panel !grid grid-cols-[1fr_2fr] gap-8 col-span-2">
+		<article class="panel !grid grid-cols-[2fr_3fr] col-span-2">
 			<!-- Student info -->
 			<div class="flex-grow overflow-auto flex flex-col px-6 pt-6">
 				<div class="flex gap-2 items-baseline pb-4">
 					<span class="text-xl font-bold">
 						{application.student.name}
 					</span>
-					<a href={`../students/${application.student.id}`} class="cf-page-link text-base">
+					<a href={`/students/${application.student.id}`} class="cf-page-link text-base">
 						<i class="fa-solid fa-arrow-right" />
 					</a>
 				</div>
@@ -200,7 +201,7 @@
 						<div class="flex gap-2 items-baseline">
 							<span class="text-xl font-bold whitespace-nowrap overflow-hidden text-ellipsis"
 								>{school.name}</span
-							><a href={`../schools/${school.id}/`} class="cf-page-link text-base"
+							><a href={`/schools/${school.id}`} class="cf-page-link text-base"
 								><i class="fa-solid fa-arrow-right" /></a
 							>
 						</div>
@@ -209,7 +210,7 @@
 
 				<div class="cf-entry">
 					<div class="cf-entry-label">Program</div>
-					<a href={`../programs/${application.program.id}/`} class="cf-page-link">
+					<a href={`/programs/${application.program.id}`} class="cf-page-link">
 						{application.program.display_name}
 					</a>
 				</div>
@@ -217,7 +218,7 @@
 				<div class="cf-entry">
 					<div class="cf-entry-label">Admission plan</div>
 					<div class="flex gap-1">
-						<a href={`../targets/${application.target.id}/`} class="cf-page-link">
+						<a href={`/targets/${application.target.id}`} class="cf-page-link">
 							{application.target.term}
 							{application.target.year}
 						</a>
@@ -230,7 +231,7 @@
 					<div class="cf-entry-label mb-1">
 						{#if application.major_choices.length > 1}Majors{:else}Major{/if}
 					</div>
-					{#if application.major_choices.length > 1}
+					{#if application.major_choices.length}
 						<div class="flex gap-1">
 							{#each application.major_choices as majorChoice, index}
 								{#if index}
@@ -348,11 +349,7 @@
 							{/if}
 						</div>
 
-						{#each log.comments.split(/(?:\r?\n)+/g) as paragraph}
-							<p class="mb-4 max-w-prose text-surface-300">
-								{paragraph}
-							</p>
-						{/each}
+						<Paragraphs paragraphs={log.comments} textClass="text-surface-300" gap={2} />
 					</li>
 				{/each}
 			</ol>
