@@ -5,17 +5,21 @@ import type {
 } from 'ag-grid-community';
 
 import type { SubTarget } from '$lib/types/subTargetTypes';
+import type { ApplicationListItem } from '$lib/types/applicationTypes';
+
 import type {
-	ApplicationListItem,
-	TOEFLScore,
-	IELTSScore,
-	DETScore,
-	SATScore,
-	ACTScore,
-	GMATScore,
-	GREScore,
-	APScore
-} from '$lib/types/applicationTypes';
+	ToeflScore,
+	IeltsScore,
+	DetScore,
+	SatScore,
+	ActScore,
+	ApScore,
+	IbGrade,
+	AlevelGrade,
+	GreScore,
+	GmatScore,
+	LsatScore
+} from '$lib/types/testScoreTypes';
 
 import { AgCellRenderer } from '$lib/utils/gridUtils';
 import { statusToClass, getBestScore } from '$lib/utils/applicationUtils';
@@ -27,7 +31,7 @@ export class ApplicationIdRenderer extends AgCellRenderer {
 
 	init(params: ICellRendererParams<any, any, any>): void {
 		this.eGui = document.createElement('a');
-		this.eGui.href = `../applications/${params.data.id}/`;
+		this.eGui.href = `/applications/${params.data.id}`;
 		this.eGui.innerHTML = '<i class="fa-solid fa-arrow-right" />';
 	}
 }
@@ -37,7 +41,7 @@ export class ApplicantRenderer extends AgCellRenderer {
 
 	init(params: ICellRendererParams<any, any, any>): void {
 		this.eGui = document.createElement('a');
-		this.eGui.href = `../students/${params.data.student.id}/`;
+		this.eGui.href = `/students/${params.data.student.id}`;
 		this.eGui.innerText = params.data.student.name;
 	}
 }
@@ -48,7 +52,7 @@ export class ProgramRenderer extends AgCellRenderer {
 	init(params: ICellRendererParams<any, any, any>): void {
 		const { program } = params.data;
 		this.eGui = document.createElement('a');
-		this.eGui.href = `../programs/${program.id}/`;
+		this.eGui.href = `/programs/${program.id}`;
 		this.eGui.innerText = program.display_name;
 	}
 }
@@ -59,7 +63,7 @@ export class TargetRenderer extends AgCellRenderer {
 	init(params: ICellRendererParams<any, any, any>): void {
 		const { target } = params.data;
 		this.eGui = document.createElement('a');
-		this.eGui.href = `../targets/${target.id}/`;
+		this.eGui.href = `/targets/${target.id}`;
 		this.eGui.innerText = `${target.term} ${target.year}`;
 	}
 }
@@ -109,46 +113,81 @@ export function majorsValueGetter(params: ValueGetterParams): string {
 }
 
 export function toeflBestScoreGetter(params: ValueGetterParams): number | null {
-	const toeflScores: TOEFLScore[] = params.data.toefl_submitted;
+	const toeflScores: ToeflScore[] = params.data.toefl_submitted;
 	return getBestScore(toeflScores);
 }
 
 export function ieltsBestScoreGetter(params: ValueGetterParams): number | null {
-	const ieltsScores: IELTSScore[] = params.data.ielts_submitted;
+	const ieltsScores: IeltsScore[] = params.data.ielts_submitted;
 	return getBestScore(ieltsScores);
 }
 
 export function detBestScoreGetter(params: ValueGetterParams): number | null {
-	const detScores: DETScore[] = params.data.det_submitted;
+	const detScores: DetScore[] = params.data.det_submitted;
 	return getBestScore(detScores);
 }
 
 export function satBestScoreGetter(params: ValueGetterParams): number | null {
-	const satScores: SATScore[] = params.data.sat_submitted;
+	const satScores: SatScore[] = params.data.sat_submitted;
 	return getBestScore(satScores);
 }
 
 export function actBestScoreGetter(params: ValueGetterParams): number | null {
-	const actScores: ACTScore[] = params.data.act_submitted;
+	const actScores: ActScore[] = params.data.act_submitted;
 	return getBestScore(actScores);
 }
 
 export function greBestScoreGetter(params: ValueGetterParams): number | null {
-	const greScores: GREScore[] = params.data.gre_submitted;
+	const greScores: GreScore[] = params.data.gre_submitted;
 	return getBestScore(greScores);
 }
 
 export function gmatBestScoreGetter(params: ValueGetterParams): number | null {
-	const gmatScores: GMATScore[] = params.data.gmat_submitted;
+	const gmatScores: GmatScore[] = params.data.gmat_submitted;
 	return getBestScore(gmatScores);
 }
 
+export function lsatBestScoreGetter(params: ValueGetterParams): number | null {
+	const lsatScores: LsatScore[] = params.data.lsat_submitted;
+	return getBestScore(lsatScores);
+}
+
 export function apValueGetter(params: ValueGetterParams): string {
-	const apScores: APScore[] = params.data.ap_submitted;
+	const apScores: ApScore[] = params.data.ap_submitted;
 	return apScores
 		.map((ap) => `${ap.subject} (${ap.score})`)
 		.sort()
 		.join('; ');
+}
+
+function ibValueGetter(ibGrades: IbGrade[]): string {
+	return ibGrades
+		.map((ib) => `${ib.subject} (${ib.grade})`)
+		.sort()
+		.join('; ');
+}
+
+export function ibPredictedValueGetter(params: ValueGetterParams): string {
+	return ibValueGetter(params.data.ib_predicted_submitted);
+}
+
+export function ibFinalValueGetter(params: ValueGetterParams): string {
+	return ibValueGetter(params.data.ib_final_submitted);
+}
+
+function alevelValueGetter(alevelGrades: AlevelGrade[]): string {
+	return alevelGrades
+		.map((al) => `${al.subject} (${al.grade})`)
+		.sort()
+		.join('; ');
+}
+
+export function alevelPredictedValueGetter(params: ValueGetterParams): string {
+	return alevelValueGetter(params.data.alevel_predicted_submitted);
+}
+
+export function alevelFinalValueGetter(params: ValueGetterParams): string {
+	return alevelValueGetter(params.data.alevel_final_submitted);
 }
 
 export function deadlineValueGetter(params: ValueGetterParams): Date | null {

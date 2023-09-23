@@ -31,7 +31,12 @@
 		toeflBestScoreGetter,
 		ieltsBestScoreGetter,
 		detBestScoreGetter,
-		statusUpdatedValueGetter
+		statusUpdatedValueGetter,
+		ibPredictedValueGetter,
+		ibFinalValueGetter,
+		alevelPredictedValueGetter,
+		alevelFinalValueGetter,
+		lsatBestScoreGetter
 	} from '$lib/utils/applicationGridUtils.js';
 
 	import GridDownloadButton from '$lib/components/GridDownloadButton.svelte';
@@ -54,9 +59,14 @@
 		decisionDate: { headerName: 'Decision Date', hide: true },
 		satScore: { headerName: 'SAT', hide: true },
 		actScore: { headerName: 'ACT', hide: true },
-		apScore: { headerName: 'AP', hide: true },
+		apScores: { headerName: 'AP', hide: true },
+		ibPredictedGrades: { headerName: 'IB Predicted', hide: true },
+		ibFinalGrades: { headerName: 'IB Final', hide: true },
+		alevelPredictedGrades: { headerName: 'A Level Predicted', hide: true },
+		alevelFinalGrades: { headerName: 'A Level Final', hide: true },
 		greScore: { headerName: 'GRE', hide: true },
 		gmatScore: { headerName: 'GMAT', hide: true },
+		lsatScore: { headerName: 'LSAT', hide: true },
 		toeflScore: { headerName: 'TOEFL', hide: true },
 		ieltsScore: { headerName: 'IELTS', hide: true },
 		detScore: { headerName: 'DET', hide: true },
@@ -100,9 +110,17 @@
 
 		{ ...columnControls.satScore, type: ['numberColumn'], valueGetter: satBestScoreGetter },
 		{ ...columnControls.actScore, type: ['numberColumn'], valueGetter: actBestScoreGetter },
-		{ ...columnControls.apScore, valueGetter: apValueGetter },
+
+		{ ...columnControls.apScores, valueGetter: apValueGetter },
+		{ ...columnControls.ibPredictedGrades, valueGetter: ibPredictedValueGetter },
+		{ ...columnControls.ibFinalGrades, valueGetter: ibFinalValueGetter },
+		{ ...columnControls.alevelPredictedGrades, valueGetter: alevelPredictedValueGetter },
+		{ ...columnControls.alevelFinalGrades, valueGetter: alevelFinalValueGetter },
+
 		{ ...columnControls.greScore, type: ['numberColumn'], valueGetter: greBestScoreGetter },
 		{ ...columnControls.gmatScore, type: ['numberColumn'], valueGetter: gmatBestScoreGetter },
+		{ ...columnControls.lsatScore, type: ['numberColumn'], valueGetter: lsatBestScoreGetter },
+
 		{ ...columnControls.toeflScore, type: ['numberColumn'], valueGetter: toeflBestScoreGetter },
 		{ ...columnControls.ieltsScore, type: ['numberColumn'], valueGetter: ieltsBestScoreGetter },
 		{ ...columnControls.detScore, type: ['numberColumn'], valueGetter: detBestScoreGetter },

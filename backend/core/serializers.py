@@ -12,7 +12,21 @@ from core.models import (
 )
 
 from target.models import School, Program, Target, SubTarget
-from student.models import TOEFL, IELTS, DET, SAT, ACT, AP, GRE, GMAT
+from student.models import (
+    TOEFL,
+    IELTS,
+    DET,
+    SAT,
+    ACT,
+    AP,
+    IBPredicted,
+    IBFinal,
+    AlevelPredicted,
+    AlevelFinal,
+    GRE,
+    GMAT,
+    LSAT,
+)
 
 
 class CfProductSerializer(serializers.ModelSerializer):
@@ -189,6 +203,30 @@ class _AP_Serializer(serializers.ModelSerializer):
         exclude = ["used_for"]
 
 
+class _IBPredictedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IBPredicted
+        exclude = ["used_for"]
+
+
+class _IBFinalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IBFinal
+        exclude = ["used_for"]
+
+
+class _AlevelPredictedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AlevelPredicted
+        exclude = ["used_for"]
+
+
+class _AlevelFinalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AlevelFinal
+        exclude = ["used_for"]
+
+
 class _GRE_Serializer(serializers.ModelSerializer):
     class Meta:
         model = GRE
@@ -200,6 +238,14 @@ class _GRE_Serializer(serializers.ModelSerializer):
 class _GMAT_Serializer(serializers.ModelSerializer):
     class Meta:
         model = GMAT
+        exclude = ["used_for"]
+
+    result = serializers.IntegerField()
+
+
+class _LSAT_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = LSAT
         exclude = ["used_for"]
 
     result = serializers.IntegerField()
@@ -264,8 +310,13 @@ class ApplicationListItemSerializer(serializers.ModelSerializer):
         sat_submitted: ...[];
         act_submitted: ...[];
         ap_submitted: ...[];
+        ib_predicted_submitted: ...[];
+        ib_final_submitted: ...[];
+        alevel_predicted_submitted: ...[];
+        alevel_final_submitted: ...[];
         gre_submitted: ...[];
         gmat_submitted: ...[];
+        lsat_submitted: ...[];
 
         scholarship_amount: number;
         scholarship_currency: string;
@@ -281,7 +332,6 @@ class ApplicationListItemSerializer(serializers.ModelSerializer):
         model = Application
         fields = "__all__"
 
-    # TODO enrich student serializer with GPA, tests, etc.
     class _StudentSerializer(serializers.ModelSerializer):
         class Meta:
             model = Student
@@ -344,8 +394,13 @@ class ApplicationListItemSerializer(serializers.ModelSerializer):
     sat_submitted = _SAT_Serializer(many=True)
     act_submitted = _ACT_Serializer(many=True)
     ap_submitted = _AP_Serializer(many=True)
+    ib_predicted_submitted = _IBPredictedSerializer(many=True)
+    ib_final_submitted = _IBFinalSerializer(many=True)
+    alevel_predicted_submitted = _AlevelPredictedSerializer(many=True)
+    alevel_final_submitted = _AlevelFinalSerializer(many=True)
     gre_submitted = _GRE_Serializer(many=True)
     gmat_submitted = _GMAT_Serializer(many=True)
+    lsat_submitted = _LSAT_Serializer(many=True)
 
     class _AltTargetSerializer(serializers.ModelSerializer):
         class Meta:
@@ -418,8 +473,13 @@ class ApplicationPageDataSerializer(serializers.ModelSerializer):
         sat_submitted: ...[];
         act_submitted: ...[];
         ap_submitted: ...[];
+        ib_predicted_submitted: ...[];
+        ib_final_submitted: ...[];
+        alevel_predicted_submitted: ...[];
+        alevel_final_submitted: ...[];
         gre_submitted: ...[];
         gmat_submitted: ...[];
+        lsat_submitted: ...[];
 
         scholarship_amount: number;
         scholarship_currency: string;
@@ -490,8 +550,13 @@ class ApplicationPageDataSerializer(serializers.ModelSerializer):
     sat_submitted = _SAT_Serializer(many=True)
     act_submitted = _ACT_Serializer(many=True)
     ap_submitted = _AP_Serializer(many=True)
+    ib_predicted_submitted = _IBPredictedSerializer(many=True)
+    ib_final_submitted = _IBFinalSerializer(many=True)
+    alevel_predicted_submitted = _AlevelPredictedSerializer(many=True)
+    alevel_final_submitted = _AlevelFinalSerializer(many=True)
     gre_submitted = _GRE_Serializer(many=True)
     gmat_submitted = _GMAT_Serializer(many=True)
+    lsat_submitted = _LSAT_Serializer(many=True)
 
     class _AltTargetSerializer(serializers.ModelSerializer):
         class Meta:

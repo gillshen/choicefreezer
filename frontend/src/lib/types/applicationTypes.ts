@@ -4,15 +4,18 @@ import type { AdmissionPlan } from '$lib/types/subTargetTypes';
 import type { Term } from '$lib/types/targetTypes';
 import type { APPLICATION_STATUSES } from '$lib/constants/applicationStatuses';
 import type {
+	ToeflScore,
+	IeltsScore,
+	DetScore,
+	SatScore,
 	ActScore,
 	ApScore,
-	DetScore,
+	IbGrade,
+	AlevelGrade,
 	GmatScore,
 	GreScore,
-	IeltsScore,
-	SatScore,
-	ToeflScore
-} from './testScoreTypes';
+	LsatScore
+} from '$lib/types/testScoreTypes';
 
 export type NewApplication = {
 	student: number;
@@ -80,8 +83,13 @@ export type ApplicationListItem = {
 	sat_submitted: SatScore[];
 	act_submitted: ActScore[];
 	ap_submitted: ApScore[];
+	ib_predicted_submitted: IbGrade[];
+	ib_final_submitted: IbGrade[];
+	alevel_predicted_submitted: AlevelGrade[];
+	alevel_final_submitted: AlevelGrade[];
 	gre_submitted: GreScore[];
 	gmat_submitted: GmatScore[];
+	lsat_submitted: LsatScore[];
 
 	scholarship_amount: number;
 	scholarship_currency: string;
@@ -152,8 +160,13 @@ export type ApplicationPageData = {
 	sat_submitted: SatScore[];
 	act_submitted: ActScore[];
 	ap_submitted: ApScore[];
+	ib_predicted_submitted: IbGrade[];
+	ib_final_submitted: IbGrade[];
+	alevel_predicted_submitted: AlevelGrade[];
+	alevel_final_submitted: AlevelGrade[];
 	gre_submitted: GreScore[];
 	gmat_submitted: GmatScore[];
+	lsat_submitted: LsatScore[];
 
 	scholarship_amount: number;
 	scholarship_currency: string;
