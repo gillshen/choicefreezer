@@ -10,6 +10,10 @@ const selectionRequired = { message: 'Select an option' };
 const minValueExceeded = (minValue: number) => ({ message: `Minimum value ${minValue}` });
 const maxValueExceeded = (maxValue: number) => ({ message: `Maximum value ${maxValue}` });
 
+const maxLengthExceeded = (maxLength: number) => ({
+	message: `${maxLength}-character limit exceeded`
+});
+
 const valueOutOfStep = (step: number) => ({
 	message: step === 1 ? 'Must be an integer' : `Must be multiples of ${step}`
 });
@@ -19,8 +23,8 @@ export const optionalIdValidator = { id: z.number().min(1).optional().nullable()
 
 // School creation/update form
 export const newSchoolValidators = {
-	name: z.string().trim().min(1, fieldRequired),
-	abbreviation: z.string().trim().optional().default(''),
+	name: z.string().trim().min(1, fieldRequired).max(100, maxLengthExceeded(100)),
+	abbreviation: z.string().trim().max(20, maxLengthExceeded(20)).default(''),
 	type: z.string().min(1, selectionRequired),
 	country: z.string().min(1, selectionRequired),
 
@@ -32,20 +36,40 @@ export const newSchoolValidators = {
 // Program update form
 export const programUpdateValidators = {
 	...idValidator,
-	name: z.string().trim().optional().default(''),
-	degree: z.string().trim().optional().default('')
+	name: z.string().trim().max(100, maxLengthExceeded(100)).default(''),
+	degree: z.string().trim().max(100, maxLengthExceeded(100)).default('')
 };
 
 // Student & contract creation form
 export const studentLegalNameValidators = {
-	last_name: z.string().trim().min(1, fieldRequired).refine(safeForHtml, beSafeForHtml),
-	first_name: z.string().trim().min(1, fieldRequired).refine(safeForHtml, beSafeForHtml),
+	last_name: z
+		.string()
+		.trim()
+		.min(1, fieldRequired)
+		.max(50, maxLengthExceeded(50))
+		.refine(safeForHtml, beSafeForHtml),
+	first_name: z
+		.string()
+		.trim()
+		.min(1, fieldRequired)
+		.max(50, maxLengthExceeded(50))
+		.refine(safeForHtml, beSafeForHtml),
 	last_name_first: z.boolean().default(true)
 };
 
 export const studentRomanizedNameValidators = {
-	last_name_romanized: z.string().trim().min(1, fieldRequired).refine(safeForHtml, beSafeForHtml),
-	first_name_romanized: z.string().trim().min(1, fieldRequired).refine(safeForHtml, beSafeForHtml)
+	last_name_romanized: z
+		.string()
+		.trim()
+		.min(1, fieldRequired)
+		.max(50, maxLengthExceeded(50))
+		.refine(safeForHtml, beSafeForHtml),
+	first_name_romanized: z
+		.string()
+		.trim()
+		.min(1, fieldRequired)
+		.max(50, maxLengthExceeded(50))
+		.refine(safeForHtml, beSafeForHtml)
 };
 
 export const studentGenderValidator = { gender: z.string().min(1, selectionRequired) };
@@ -55,11 +79,13 @@ export const studentCitizenshipValidator = { citizenship: z.string().min(1).defa
 export const studentDateOfBirthValidator = { date_of_birth: z.string().nullable() };
 
 export const studentResidenceValidators = {
-	city: z.string().trim().refine(safeForHtml, beSafeForHtml),
+	city: z.string().trim().max(100, maxLengthExceeded(100)).refine(safeForHtml, beSafeForHtml),
 	state: z.string().trim().refine(safeForHtml, beSafeForHtml)
 };
 
-export const studentCommentsValidator = { comments: z.string().trim() };
+export const studentCommentsValidator = {
+	comments: z.string().trim().max(1000, maxLengthExceeded(1000)).default('')
+};
 
 export const studentValidators = {
 	...studentLegalNameValidators,
@@ -128,8 +154,8 @@ export const applicationValidators = {
 	 * should be negative to trigger the validation error. */
 	programId: z.number().nonnegative(selectionRequired),
 
-	programName: z.string().trim().default(''),
-	programDegree: z.string().trim().default(''),
+	programName: z.string().trim().max(100, maxLengthExceeded(100)).default(''),
+	programDegree: z.string().trim().max(100, maxLengthExceeded(100)).default(''),
 
 	year: z
 		.number()
@@ -138,12 +164,12 @@ export const applicationValidators = {
 	term: z.string().min(1, selectionRequired),
 	admissionPlan: z.string().min(1, selectionRequired),
 
-	firstMajor: z.string().trim().optional().nullable(),
-	firstMajorCategory: z.string().trim().optional().default(''),
-	secondMajor: z.string().trim().optional().nullable(),
-	secondMajorCategory: z.string().trim().optional().default(''),
-	thirdMajor: z.string().trim().optional().nullable(),
-	thirdMajorCategory: z.string().trim().optional().default('')
+	firstMajor: z.string().trim().max(100, maxLengthExceeded(100)).nullable(),
+	firstMajorCategory: z.string().trim().max(100, maxLengthExceeded(100)).default(''),
+	secondMajor: z.string().trim().max(100, maxLengthExceeded(100)).nullable(),
+	secondMajorCategory: z.string().trim().max(100, maxLengthExceeded(100)).default(''),
+	thirdMajor: z.string().trim().max(100, maxLengthExceeded(100)).nullable(),
+	thirdMajorCategory: z.string().trim().max(100, maxLengthExceeded(100)).default('')
 };
 
 // Application update form
@@ -154,16 +180,16 @@ export const admissionPlanUpdateValidator = {
 
 export const majorChoicesUpdateValidator = {
 	firstMajorId: optionalIdValidator.id,
-	firstMajor: z.string().trim().optional().nullable(),
-	firstMajorCategory: z.string().trim().optional().default(''),
+	firstMajor: z.string().trim().max(100, maxLengthExceeded(100)).nullable(),
+	firstMajorCategory: z.string().trim().max(100, maxLengthExceeded(100)).default(''),
 
 	secondMajorId: optionalIdValidator.id,
-	secondMajor: z.string().trim().optional().nullable(),
-	secondMajorCategory: z.string().trim().optional().default(''),
+	secondMajor: z.string().trim().max(100, maxLengthExceeded(100)).nullable(),
+	secondMajorCategory: z.string().trim().max(100, maxLengthExceeded(100)).default(''),
 
 	thirdMajorId: optionalIdValidator.id,
-	thirdMajor: z.string().trim().optional().nullable(),
-	thirdMajorCategory: z.string().trim().optional().default('')
+	thirdMajor: z.string().trim().max(100, maxLengthExceeded(100)).nullable(),
+	thirdMajorCategory: z.string().trim().max(100, maxLengthExceeded(100)).default('')
 };
 
 // Application log creation form
@@ -171,7 +197,7 @@ export const applicationLogValidators = {
 	application: idValidator.id,
 	status: z.string().min(1, selectionRequired),
 	date: z.string().min(1, fieldRequired),
-	comments: z.string().trim().optional().default('')
+	comments: z.string().trim().max(1000, maxLengthExceeded(1000)).default('')
 };
 
 // Deadline update form
@@ -192,8 +218,8 @@ export const decisionDateValidators = {
 export const userLogValidators = {
 	author: z.number().min(1), // user id
 	date: z.string().min(1, fieldRequired),
-	title: z.string().trim().max(100).optional().default(''),
-	text: z.string().trim().min(1, fieldRequired).max(1000),
+	title: z.string().trim().max(100, maxLengthExceeded(100)).default(''),
+	text: z.string().trim().min(1, fieldRequired).max(1000, maxLengthExceeded(1000)),
 	pinned: z.boolean().default(false),
 	shared: z.boolean().default(false),
 	task_status: z.string().optional().default(''),
@@ -214,8 +240,8 @@ export const enrollmentValidators = {
 	start_date: z.string().min(1, fieldRequired),
 	ending_progression: z.string().optional().default(''),
 	end_date: z.string().nullable(),
-	curriculum: z.string().trim().optional().default(''),
-	majors: z.string().trim().optional().default('')
+	curriculum: z.string().trim().default(''),
+	majors: z.string().trim().max(100, maxLengthExceeded(100)).default('')
 };
 
 // GPA creation/update form
@@ -251,7 +277,7 @@ const testScoreValidators = {
 	id: optionalIdValidator.id,
 	student: idValidator.id,
 	date: z.string().nullable(),
-	comments: z.string().trim().optional().default('')
+	comments: z.string().trim().max(1000, maxLengthExceeded(1000)).default('')
 };
 
 // TOEFL creation/update form
