@@ -10,7 +10,6 @@
 	import { toast } from '$lib/utils/interactiveUtils';
 	import { invalidateAll } from '$app/navigation';
 	import { UNKNOWN_ERROR } from '$lib/constants/messages';
-	import { formatProgression } from '$lib/utils/enrollmentUtils';
 
 	export let gpa: Gpa;
 	export let userIsOwner: boolean;
@@ -32,7 +31,7 @@
 
 <div class="gpa-card">
 	<div class="cf-entry-label">
-		{formatProgression(gpa.progression)} - {gpa.term} ({gpa.is_cumulative ? 'Cumul.' : 'Term'})
+		{gpa.term}{#if gpa.is_cumulative}&nbsp;(Cumul.){/if}
 	</div>
 	<div class="flex items-baseline gap-1">
 		<span class={`${gpa.is_cumulative ? 'text-primary-400' : 'text-surface-200'} text-xl`}
@@ -45,17 +44,11 @@
 			<div class="gpa-actions">
 				<EditIconButton
 					classNames="text-primary-400 hover:text-primary-500"
-					onClick={() => {
-						// activeService = service;
-						gpaUpdateDialog.showModal();
-					}}
+					onClick={() => gpaUpdateDialog.showModal()}
 				/>
 				<DeleteIconButton
 					classNames="text-error-400 hover:text-error-500"
-					onClick={() => {
-						// activeService = service;
-						gpaDeleteDialog.showModal();
-					}}
+					onClick={() => gpaDeleteDialog.showModal()}
 				/>
 			</div>
 		{/if}
@@ -81,7 +74,7 @@
 <style lang="postcss">
 	.gpa-card {
 		@apply flex flex-col gap-2;
-		@apply py-2 px-4 rounded-md;
+		@apply py-2 px-3 rounded-md;
 		@apply bg-surface-700;
 	}
 	.gpa-actions {

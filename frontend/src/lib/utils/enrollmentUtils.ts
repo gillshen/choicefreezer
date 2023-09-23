@@ -1,3 +1,6 @@
+import { ALL_PROGRESSIONS } from '$lib/constants/progressions';
+import type { ClassRank, Gpa, Progression } from '$lib/types/enrollmentTypes';
+
 export function formatProgression(progression: string): string {
 	const matchHighSchool = progression.match(/\bG\d+\b/);
 	if (matchHighSchool) {
@@ -29,4 +32,30 @@ export function abbreviateProgression(progression: string): string {
 	}
 
 	return progression;
+}
+
+export function formatTermType(gpa: Gpa) {
+	if (gpa.is_cumulative) {
+		return 'Cumul.';
+	}
+	if (gpa.term === 'Academic Year') {
+		return 'Year';
+	}
+	return 'Term';
+}
+
+export function groupByProgressionDesc<T extends Gpa | ClassRank>(
+	data: T[]
+): Record<Progression, T[]> {
+	const grouped: Record<Progression, T[]> = {};
+	const progressions = Array.from(ALL_PROGRESSIONS).reverse();
+
+	for (const progression of progressions) {
+		const match = data.filter((item) => item.progression === progression);
+		if (match.length) {
+			grouped[progression] = match;
+		}
+	}
+
+	return grouped;
 }

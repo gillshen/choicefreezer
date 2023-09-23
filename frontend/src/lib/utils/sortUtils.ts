@@ -1,5 +1,6 @@
 import type { ContractStatus, ServiceRole } from '$lib/types/contractTypes';
 import { SERVICE_ROLE_ORDER } from '$lib/constants/cfRoles';
+import type { TermOrYear } from '$lib/types/enrollmentTypes';
 
 export function byName(a: { name: string }, b: { name: string }) {
 	return a.name.localeCompare(b.name);
@@ -78,11 +79,27 @@ export function byEndDateStartDateDesc(
 	);
 }
 
-export function cumulativeFirst(a: { is_cumulative: boolean }, b: { is_cumulative: boolean }) {
-	if (a.is_cumulative) {
-		return -1;
-	} else if (b.is_cumulative) {
-		return 1;
+export function byTermDescCumulativeFirst(
+	a: { term: TermOrYear; is_cumulative?: boolean },
+	b: { term: TermOrYear; is_cumulative?: boolean }
+) {
+	// If terms are identical, cumulative first
+	if (a.term === b.term) {
+		if (a.is_cumulative) {
+			return -1;
+		} else if (b.is_cumulative) {
+			return 1;
+		}
+		return 0;
 	}
-	return 0;
+	// Else sort by term
+	const termOrdering: Record<TermOrYear, number> = {
+		'Academic Year': 0,
+		Summer: 1,
+		'Spring-Summer': 2,
+		Spring: 3,
+		Winter: 4,
+		Fall: 5
+	};
+	return termOrdering[a.term] - termOrdering[b.term];
 }

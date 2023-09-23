@@ -9,14 +9,17 @@
 	import EnrollmentForm from '$lib/forms/EnrollmentForm.svelte';
 	import GpaForm from '$lib/forms/GpaForm.svelte';
 	import ClassRankForm from '$lib/forms/ClassRankForm.svelte';
-	import { UNKNOWN_ERROR } from '$lib/constants/messages.js';
+	import { formatProgression, groupByProgressionDesc } from '$lib/utils/enrollmentUtils.js';
+	import { byTermDescCumulativeFirst } from '$lib/utils/sortUtils.js';
 	import { toMonthYear } from '$lib/utils/dateUtils.js';
-	import { formatProgression } from '$lib/utils/enrollmentUtils.js';
 	import { toast } from '$lib/utils/interactiveUtils.js';
+	import { UNKNOWN_ERROR } from '$lib/constants/messages.js';
 
 	export let data;
 
+	// TODO
 	let userIsOwner = true;
+
 	let enrollmentUpdateDialog: HTMLDialogElement;
 	let enrollmentDeleteDialog: HTMLDialogElement;
 	let gpaCreateDialog: HTMLDialogElement;
@@ -35,6 +38,8 @@
 	}
 
 	$: enrollment = data.enrollment;
+	$: gpasGrouped = Object.entries(groupByProgressionDesc(enrollment.grades));
+	$: classRanksGrouped = Object.entries(groupByProgressionDesc(enrollment.class_ranks));
 </script>
 
 <Section hero>
@@ -115,10 +120,19 @@
 			<div class="flex-grow overflow-auto flex flex-col px-6 pt-6">
 				<h2 class="font-heading-token">GPAs</h2>
 
-				{#if enrollment.grades.length}
+				{#if gpasGrouped.length}
 					<div class="flex flex-col gap-3 mt-3">
-						{#each enrollment.grades as grade}
-							<GpaCard gpa={grade} {userIsOwner} />
+						{#each gpasGrouped as [progression, gpaArray]}
+							<div class="flex flex-col">
+								<div class="cf-entry-label mb-1">
+									{formatProgression(progression)}
+								</div>
+								<div class="flex flex-col gap-2">
+									{#each gpaArray.sort(byTermDescCumulativeFirst) as gpa}
+										<GpaCard {gpa} {userIsOwner} />
+									{/each}
+								</div>
+							</div>
 						{/each}
 					</div>
 
@@ -143,10 +157,19 @@
 			<div class="flex-grow overflow-auto flex flex-col px-6 pt-6">
 				<h2 class="font-heading-token">Class ranks</h2>
 
-				{#if enrollment.class_ranks.length}
+				{#if classRanksGrouped.length}
 					<div class="flex flex-col gap-3 mt-3">
-						{#each enrollment.class_ranks as rank}
-							<ClassRankCard {rank} {userIsOwner} />
+						{#each classRanksGrouped as [progression, classRankArray]}
+							<div class="flex flex-col">
+								<div class="cf-entry-label mb-1">
+									{formatProgression(progression)}
+								</div>
+								<div class="flex flex-col gap-2">
+									{#each classRankArray.sort(byTermDescCumulativeFirst) as classRank}
+										<ClassRankCard rank={classRank} {userIsOwner} />
+									{/each}
+								</div>
+							</div>
 						{/each}
 					</div>
 

@@ -279,10 +279,14 @@
 				<div class="date-card">
 					<header class="flex justify-between items-center">
 						<div class="text-surface-300">Deadline</div>
-						<EditIconButton
-							onClick={() => deadlineUpdateDialog.showModal()}
-							classNames="text-primary-400 hover:text-primary-500"
-						/>
+						{#if userIsOwner}
+							<div class="date-card-actions">
+								<EditIconButton
+									onClick={() => deadlineUpdateDialog.showModal()}
+									classNames="text-primary-400 hover:text-primary-500"
+								/>
+							</div>
+						{/if}
 					</header>
 
 					<DateTimeDisplay
@@ -297,10 +301,14 @@
 				<div class="date-card">
 					<header class="flex justify-between items-center">
 						<div class="text-surface-300">Decision date</div>
-						<EditIconButton
-							onClick={() => decisionDateUpdateDialog.showModal()}
-							classNames="text-primary-400 hover:text-primary-500"
-						/>
+						{#if userIsOwner}
+							<div class="date-card-actions">
+								<EditIconButton
+									onClick={() => decisionDateUpdateDialog.showModal()}
+									classNames="text-primary-400 hover:text-primary-500"
+								/>
+							</div>
+						{/if}
 					</header>
 
 					<DateTimeDisplay date={application.subtarget.decision_date} />
@@ -437,5 +445,13 @@
 		@apply flex flex-col;
 		@apply w-[178px] h-[178px];
 		@apply bg-surface-800;
+	}
+
+	.date-card-actions {
+		@apply opacity-0;
+		@apply transition-opacity duration-200;
+	}
+	.date-card:hover .date-card-actions {
+		@apply opacity-100;
 	}
 </style>

@@ -7,12 +7,16 @@
 	} from '$lib/constants/progressions';
 	import { TERMS } from '$lib/constants/terms';
 	import { toMonthYear } from '$lib/utils/dateUtils';
-	import { abbreviateProgression } from '$lib/utils/enrollmentUtils';
-	import { cumulativeFirst } from '$lib/utils/sortUtils';
+	import {
+		abbreviateProgression,
+		formatProgression,
+		formatTermType
+	} from '$lib/utils/enrollmentUtils';
+	import { byTermDescCumulativeFirst } from '$lib/utils/sortUtils';
 
 	export let enrollment: EnrollmentListItem;
 
-	const terms = Array.from(TERMS);
+	const terms = [...Array.from(TERMS), 'Academic Year'].reverse();
 
 	let targetClass: string;
 	let progressions: string[];
@@ -71,7 +75,7 @@
 		</div>
 	</div>
 
-	{#each progressions as progression}
+	{#each progressions.reverse() as progression}
 		{#each terms as term}
 			{@const grades = enrollment.grades.filter(
 				(grade) => grade.progression === progression && grade.term === term
@@ -82,34 +86,29 @@
 			{#if grades.length || classRank}
 				<div class="flex flex-col px-4 pb-4">
 					<div class="cf-entry-label mb-1">
-						{enrollment.program_type === 'Pre-College'
-							? abbreviateProgression(progression)
-							: progression} - {term}
+						{formatProgression(progression)} - {term}
 					</div>
 
 					<div class="grid grid-cols-2 gap-4">
-						{#each grades.sort(cumulativeFirst) as grade}
+						{#each grades.sort(byTermDescCumulativeFirst) as gpa}
 							<div class="grade-card flex flex-col gap-2">
-								<div class="cf-entry-label">
-									{grade.is_cumulative ? 'Cumul.' : 'Term'} GPA
-								</div>
+								<div class="cf-entry-label">{formatTermType(gpa)} GPA</div>
 								<div class="flex gap-1 items-baseline my-auto">
 									<span
-										class={`${
-											grade.is_cumulative ? 'text-primary-400' : 'text-surface-50'
-										} text-xl`}>{grade.value}</span
+										class={`${gpa.is_cumulative ? 'text-primary-400' : 'text-surface-50'} text-xl`}
+										>{gpa.value}</span
 									>
 									<span class="text-surface-200 text-sm">/</span>
-									<span class="text-surface-200 text-sm">{grade.scale}</span>
+									<span class="text-surface-200 text-sm">{gpa.scale}</span>
 								</div>
 							</div>
 						{/each}
+
 						{#if classRank}
 							<div class="rank-card flex flex-col gap-2">
 								<div class="cf-entry-label">Class rank</div>
 								<div class="my-auto">
 									{#if classRank.top_x}
-										<span class="text-surface-200 text-sm">Top</span>
 										<span class="text-primary-400 text-xl">{classRank.top_x}%</span>
 										{#if classRank.class_size}
 											<span class="text-surface-200 text-sm"> of {classRank.class_size}</span>

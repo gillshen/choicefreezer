@@ -31,12 +31,11 @@
 
 <div class="class-rank-card">
 	<div class="cf-entry-label">
-		{rank.progression} - {rank.term}
+		{rank.term}
 	</div>
 
 	<div class="flex items-baseline gap-1">
 		{#if rank.top_x}
-			<span class="text-surface-200 text-sm">Top</span>
 			<span class="text-primary-400 text-xl">{rank.top_x}%</span>
 			{#if rank.class_size}
 				<span class="text-surface-200 text-sm"> of {rank.class_size}</span>
@@ -89,7 +88,7 @@
 <style lang="postcss">
 	.class-rank-card {
 		@apply flex flex-col gap-2;
-		@apply py-2 px-4 rounded-md;
+		@apply py-2 px-3 rounded-md;
 		@apply bg-surface-700;
 	}
 	.class-rank-actions {
