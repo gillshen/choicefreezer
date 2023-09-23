@@ -1,7 +1,15 @@
+export function formatProgression(progression: string): string {
+	const matchHighSchool = progression.match(/\bG\d+\b/);
+	if (matchHighSchool) {
+		return matchHighSchool[0];
+	}
+	return progression;
+}
+
 export function abbreviateProgression(progression: string): string {
-	const matchGrade = progression.match(/\bG\d+\b/);
-	if (matchGrade) {
-		return matchGrade[0];
+	const matchHighSchool = progression.match(/\bG\d+\b/);
+	if (matchHighSchool) {
+		return matchHighSchool[0];
 	}
 
 	switch (progression) {
@@ -15,9 +23,9 @@ export function abbreviateProgression(progression: string): string {
 			return 'Sr.';
 	}
 
-	const matchMasterYear = progression.match(/(?<=\bMaster Year )\d+\b/);
-	if (matchMasterYear) {
-		return `M${matchMasterYear[0]}`;
+	const matchMaster = progression.match(/(?<=\bMaster Year )\d+\b/);
+	if (matchMaster) {
+		return `M${matchMaster[0]}`;
 	}
 
 	return progression;

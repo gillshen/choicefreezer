@@ -23,25 +23,31 @@ export type Enrollment = {
 
 export type NewEnrollment = Omit<Enrollment, 'id'>;
 
-export type Grade = {
+export type TermOrYear = Term | 'Academic Year';
+
+export type Gpa = {
 	id: number;
 	enrollment: number;
 	progression: Progression;
-	term: Term;
+	term: TermOrYear;
 	value: number;
 	scale: number;
 	is_cumulative: boolean;
 };
 
+export type NewGpa = Omit<Gpa, 'id'>;
+
 export type ClassRank = {
 	id: number;
 	enrollment: number;
 	progression: Progression;
-	term: Term;
+	term: TermOrYear;
 	class_size: number | null;
 	rank: number | null;
 	top_x: number | null;
 };
+
+export type NewClassRank = Omit<Gpa, 'id'>;
 
 export type EnrollmentListItem = {
 	id: number;
@@ -60,7 +66,7 @@ export type EnrollmentListItem = {
 	curriculum: Curriculum | '';
 	majors: string;
 
-	grades: Grade[];
+	grades: Gpa[];
 	class_ranks: ClassRank[];
 };
 
@@ -84,6 +90,6 @@ export type EnrollmentPageData = {
 	curriculum: Curriculum | '';
 	majors: string;
 
-	grades: Grade[];
+	grades: Gpa[];
 	class_ranks: ClassRank[];
 };

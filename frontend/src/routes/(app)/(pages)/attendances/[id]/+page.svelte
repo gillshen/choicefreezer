@@ -1,12 +1,17 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { deleteEnrollment } from '$lib/api.js';
-	import BinaryDialog from '$lib/components/BinaryDialog.svelte';
-	import Dialog from '$lib/components/Dialog.svelte';
 	import Section from '$lib/components/Section.svelte';
-	import { UNKNOWN_ERROR } from '$lib/constants/messages.js';
+	import Dialog from '$lib/components/Dialog.svelte';
+	import BinaryDialog from '$lib/components/BinaryDialog.svelte';
+	import GpaCard from '$lib/components/GpaCard.svelte';
+	import ClassRankCard from '$lib/components/ClassRankCard.svelte';
 	import EnrollmentForm from '$lib/forms/EnrollmentForm.svelte';
+	import GpaForm from '$lib/forms/GpaForm.svelte';
+	import ClassRankForm from '$lib/forms/ClassRankForm.svelte';
+	import { UNKNOWN_ERROR } from '$lib/constants/messages.js';
 	import { toMonthYear } from '$lib/utils/dateUtils.js';
+	import { formatProgression } from '$lib/utils/enrollmentUtils.js';
 	import { toast } from '$lib/utils/interactiveUtils.js';
 
 	export let data;
@@ -14,6 +19,8 @@
 	let userIsOwner = true;
 	let enrollmentUpdateDialog: HTMLDialogElement;
 	let enrollmentDeleteDialog: HTMLDialogElement;
+	let gpaCreateDialog: HTMLDialogElement;
+	let rankCreateDialog: HTMLDialogElement;
 
 	// TODO move to server side?
 	async function handleDeleteEnrollment() {
@@ -58,7 +65,7 @@
 					<div class="cf-entry-label mb-1">From</div>
 					<div>
 						{toMonthYear(enrollment.start_date)}
-						({enrollment.starting_progression})
+						({formatProgression(enrollment.starting_progression)})
 					</div>
 				</div>
 
@@ -67,11 +74,11 @@
 					<div>
 						{#if enrollment.end_date && enrollment.ending_progression}
 							{toMonthYear(enrollment.end_date)}
-							({enrollment.ending_progression})
+							({formatProgression(enrollment.ending_progression)})
 						{:else if enrollment.end_date && !enrollment.ending_progression}
 							{toMonthYear(enrollment.end_date)}
 						{:else if !enrollment.end_date && enrollment.ending_progression}
-							? ({enrollment.ending_progression})
+							? ({formatProgression(enrollment.ending_progression)})
 						{:else}
 							n/a
 						{/if}
@@ -104,9 +111,61 @@
 			</div>
 		</article>
 
-		<article class="panel">GPA</article>
+		<article class="panel fit-height">
+			<div class="flex-grow overflow-auto flex flex-col px-6 pt-6">
+				<h2 class="font-heading-token">GPAs</h2>
 
-		<article class="panel">Class rank</article>
+				{#if enrollment.grades.length}
+					<div class="flex flex-col gap-3 mt-3">
+						{#each enrollment.grades as grade}
+							<GpaCard gpa={grade} {userIsOwner} />
+						{/each}
+					</div>
+
+					{#if userIsOwner}
+						<footer class="flex gap-6 mt-auto pt-4">
+							<button
+								class="cf-btn flex gap-2 items-center pb-8 pt-4 text-primary-400 hover:text-primary-500"
+								on:click={() => gpaCreateDialog.showModal()}>Add another</button
+							>
+						</footer>
+					{/if}
+				{:else if userIsOwner}
+					<button
+						class="btn cf-btn cf-primary !bg-primary-500 max-w-fit mt-4"
+						on:click={() => gpaCreateDialog.showModal()}>Add a GPA record</button
+					>
+				{/if}
+			</div>
+		</article>
+
+		<article class="panel fit-height">
+			<div class="flex-grow overflow-auto flex flex-col px-6 pt-6">
+				<h2 class="font-heading-token">Class ranks</h2>
+
+				{#if enrollment.class_ranks.length}
+					<div class="flex flex-col gap-3 mt-3">
+						{#each enrollment.class_ranks as rank}
+							<ClassRankCard {rank} {userIsOwner} />
+						{/each}
+					</div>
+
+					{#if userIsOwner}
+						<footer class="flex gap-6 mt-auto pt-4">
+							<button
+								class="cf-btn flex gap-2 items-center pb-8 pt-4 text-primary-400 hover:text-primary-500"
+								on:click={() => rankCreateDialog.showModal()}>Add another</button
+							>
+						</footer>
+					{/if}
+				{:else if userIsOwner}
+					<button
+						class="btn cf-btn cf-primary !bg-primary-500 max-w-fit mt-4"
+						on:click={() => rankCreateDialog.showModal()}>Add a rank record</button
+					>
+				{/if}
+			</div>
+		</article>
 	</div>
 </Section>
 
@@ -132,3 +191,23 @@
 		you sure you want to proceed?
 	</p>
 </BinaryDialog>
+
+<Dialog bind:dialog={gpaCreateDialog} exitHelper title="Add a GPA record">
+	<GpaForm
+		bind:dialog={gpaCreateDialog}
+		data={data.gpaCreateForm}
+		action="?/createGpa"
+		enrollmentId={enrollment.id}
+		programType={enrollment.program_type}
+	/>
+</Dialog>
+
+<Dialog bind:dialog={rankCreateDialog} exitHelper title="Add a class rank">
+	<ClassRankForm
+		bind:dialog={rankCreateDialog}
+		data={data.classRankCreateForm}
+		action="?/createClassRank"
+		enrollmentId={enrollment.id}
+		programType={enrollment.program_type}
+	/>
+</Dialog>

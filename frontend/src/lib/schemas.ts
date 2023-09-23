@@ -1,10 +1,11 @@
 import { z } from 'zod';
 import {
-	applicationLogValidators,
-	applicationValidators,
-	contractServiceValidators,
-	contractUpdateValidators,
 	idValidator,
+	contractUpdateValidators,
+	contractServiceValidators,
+	serviceValidators,
+	applicationValidators,
+	applicationLogValidators,
 	newSchoolValidators,
 	programUpdateValidators,
 	studentValidators,
@@ -14,7 +15,8 @@ import {
 	decisionDateValidators,
 	userLogValidators,
 	enrollmentValidators,
-	serviceValidators,
+	gpaValidators,
+	classRankValidators,
 	toeflScoreValidators,
 	ieltsScoreValidators,
 	detScoreValidators,
@@ -50,7 +52,7 @@ export const userPasswordResetSchema = z.object({
 
 export type UserPasswordResetSchema = typeof userPasswordResetSchema;
 
-export const newSchoolSchema = z.object({ ...newSchoolValidators });
+export const newSchoolSchema = z.object(newSchoolValidators);
 
 export type NewSchoolSchema = typeof newSchoolSchema;
 
@@ -61,7 +63,7 @@ export const schoolUpdateSchema = z.object({
 
 export type SchoolUpdateSchema = typeof schoolUpdateSchema;
 
-export const programUpdateSchema = z.object({ ...programUpdateValidators });
+export const programUpdateSchema = z.object(programUpdateValidators);
 
 export type ProgramUpdateSchema = typeof programUpdateSchema;
 
@@ -79,7 +81,7 @@ export const studentUpdateSchema = z.object({
 
 export type StudentUpdateSchema = typeof studentUpdateSchema;
 
-export const contractUpdateSchema = z.object({ ...contractUpdateValidators });
+export const contractUpdateSchema = z.object(contractUpdateValidators);
 
 export type ContractUpdateSchema = typeof contractUpdateSchema;
 
@@ -90,11 +92,11 @@ export const contractServiceSchema = z.object({
 
 export type ContractServiceSchema = typeof contractServiceSchema;
 
-export const serviceSchema = z.object({ ...serviceValidators });
+export const serviceSchema = z.object(serviceValidators);
 
 export type ServiceSchema = typeof serviceSchema;
 
-export const newApplicationSchema = z.object({ ...applicationValidators });
+export const newApplicationSchema = z.object(applicationValidators);
 
 export type NewApplicationSchema = typeof newApplicationSchema;
 
@@ -106,67 +108,75 @@ export const applicationUpdateSchema = z.object({
 
 export type ApplicationUpdateSchema = typeof applicationUpdateSchema;
 
-export const newApplicationLogSchema = z.object({ ...applicationLogValidators });
+export const newApplicationLogSchema = z.object(applicationLogValidators);
 
 export type NewApplicationLogSchema = typeof newApplicationLogSchema;
 
-export const deadlineUpdateSchema = z.object({ ...deadlineValidators });
+export const deadlineUpdateSchema = z.object(deadlineValidators);
 
 export type DeadlineUpdateSchema = typeof deadlineUpdateSchema;
 
-export const decisionDateUpdateSchema = z.object({ ...decisionDateValidators });
+export const decisionDateUpdateSchema = z.object(decisionDateValidators);
 
 export type DecisionDateUpdateSchema = typeof decisionDateUpdateSchema;
 
-export const newUserLogSchema = z.object({ ...userLogValidators });
+export const newUserLogSchema = z.object(userLogValidators);
 
 export type NewUserLogSchema = typeof newUserLogSchema;
 
-export const enrollmentSchema = z.object({ ...enrollmentValidators });
+export const enrollmentSchema = z.object(enrollmentValidators);
 
 export type EnrollmentSchema = typeof enrollmentSchema;
 
-export const toeflScoreSchema = z.object({ ...toeflScoreValidators });
+export const gpaSchema = z.object(gpaValidators);
+
+export type GpaSchema = typeof gpaSchema;
+
+export const classRankSchema = z.object(classRankValidators);
+
+export type ClassRankSchema = typeof classRankSchema;
+
+export const toeflScoreSchema = z.object(toeflScoreValidators);
 
 export type ToeflScoreSchema = typeof toeflScoreSchema;
 
-export const ieltsScoreSchema = z.object({ ...ieltsScoreValidators });
+export const ieltsScoreSchema = z.object(ieltsScoreValidators);
 
 export type IeltsScoreSchema = typeof ieltsScoreSchema;
 
-export const detScoreSchema = z.object({ ...detScoreValidators });
+export const detScoreSchema = z.object(detScoreValidators);
 
 export type DetScoreSchema = typeof detScoreSchema;
 
-export const satScoreSchema = z.object({ ...satScoreValidators });
+export const satScoreSchema = z.object(satScoreValidators);
 
 export type SatScoreSchema = typeof satScoreSchema;
 
-export const actScoreSchema = z.object({ ...actScoreValidators });
+export const actScoreSchema = z.object(actScoreValidators);
 
 export type ActScoreSchema = typeof actScoreSchema;
 
-export const apScoreSchema = z.object({ ...apScoreValidators });
+export const apScoreSchema = z.object(apScoreValidators);
 
 export type ApScoreSchema = typeof apScoreSchema;
 
-export const ibGradeSchema = z.object({ ...ibGradeValidators });
+export const ibGradeSchema = z.object(ibGradeValidators);
 
 export type IbGradeSchema = typeof ibGradeSchema;
 
-export const alevelGradeSchema = z.object({ ...alevelGradeValidators });
+export const alevelGradeSchema = z.object(alevelGradeValidators);
 
 export type AlevelGradeSchema = typeof alevelGradeSchema;
 
-export const greScoreSchema = z.object({ ...greScoreValidators });
+export const greScoreSchema = z.object(greScoreValidators);
 
 export type GreScoreSchema = typeof greScoreSchema;
 
-export const gmatScoreSchema = z.object({ ...gmatScoreValidators });
+export const gmatScoreSchema = z.object(gmatScoreValidators);
 
 export type GmatScoreSchema = typeof gmatScoreSchema;
 
-export const lsatScoreSchema = z.object({ ...lsatScoreValidators });
+export const lsatScoreSchema = z.object(lsatScoreValidators);
 
 export type LsatScoreSchema = typeof lsatScoreSchema;
 

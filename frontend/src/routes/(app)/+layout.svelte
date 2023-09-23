@@ -191,7 +191,7 @@
 	.dropdown-nav {
 		@apply absolute top-[72px];
 		@apply z-10;
-		@apply text-surface-50 bg-surface-800;
+		@apply text-surface-50 bg-surface-700;
 		@apply rounded-lg;
 		display: grid;
 		grid-template-rows: 0fr;
@@ -218,7 +218,7 @@
 		transform: scaleY(1);
 	}
 	.dropdown-nav.people {
-		@apply pl-6;
+		@apply pl-4;
 	}
 	.dropdown-nav.people.open > * {
 		@apply pb-6;

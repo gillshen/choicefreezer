@@ -204,7 +204,7 @@ export const userLogValidators = {
 	isTodo: z.boolean()
 };
 
-// Enrollment creation form
+// Enrollment creation/update form
 export const enrollmentValidators = {
 	id: optionalIdValidator.id,
 	student: z.number().min(1), // student id
@@ -216,6 +216,34 @@ export const enrollmentValidators = {
 	end_date: z.string().nullable(),
 	curriculum: z.string().trim().optional().default(''),
 	majors: z.string().trim().optional().default('')
+};
+
+// GPA creation/update form
+export const gpaValidators = {
+	id: optionalIdValidator.id,
+	enrollment: idValidator.id,
+	progression: z.string().min(1, selectionRequired),
+	term: z.string().min(1, selectionRequired),
+	value: z.number().min(0, minValueExceeded(0)),
+	scale: z.number().min(0, minValueExceeded(0)).default(4.0),
+	is_cumulative: z.boolean().default(false)
+};
+
+// Class rank creation/update form
+export const classRankValidators = {
+	id: optionalIdValidator.id,
+	enrollment: idValidator.id,
+	progression: z.string().min(1, selectionRequired),
+	term: z.string().min(1, selectionRequired),
+	class_size: z.number().int().min(1, minValueExceeded(1)).optional().nullable(),
+	rank: z.number().int().min(1, minValueExceeded(1)).optional().nullable(),
+	top_x: z
+		.number()
+		.int()
+		.min(0, minValueExceeded(0))
+		.max(100, maxValueExceeded(100))
+		.optional()
+		.nullable()
 };
 
 // Base test score validators

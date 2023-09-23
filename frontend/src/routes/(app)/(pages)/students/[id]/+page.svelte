@@ -289,7 +289,7 @@
 </Section>
 
 <Section lighter long>
-	<div class="grid grid-cols-3 gap-12 items-start">
+	<div class="grid grid-cols-[2fr_2fr_1fr] gap-12 items-start">
 		<article class="panel transparent fit-height gap-6">
 			<h2 class="text-xl font-heading-token font-bold">School Attendance</h2>
 

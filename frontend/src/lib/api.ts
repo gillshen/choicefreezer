@@ -16,7 +16,9 @@ import type { NewUserLog, UserLogListItem } from '$lib/types/userLogTypes';
 import type {
 	EnrollmentListItem,
 	EnrollmentPageData,
-	NewEnrollment
+	NewClassRank,
+	NewEnrollment,
+	NewGpa
 } from '$lib/types/enrollmentTypes';
 import type {
 	ActScore,
@@ -285,6 +287,30 @@ export async function deleteEnrollment(enrollmentId: number) {
 
 export async function fetchEnrollments(studentId: number): Promise<EnrollmentListItem[]> {
 	return await get(`s.enrollments/?student=${studentId}`);
+}
+
+export async function createGpa(data: NewGpa) {
+	return await post('s.gpa/new/', data);
+}
+
+export async function patchGpa(gpaId: number, data: any) {
+	return await patch(`s.gpa/${gpaId}/update/`, data);
+}
+
+export async function deleteGpa(gpaId: number) {
+	return await destroy(`s.gpa/${gpaId}/delete/`);
+}
+
+export async function createClassRank(data: NewClassRank) {
+	return await post('s.class_ranks/new/', data);
+}
+
+export async function patchClassRank(rankId: number, data: any) {
+	return await patch(`s.class_ranks/${rankId}/update/`, data);
+}
+
+export async function deleteClassRank(rankId: number) {
+	return await destroy(`s.class_ranks/${rankId}/delete/`);
 }
 
 export async function createToeflScore(data: NewToeflScore) {
