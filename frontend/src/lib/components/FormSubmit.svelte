@@ -8,10 +8,12 @@
 	<button type="submit" class="btn cf-btn variant-filled-primary text-black">{buttonText}</button>
 </div>
 
-<div class="h-8 mt-2">
-	{#if message === 'success' && successText}
-		<small class="success-message max-w-sm">{successText}</small>
-	{:else if message}
-		<small class="error-message max-w-sm">{message}</small>
-	{/if}
-</div>
+{#if message}
+	<div class="h-8 mt-2 mb-4 max-w-[28rem]">
+		{#if message === 'success' && successText}
+			<small class="success-message max-w-sm">{successText}</small>
+		{:else}
+			<small class="error-message max-w-sm">{message}</small>
+		{/if}
+	</div>
+{/if}
