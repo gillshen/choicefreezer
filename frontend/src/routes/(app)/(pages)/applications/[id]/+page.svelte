@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto, invalidateAll } from '$app/navigation';
 
-	import { deleteApplication, deleteApplicationLog } from '$lib/api.js';
+	import { deleteApplication, deleteApplicationLog, patchApplication } from '$lib/api.js';
 	import type { ApplicationLog } from '$lib/types/applicationLogTypes.js';
 
 	import Section from '$lib/components/Section.svelte';
@@ -52,10 +52,20 @@
 	// TODO move to server side?
 	async function handleDeleteLog() {
 		const response = await deleteApplicationLog(activeLog.id);
-		if (response.ok) {
+
+		let scholarshipResponse: Response | undefined = undefined;
+
+		if (activeLog.status === 'Admitted') {
+			scholarshipResponse = await patchApplication(activeLog.application, {
+				scholarship_amount: 0,
+				scholarship_currency: ''
+			});
+		}
+
+		if (response.ok && (!scholarshipResponse || scholarshipResponse.ok)) {
 			invalidateAll();
 			logDeleteDialog.close();
-			toast('Entry deleted', 'success');
+			toast('Timeline entry deleted', 'success');
 		} else {
 			toast(UNKNOWN_ERROR, 'error');
 		}
@@ -265,8 +275,8 @@
 				<div class="cf-entry">
 					<div class="cf-entry-label">Scholarship awarded</div>
 					{#if application.scholarship_amount}
-						{new Intl.NumberFormat('en-US').format(application.scholarship_amount)}
 						{application.scholarship_currency}
+						{new Intl.NumberFormat('en-US').format(application.scholarship_amount)}
 					{:else}
 						None
 					{/if}

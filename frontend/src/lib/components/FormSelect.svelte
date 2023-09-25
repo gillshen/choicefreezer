@@ -7,6 +7,7 @@
 	export let optional = false;
 	export let optionalText = 'optional';
 	export let width: '' | 'wider' | 'narrower' = '';
+	export let onChange: () => void = () => {};
 </script>
 
 <div class="flex flex-col">
@@ -21,7 +22,10 @@
 		bind:value={form[name]}
 		aria-invalid={errors[name] ? 'true' : undefined}
 		required={!optional}
-		on:change={() => (errors[name] = false)}
+		on:change={() => {
+			errors[name] = false;
+			onChange();
+		}}
 	>
 		<slot />
 	</select>

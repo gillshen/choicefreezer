@@ -9,8 +9,9 @@ import {
 	newSchoolValidators,
 	programUpdateValidators,
 	studentValidators,
-	admissionPlanUpdateValidator,
-	majorChoicesUpdateValidator,
+	admissionPlanUpdateValidators,
+	majorChoicesUpdateValidators,
+	scholarshipUpdateValidators,
 	deadlineValidators,
 	decisionDateValidators,
 	userLogValidators,
@@ -102,8 +103,9 @@ export type NewApplicationSchema = typeof newApplicationSchema;
 
 export const applicationUpdateSchema = z.object({
 	...idValidator,
-	...admissionPlanUpdateValidator,
-	...majorChoicesUpdateValidator
+	...admissionPlanUpdateValidators,
+	...majorChoicesUpdateValidators,
+	...scholarshipUpdateValidators
 });
 
 export type ApplicationUpdateSchema = typeof applicationUpdateSchema;

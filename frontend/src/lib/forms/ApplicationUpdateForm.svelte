@@ -8,10 +8,14 @@
 
 	import HiddenIdField from '$lib/components/HiddenIdField.svelte';
 	import FormSelect from '$lib/components/FormSelect.svelte';
+	import OptionList from '$lib/components/OptionList.svelte';
+	import FormTextInput from '$lib/components/FormTextInput.svelte';
 	import MajorFormFields from '$lib/components/MajorFormFields.svelte';
 	import FormSubmit from '$lib/components/FormSubmit.svelte';
 
 	import { page } from '$app/stores';
+	import { CURRENCIES } from '$lib/constants/currencies';
+	import type { ApplicationLog } from '$lib/types/applicationLogTypes';
 
 	export let dialog: HTMLDialogElement | undefined;
 	export let action: string;
@@ -32,6 +36,8 @@
 	$: $form.targetId = application.target.id;
 
 	$: $form.admissionPlan = application.subtarget.admission_plan;
+	$: $form.scholarshipAmount = application.scholarship_amount;
+	$: $form.scholarshipCurrency = application.scholarship_currency || 'USD';
 
 	$: firstMajorChoice = $page.data.firstMajorChoice;
 	$: secondMajorChoice = $page.data.secondMajorChoice;
@@ -55,6 +61,9 @@
 
 	$: isUndergraduate = ['UG Freshman', 'UG Transfer'].includes(programType);
 	$: admissionPlans = isUndergraduate ? UG_PLANS : NONUG_PLANS;
+
+	$: isAdmitted =
+		application.logs.filter((log: ApplicationLog) => log.status === 'Admitted').length > 0;
 </script>
 
 <form method="post" {action} novalidate use:enhance>
@@ -82,7 +91,7 @@
 
 	{#if isUndergraduate}
 		<fieldset>
-			<legend class="empty" />
+			<legend>Majors</legend>
 
 			<MajorFormFields
 				rank="First"
@@ -111,6 +120,35 @@
 				form={$form}
 				errors={$errors}
 			/>
+		</fieldset>
+	{/if}
+
+	{#if isAdmitted}
+		<fieldset>
+			<legend>Scholarship awarded</legend>
+
+			<div class="flex gap-4">
+				<FormSelect
+					id="scholarship-currency-select"
+					name="scholarshipCurrency"
+					label="Currency"
+					form={$form}
+					errors={$errors}
+					width="narrower"
+				>
+					<OptionList options={CURRENCIES} />
+				</FormSelect>
+
+				<FormTextInput
+					id="scholarship-amount-input"
+					name="scholarshipAmount"
+					label="Amount"
+					form={$form}
+					errors={$errors}
+					width="narrower"
+					placeholder="0"
+				/>
+			</div>
 		</fieldset>
 	{/if}
 

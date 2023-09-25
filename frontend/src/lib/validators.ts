@@ -173,12 +173,12 @@ export const applicationValidators = {
 };
 
 // Application update form
-export const admissionPlanUpdateValidator = {
+export const admissionPlanUpdateValidators = {
 	targetId: idValidator.id,
 	admissionPlan: z.string().min(1, selectionRequired)
 };
 
-export const majorChoicesUpdateValidator = {
+export const majorChoicesUpdateValidators = {
 	firstMajorId: optionalIdValidator.id,
 	firstMajor: z.string().trim().max(100, maxLengthExceeded(100)).nullable(),
 	firstMajorCategory: z.string().trim().max(100, maxLengthExceeded(100)).default(''),
@@ -192,12 +192,20 @@ export const majorChoicesUpdateValidator = {
 	thirdMajorCategory: z.string().trim().max(100, maxLengthExceeded(100)).default('')
 };
 
+export const scholarshipUpdateValidators = {
+	scholarshipAmount: z.number().int().min(1, minValueExceeded(1)).optional().nullable(),
+	scholarshipCurrency: z.string().optional().default('USD')
+};
+
 // Application log creation form
 export const applicationLogValidators = {
 	application: idValidator.id,
 	status: z.string().min(1, selectionRequired),
 	date: z.string().min(1, fieldRequired),
-	comments: z.string().trim().max(1000, maxLengthExceeded(1000)).default('')
+	comments: z.string().trim().max(1000, maxLengthExceeded(1000)).default(''),
+	// Extra info in the event of admission
+	altAdmittedTarget: z.number().optional().nullable(),
+	...scholarshipUpdateValidators
 };
 
 // Deadline update form

@@ -102,7 +102,11 @@ export const actions = {
 		const subTarget: SubTarget = await subTargetResponse.json();
 
 		// Update the application with the (possibly) new subtarget
-		const patchApplicationResponse = await patchApplication(data.id, { subtarget: subTarget.id });
+		const patchApplicationResponse = await patchApplication(data.id, {
+			subtarget: subTarget.id,
+			scholarship_amount: data.scholarshipAmount,
+			scholarship_currency: data.scholarshipCurrency
+		});
 		if (!patchApplicationResponse.ok) {
 			return message(form, UNKNOWN_ERROR, { status: 400 });
 		}
@@ -198,6 +202,16 @@ export const actions = {
 		const response = await createApplicationLog(form.data as NewApplicationLog);
 		if (!response.ok) {
 			return message(form, UNKNOWN_ERROR, { status: 400 });
+		}
+
+		if (form.data.scholarshipAmount) {
+			const scholarshipResponse = await patchApplication(form.data.application, {
+				scholarship_amount: form.data.scholarshipAmount,
+				scholarship_currency: form.data.scholarshipCurrency
+			});
+			if (!scholarshipResponse.ok) {
+				return message(form, UNKNOWN_ERROR, { status: 400 });
+			}
 		}
 
 		return { form };
