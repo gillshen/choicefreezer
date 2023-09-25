@@ -105,8 +105,8 @@ export const actions = {
 		// Update the application with the (possibly) new subtarget
 		const patchApplicationResponse = await patchApplication(data.id, {
 			subtarget: subTarget.id,
-			scholarship_amount: data.scholarshipAmount,
-			scholarship_currency: data.scholarshipCurrency
+			scholarship_amount: data.scholarshipAmount ?? 0,
+			scholarship_currency: data.scholarshipCurrency ?? ''
 		});
 		if (!patchApplicationResponse.ok) {
 			return message(form, UNKNOWN_ERROR, { status: 400 });
