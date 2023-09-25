@@ -6,6 +6,7 @@
 	export let errors: any;
 	export let optional = false;
 	export let optionalText = 'optional';
+	export let disabled = false;
 	export let width: '' | 'wider' | 'narrower' = '';
 	export let onChange: () => void = () => {};
 </script>
@@ -26,6 +27,7 @@
 			errors[name] = false;
 			onChange();
 		}}
+		{disabled}
 	>
 		<slot />
 	</select>

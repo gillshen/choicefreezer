@@ -222,6 +222,16 @@ export const decisionDateValidators = {
 	decision_date: z.string().optional().nullable()
 };
 
+// Subtarget update form
+export const subTargetValidators = {
+	...deadlineValidators,
+	...decisionDateValidators,
+	id: optionalIdValidator.id,
+	target: idValidator.id,
+	admission_plan: z.string().min(1, selectionRequired),
+	comments: z.string().trim().default('')
+};
+
 // User log creation/update form
 export const userLogValidators = {
 	author: z.number().min(1), // user id

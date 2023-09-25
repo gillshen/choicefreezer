@@ -14,6 +14,7 @@ import {
 	scholarshipUpdateValidators,
 	deadlineValidators,
 	decisionDateValidators,
+	subTargetValidators,
 	userLogValidators,
 	enrollmentValidators,
 	gpaValidators,
@@ -122,6 +123,10 @@ export type DeadlineUpdateSchema = typeof deadlineUpdateSchema;
 export const decisionDateUpdateSchema = z.object(decisionDateValidators);
 
 export type DecisionDateUpdateSchema = typeof decisionDateUpdateSchema;
+
+export const subTargetSchema = z.object(subTargetValidators);
+
+export type SubTargetSchema = typeof subTargetSchema;
 
 export const newUserLogSchema = z.object(userLogValidators);
 

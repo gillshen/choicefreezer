@@ -76,8 +76,8 @@
 			{/if}
 		</time>
 
-		<button class="cf-btn score-comment" use:popup={popupClick} disabled={!data.comments}>
-			<i class="fa-regular fa-message" />
+		<button class="cf-btn popup-btn" use:popup={popupClick} disabled={!data.comments}>
+			<i class="fa-solid fa-circle-info" />
 		</button>
 	</div>
 
@@ -86,9 +86,9 @@
 	</div>
 </div>
 
-<div class="rounded-lg bg-surface-500 px-6 py-4" data-popup={popupTarget}>
+<div class="rounded-lg bg-surface-600 px-6 py-4" data-popup={popupTarget}>
 	<Paragraphs paragraphs={data.comments} />
-	<div class="arrow variant-filled-surface" />
+	<div class="arrow bg-surface-600" />
 </div>
 
 <BinaryDialog
