@@ -22,7 +22,7 @@ class ProgramAdmin(admin.ModelAdmin):
 
 @admin.register(models.Target)
 class TargetAdmin(admin.ModelAdmin):
-    list_display = "id", "program", "year", "term", "subjective_rank"
+    list_display = "id", "program", "year", "term", "cf_rank"
 
 
 @admin.register(models.TargetRequirements)

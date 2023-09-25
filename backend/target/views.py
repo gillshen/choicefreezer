@@ -28,6 +28,7 @@ from target.serializers import (
     ProgramListItemSerializer,
     ProgramSelectItemSerializer,
     TargetListItemSerializer,
+    TargetPageDataSerializer,
 )
 
 
@@ -79,8 +80,7 @@ class TargetCreateView(CreateAPIView):
 
 class TargetRetrieveView(RetrieveAPIView):
     queryset = Target.objects.all()
-    # TODO
-    serializer_class = TargetSerializer
+    serializer_class = TargetPageDataSerializer
 
 
 class TargetUpdateDeleteView(RetrieveUpdateDestroyAPIView):

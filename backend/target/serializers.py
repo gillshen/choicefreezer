@@ -203,3 +203,14 @@ class TargetListItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Target
         fields = "__all__"
+
+
+class TargetPageDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Target
+        fields = "__all__"
+
+    schools = SchoolSerializer(read_only=True, many=True)
+    program = ProgramSerializer(read_only=True)
+    program_display_name = serializers.CharField(read_only=True)
+    subtargets = SubTargetSerializer(read_only=True, many=True)

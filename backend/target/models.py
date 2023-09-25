@@ -173,7 +173,7 @@ class Target(models.Model):
         program: number;
         year: number;
         term: <Target.Term>;
-        subjective_rank?: number;
+        cf_rank?: number;
 
     Related fields:
         subtargets: [SubTarget];
@@ -196,7 +196,7 @@ class Target(models.Model):
 
     # Allow users to assign whatever rank they please; the database does
     # not enforce any checks (except that the values must be positive).
-    subjective_rank = models.PositiveIntegerField(null=True, blank=True)
+    cf_rank = models.PositiveIntegerField(null=True, blank=True)
 
     class Meta:
         constraints = [
@@ -210,6 +210,10 @@ class Target(models.Model):
 
     def __str__(self) -> str:
         return f"{self.program} ({self.term} {self.year})"
+
+    @property
+    def schools(self):
+        return self.program.schools
 
     @property
     def program_display_name(self) -> str:
