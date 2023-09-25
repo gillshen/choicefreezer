@@ -3,7 +3,6 @@
 	import { superForm } from 'sveltekit-superforms/client';
 
 	import type { ApplicationUpdateSchema } from '$lib/schemas';
-	import type { ProgramType } from '$lib/types/programTypes';
 	import { UG_PLANS, NONUG_PLANS } from '$lib/constants/admissionPlans';
 	import { closeDialogOnSuccess } from '$lib/utils/formUtils';
 
@@ -12,17 +11,47 @@
 	import MajorFormFields from '$lib/components/MajorFormFields.svelte';
 	import FormSubmit from '$lib/components/FormSubmit.svelte';
 
+	import { page } from '$app/stores';
+
 	export let dialog: HTMLDialogElement | undefined;
 	export let action: string;
 	export let data: SuperValidated<ApplicationUpdateSchema>;
-	export let programType: ProgramType;
 
 	const { form, errors, message, enhance } = superForm(data, {
 		id: action,
 		scrollToError: 'auto',
 		taintedMessage: null,
+		resetForm: true,
 		onResult: ({ result }) => closeDialogOnSuccess(result, dialog!)
 	});
+
+	$: application = $page.data.application;
+	$: applicationId = application.id;
+	$: programType = application.program.type;
+
+	$: $form.targetId = application.target.id;
+
+	$: $form.admissionPlan = application.subtarget.admission_plan;
+
+	$: firstMajorChoice = $page.data.firstMajorChoice;
+	$: secondMajorChoice = $page.data.secondMajorChoice;
+	$: thirdMajorChoice = $page.data.thirdMajorChoice;
+
+	$: if (firstMajorChoice) {
+		$form.firstMajorId = firstMajorChoice.id;
+		$form.firstMajor = firstMajorChoice.major;
+		$form.firstMajorCategory = firstMajorChoice.major_category;
+	}
+	$: if (secondMajorChoice) {
+		$form.secondMajorId = secondMajorChoice.id;
+		$form.secondMajor = secondMajorChoice.major;
+		$form.secondMajorCategory = secondMajorChoice.major_category;
+	}
+	$: if (thirdMajorChoice) {
+		$form.thirdMajorId = thirdMajorChoice.id;
+		$form.thirdMajor = thirdMajorChoice.major;
+		$form.thirdMajorCategory = thirdMajorChoice.major_category;
+	}
 
 	$: isUndergraduate = ['UG Freshman', 'UG Transfer'].includes(programType);
 	$: admissionPlans = isUndergraduate ? UG_PLANS : NONUG_PLANS;
@@ -32,11 +61,11 @@
 	<fieldset>
 		<legend class="empty" />
 
-		<HiddenIdField id="application-id" value={$form.id} name="id" />
+		<HiddenIdField id="application-id" value={applicationId} name="id" />
 		<HiddenIdField id="target-id" value={$form.targetId} name="targetId" />
-		<HiddenIdField id="first-major-id" value={$form.firstMajorId} name="firstMajorId" />
-		<HiddenIdField id="second-major-id" value={$form.secondMajorId} name="secondMajorId" />
-		<HiddenIdField id="third-major-id" value={$form.thirdMajorId} name="thirdMajorId" />
+		<HiddenIdField id="major-1-id" value={$form.firstMajorId} name="firstMajorId" />
+		<HiddenIdField id="major-2-id" value={$form.secondMajorId} name="secondMajorId" />
+		<HiddenIdField id="major-3-id" value={$form.thirdMajorId} name="thirdMajorId" />
 
 		<FormSelect
 			id="admission-plan-select"

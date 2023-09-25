@@ -13,6 +13,7 @@
 	import DecisionDateUpdateForm from '$lib/forms/DecisionDateUpdateForm.svelte';
 	import ApplicationLogForm from '$lib/forms/ApplicationLogForm.svelte';
 	import BinaryDialog from '$lib/components/BinaryDialog.svelte';
+	import Paragraphs from '$lib/components/Paragraphs.svelte';
 	import EditIconButton from '$lib/components/EditIconButton.svelte';
 	import DeleteIconButton from '$lib/components/DeleteIconButton.svelte';
 
@@ -21,7 +22,6 @@
 	import { toShortDate } from '$lib/utils/dateUtils';
 	import { getBestScore, statusToClass } from '$lib/utils/applicationUtils.js';
 	import { isGraduate, isUndergraduate } from '$lib/utils/programUtils.js';
-	import Paragraphs from '$lib/components/Paragraphs.svelte';
 
 	export let data;
 
@@ -366,7 +366,6 @@
 		bind:dialog={applicationUpdateDialog}
 		action="?/updateApplication"
 		data={data.applicationUpdateForm}
-		programType={application.program.type}
 	/>
 </Dialog>
 
