@@ -108,8 +108,11 @@ footer.page-footer > div {
 }
 
 .cf-entry {
-	@apply border-b border-dotted border-surface-400;
+	@apply border-dotted border-surface-400;
 	@apply pb-2;
+}
+.cf-entry:not(:last-of-type) {
+	@apply border-b;
 }
 .cf-entry:not(:first-of-type) {
 	@apply pt-3.5;

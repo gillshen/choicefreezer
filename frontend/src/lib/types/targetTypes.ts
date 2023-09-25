@@ -1,6 +1,6 @@
 import type { TERMS } from '$lib/constants/terms';
 import type { ProgramType, School } from '$lib/types/programTypes';
-import type { AdmissionPlan } from './subTargetTypes';
+import type { SubTarget } from '$lib/types/subTargetTypes';
 
 export type Term = (typeof TERMS)[number];
 
@@ -20,17 +20,6 @@ export type Program = {
 	name: string;
 	degree: string;
 	schools: number[];
-};
-
-export type SubTarget = {
-	id: number;
-	admission_plan: AdmissionPlan;
-	deadline_date: string | null;
-	deadline_time: string | null;
-	deadline_timezone: string;
-	decision_date: string | null;
-	comments: string;
-	target: number;
 };
 
 export type TargetPageData = {

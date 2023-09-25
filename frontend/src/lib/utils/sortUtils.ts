@@ -1,6 +1,7 @@
 import type { ContractStatus, ServiceRole } from '$lib/types/contractTypes';
 import { SERVICE_ROLE_ORDER } from '$lib/constants/cfRoles';
 import type { TermOrYear } from '$lib/types/enrollmentTypes';
+import type { SubTarget } from '$lib/types/subTargetTypes';
 
 export function byName(a: { name: string }, b: { name: string }) {
 	return a.name.localeCompare(b.name);
@@ -102,4 +103,19 @@ export function byTermDescCumulativeFirst(
 		Fall: 5
 	};
 	return termOrdering[a.term] - termOrdering[b.term];
+}
+
+export function byDeadline(a: SubTarget, b: SubTarget) {
+	if (a.deadline_date && b.deadline_date) {
+		return a.deadline_date.localeCompare(b.deadline_date);
+	}
+	// the item with the deadline date comes first
+	if (!a.deadline_date && b.deadline_date) {
+		return 1;
+	}
+	if (!b.deadline_date && a.deadline_date) {
+		return -1;
+	}
+	// sort by admission plan
+	return a.admission_plan.localeCompare(b.admission_plan);
 }

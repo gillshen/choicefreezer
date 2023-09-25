@@ -16,10 +16,11 @@
 	} from '$lib/utils/applicationGridUtils.js';
 	import { NONE_AT_THE_MOMENT } from '$lib/constants/messages.js';
 
-	import DeleteIconButton from '$lib/components/DeleteIconButton.svelte';
 	import EditIconButton from '$lib/components/EditIconButton.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
 	import CfRankForm from '$lib/forms/CfRankForm.svelte';
+	import { byDeadline } from '$lib/utils/sortUtils.js';
+	import { formatTimezone, toShortDateWithoutYear, toTime, toYear } from '$lib/utils/dateUtils.js';
 
 	export let data;
 
@@ -118,27 +119,59 @@
 		</article>
 
 		<article class="panel transparent">
-			<div class="flex flex-col gap-4">
-				{#each target.subtargets as subtarget}
+			<div class="flex flex-col gap-6">
+				{#each target.subtargets.sort(byDeadline) as subtarget}
+					{@const { deadline_date, deadline_time, deadline_timezone, decision_date } = subtarget}
+
 					<div class="subtarget-card">
-						<div class="flex justify-between items-center">
-							<div class="font-heading-token">{subtarget.admission_plan}</div>
+						<div class="flex justify-between items-center py-2">
+							<div class="font-heading-token font-bold text-sm">{subtarget.admission_plan}</div>
 							<div class="subtarget-actions flex">
 								<EditIconButton classNames="text-primary-400 hover:text-primary-500" />
-								<DeleteIconButton classNames="text-error-400 hover:text-error-500" />
+								<!-- <DeleteIconButton classNames="text-error-400 hover:text-error-500" /> -->
 							</div>
 						</div>
 
-						<div>
-							{subtarget.deadline_date}
-							{subtarget.deadline_time}
-							{subtarget.deadline_timezone}
+						<div class="grid grid-cols-2 gap-4">
+							<div class="flex px-3 py-3 bg-yellow-400/90 text-surface-900 rounded-lg">
+								<i class="fa-solid fa-calendar-days mt-1" />
+
+								{#if deadline_date}
+									<div class="flex flex-col gap-2 ml-4">
+										<div class="text-xl font-bold">
+											{toShortDateWithoutYear(deadline_date)}, {toYear(deadline_date)}
+										</div>
+										{#if deadline_time}
+											<div class="text-sm">
+												{toTime(deadline_time)}
+												{#if deadline_timezone}{formatTimezone(deadline_timezone)}{/if}
+											</div>
+										{/if}
+									</div>
+								{:else}
+									<div class="no-date">?</div>
+								{/if}
+							</div>
+
+							<div class="flex px-3 py-3 bg-surface-700/50 text-surface-200 rounded-lg">
+								<i class="fa-solid fa-bell mt-1 text-primary-400 float-left" />
+
+								{#if decision_date}
+									<div class="ml-4 text-lg">
+										{toShortDateWithoutYear(decision_date)}, {toYear(decision_date)}
+									</div>
+								{:else}
+									<div class="no-date">?</div>
+								{/if}
+							</div>
 						</div>
 
-						<div>{subtarget.decision_date}</div>
+						{#if subtarget.comments}
+							<div class="mx-4 pt-2 border-t border-surface-600">{subtarget.comments}</div>
+						{/if}
 					</div>
 				{/each}
-				<button class="btn cf-btn cf-secondary max-w-fit">Add a deadline</button>
+				<button class="btn cf-btn cf-secondary max-w-fit">Add an admission plan</button>
 			</div>
 		</article>
 	</div>
@@ -191,9 +224,8 @@
 	}
 
 	.subtarget-card {
-		@apply px-4 py-2;
-		@apply bg-surface-700;
-		@apply rounded-lg;
+		@apply border-t border-yellow-400/40;
+		@apply mb-4;
 	}
 	.subtarget-actions {
 		@apply opacity-0;
@@ -201,5 +233,10 @@
 	}
 	.subtarget-card:hover .subtarget-actions {
 		@apply opacity-100;
+	}
+
+	.no-date {
+		@apply flex w-full h-full -ml-[14px];
+		@apply justify-center items-center text-2xl font-bold;
 	}
 </style>
