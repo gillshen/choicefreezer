@@ -614,6 +614,7 @@ class ApplicationLog(models.Model):
         WAITLISTED = "On Waitlist", _("On Waitlist")
         ADMITTED = "Admitted", _("Admitted")
         REJECTED = "Rejected", _("Rejected")
+        OFFER_RESCINDED = "Offer Rescinded", _("Offer Rescinded")
         CANCELED = "Canceled", _("Canceled")
         WITHDRAWN = "Withdrawn", _("Withdrawn")
         DISQUALIFIED = "Disqualified", _("Disqualified")
@@ -640,14 +641,24 @@ class ApplicationLog(models.Model):
             models.Index(fields=["-date", "-updated"]),
         ]
 
+        _pending_statuses = ["Under Review", "Deferred", "On Waitlist"]
+
         constraints = [
-            # `status`` must be unique for an application, unless explained in `comments`
+            # non-pending statuses must be unique for an application
+            models.UniqueConstraint(
+                "application",
+                "status",
+                name="unique_applicationlog_application_status",
+                condition=~Q(status__in=_pending_statuses),
+            ),
+            # pending statuses must be unique for an application, unless explained in comments
             models.UniqueConstraint(
                 "application",
                 "status",
                 "comments",
                 name="unique_applicationlog_application_status_comments",
-            )
+                condition=Q(status__in=_pending_statuses),
+            ),
         ]
 
     def __str__(self) -> str:

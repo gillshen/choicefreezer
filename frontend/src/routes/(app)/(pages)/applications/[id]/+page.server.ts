@@ -19,6 +19,7 @@ import {
 } from '$lib/schemas.js';
 import type { NewApplicationLog } from '$lib/types/applicationLogTypes.js';
 import type { NewSubTarget, SubTarget } from '$lib/types/subTargetTypes.js';
+import type { ApplicationStatus } from '$lib/types/applicationTypes.js';
 import { MAJOR_CATEGORY_REQUIRED, UNKNOWN_ERROR } from '$lib/constants/messages.js';
 
 export async function load(event) {
@@ -201,7 +202,19 @@ export const actions = {
 
 		const response = await createApplicationLog(form.data as NewApplicationLog);
 		if (!response.ok) {
-			return message(form, UNKNOWN_ERROR, { status: 400 });
+			const duplicableStatuses: ApplicationStatus[] = ['Under Review', 'Deferred', 'On Waitlist'];
+			let possibleReason;
+
+			if (duplicableStatuses.includes(form.data.status as ApplicationStatus)) {
+				possibleReason =
+					`possibly because "${form.data.status}" is already on the timeline. ` +
+					'Duplication of this status is allowed, but only if you provide distinct comments on each occurrence';
+			} else {
+				possibleReason =
+					`possibly because "${form.data.status}" is already on the timeline. ` +
+					'Duplication of this status is not allowed';
+			}
+			return message(form, `${UNKNOWN_ERROR}, ${possibleReason}.`, { status: 400 });
 		}
 
 		if (form.data.scholarshipAmount) {

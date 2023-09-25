@@ -7,6 +7,7 @@ export const APPLICATION_STATUSES = [
 	'On Waitlist',
 	'Admitted',
 	'Rejected',
+	'Offer Rescinded',
 	'Canceled',
 	'Withdrawn',
 	'Disqualified',
