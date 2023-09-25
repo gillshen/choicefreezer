@@ -16,6 +16,11 @@
 	} from '$lib/utils/applicationGridUtils.js';
 	import { NONE_AT_THE_MOMENT } from '$lib/constants/messages.js';
 
+	import DeleteIconButton from '$lib/components/DeleteIconButton.svelte';
+	import EditIconButton from '$lib/components/EditIconButton.svelte';
+	import Dialog from '$lib/components/Dialog.svelte';
+	import CfRankForm from '$lib/forms/CfRankForm.svelte';
+
 	export let data;
 
 	const applicationColumnDefs = [
@@ -57,31 +62,90 @@
 		domLayout: data.applications.length > 15 ? undefined : ('autoHeight' as DomLayoutType)
 	};
 
+	let rankUpdateDialog: HTMLDialogElement;
+
 	$: target = data.target;
 
 	onMount(() => mountGrid('#applications-grid', gridOptions));
 </script>
 
 <Section hero>
-	<h1 class="cf-h1">Target {target.id}</h1>
+	<h1 class="cf-h1 flex">
+		<span class="px-2 py-1 rounded-md text-sm bg-surface-200 text-surface-800"
+			>{target.term} {target.year}</span
+		>
+		<span class="px-2">{target.program_display_name}</span>
+		<span>@</span>
+		<span class="pl-2">{target.schools.map((s) => s.abbreviation).join(' & ')}</span>
+	</h1>
 
-	<pre class="text-surface-400">{JSON.stringify(target, null, 2)}</pre>
+	<div class="grid grid-cols-3 gap-12 h-full max-h-[960px] items-start">
+		<article class="panel">
+			<div class="flex-grow overflow-auto flex flex-col px-6 pt-6">
+				<div class="flex flex-col gap-4 pb-4">
+					{#each target.schools as school}
+						<a href={`/schools/${school.id}`} class="link-card">
+							<span class="font-bold">{school.name}</span>
+							<i class="fa-solid fa-arrow-right" />
+						</a>
+					{/each}
+				</div>
 
-	<h2 class="mt-12">Deadlines</h2>
-	<pre class="text-surface-400">{JSON.stringify(data.subTargets, null, 2)}</pre>
+				<div class="cf-entry">
+					<div class="cf-entry-label">Program</div>
+					<a href={`/programs/${target.program.id}`} class="cf-page-link">
+						{target.program_display_name}
+					</a>
+				</div>
 
-	<button class="btn cf-btn cf-secondary">Add a deadline</button>
+				<div class="cf-entry">
+					<div class="cf-entry-label">Term</div>
+					{target.term}
+					{target.year}
+				</div>
+
+				<div class="cf-entry">
+					<div class="cf-entry-label">CF rank</div>
+					<div class="my-auto flex justify-between">
+						<span>{target.cf_rank ?? 'n/a'}</span>
+						<EditIconButton
+							onClick={() => rankUpdateDialog.showModal()}
+							classNames="text-primary-400 hover:text-primary-500"
+						/>
+					</div>
+				</div>
+			</div>
+		</article>
+
+		<article class="panel transparent">
+			<div class="flex flex-col gap-4">
+				{#each target.subtargets as subtarget}
+					<div class="subtarget-card">
+						<div class="flex justify-between items-center">
+							<div class="font-heading-token">{subtarget.admission_plan}</div>
+							<div class="subtarget-actions flex">
+								<EditIconButton classNames="text-primary-400 hover:text-primary-500" />
+								<DeleteIconButton classNames="text-error-400 hover:text-error-500" />
+							</div>
+						</div>
+
+						<div>
+							{subtarget.deadline_date}
+							{subtarget.deadline_time}
+							{subtarget.deadline_timezone}
+						</div>
+
+						<div>{subtarget.decision_date}</div>
+					</div>
+				{/each}
+				<button class="btn cf-btn cf-secondary max-w-fit">Add a deadline</button>
+			</div>
+		</article>
+	</div>
 </Section>
 
 <Section>
-	<h2>Requirements</h2>
-	<pre class="text-surface-400">{JSON.stringify(data.requirements, null, 2)}</pre>
-
-	<button class="btn cf-btn cf-secondary">Edit</button>
-</Section>
-
-<Section>
-	<h2>Applications</h2>
+	<h2 class="text-xl font-heading-token font-bold mb-8">Applications</h2>
 
 	{#if data.applications.length}
 		<div class={`w-full ${data.applications.length > 15 ? 'h-[calc(100vh-12rem)]' : ''}`}>
@@ -91,3 +155,51 @@
 		<p class="section-placeholder">{NONE_AT_THE_MOMENT}</p>
 	{/if}
 </Section>
+
+<Section lighter>
+	<h2 class="text-xl font-heading-token font-bold mb-8">Requirements</h2>
+	<pre class="text-surface-400">{JSON.stringify(data.requirements, null, 2)}</pre>
+
+	<button class="btn cf-btn cf-secondary">Edit</button>
+</Section>
+
+<Dialog bind:dialog={rankUpdateDialog} exitHelper>
+	<CfRankForm
+		bind:dialog={rankUpdateDialog}
+		data={data.rankUpdateForm}
+		action="?/updateCfRank"
+		targetId={target.id}
+	/>
+</Dialog>
+
+<style lang="postcss">
+	.cf-entry-label {
+		@apply mb-1;
+	}
+
+	.link-card {
+		@apply p-4 w-full min-h-[80px];
+		@apply bg-surface-700;
+		@apply rounded-md;
+		@apply flex gap-2 items-center;
+	}
+	.link-card i {
+		@apply text-primary-400;
+	}
+	.link-card:hover {
+		@apply bg-surface-600 text-primary-400;
+	}
+
+	.subtarget-card {
+		@apply px-4 py-2;
+		@apply bg-surface-700;
+		@apply rounded-lg;
+	}
+	.subtarget-actions {
+		@apply opacity-0;
+		@apply transition-opacity duration-200;
+	}
+	.subtarget-card:hover .subtarget-actions {
+		@apply opacity-100;
+	}
+</style>

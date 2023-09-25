@@ -3,7 +3,7 @@ import type { StudentListItemType } from '$lib/types/studentTypes';
 import type { ContractListItem, ContractPageData } from '$lib/types/contractTypes';
 import type { NewSchool, SchoolListItem } from './types/schoolTypes';
 import type { NewProgram, ProgramListItem, ProgramSelectItem } from '$lib/types/programTypes';
-import type { NewTarget } from '$lib/types/targetTypes';
+import type { NewTarget, TargetPageData } from '$lib/types/targetTypes';
 import type { NewSubTarget } from '$lib/types/subTargetTypes';
 import type {
 	ApplicationListItem,
@@ -185,7 +185,11 @@ export async function fetchOrCreateTarget(data: NewTarget) {
 	return await post('targets/new/', data);
 }
 
-export async function fetchTarget(id: number) {
+export async function patchTarget(targetId: number, data: any) {
+	return await patch(`targets/${targetId}/update/`, data);
+}
+
+export async function fetchTarget(id: number): Promise<TargetPageData> {
 	return await get(`targets/${id}/`);
 }
 

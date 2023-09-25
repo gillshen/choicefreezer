@@ -461,3 +461,9 @@ export const lsatScoreValidators = {
 	...testScoreValidators,
 	total: z.number().int().min(120, minValueExceeded(120)).max(180, maxValueExceeded(180)).nullable()
 };
+
+// Target subject rank update form
+export const cfRankValidators = {
+	id: idValidator.id, // target id
+	cf_rank: z.number().int().min(1, minValueExceeded(1)).nullable()
+};

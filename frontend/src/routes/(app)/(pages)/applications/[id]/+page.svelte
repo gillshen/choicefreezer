@@ -90,10 +90,8 @@
 			<!-- Student info -->
 			<div class="flex-grow overflow-auto flex flex-col px-6 pt-6">
 				<div class="flex gap-2 items-baseline pb-4">
-					<span class="text-xl font-bold">
-						{application.student.name}
-					</span>
-					<a href={`/students/${application.student.id}`} class="cf-page-link text-base">
+					<a href={`/students/${application.student.id}`} class="link-card">
+						<div class="font-bold">{application.student.name}</div>
 						<i class="fa-solid fa-arrow-right" />
 					</a>
 				</div>
@@ -206,15 +204,12 @@
 
 			<!-- Target info -->
 			<div class="flex-grow overflow-auto flex flex-col px-6 pt-6">
-				<div class="flex flex-col gap-2 pb-4">
+				<div class="grid grid-cols-2 gap-x-4 pb-4">
 					{#each application.schools as school}
-						<div class="flex gap-2 items-baseline">
-							<span class="text-xl font-bold whitespace-nowrap overflow-hidden text-ellipsis"
-								>{school.name}</span
-							><a href={`/schools/${school.id}`} class="cf-page-link text-base"
-								><i class="fa-solid fa-arrow-right" /></a
-							>
-						</div>
+						<a href={`/schools/${school.id}`} class="link-card">
+							<span class="font-bold">{school.name}</span>
+							<i class="fa-solid fa-arrow-right" />
+						</a>
 					{/each}
 				</div>
 
@@ -427,6 +422,19 @@
 <style lang="postcss">
 	.cf-entry-label {
 		@apply mb-1;
+	}
+
+	.link-card {
+		@apply p-4 w-full min-h-[80px];
+		@apply bg-surface-700;
+		@apply rounded-md;
+		@apply flex gap-2 items-center;
+	}
+	.link-card i {
+		@apply text-primary-400;
+	}
+	.link-card:hover {
+		@apply bg-surface-600 text-primary-400;
 	}
 
 	.date-card-background,

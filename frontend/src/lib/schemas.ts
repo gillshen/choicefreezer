@@ -28,7 +28,8 @@ import {
 	alevelGradeValidators,
 	greScoreValidators,
 	gmatScoreValidators,
-	lsatScoreValidators
+	lsatScoreValidators,
+	cfRankValidators
 } from '$lib/validators';
 
 export const authenticationSchema = z.object({
@@ -194,3 +195,6 @@ export type ScoreSchema =
 	| GreScoreSchema
 	| GmatScoreSchema
 	| LsatScoreSchema;
+
+export const cfRankSchema = z.object(cfRankValidators);
+export type CfRankSchema = typeof cfRankSchema;
