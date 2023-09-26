@@ -2,6 +2,7 @@
 	import FormSelect from '$lib/components/FormSelect.svelte';
 	import FormTextInput from './FormTextInput.svelte';
 	import OptionList from './OptionList.svelte';
+	import FormRadioGroup from './FormRadioGroup.svelte';
 	import { COUNTRIES } from '$lib/constants/countries';
 	import { SCHOOL_TYPES } from '$lib/constants/schoolTypes';
 	import { byNameChinaFirst } from '$lib/utils/sortUtils';
@@ -17,10 +18,17 @@
 		<OptionList options={COUNTRIES.sort(byNameChinaFirst)} />
 	</FormSelect>
 
-	<FormSelect id="type-select" name="type" label="Type" {form} {errors}>
-		<OptionList options={Array.from(SCHOOL_TYPES)} />
-	</FormSelect>
+	<FormRadioGroup
+		id="type-select"
+		name="type"
+		label="Type"
+		options={Array.from(SCHOOL_TYPES)}
+		{form}
+		{errors}
+	/>
+</fieldset>
 
+<fieldset>
 	<FormTextInput id="name-input" name="name" label="Full name" {form} {errors} width="wider" />
 
 	<FormTextInput

@@ -39,7 +39,7 @@
 	const popupClick: PopupSettings = {
 		event: 'click',
 		target: popupTarget,
-		placement: 'top'
+		placement: 'right'
 	};
 </script>
 
@@ -86,7 +86,7 @@
 	</div>
 </div>
 
-<div class="rounded-lg bg-surface-600 px-6 py-4" data-popup={popupTarget}>
+<div class="rounded-lg bg-surface-600 px-6 py-4 max-w-[24rem]" data-popup={popupTarget}>
 	<Paragraphs paragraphs={data.comments} />
 	<div class="arrow bg-surface-600" />
 </div>

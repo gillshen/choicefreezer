@@ -180,7 +180,7 @@
 				<!-- filters -->
 				<div class="flex items-center px-8 pt-4 pb-4">
 					<!-- current/past filter -->
-					<div class="flex flex-wrap gap-6 pr-4 w-[160px]">
+					<div class="flex flex-wrap pr-4">
 						<button
 							class={`tab ${showPastStudents ? '' : 'checked'}`}
 							on:click={() => (showPastStudents = false)}>Current</button
@@ -192,24 +192,22 @@
 					</div>
 
 					<!-- year filter -->
-					<div class="flex-1 pl-4 pr-8">
-						<ul class="flex flex-wrap gap-4">
-							{#each ['All', ...yearOptions] as year}
-								<li>
-									<button
-										class={`secondary-tab ${yearFilter === year ? 'checked' : ''}`}
-										on:click={() => (yearFilter = year)}>{year}</button
-									>
-								</li>
-							{/each}
-						</ul>
+					<div class="flex-1 pl-4 pr-8 flex overflow-auto">
+						{#each ['All', ...yearOptions] as year}
+							<button
+								class={`secondary-tab ${yearFilter === year ? 'checked' : ''}`}
+								on:click={() => (yearFilter = year)}>{year}</button
+							>
+						{/each}
 					</div>
 				</div>
 
 				<!-- students list -->
-				<ul class="flex-grow grid grid-cols-2 gap-y-1 auto-rows-min px-8 pb-4 overflow-auto">
+				<ul
+					class="flex-grow grid grid-cols-2 gap-y-1 gap-x-4 auto-rows-min px-8 pb-4 overflow-auto"
+				>
 					{#each filteredStudents.sort(byRomanizedName).sort(byContractType) as student}
-						<li class="py-2 px-4 w-full rounded-full hover:bg-surface-700">
+						<li class="student-list-item">
 							<a href={`/students/${student.id}/`} class="flex items-baseline gap-2">
 								<i
 									class={`fa-regular fa-circle-user text-${typeToClass(
@@ -223,6 +221,8 @@
 										>{student.first_name_romanized}</span
 									>
 								{/if}
+
+								<i class="fa-solid fa-arrow-right student-page-pointer" />
 							</a>
 						</li>
 					{/each}
@@ -259,11 +259,11 @@
 		</article>
 
 		<!-- right panel -->
-		<article class="panel">
+		<article class="panel transparent">
 			<!-- if the log book is not empty, show the entries and the filters -->
 			{#if data.logs.length}
 				<!-- filters -->
-				<div class="flex gap-4 justify-between px-8 pt-4 pb-2">
+				<div class="flex gap-4 justify-between px-8">
 					<select
 						id="log-dates-select"
 						class={`select !pl-3 !max-w-40 text-sm ${
@@ -312,9 +312,9 @@
 
 				<!-- entries -->
 				{#if filteredLogs.length}
-					<ol class="flex-grow ml-8 mr-5 flex-1 flex flex-col overflow-auto">
+					<ol class="ml-8 mr-5 flex-1 flex flex-col overflow-auto">
 						{#each filteredLogs.map(processLog) as log}
-							<li class="py-2 pr-1 mr-3 border-b border-surface-600 hover:bg-surface-700">
+							<li class="log-list-item">
 								<UserLogCard
 									{log}
 									allowEdit={userIsOwner}
@@ -341,7 +341,7 @@
 						</button>
 					{/if}
 
-					<div class="ml-auto mr-6 flex gap-4 justify-end items-center text-sm text-surface-300">
+					<div class="ml-auto mr-8 flex gap-4 justify-end items-center text-sm text-surface-300">
 						<div>
 							<i class="fa-solid fa-hourglass-start mr-1" />
 							<span>{countTasksTodo(data.logs)}</span>
@@ -422,15 +422,62 @@
 
 	.tab,
 	.secondary-tab {
-		@apply py-1;
-		@apply text-surface-200;
-		@apply border-b-2 border-transparent;
+		@apply py-1 px-4;
+		@apply text-surface-200 text-sm font-heading-token;
+		@apply border-t border-b border-surface-400;
+		@apply transition-all duration-200 ease-in-out;
 	}
-
+	.tab:first-of-type,
+	.secondary-tab:first-of-type {
+		@apply rounded-l-lg;
+		@apply border-l;
+	}
+	.tab:last-of-type,
+	.secondary-tab:last-of-type {
+		@apply rounded-r-lg;
+		@apply border-r;
+	}
+	.tab:hover,
+	.secondary-tab:hover {
+		@apply bg-surface-600;
+	}
 	.tab.checked,
 	.secondary-tab.checked {
-		@apply font-bold;
+		@apply bg-primary-400 text-black;
 		@apply border-primary-400;
-		@apply text-surface-50;
+	}
+
+	.student-list-item {
+		@apply py-2 px-4 w-full;
+		@apply rounded-full;
+		@apply transition-colors duration-200;
+	}
+	.student-list-item:hover {
+		@apply bg-surface-600;
+	}
+	.student-page-pointer {
+		@apply text-primary-400 ml-auto;
+		@apply opacity-0;
+		@apply transition-opacity duration-200;
+	}
+	.student-list-item:hover .student-page-pointer {
+		@apply opacity-100;
+	}
+
+	.log-list-item {
+		@apply py-2 pr-1 mr-3;
+		@apply bg-surface-700;
+	}
+	.log-list-item:hover {
+		@apply bg-surface-600;
+	}
+	.log-list-item:first-of-type {
+		@apply rounded-t-md;
+	}
+	.log-list-item:last-of-type {
+		@apply rounded-b-md;
+	}
+	.log-list-item:not(:last-of-type) {
+		@apply border-b border-surface-500;
 	}
 </style>

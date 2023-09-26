@@ -78,16 +78,10 @@
 		<!-- basic info -->
 		<article class="panel">
 			<div class="flex-grow overflow-auto flex flex-col px-6 pt-6">
-				<div class="flex flex-col gap-2">
-					<div class="flex gap-2 items-baseline">
-						<span class="text-xl font-bold">{contract.student.name}</span>
-						<a href={`../students/${contract.student.id}/`} class="cf-page-link text-base"
-							><i class="fa-solid fa-arrow-right" /></a
-						>
-					</div>
-
-					<div class="mb-4">{contract.type} {contract.target_year}</div>
-				</div>
+				<a href={`/students/${contract.student.id}`} class="link-card mb-6">
+					<div class="font-bold">{contract.student.name}</div>
+					<i class="fa-solid fa-arrow-right" />
+				</a>
 
 				<div class="cf-entry">
 					<div class="cf-entry-label">Date signed</div>
@@ -164,9 +158,7 @@
 					</div>
 				</div>
 			{/each}
-			<button
-				class="p-6 text-surface-200 font-heading-token text-sm border border-dashed border-surface-600 rounded-xl flex flex-col justify-center items-center hover:bg-surface-700"
-				on:click={() => serviceCreateDialog.showModal()}
+			<button class="add-member-button" on:click={() => serviceCreateDialog.showModal()}
 				><i class="fa-solid fa-plus mb-1 text-lg" />Add a member</button
 			>
 		</div>
@@ -228,11 +220,41 @@
 	.cf-entry-label {
 		@apply mb-1;
 	}
+
+	.link-card {
+		@apply p-4 w-full min-h-[80px];
+		@apply bg-surface-600 text-surface-50;
+		@apply rounded-md;
+		@apply flex gap-2 items-center justify-between;
+		@apply transition-colors duration-200;
+	}
+	.link-card i {
+		@apply text-primary-400;
+	}
+	.link-card:hover {
+		@apply bg-surface-500 text-primary-400;
+	}
+
+	.service-card {
+		@apply bg-surface-600;
+	}
 	.service-card-actions {
 		@apply opacity-0;
 		@apply transition-opacity duration-200 ease-in-out;
 	}
 	.service-card:hover .service-card-actions {
 		@apply opacity-100;
+	}
+
+	.add-member-button {
+		@apply flex flex-col justify-center items-center;
+		@apply p-6;
+		@apply text-primary-400 font-heading-token text-sm;
+		@apply border border-dashed border-surface-600;
+		@apply rounded-xl;
+		@apply transition-colors duration-200;
+	}
+	.add-member-button:hover {
+		@apply bg-surface-700 text-primary-500;
 	}
 </style>

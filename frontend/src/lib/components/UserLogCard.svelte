@@ -40,7 +40,7 @@
 		<i class={`${iconClass} ${iconColor}`} />
 	</div>
 
-	<div class="flex-grow flex gap-2 items-baseline">
+	<div class="flex-grow flex gap-2 items-baseline ml-4">
 		<span class={`${open ? 'font-bold' : 'font-normal'}`}>{log.title}</span>
 
 		{#if log.relevant_student}

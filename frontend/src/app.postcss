@@ -41,14 +41,9 @@ footer.page-footer > div {
 	@apply min-h-[calc(100vh-108px)] max-h-[1280px] overflow-auto;
 	@apply rounded-tl-3xl rounded-b-3xl;
 }
-.page-section-container.hero:not(.long) {
-	background: rgb(25, 36, 5);
-	background: linear-gradient(
-		8deg,
-		rgba(34, 38, 8, 1) 0%,
-		rgba(25, 36, 5, 1) 32%,
-		rgba(30, 31, 30, 1) 64%
-	);
+
+.page-section-container.hero {
+	@apply bg-surface-800;
 }
 .page-section-container.long {
 	@apply max-h-none;
@@ -77,8 +72,9 @@ footer.page-footer > div {
 	@apply flex flex-col;
 }
 .panel:not(.transparent) {
-	@apply bg-surface-800/60;
-	@apply border border-surface-600 rounded-lg;
+	@apply bg-surface-700;
+	/* @apply border border-surface-600; */
+	@apply rounded-lg;
 }
 .panel:not(.fit-height) {
 	@apply h-[calc(100vh-232px)] max-h-[800px];
@@ -265,7 +261,6 @@ form small.success-message {
 }
 form legend {
 	@apply !text-base font-bold !pt-1 !pb-1 !pr-8 mb-2;
-	@apply border-t border-primary-400;
 	@apply text-primary-400;
 	@apply w-[16rem];
 }
@@ -297,10 +292,10 @@ dialog {
 
 /* contract types */
 .text-ug-freshman {
-	@apply text-emerald-300/90;
+	@apply text-indigo-300/90;
 }
 .border-ug-freshman {
-	@apply border-emerald-300;
+	@apply border-indigo-300;
 }
 .text-ug-transfer {
 	@apply text-rose-300/90;
@@ -331,7 +326,7 @@ dialog {
 
 /* contract status chip */
 .contract-status-chip.bg-effective {
-	@apply text-primary-900;
+	@apply text-emerald-900;
 	@apply bg-primary-300;
 }
 .contract-status-chip.bg-fulfilled {

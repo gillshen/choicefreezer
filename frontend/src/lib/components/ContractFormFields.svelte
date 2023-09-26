@@ -2,6 +2,7 @@
 	import FormSelect from '$lib/components/FormSelect.svelte';
 	import FormDateInput from '$lib/components/FormDateInput.svelte';
 	import OptionList from '$lib/components/OptionList.svelte';
+	import FormRadioGroup from './FormRadioGroup.svelte';
 
 	import { CONTRACT_TYPES } from '$lib/constants/contractTypes';
 	import { getYearOptions } from '$lib/utils/dateUtils';
@@ -12,11 +13,23 @@
 	export let errors: any;
 </script>
 
-<FormSelect id="contract-type-select" name="type" label="Type" {form} {errors}>
-	<OptionList options={Array.from(CONTRACT_TYPES)} />
-</FormSelect>
+<FormRadioGroup
+	id="contract-type-radio-group"
+	name="type"
+	label="Type"
+	{form}
+	{errors}
+	options={Array.from(CONTRACT_TYPES)}
+/>
 
-<FormSelect id="target-year-select" name="target_year" label="Target year of entry" {form} {errors}>
+<FormSelect
+	id="target-year-select"
+	name="target_year"
+	label="Target year of entry"
+	{form}
+	{errors}
+	width="narrower"
+>
 	<OptionList options={getYearOptions()} />
 </FormSelect>
 
@@ -40,6 +53,11 @@
 	<OptionList options={Array.from(ALL_PROGRESSIONS)} />
 </FormSelect>
 
-<FormSelect id="contract-status-select" name="status" label="Status" {form} {errors}>
-	<OptionList options={Array.from(CONTRACT_STATUSES)} />
-</FormSelect>
+<FormRadioGroup
+	id="contract-status-radio-group"
+	name="status"
+	label="Status"
+	{form}
+	{errors}
+	options={Array.from(CONTRACT_STATUSES)}
+/>

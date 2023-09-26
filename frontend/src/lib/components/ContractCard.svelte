@@ -62,10 +62,11 @@
 	.contract-card {
 		@apply flex flex-col;
 		@apply rounded-r-lg;
-		transition: all 0.2s ease-in-out;
+		@apply bg-surface-700;
+		@apply transition-all duration-200 ease-in-out;
 	}
 	.contract-card:hover {
-		@apply bg-surface-700;
+		@apply bg-surface-600;
 	}
 	.contract-status-chip {
 		@apply scale-90 max-w-[18px] w-fit px-0 py-1;

@@ -45,7 +45,7 @@
 	href={`/attendances/${enrollment.id}/`}
 	class={`enrollment-card border-t-2 border-${targetClass}`}
 >
-	<header class="p-4 font-bold text-surface-50">
+	<header class="header">
 		{enrollment.school.name}
 	</header>
 
@@ -137,22 +137,30 @@
 
 <style lang="postcss">
 	.enrollment-card {
-		transition: all 0.2s ease-in-out;
+		@apply rounded-b-lg;
+		@apply bg-surface-700;
+		@apply transition-colors duration-200 ease-in-out;
 	}
 	.enrollment-card:hover {
-		@apply bg-surface-700;
+		@apply bg-surface-600;
+	}
+
+	.header {
+		@apply p-4;
+		@apply font-bold text-surface-50;
+		@apply transition-colors duration-200 ease-in-out;
 	}
 
 	.enrollment-card .grade-card,
 	.enrollment-card .rank-card,
 	.enrollment-card header {
-		@apply bg-surface-700;
-		transition: all 0.2s ease-in-out;
+		@apply bg-surface-600;
+		@apply transition-colors duration-200 ease-in-out;
 	}
 	.enrollment-card:hover .grade-card,
 	.enrollment-card:hover .rank-card,
 	.enrollment-card:hover header {
-		@apply bg-surface-600;
+		@apply bg-surface-500;
 	}
 
 	.enrollment-card .grade-card,

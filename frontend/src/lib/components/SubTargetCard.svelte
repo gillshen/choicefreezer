@@ -17,7 +17,7 @@
 	const popupClick: PopupSettings = {
 		event: 'click',
 		target: popupTarget,
-		placement: 'top'
+		placement: 'right'
 	};
 
 	$: deadline_date = subTarget.deadline_date;
@@ -46,13 +46,13 @@
 	</div>
 
 	<div class="flex flex-col gap-3">
-		<div class="flex px-3 py-4 bg-yellow-400/90 text-surface-900 rounded-lg h-[92px]">
-			<i class="fa-solid fa-calendar-days mt-1" />
+		<div class="flex px-3 py-3 bg-yellow-400/90 text-surface-900 rounded-lg h-[76px]">
+			<i class="fa-solid fa-calendar-days mt-1.5" />
 
 			{#if deadline_date}
-				<div class="flex flex-col gap-1 ml-4">
+				<div class="flex flex-col ml-4">
 					<div class="font-bold flex gap-3 items-baseline">
-						<div class="text-3xl">{toShortDateWithoutYear(deadline_date)}</div>
+						<div class="text-2xl">{toShortDateWithoutYear(deadline_date)}</div>
 						<div>{toYear(deadline_date)}</div>
 					</div>
 					{#if deadline_time}
@@ -68,7 +68,7 @@
 		</div>
 
 		<div class="flex px-3 py-3 bg-surface-700/50 text-surface-200 rounded-lg items-center">
-			<i class="fa-solid fa-bell text-primary-400" />
+			<i class="fa-solid fa-bell text-yellow-400/90" />
 
 			{#if decision_date}
 				<div class="ml-4">
@@ -101,7 +101,8 @@
 	.subtarget-card {
 		@apply border-t border-yellow-400/30;
 		@apply mb-4;
-		@apply max-w-[220px];
+		@apply max-w-[200px];
+		@apply flex-shrink-0 flex-grow-0;
 	}
 	.subtarget-actions {
 		@apply opacity-0;

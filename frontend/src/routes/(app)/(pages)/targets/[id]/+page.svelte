@@ -83,7 +83,7 @@
 		<span class="pl-2">{target.schools.map((s) => s.abbreviation).join(' & ')}</span>
 	</h1>
 
-	<div class="grid grid-cols-3 gap-12 h-full max-h-[960px] items-start">
+	<div class="grid grid-cols-[1fr_2fr] gap-20 h-full max-h-[960px] items-start">
 		<article class="panel">
 			<div class="flex-grow overflow-auto flex flex-col px-6 pt-6">
 				<div class="flex flex-col gap-4 pb-4">
@@ -121,13 +121,13 @@
 			</div>
 		</article>
 
-		<article class="panel transparent col-span-2">
+		<article class="panel transparent">
 			<div class="grid grid-cols-3 gap-8">
 				{#each subTargets as subTarget}
 					<SubTargetCard {subTarget} targetId={target.id} programType={target.program.type} />
 				{/each}
 				<button
-					class="btn cf-btn cf-secondary w-[220px] col-span-3 mb-8"
+					class="btn cf-btn cf-secondary w-[200px] col-span-3 mb-8"
 					on:click={() => subTargetCreateDialog.showModal()}>Add an admission plan</button
 				>
 			</div>
@@ -180,14 +180,15 @@
 
 	.link-card {
 		@apply p-4 w-full min-h-[80px];
-		@apply bg-surface-700;
+		@apply bg-surface-600 text-surface-50;
 		@apply rounded-md;
-		@apply flex gap-2 items-center;
+		@apply flex gap-2 items-center justify-between;
+		@apply transition-colors duration-200;
 	}
 	.link-card i {
 		@apply text-primary-400;
 	}
 	.link-card:hover {
-		@apply bg-surface-600 text-primary-400;
+		@apply bg-surface-500 text-primary-400;
 	}
 </style>
