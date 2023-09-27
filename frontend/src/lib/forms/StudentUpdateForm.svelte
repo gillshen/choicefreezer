@@ -51,22 +51,10 @@
 		<StudentResidenceFields form={$form} errors={$errors} />
 	</fieldset>
 
-	<fieldset class="fullwidth">
+	<fieldset>
 		<legend class="mb-4">Comments</legend>
 		<StudentCommentsField form={$form} errors={$errors} showLabel={false} />
 	</fieldset>
 
 	<FormSubmit message={$message} />
 </form>
-
-<style lang="postcss">
-	fieldset {
-		@apply grid grid-cols-[minmax(20rem,1fr)_minmax(20rem,1fr)] gap-8 gap-y-4;
-	}
-	fieldset.single-column {
-		@apply grid grid-cols-1 max-w-[20rem];
-	}
-	fieldset.fullwidth {
-		@apply grid grid-cols-1 max-w-prose;
-	}
-</style>

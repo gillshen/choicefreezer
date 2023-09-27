@@ -118,7 +118,9 @@
 				{/if}
 			</div>
 		{/if}
+	</fieldset>
 
+	<fieldset>
 		<FormTextArea
 			id="comments-area"
 			name="comments"

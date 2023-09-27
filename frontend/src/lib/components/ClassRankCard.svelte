@@ -83,13 +83,13 @@
 	.class-rank-card {
 		@apply flex flex-col gap-2;
 		@apply py-2 px-3;
-		@apply bg-surface-700;
+		@apply bg-surface-600;
 	}
 	.class-rank-card:first-of-type {
 		@apply rounded-t-md;
 	}
 	.class-rank-card:not(:first-of-type) {
-		@apply border-t border-surface-600;
+		@apply border-t border-surface-400/40;
 	}
 	.class-rank-card:last-of-type {
 		@apply rounded-b-md;

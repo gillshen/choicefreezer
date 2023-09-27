@@ -32,7 +32,7 @@
 
 <Section hero long>
 	<div class="flex flex-col items-center">
-		<form class="w-fit" method="post" novalidate use:enhance>
+		<form class="w-full max-w-3xl" method="post" novalidate use:enhance>
 			<h1 class="text-2xl font-heading-token font-bold">Add a student</h1>
 
 			<fieldset>
@@ -45,7 +45,7 @@
 				<StudentRomanizedNameFields form={$form} errors={$errors} />
 			</fieldset>
 
-			<fieldset class="single-column">
+			<fieldset>
 				<legend>Personal information</legend>
 				<StudentGenderField form={$form} errors={$errors} />
 				<StudentCitizenshipField form={$form} errors={$errors} />
@@ -57,12 +57,12 @@
 				<StudentResidenceFields form={$form} errors={$errors} />
 			</fieldset>
 
-			<fieldset class="single-column">
+			<fieldset>
 				<legend>Contract</legend>
 				<ContractFormFields form={$form} errors={$errors} />
 			</fieldset>
 
-			<fieldset class="single-column">
+			<fieldset>
 				<legend>CF team</legend>
 				<ServiceFormFields
 					form={$form}
@@ -77,12 +77,3 @@
 		</form>
 	</div>
 </Section>
-
-<style lang="postcss">
-	fieldset {
-		@apply grid grid-cols-[minmax(20rem,1fr)_minmax(20rem,1fr)] gap-8 gap-y-4;
-	}
-	fieldset.single-column {
-		@apply grid grid-cols-1 max-w-[20rem];
-	}
-</style>

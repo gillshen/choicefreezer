@@ -80,6 +80,20 @@ footer.page-footer > div {
 	@apply h-[calc(100vh-232px)] max-h-[800px];
 }
 
+.link-card {
+	@apply p-4 w-full min-h-[80px];
+	@apply bg-surface-600 text-surface-50;
+	@apply rounded-md;
+	@apply flex gap-2 items-center justify-between;
+	@apply transition-colors duration-200;
+}
+.link-card i.fa-arrow-right {
+	@apply text-primary-400;
+}
+.link-card:hover {
+	@apply bg-surface-500 text-primary-400;
+}
+
 .cf-btn {
 	@apply !text-sm;
 	@apply cursor-default;
@@ -192,16 +206,23 @@ form {
 form fieldset {
 	@apply flex flex-col gap-4;
 }
+form fieldset:not(.unstyled) {
+	@apply px-6 pt-4 pb-8;
+	@apply bg-surface-700;
+	@apply rounded-lg;
+}
 form div.form-actions,
 form fieldset:not(:first-child) {
-	@apply mt-12;
+	@apply mt-8;
 }
-form fieldset > legend {
-	@apply text-lg font-bold font-heading-token;
-	@apply py-4;
+form legend {
+	@apply font-heading-token;
+	@apply px-3 py-1 mb-2;
+	@apply text-primary-400 bg-surface-800;
+	@apply rounded-lg;
 }
-form fieldset > legend.empty {
-	@apply px-0 py-2 my-0;
+form legend.empty {
+	@apply hidden p-0;
 }
 label.label {
 	@apply max-w-[20rem];
@@ -217,7 +238,7 @@ label.label .optional {
 }
 input.input,
 select.select {
-	@apply !bg-surface-700;
+	@apply !bg-surface-600;
 }
 input.input,
 input.date,
@@ -237,10 +258,14 @@ select.select.narrower {
 textarea.input {
 	@apply min-h-[2.5rem];
 	@apply max-w-prose;
+	@apply !bg-surface-600;
 }
 input.radio {
 	@apply rounded-full;
-	@apply !bg-surface-600;
+	@apply !bg-surface-500;
+}
+input.checkbox {
+	@apply !bg-surface-500;
 }
 input.checkbox:checked,
 input.radio:checked {
@@ -258,14 +283,6 @@ form small.error-message {
 }
 form small.success-message {
 	@apply text-lime-400;
-}
-form legend {
-	@apply !text-base font-bold !pt-1 !pb-1 !pr-8 mb-2;
-	@apply text-primary-400;
-	@apply w-[16rem];
-}
-form legend.empty {
-	@apply hidden !p-0 m-0;
 }
 
 .section-placeholder {

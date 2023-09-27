@@ -76,13 +76,13 @@
 	.gpa-card {
 		@apply flex flex-col gap-2;
 		@apply py-2 px-3;
-		@apply bg-surface-700;
+		@apply bg-surface-600;
 	}
 	.gpa-card:first-of-type {
 		@apply rounded-t-md;
 	}
 	.gpa-card:not(:first-of-type) {
-		@apply border-t border-surface-600;
+		@apply border-t border-surface-400/40;
 	}
 	.gpa-card:last-of-type {
 		@apply rounded-b-md;

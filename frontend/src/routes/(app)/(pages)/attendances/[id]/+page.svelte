@@ -48,20 +48,16 @@
 	<div class="grid grid-cols-3 gap-12 h-full items-start">
 		<article class="panel">
 			<div class="flex-grow overflow-auto flex flex-col px-6 pt-6">
-				<div class="flex gap-2 items-baseline pb-2">
-					<span class="text-xl font-bold">
-						{enrollment.student.name}
-					</span>
-					<a href={`/students/${enrollment.student.id}`} class="cf-page-link text-base">
+				<div class="mb-4">
+					<a href={`/students/${enrollment.student.id}`} class="link-card">
+						<div class="font-bold">{enrollment.student.name}</div>
 						<i class="fa-solid fa-arrow-right" />
 					</a>
 				</div>
 
-				<div class="flex gap-2 items-baseline pb-4">
-					<span>
-						{enrollment.school.name}
-					</span>
-					<a href={`/schools/${enrollment.school.id}`} class="cf-page-link text-base">
+				<div class="mb-2">
+					<a href={`/students/${enrollment.school.id}`} class="link-card">
+						<div class="font-bold">{enrollment.school.name}</div>
 						<i class="fa-solid fa-arrow-right" />
 					</a>
 				</div>

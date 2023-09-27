@@ -117,7 +117,7 @@
 
 <form method="post" {action} novalidate use:enhance>
 	<fieldset>
-		<legend>Choose a program</legend>
+		<legend>Program</legend>
 
 		<HiddenIdField value={studentId} name="studentId" />
 
@@ -227,24 +227,21 @@
 				<small class="error-message">{$errors.programId}</small>
 			{/if}
 		</div>
-	</fieldset>
 
-	{#if addProgramEnabled && isUndergraduate && programNotFound}
-		<p class="instruction">
-			The program you are looking for is not in the database, so you cannot select it. But it will
-			be added automatically when you submit the form. You may proceed to the next section.
-		</p>
-	{:else if addProgramEnabled}
-		<!--  not isUndergraduate or not programNotFound  -->
-		{#if programNotFound}
+		{#if addProgramEnabled && isUndergraduate && programNotFound}
 			<p class="instruction">
-				The program you are looking for is not in the database. Please fill out the &ldquo;New
-				Program&rdquo; section below.
+				This program is not in the database but will be added when you submit the form. You may
+				proceed to the next section.
 			</p>
-		{/if}
+		{:else if addProgramEnabled}
+			<!--  not isUndergraduate or not programNotFound  -->
+			{#if programNotFound}
+				<p class="instruction">
+					Apparently the program you are looking for is not in the database. Add it by filling out
+					the fields below.
+				</p>
+			{/if}
 
-		<fieldset>
-			<legend>New program</legend>
 			<FormTextInput
 				id="program-name-input"
 				name="programName"
@@ -263,11 +260,11 @@
 				width="wider"
 				optional
 			/>
-		</fieldset>
-	{/if}
+		{/if}
+	</fieldset>
 
 	<fieldset>
-		<legend>Choose an admission plan</legend>
+		<legend>Admission plan</legend>
 
 		<FormSelect id="year-select" name="year" label="Year" form={$form} errors={$errors}>
 			<OptionList options={getYearOptions()} />
@@ -378,7 +375,7 @@
 	}
 
 	p.instruction {
-		@apply max-w-md text-secondary-400;
-		@apply mt-6;
+		@apply max-w-[28rem] text-warning-400;
+		@apply mt-4;
 	}
 </style>

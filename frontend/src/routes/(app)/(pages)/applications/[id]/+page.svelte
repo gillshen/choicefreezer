@@ -424,20 +424,6 @@
 		@apply mb-1;
 	}
 
-	.link-card {
-		@apply p-4 w-full min-h-[80px];
-		@apply bg-surface-600 text-surface-50;
-		@apply rounded-md;
-		@apply flex gap-2 items-center justify-between;
-		@apply transition-colors duration-200;
-	}
-	.link-card i {
-		@apply text-primary-400;
-	}
-	.link-card:hover {
-		@apply bg-surface-500 text-primary-400;
-	}
-
 	.date-card-background,
 	.date-card {
 		@apply aspect-square;

@@ -178,7 +178,7 @@
 			<!-- if the owner has any students, show the filters -->
 			{#if owner.current_students.length || owner.past_students.length}
 				<!-- filters -->
-				<div class="flex items-center px-8 pt-4 pb-4">
+				<div class="flex items-center mt-2 ml-4 px-8 pt-4 pb-4">
 					<!-- current/past filter -->
 					<div class="flex flex-wrap pr-4">
 						<button
@@ -229,7 +229,7 @@
 				</ul>
 
 				{#if userIsOwner}
-					<footer class="flex justify-between h-[72px]">
+					<footer class="flex justify-between h-[72px] ml-4">
 						<a
 							href="../students/new/"
 							class="cf-btn flex gap-2 items-center p-8 pt-4 text-primary-400 hover:text-primary-500"
@@ -312,7 +312,7 @@
 
 				<!-- entries -->
 				{#if filteredLogs.length}
-					<ol class="ml-8 mr-5 flex-1 flex flex-col overflow-auto">
+					<ol class="ml-8 mr-5 flex flex-col overflow-auto rounded-lg">
 						{#each filteredLogs.map(processLog) as log}
 							<li class="log-list-item">
 								<UserLogCard
@@ -329,7 +329,7 @@
 						{/each}
 					</ol>
 				{:else}
-					<p class="flex-grow mt-4 mx-8 text-surface-200">No entry in this category</p>
+					<p class="mt-4 mx-8 text-surface-200">No entry in this category</p>
 				{/if}
 
 				<footer class="flex justify-between h-[72px]">

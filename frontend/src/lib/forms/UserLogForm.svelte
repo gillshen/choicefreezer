@@ -39,6 +39,8 @@
 	<fieldset>
 		<legend class="empty" />
 
+		<HiddenIdField id="user-id" name="author" value={userId} />
+
 		<div class="flex flex-row gap-4 items-start mt-2">
 			<input
 				id="todo-check"
@@ -50,11 +52,6 @@
 			/>
 			<label class="label !pt-0 !-mt-0.5" for="todo-check">This is a TODO item</label>
 		</div>
-	</fieldset>
-
-	<fieldset>
-		<legend class="empty" />
-		<HiddenIdField id="user-id" name="author" value={userId} />
 
 		<FormDateInput
 			id="log-date-input"
@@ -84,7 +81,10 @@
 		>
 			<OptionList options={students} valueField="id" textField="name" insertNullRow />
 		</FormSelect>
+	</fieldset>
 
+	<fieldset>
+		<legend class="empty" />
 		<FormTextInput
 			id="log-title-input"
 			name="title"

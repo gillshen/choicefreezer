@@ -99,7 +99,7 @@
 			<select
 				id="program-type-select"
 				name="program_type"
-				class="select wider"
+				class="select"
 				bind:value={$form.program_type}
 				on:change={onProgramTypeChange}
 			>
@@ -158,33 +158,35 @@
 		</FormSelect>
 	</fieldset>
 
-	<fieldset>
-		<legend class="empty" />
+	{#if showCurriculumSelect || showMajorsInput}
+		<fieldset>
+			<legend class="empty" />
 
-		{#if showCurriculumSelect}
-			<FormSelect
-				id="curriculum-select"
-				name="curriculum"
-				label="Curriculum"
-				form={$form}
-				errors={$errors}
-				optional
-			>
-				<OptionList options={Array.from(CURRICULA)} />
-			</FormSelect>
-		{/if}
+			{#if showCurriculumSelect}
+				<FormSelect
+					id="curriculum-select"
+					name="curriculum"
+					label="Curriculum"
+					form={$form}
+					errors={$errors}
+					optional
+				>
+					<OptionList options={Array.from(CURRICULA)} />
+				</FormSelect>
+			{/if}
 
-		{#if showMajorsInput}
-			<FormTextInput
-				id="majors-input"
-				name="majors"
-				label="Majors"
-				form={$form}
-				errors={$errors}
-				optional
-			/>
-		{/if}
-	</fieldset>
+			{#if showMajorsInput}
+				<FormTextInput
+					id="majors-input"
+					name="majors"
+					label="Majors"
+					form={$form}
+					errors={$errors}
+					optional
+				/>
+			{/if}
+		</fieldset>
+	{/if}
 
 	<FormSubmit message={$message} />
 </form>

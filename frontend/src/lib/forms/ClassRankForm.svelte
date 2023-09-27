@@ -82,6 +82,10 @@
 		<FormSelect id="term-select" name="term" label="Term" form={$form} errors={$errors}>
 			<OptionList options={terms} />
 		</FormSelect>
+	</fieldset>
+
+	<fieldset>
+		<legend class="empty" />
 
 		<div class="flex gap-6 items-baseline">
 			<FormTextInput

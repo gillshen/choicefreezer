@@ -39,7 +39,7 @@
 </script>
 
 <form method="post" {action}>
-	<fieldset>
+	<fieldset class="h-[350px]">
 		<legend class="empty" />
 
 		<HiddenIdField id="contract-id" name="contract" value={service.contract} />

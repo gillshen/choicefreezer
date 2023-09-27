@@ -85,12 +85,14 @@
 <Section hero>
 	<h1 class="cf-h1">Hello, {data.username}</h1>
 
+	<!-- TODO accordian -->
+
 	<div class="grid grid-cols-2 gap-12">
 		<article class="panel transparent flex flex-col gap-4">
-			<h2 class="cf-h2 font-bold py-2 border-t border-primary-400">Change banners</h2>
+			<h2 class="cf-h2">Change banners</h2>
 
 			<form method="post" action="?/updateBanners" novalidate use:bannerEnhance>
-				<fieldset class="-mb-4">
+				<fieldset class="unstyled">
 					<legend class="empty" />
 					<HiddenIdField id="username-field" name="username" value={data.username} />
 
@@ -118,21 +120,10 @@
 				<FormSubmit message={$bannerMessage} buttonText="Change" />
 			</form>
 
-			<h2 class="cf-h2 font-bold py-2 border-t border-primary-400 mt-4">Change avatar color</h2>
-			<form method="post" novalidate>
-				<fieldset>
-					<legend class="empty" />
-
-					(TODO)
-				</fieldset>
-			</form>
-		</article>
-
-		<article class="panel transparent flex flex-col gap-4">
-			<h2 class="cf-h2 font-bold py-2 border-t border-primary-400">Change password</h2>
+			<h2 class="cf-h2">Change password</h2>
 
 			<form method="post" action="?/resetPassword" novalidate use:passwordEnhance>
-				<fieldset class="-mb-4">
+				<fieldset class="unstyled">
 					<legend class="empty" />
 					<HiddenIdField id="username-field" name="username" value={data.username} />
 
@@ -168,11 +159,35 @@
 
 				<FormSubmit message={$passwordMessage} buttonText="Change" />
 			</form>
+
+			<h2 class="cf-h2">Change avatar color</h2>
+
+			<form method="post" novalidate>
+				<fieldset class="unstyled">
+					<legend class="empty" />
+
+					<p class="text-surface-400">TODO</p>
+				</fieldset>
+			</form>
+		</article>
+
+		<article class="panel transparent flex flex-col gap-4">
+			<div class="ml-8 p-12 flex flex-col bg-surface-700 rounded-lg text-surface-400 min-h-[40vh]">
+				TODO - something random with no intention of being useful
+			</div>
 		</article>
 	</div>
 </Section>
 
 <style lang="postcss">
+	.cf-h2 {
+		@apply font-bold;
+		@apply py-2;
+		@apply border-t border-primary-400/40;
+	}
+	.cf-h2:not(:first-of-type) {
+		@apply mt-8;
+	}
 	.password-check-indicator {
 		@apply text-primary-400;
 	}
